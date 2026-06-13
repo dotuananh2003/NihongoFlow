@@ -1,0 +1,132 @@
+import { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Castle, 
+  ScrollText, 
+  Brain, 
+  Puzzle, 
+  Crown, 
+  Mic, 
+  FileText,
+  ArrowLeftToLine,
+  ArrowRightToLine,
+  Home
+} from 'lucide-react';
+import { ToriiGate } from '../Icons/ToriiGate';
+
+const navItems = [
+  { path: '/', label: 'Trang chủ', sub: 'ホーム', icon: Home },
+  { path: '/introduction', label: 'Nhập môn', sub: 'はじめての日本語', icon: ToriiGate },
+  { path: '/kanji', label: 'Hán tự', sub: 'かんじを学ぶ', icon: Castle },
+  { path: '/vocabulary', label: 'Từ vựng', sub: 'ごいを増やす', icon: ScrollText },
+  { path: '/grammar', label: 'Ngữ pháp', sub: 'ぶんぽうを学ぶ', icon: Brain },
+  { path: '/memory', label: 'Ghi nhớ', sub: 'おぼえておく', icon: Puzzle },
+  { path: '/active-vocabulary', label: 'Từ vựng chủ động', sub: '使える語彙', icon: Crown },
+  { path: '/speaking', label: 'Luyện nói', sub: 'かいわのれんしゅう', icon: Mic },
+  { path: '/exam', label: 'Luyện thi', sub: 'しけんたいさく', icon: FileText },
+];
+
+export const Sidebar = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const location = useLocation();
+
+  return (
+    <motion.aside 
+      initial={false}
+      animate={{ width: isCollapsed ? 80 : 260 }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className="relative flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl z-20 shrink-0 shadow-[4px_0_24px_-12px_rgba(0,0,0,0.1)] will-change-transform transform-gpu"
+    >
+      <div className="flex items-center gap-3 p-5 h-20 border-b border-slate-100 dark:border-slate-800/50">
+        <div className="text-[var(--primary)] shrink-0 pl-1">
+          <ToriiGate size={32} />
+        </div>
+        <AnimatePresence>
+          {!isCollapsed && (
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              className="flex flex-col whitespace-nowrap overflow-hidden"
+            >
+              <span className="font-black text-xl text-slate-800 dark:text-slate-100 tracking-tight leading-tight">
+                にほんご
+              </span>
+              <span className="text-[10px] font-bold text-[var(--primary)] uppercase tracking-widest leading-tight">
+                NIHONGO • 学習
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <nav className="flex-1 overflow-y-auto py-6 space-y-1.5 relative scrollbar-hide">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              replace={location.pathname !== '/'}
+              className={({ isActive }) =>
+                `relative flex items-center gap-4 py-3 pl-6 pr-4 transition-all duration-300 group overflow-hidden ${
+                  isActive
+                    ? 'text-[var(--primary)] dark:text-rose-400'
+                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50/80 dark:hover:bg-slate-800/50'
+                }`
+              }
+              title={isCollapsed ? item.label : undefined}
+            >
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <motion.div
+                      layoutId="sidebar-active-bg"
+                      className="absolute inset-0 bg-[#FAF8F5] dark:bg-rose-500/10 border-l-[6px] border-[var(--primary)] dark:border-rose-400 rounded-r-3xl my-1"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                  
+                  <div className={`relative z-10 flex items-center justify-center transition-transform duration-300 will-change-transform group-hover:scale-110 ${isActive ? 'scale-110 drop-shadow-sm text-[var(--primary)]' : ''}`}>
+                    <Icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+                  </div>
+
+                  <AnimatePresence>
+                    {!isCollapsed && (
+                      <motion.div 
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, width: 0 }}
+                        className="relative z-10 flex flex-col whitespace-nowrap overflow-hidden"
+                      >
+                        <span className={`text-[15px] ${isActive ? 'font-bold' : 'font-semibold'}`}>
+                          {item.label}
+                        </span>
+                        <span className="text-[10px] font-jp text-slate-400 dark:text-slate-500 font-medium tracking-wide">
+                          {item.sub}
+                        </span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </>
+              )}
+            </NavLink>
+          );
+        })}
+      </nav>
+
+      {/* Collapse Button */}
+      <div className="p-4 mt-auto border-t border-slate-100 dark:border-slate-800/50">
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className={`flex items-center gap-3 w-full py-2.5 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 ${isCollapsed ? 'justify-center' : ''}`}
+        >
+          {isCollapsed ? <ArrowRightToLine size={20} /> : <ArrowLeftToLine size={20} />}
+          {!isCollapsed && <span className="font-semibold text-sm">Thu gọn</span>}
+        </button>
+      </div>
+    </motion.aside>
+  );
+};
