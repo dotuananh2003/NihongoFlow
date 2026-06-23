@@ -9,8 +9,8 @@
   --color-jp-indigo: #264653;
   --color-jp-matcha: #7BA05B;
   
-  --font-sans: "Nunito", "M PLUS Rounded 1c", ui-sans-serif, system-ui, sans-serif;
-  --font-jp: "M PLUS Rounded 1c", "Nunito", sans-serif;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-jp: "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {

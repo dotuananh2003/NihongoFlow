@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, ChevronRight, Volume2, Check, AlertCircle, BookOpen, RotateCcw, Clock } from 'lucide-react';
+import { Sparkles, X, ChevronRight, Volume2, Check, AlertCircle, BookOpen, RotateCcw, Clock, Keyboard } from 'lucide-react';
 
 // ==========================================
 // KANA DATA
@@ -395,7 +395,10 @@ const KanaQuiz = ({
   );
 };
 
+import { useNavigate } from 'react-router-dom';
+
 export const Introduction = () => {
+  const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState<'hiragana' | 'katakana' | null>(null);
   
   // viewState: 
@@ -422,13 +425,6 @@ export const Introduction = () => {
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
-
-  const openSelection = (sys: 'hiragana'|'katakana') => {
-    window.history.pushState({ modalOpen: true }, '');
-    setActiveModal(sys);
-    setViewState('selection');
-    setActiveGroups([]); // reset selections on open
-  };
 
   const closeAll = () => {
     if (window.history.state?.modalOpen) {
@@ -485,9 +481,9 @@ export const Introduction = () => {
         </div>
 
         {/* 2 MAIN CARDS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6 mb-6">
           <button 
-            onClick={() => openSelection('hiragana')}
+            onClick={() => navigate('/introduction/hiragana')}
             className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 md:p-12 text-left border-2 border-slate-100 dark:border-slate-800 hover:border-rose-300 dark:hover:border-rose-700 transition-all group hover:shadow-[0_20px_40px_rgb(225,29,72,0.1)] hover:-translate-y-1 relative overflow-hidden flex flex-col items-center text-center"
           >
             <div className="w-24 h-24 rounded-full bg-rose-50 dark:bg-rose-500/10 text-rose-500 flex items-center justify-center text-5xl font-jp font-bold mb-6 group-hover:scale-110 transition-transform duration-500">あ</div>
@@ -499,7 +495,7 @@ export const Introduction = () => {
           </button>
           
           <button 
-            onClick={() => openSelection('katakana')}
+            onClick={() => navigate('/introduction/katakana')}
             className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 md:p-12 text-left border-2 border-slate-100 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all group hover:shadow-[0_20px_40px_rgb(99,102,241,0.1)] hover:-translate-y-1 relative overflow-hidden flex flex-col items-center text-center"
           >
             <div className="w-24 h-24 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-5xl font-jp font-bold mb-6 group-hover:scale-110 transition-transform duration-500">ア</div>
@@ -507,6 +503,35 @@ export const Introduction = () => {
             <p className="text-slate-500 dark:text-slate-400 font-medium mb-6">Bảng chữ cứng ngoại lai</p>
             <div className="w-full bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 flex items-center justify-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold group-hover:bg-indigo-50 transition-colors">
               Bắt đầu học <ChevronRight size={20} />
+            </div>
+          </button>
+        </div>
+
+        {/* 2 SUPPLEMENTARY CARDS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
+          <button 
+            onClick={() => navigate('/introduction/mnemonic')}
+            className="bg-white dark:bg-slate-900 rounded-[2rem] p-6 text-left border-2 border-slate-100 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 transition-all group flex items-center gap-6"
+          >
+            <div className="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <BookOpen size={32} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-1 uppercase tracking-wider">Học nhớ mẹo</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm">Dùng hình ảnh và liên tưởng để nhớ mặt chữ nhanh hơn.</p>
+            </div>
+          </button>
+          
+          <button 
+            onClick={() => navigate('/introduction/typing')}
+            className="bg-white dark:bg-slate-900 rounded-[2rem] p-6 text-left border-2 border-slate-100 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all group flex items-center gap-6"
+          >
+            <div className="w-16 h-16 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <Keyboard size={32} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-1 uppercase tracking-wider">Typing</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm">Gõ lại kana theo âm đọc để kiểm tra phản xạ nhận diện.</p>
             </div>
           </button>
         </div>

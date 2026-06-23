@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BookOpen, ChevronRight, Star, Target as TargetIcon, Gift } from 'lucide-react';
 
@@ -14,6 +15,17 @@ const COURSES = [
     bgDark: 'bg-[#BC002D]',
     borderLight: 'border-[#FCA5A5]',
     textClass: 'text-[#BC002D]',
+    iconColor: 'text-red-400',
+    iconBorder: 'border-red-200',
+    pillBg: 'bg-red-50',
+    pillText: 'text-red-600',
+    pillBorder: 'border-red-100',
+    lessonHoverBorder: 'hover:border-red-200',
+    lessonIconBg: 'bg-red-50',
+    lessonIconText: 'text-red-500',
+    lessonIconBorder: 'border-red-100',
+    arrowBgHover: 'group-hover:bg-red-50',
+    arrowTextHover: 'group-hover:text-red-500',
     progress: 0,
     lessons: [
       { id: 1, title: 'Giới thiệu bản thân và Trường học', kanji: 10, vocab: 20 },
@@ -33,6 +45,17 @@ const COURSES = [
     bgDark: 'bg-[#2563EB]',
     borderLight: 'border-[#93C5FD]',
     textClass: 'text-[#2563EB]',
+    iconColor: 'text-blue-400',
+    iconBorder: 'border-blue-200',
+    pillBg: 'bg-blue-50',
+    pillText: 'text-blue-600',
+    pillBorder: 'border-blue-100',
+    lessonHoverBorder: 'hover:border-blue-200',
+    lessonIconBg: 'bg-blue-50',
+    lessonIconText: 'text-blue-500',
+    lessonIconBorder: 'border-blue-100',
+    arrowBgHover: 'group-hover:bg-blue-50',
+    arrowTextHover: 'group-hover:text-blue-500',
     progress: 0,
     lessons: [
       { id: 4, title: 'Địa điểm và Phương hướng', kanji: 10, vocab: 15 },
@@ -44,6 +67,8 @@ const COURSES = [
 ];
 
 export const Kanji = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="relative min-h-full pb-20 overflow-hidden bg-[#FAF8F5] dark:bg-slate-950 font-sans">
       
@@ -78,7 +103,7 @@ export const Kanji = () => {
         
         {/* Header */}
         <motion.div 
-          initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}
           className="mb-8"
         >
           <div className="flex items-center gap-4 mb-3">
@@ -94,7 +119,7 @@ export const Kanji = () => {
 
         {/* Global Stats Dashboard */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.05 }}
           className="bg-white/80 backdrop-blur-xl dark:bg-slate-900/80 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 mb-12 flex flex-wrap gap-8 items-center justify-between"
         >
           <div className="flex gap-8 divide-x divide-slate-200 dark:divide-slate-800 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
@@ -149,32 +174,35 @@ export const Kanji = () => {
               key={course.id}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 + idx * 0.1 }}
-              className="flex flex-col lg:flex-row items-stretch gap-4"
+              transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.1 + idx * 0.05 }}
+              className="flex flex-col lg:flex-row items-start gap-4"
             >
               {/* Left Side: Course Identifier Card */}
-              <div className="lg:w-[280px] shrink-0">
-                <div className="rounded-3xl overflow-hidden shadow-[0_10px_30px_rgb(0,0,0,0.04)] border border-slate-200 dark:border-slate-800 h-full flex flex-col">
+              <div className="lg:w-[280px] shrink-0 sticky top-4">
+                <div className="rounded-3xl overflow-hidden shadow-[0_10px_30px_rgb(0,0,0,0.04)] border border-slate-200 dark:border-slate-800 flex flex-col">
                   {/* Card Top */}
-                  <div className={`${course.bgLight} dark:bg-slate-900 py-5 px-4 text-center relative flex-1 flex flex-col items-center justify-center`}>
+                  <div className={`${course.bgLight} dark:bg-slate-900 py-8 px-4 text-center relative flex flex-col items-center justify-center`}>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">
                       {course.subtitle}
                     </p>
-                    <h2 className={`text-5xl font-black text-${course.color}-600 dark:text-${course.color}-500 tracking-tighter mb-1`}>
+                    <h2 className={`text-5xl font-black ${course.textClass} tracking-tighter mb-1`}>
                       {course.code}
                     </h2>
-                    <p className={`text-[10px] font-bold uppercase tracking-[0.2em] text-${course.color}-400/80`}>
+                    <p className={`text-[10px] font-bold uppercase tracking-[0.2em] ${course.textClass} opacity-80`}>
                       {course.title}
                     </p>
                     
                     {/* Floating Icon */}
-                    <div className={`mt-3 w-8 h-8 rounded-full border-2 border-${course.color}-200 text-${course.color}-400 flex items-center justify-center`}>
+                    <div className={`mt-3 w-8 h-8 rounded-full border-2 ${course.iconBorder} ${course.iconColor} flex items-center justify-center`}>
                       <BookOpen size={14} />
                     </div>
                   </div>
                   {/* Card Bottom */}
                   <div className={`${course.bgDark} p-4 text-white`}>
-                    <button className={`w-full py-2.5 rounded-xl bg-white ${course.textClass} font-bold text-sm flex items-center justify-center gap-2 hover:bg-white/90 transition-colors shadow-lg shadow-black/10 hover:-translate-y-0.5 transform duration-300`}>
+                    <button 
+                      onClick={() => navigate(`/kanji/${course.id}/lesson/1`)}
+                      className={`w-full py-2.5 rounded-xl bg-white ${course.textClass} font-bold text-sm flex items-center justify-center gap-2 hover:bg-white/90 transition-all shadow-lg shadow-black/10 hover:-translate-y-0.5 transform duration-200`}
+                    >
                       <BookOpen size={16} /> Bắt đầu học
                     </button>
                   </div>
@@ -191,21 +219,21 @@ export const Kanji = () => {
                      </h3>
                      <p className="text-[11px] font-medium text-slate-500 mt-1">{course.description}</p>
                    </div>
-                   <div className={`px-3 py-1.5 rounded-xl font-bold text-[10px] bg-${course.color}-50 text-${course.color}-600 uppercase tracking-wider border border-${course.color}-100 shrink-0 hidden sm:block`}>
+                   <div className={`px-3 py-1.5 rounded-xl font-bold text-[10px] ${course.pillBg} ${course.pillText} uppercase tracking-wider border ${course.pillBorder} shrink-0 hidden sm:block`}>
                      {course.lessons.length} Lessons
                    </div>
                  </div>
 
                  {/* Lessons Grid */}
-                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 max-h-[300px] xl:max-h-[155px] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-slate-200 dark:[&::-webkit-scrollbar-thumb]:bg-slate-700 [&::-webkit-scrollbar-thumb]:rounded-full">
+                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 h-[350px] xl:h-[155px] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-slate-200 dark:[&::-webkit-scrollbar-thumb]:bg-slate-700 [&::-webkit-scrollbar-thumb]:rounded-full">
                    {course.lessons.map(lesson => (
                      <div 
                        key={lesson.id} 
-                       className={`bg-white dark:bg-slate-800 p-3 rounded-2xl border-2 border-slate-100 dark:border-slate-700 hover:border-${course.color}-200 transition-all cursor-pointer group hover:-translate-y-1 shadow-sm hover:shadow-[0_10px_20px_rgb(0,0,0,0.04)] flex flex-col`}
+                       onClick={() => navigate(`/kanji/${course.id}/lesson/${lesson.id}`)}
+                       className={`bg-white dark:bg-slate-800 p-5 rounded-[1.5rem] border-2 border-slate-100 dark:border-slate-700 ${course.lessonHoverBorder} transition-all cursor-pointer group hover:-translate-y-1 shadow-sm hover:shadow-[0_10px_20px_rgb(0,0,0,0.04)] flex flex-col`}
                      >
                        <div className="flex items-start gap-3 mb-3">
-                         {/* Icon Box */}
-                         <div className={`w-10 h-10 rounded-xl bg-${course.color}-50 dark:bg-slate-700 text-${course.color}-500 flex items-center justify-center shrink-0 border border-${course.color}-100`}>
+                         <div className={`w-10 h-10 rounded-xl ${course.lessonIconBg} dark:bg-slate-700 ${course.lessonIconText} flex items-center justify-center shrink-0 border ${course.lessonIconBorder}`}>
                            {lesson.id % 2 === 0 ? <BookOpen size={18} /> : <span className="font-jp font-bold text-base">漢</span>}
                          </div>
                          <div>
@@ -221,7 +249,7 @@ export const Kanji = () => {
                            <span className="w-1 h-1 rounded-full bg-slate-300 self-center"></span>
                            <span>{lesson.vocab} Từ vựng</span>
                          </div>
-                         <div className={`w-6 h-6 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-${course.color}-50 text-slate-400 group-hover:text-${course.color}-500 transition-colors`}>
+                         <div className={`w-6 h-6 rounded-full bg-slate-50 flex items-center justify-center ${course.arrowBgHover} text-slate-400 ${course.arrowTextHover} transition-colors`}>
                            <ChevronRight size={14} />
                          </div>
                        </div>

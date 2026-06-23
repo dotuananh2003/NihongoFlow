@@ -51,14 +51,28 @@ const CircularProgress = ({ value, color }: { value: number, color: string }) =>
 };
 
 export const Home = () => {
+  // Dynamically load any image from the welcome folder
+  const welcomeImages = import.meta.glob('../../assets/images/welcome/*', { eager: true, import: 'default' });
+  const imageUrls = Object.values(welcomeImages) as string[];
+  const bgUrl = imageUrls.length > 0 ? imageUrls[0] : null;
+
+  // Dynamically load any image from the learning-path folder
+  const learningImages = import.meta.glob('../../assets/images/learning-path/*', { eager: true, import: 'default' });
+  const learningImageUrls = Object.values(learningImages) as string[];
+  const bgUrlLearning = learningImageUrls.length > 0 ? learningImageUrls[0] : null;
+
   return (
     <div className="space-y-6 pb-12">
       {/* 1. HERO BANNER */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden bg-white dark:bg-slate-900 rounded-[2rem] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 dark:border-slate-800"
+        className="relative overflow-hidden bg-white dark:bg-slate-900 rounded-[2rem] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 dark:border-slate-800 bg-cover bg-center"
+        style={bgUrl ? { backgroundImage: `url(${bgUrl})` } : {}}
       >
+        {/* Overlay for text readability if image exists */}
+        {bgUrl && <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/10 to-transparent dark:from-slate-900/90 dark:via-slate-900/20 dark:to-transparent"></div>}
+
         <div className="relative z-10 max-w-xl">
           <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-800 dark:text-slate-100 mb-4 font-jp flex items-center gap-3">
             おかえりなさい！ <Sparkles className="text-rose-400" size={32} />
@@ -68,17 +82,19 @@ export const Home = () => {
           </p>
         </div>
         
-        {/* Background Decorative Illustration via pure CSS/SVG */}
-        <div className="absolute right-0 bottom-0 top-0 w-1/2 pointer-events-none opacity-80 mix-blend-multiply dark:mix-blend-screen hidden md:block">
-           <div className="absolute inset-0 bg-gradient-to-l from-rose-100/40 to-transparent"></div>
-           {/* Sun */}
-           <div className="absolute right-64 top-4 w-32 h-32 bg-rose-200/40 rounded-full blur-xl transform-gpu will-change-transform"></div>
-           <div className="absolute right-40 top-20 w-24 h-24 rounded-full bg-rose-400 shadow-[0_0_50px_rgba(251,113,133,0.6)]"></div>
-           {/* Abstract Torii / Fuji placeholder */}
-           <svg className="absolute bottom-0 right-10 w-64 h-64 text-rose-900/10 dark:text-rose-200/5" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M4 6h16v2H4zm-1 0l1-2h16l1 2v2H3zm3 2v14h2V8zm10 0v14h2V8zM6 11h12v2H6zm6-5v5h2V6z" />
-           </svg>
-        </div>
+        {/* Background Decorative Illustration via pure CSS/SVG (Hide if bgUrl exists) */}
+        {!bgUrl && (
+          <div className="absolute right-0 bottom-0 top-0 w-1/2 pointer-events-none opacity-80 mix-blend-multiply dark:mix-blend-screen hidden md:block">
+             <div className="absolute inset-0 bg-gradient-to-l from-rose-100/40 to-transparent"></div>
+             {/* Sun */}
+             <div className="absolute right-64 top-4 w-32 h-32 bg-rose-200/40 rounded-full blur-xl transform-gpu will-change-transform"></div>
+             <div className="absolute right-40 top-20 w-24 h-24 rounded-full bg-rose-400 shadow-[0_0_50px_rgba(251,113,133,0.6)]"></div>
+             {/* Abstract Torii / Fuji placeholder */}
+             <svg className="absolute bottom-0 right-10 w-64 h-64 text-rose-900/10 dark:text-rose-200/5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4 6h16v2H4zm-1 0l1-2h16l1 2v2H3zm3 2v14h2V8zm10 0v14h2V8zM6 11h12v2H6zm6-5v5h2V6z" />
+             </svg>
+          </div>
+        )}
       </motion.div>
 
       {/* 2. STATS CARDS */}
@@ -182,10 +198,29 @@ export const Home = () => {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="col-span-1 lg:col-span-6 bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 relative overflow-hidden"
         >
-          <div className="flex items-center gap-2 mb-8">
-            <ToriiGate size={20} className="text-[var(--primary)]" />
-            <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100">Lộ trình học tập</h3>
-          </div>
+          {/* Softly Blended Background Image Layer */}
+          {bgUrlLearning && (
+            <div 
+              className="absolute inset-0 z-0 pointer-events-none"
+              style={{
+                backgroundImage: `url(${bgUrlLearning})`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right bottom',
+                WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at right bottom, black 40%, transparent 100%)',
+                maskImage: 'radial-gradient(ellipse 100% 100% at right bottom, black 40%, transparent 100%)',
+              }}
+            ></div>
+          )}
+
+          {/* Text Readability Gradient */}
+          {bgUrlLearning && <div className="absolute inset-0 z-0 bg-gradient-to-r from-white/90 via-white/40 to-transparent dark:from-slate-900/90 dark:via-slate-900/50 dark:to-transparent"></div>}
+          
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-8">
+              <ToriiGate size={20} className="text-[var(--primary)]" />
+              <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100">Lộ trình học tập</h3>
+            </div>
           
           {/* Path timeline */}
           <div className="flex items-center justify-between mb-10 relative">
@@ -212,12 +247,13 @@ export const Home = () => {
             ))}
           </div>
 
-          <div>
-            <p className="font-medium text-slate-600 dark:text-slate-300 mb-1">Bạn đang ở giai đoạn: <span className="font-bold text-slate-800 dark:text-slate-100">Nhập môn</span></p>
-            <p className="text-sm text-slate-400 mb-6">Hãy bắt đầu hành trình chinh phục tiếng Nhật của bạn!</p>
-            <button className="bg-[var(--primary)] text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-md shadow-rose-500/20 hover:bg-rose-700 transition-colors flex items-center gap-2">
-              Tiếp tục học <ChevronRight size={16} />
-            </button>
+            <div>
+              <p className="font-medium text-slate-600 dark:text-slate-300 mb-1">Bạn đang ở giai đoạn: <span className="font-bold text-slate-800 dark:text-slate-100">Nhập môn</span></p>
+              <p className="text-sm text-slate-400 mb-6">Hãy bắt đầu hành trình chinh phục tiếng Nhật của bạn!</p>
+              <button className="bg-[var(--primary)] text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-md shadow-rose-500/20 hover:bg-rose-700 transition-colors flex items-center gap-2">
+                Tiếp tục học <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
         </motion.div>
 

@@ -1,10 +1,11 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { useLocation, useOutlet } from 'react-router-dom';
 import { Sidebar } from '../Sidebar/Sidebar';
 import { Header } from '../Header/Header';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const Layout = () => {
   const location = useLocation();
+  const outlet = useOutlet();
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#FAF8F5] dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 relative antialiased">
@@ -23,7 +24,7 @@ export const Layout = () => {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="max-w-[1600px] mx-auto min-h-full w-full will-change-transform transform-gpu"
             >
-              <Outlet />
+              {outlet}
             </motion.div>
           </AnimatePresence>
         </main>
