@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ChevronLeft, X, Trophy, Flame, Star, Clock, Check, ArrowRight, RotateCcw, List as ListIcon } from 'lucide-react';
 import type { VocabExample } from '../../data/kanjiData';
 
@@ -43,7 +43,7 @@ export const VocabQuiz: React.FC<VocabQuizProps> = ({ vocabList, lessonName, onC
 
   // Timer
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setInterval>;
     if (screen === 'playing') {
       timer = setInterval(() => {
         setTimeElapsed(prev => prev + 1);

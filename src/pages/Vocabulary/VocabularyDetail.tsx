@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, LayoutGrid, Keyboard, List, Brain, Search, Volume2, Heart, X, Check } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, LayoutGrid, Keyboard, List, Brain, Search, Volume2, Heart, Check } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { KanjiVocabTyping } from '../../components/Kanji/KanjiVocabTyping';
 import { VocabQuiz } from '../../components/Kanji/VocabQuiz';
 import { vocabularyData, type VocabItem } from '../../data/vocabularyData';
