@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { 
-  Moon, Sun, Search, Bell, Target, ChevronDown, User, Settings, LogOut,
+  Moon, Sun, Search, Bell, Target, ChevronDown, User, LogOut,
   UserCircle, ClipboardList, FolderCheck, Bookmark, BookOpen, History,
   Globe, Volume2, RefreshCw, HelpCircle, MessageSquare, Flame, Camera, X
 } from 'lucide-react';
