@@ -9,6 +9,7 @@ import { kanjiLesson1, lesson1Vocab } from '../../data/kanjiData';
 import { kanjiLessonJPD123, vocabLessonJPD123 } from '../../data/kanjiDataJPD123';
 import { kanjiLesson5JPD123, vocabLesson5JPD123 } from '../../data/kanjiDataJPD123Lesson5';
 import { kanjiLesson6JPD123, vocabLesson6JPD123 } from '../../data/kanjiDataJPD123Lesson6';
+import { kanjiLesson7JPD123, vocabLesson7JPD123 } from '../../data/kanjiDataJPD123Lesson7';
 import { KanjiVocabTyping } from '../../components/Kanji/KanjiVocabTyping';
 import { KanjiFlashcard } from '../../components/Kanji/KanjiFlashcard';
 import { VocabFlashcard } from '../../components/Kanji/VocabFlashcard';
@@ -35,6 +36,9 @@ export const KanjiLesson = () => {
     } else if (lessonId === '6') {
       kanjiList = kanjiLesson6JPD123;
       vocabList = vocabLesson6JPD123;
+    } else if (lessonId === '7') {
+      kanjiList = kanjiLesson7JPD123;
+      vocabList = vocabLesson7JPD123;
     } else {
       kanjiList = kanjiLessonJPD123;
       vocabList = vocabLessonJPD123;

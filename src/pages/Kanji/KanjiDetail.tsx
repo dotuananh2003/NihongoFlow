@@ -7,6 +7,7 @@ import { kanjiLesson1, type KanjiDetail as IKanjiDetail, type RadicalNode } from
 import { kanjiLessonJPD123 } from '../../data/kanjiDataJPD123';
 import { kanjiLesson5JPD123 } from '../../data/kanjiDataJPD123Lesson5';
 import { kanjiLesson6JPD123 } from '../../data/kanjiDataJPD123Lesson6';
+import { kanjiLesson7JPD123 } from '../../data/kanjiDataJPD123Lesson7';
 import { KanjiStrokeCanvas } from '../../components/Kanji/KanjiStrokeCanvas';
 import { KanjiVocabTyping } from '../../components/Kanji/KanjiVocabTyping';
 
@@ -55,6 +56,8 @@ export const KanjiDetail = () => {
       kanjiList = kanjiLesson5JPD123;
     } else if (lessonId === '6') {
       kanjiList = kanjiLesson6JPD123;
+    } else if (lessonId === '7') {
+      kanjiList = kanjiLesson7JPD123;
     } else {
       kanjiList = kanjiLessonJPD123;
     }
