@@ -117,10 +117,15 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
     if (imeMode === 'hira') {
       setInput(toHiragana(val, { IMEMode: true }));
     } else {
-      let romaji = toRomaji(val);
+      // Preserve special kana before they are lossily converted by toRomaji
+      let preVal = val.replace(/ディ/g, 'di').replace(/ティ/g, 'ti');
+      let romaji = toRomaji(preVal);
       // Auto convert double vowels (aa, ii, uu, ee, oo) to a hyphen to naturally produce Katakana long vowels
       romaji = romaji.replace(/([aiueo])\1/g, '$1-');
-      setInput(toKatakana(romaji, { IMEMode: true }));
+      setInput(toKatakana(romaji, { 
+        IMEMode: true,
+        customKanaMapping: { di: 'ディ', ti: 'ティ' }
+      }));
     }
     setStatus(null);
   };
@@ -144,6 +149,11 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
     }
   };
 
+  const getRomajiHint = (vocab: any) => {
+    if (vocab?.romaji) return vocab.romaji.toLowerCase();
+    return toRomaji((vocab?.hiragana || '').replace(/ー/g, '-')).toLowerCase();
+  };
+
   const checkAnswer = () => {
     if (!currentVocab) return;
     
@@ -152,7 +162,7 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
     const cleanInput = normalizeTilde(input.trim().toLowerCase());
     const targetHira = normalizeTilde(toHiragana(currentVocab.hiragana));
     const targetKata = normalizeTilde(toKatakana(currentVocab.hiragana));
-    const targetRoma = normalizeTilde(toRomaji(currentVocab.hiragana.replace(/ー/g, '-')).toLowerCase());
+    const targetRoma = normalizeTilde(getRomajiHint(currentVocab));
     const inputRoma = normalizeTilde(toRomaji(cleanInput).toLowerCase());
 
     const isCorrect = cleanInput === targetHira || cleanInput === targetKata || cleanInput === targetRoma || inputRoma === targetRoma;
@@ -507,7 +517,7 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
                 </div>
                 <div className="text-right flex flex-col items-end gap-1">
                   <div className="flex items-center gap-3 bg-emerald-100/50 dark:bg-emerald-800/30 rounded-xl px-4 py-2 border border-emerald-200/50 dark:border-emerald-700/30">
-                    <span className="text-emerald-800 dark:text-emerald-200 font-bold text-sm mr-2">{toRomaji((currentVocab?.hiragana || '').replace(/ー/g, '-')).toLowerCase()}</span>
+                    <span className="text-emerald-800 dark:text-emerald-200 font-bold text-sm mr-2">{getRomajiHint(currentVocab)}</span>
                     <span className="text-emerald-600 dark:text-emerald-400 text-2xl font-jp font-bold">{currentVocab?.hiragana}</span>
                     <button className="w-8 h-8 rounded-full bg-white/50 dark:bg-slate-900/50 text-emerald-600 flex items-center justify-center"><Volume2 size={16}/></button>
                   </div>
@@ -529,7 +539,7 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
                 </div>
                 <div className="text-right flex flex-col items-end gap-1">
                   <div className="flex items-center gap-3 bg-rose-100/50 dark:bg-rose-800/30 rounded-xl px-4 py-2 border border-rose-200/50 dark:border-rose-700/30">
-                    <span className="text-rose-800 dark:text-rose-200 font-bold text-sm mr-2">{toRomaji((currentVocab?.hiragana || '').replace(/ー/g, '-')).toLowerCase()}</span>
+                    <span className="text-rose-800 dark:text-rose-200 font-bold text-sm mr-2">{getRomajiHint(currentVocab)}</span>
                     <span className="text-rose-600 dark:text-rose-400 text-2xl font-jp font-bold">{currentVocab?.hiragana}</span>
                     <button className="w-8 h-8 rounded-full bg-white/50 dark:bg-slate-900/50 text-rose-600 flex items-center justify-center"><Volume2 size={16}/></button>
                   </div>

@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookmarkPlus, Edit3, Volume2, Layers, BookOpen, AlertCircle, Sparkles } from 'lucide-react';
+import { ArrowLeft, BookmarkPlus, Edit3, Volume2, Layers, BookOpen, AlertCircle, Sparkles, Lightbulb, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { grammarCourses } from '../../data/grammarData';
 
@@ -120,6 +120,30 @@ export const GrammarPointDetail = () => {
           
           <div className="text-sm font-bold text-slate-700 dark:text-slate-300 leading-relaxed">
             {point.note || 'Không có lưu ý đặc biệt.'}
+          </div>
+        </div>
+
+        {/* MẸO GHI NHỚ */}
+        <div className="bg-amber-50 dark:bg-amber-900/10 rounded-[2rem] p-6 md:p-8 shadow-sm border border-amber-100 dark:border-amber-900/30 relative">
+          <div className="text-xs font-black text-amber-500 uppercase tracking-widest mb-6 flex items-center gap-2">
+            <Lightbulb size={16} /> MẸO GHI NHỚ
+          </div>
+          
+          <div className="text-sm font-bold text-amber-900 dark:text-amber-100 leading-relaxed">
+            {/* @ts-ignore - memoryTip is added to interface */}
+            {point.memoryTip || 'Gắn liền mẫu ngữ pháp này với một ví dụ thực tế của bản thân để dễ nhớ hơn nhé!'}
+          </div>
+        </div>
+
+        {/* DẤU HIỆU NHẬN BIẾT */}
+        <div className="bg-indigo-50 dark:bg-indigo-900/10 rounded-[2rem] p-6 md:p-8 shadow-sm border border-indigo-100 dark:border-indigo-900/30 relative">
+          <div className="text-xs font-black text-indigo-500 uppercase tracking-widest mb-6 flex items-center gap-2">
+            <Search size={16} /> DẤU HIỆU NHẬN BIẾT & TỪ ĐI KÈM
+          </div>
+          
+          <div className="text-sm font-bold text-indigo-900 dark:text-indigo-100 leading-relaxed">
+            {/* @ts-ignore - commonWords is added to interface */}
+            {point.commonWords || 'Hãy chú ý vị trí của từ khóa trong câu để nhận diện cấu trúc này.'}
           </div>
         </div>
 

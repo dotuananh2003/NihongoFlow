@@ -24,6 +24,8 @@ export interface GrammarPoint {
   explanationDetails?: string;
   usage?: string;
   note?: string;
+  memoryTip?: string;
+  commonWords?: string;
 }
 
 export interface GrammarLesson {
@@ -66,6 +68,8 @@ export const grammarCourses: GrammarCourse[] = [
             explanationDetails: 'Tính từ đuôi い (Khẳng định)',
             usage: 'Miêu tả tính chất của sự vật hiện tượng.',
             note: 'Giữ nguyên い khi đi với です.',
+            memoryTip: 'Chữ "い" (i) ở cuối tính từ giống như cái đuôi của con mèo vậy. Đừng bao giờ vứt bỏ đuôi này khi đứng trước "です" nhé!',
+            commonWords: 'Thường đi kèm với các phó từ chỉ mức độ: とても (rất), 少し (một chút), あまり (không lắm)...',
             examples: [
               { japanese: 'この料理は辛いです。', reading: 'このりょうりはからいです。', romaji: 'kono ryouri wa karai desu.', vietnamese: 'Món ăn này cay.' },
               { japanese: 'この本はおもしろいです。', reading: 'このほんはおもしろいです。', romaji: 'kono hon wa omoshiroi desu.', vietnamese: 'Quyển sách này thú vị.' },
@@ -83,6 +87,8 @@ export const grammarCourses: GrammarCourse[] = [
             explanationDetails: 'Tính từ đuôi い (Phủ định)',
             usage: 'Phủ định tính chất của sự vật.',
             note: 'Ngoại lệ: いい (tốt) -> よく ない。',
+            memoryTip: 'Phủ định của tính từ đuôi い thì vứt đuôi "い" đi và gắn thêm đuôi mới là "くない" (kunai). Cứ nhớ thần chú: Không "i" thì "kunai"!',
+            commonWords: 'Thường đi kèm với từ chỉ mức độ phủ định: あまり (không ... lắm), ぜんぜん (hoàn toàn không ...).',
             examples: [
               { japanese: 'このレモンは酸っぱくないです。', reading: 'このレモンはすっぱくないです。', romaji: 'kono remon wa suppakunai desu.', vietnamese: 'Quả chanh này không chua.' },
               { japanese: 'このお茶は熱くないです。', reading: 'このおちゃはあつくないです。', romaji: 'kono ocha wa atsukunai desu.', vietnamese: 'Trà này không nóng.' },
@@ -100,6 +106,8 @@ export const grammarCourses: GrammarCourse[] = [
             explanationDetails: 'Tính từ đuôi な (Khẳng định)',
             usage: 'Miêu tả tính chất bằng tính từ đuôi な.',
             note: 'Cần lưu ý các từ như きれい, ゆうめい là tính từ đuôi な.',
+            memoryTip: 'Tính từ đuôi な rất "đỏng đảnh", khi đứng ngay trước "です" thì cái đuôi "な" sẽ bị rớt mất. Tuyệt đối đừng viết là "なです" nhé!',
+            commonWords: 'Các tính từ đuôi な quốc dân hay gặp: 好き (thích), きれい (đẹp/sạch), 有名 (nổi tiếng), 静か (yên tĩnh), 暇 (rảnh rỗi)...',
             examples: [
               { japanese: '佐藤先生は有名です。', reading: 'さとうせんせいはゆうめいです。', romaji: 'satou sensei wa yuumei desu.', vietnamese: 'Thầy Sato nổi tiếng.' },
               { japanese: 'この公園は静かです。', reading: 'このこうえんはしずかです。', romaji: 'kono kouen wa shizuka desu.', vietnamese: 'Công viên này yên tĩnh.' },
