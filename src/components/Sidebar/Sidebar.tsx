@@ -38,9 +38,16 @@ export const Sidebar = () => {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="relative flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl z-20 shrink-0 shadow-[4px_0_24px_-12px_rgba(0,0,0,0.1)] will-change-transform transform-gpu"
     >
-      <div className="flex items-center gap-3 p-5 h-20 border-b border-slate-100 dark:border-slate-800/50">
-        <div className="text-[var(--primary)] shrink-0 pl-1">
-          <ToriiGate size={32} />
+      <div className={`flex items-center h-20 border-b border-slate-100 dark:border-slate-800/50 transition-all ${isCollapsed ? 'justify-center p-0' : 'gap-3 px-5 py-3'}`}>
+        <div className={`shrink-0 flex items-center justify-center ${isCollapsed ? '' : 'pl-1'}`}>
+          <img 
+            src="/logo.png" 
+            alt="Logo" 
+            className={`object-contain transition-all duration-300 ${isCollapsed ? 'w-10 h-10' : 'w-14 h-14 scale-110'}`}
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
         </div>
         <AnimatePresence>
           {!isCollapsed && (

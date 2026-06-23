@@ -129,7 +129,7 @@ export const KanjiDetail = () => {
               {currentIndex < kanjiList.length - 1 ? kanjiList[currentIndex + 1].char : 'Tiếp'} <ArrowRight size={14} />
             </button>
           </div>
-          
+
           <div className="w-[100px]"></div> {/* spacer to balance the header */}
         </div>
 
@@ -229,7 +229,7 @@ export const KanjiDetail = () => {
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">TỪ VỰNG CHỨA KANJI {kanjiData.char}</h3>
             <div className="flex gap-3">
-              <button 
+              <button
                 onClick={() => setIsTypingMode(true)}
                 className={`font-bold text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-all shadow-sm bg-white dark:bg-slate-900 ${theme.text} ${theme.borderLight} hover:shadow-md ${theme.textHoverBright}`}
               >
@@ -260,8 +260,8 @@ export const KanjiDetail = () => {
       </div>
 
       {isTypingMode && (
-        <KanjiVocabTyping 
-          vocabList={kanjiData.vocab} 
+        <KanjiVocabTyping
+          vocabList={kanjiData.vocab}
           onClose={() => setIsTypingMode(false)}
           kanjiChar={kanjiData.char}
         />
