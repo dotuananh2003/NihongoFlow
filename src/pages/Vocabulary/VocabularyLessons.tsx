@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Play, Lock, Map, Navigation, CloudRain, Clock, Heart, Book, Compass } from 'lucide-react';
+import { ArrowLeft, Play, Lock, Book } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const VocabularyLessons = () => {
