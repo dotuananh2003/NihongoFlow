@@ -30,7 +30,7 @@ export const VocabularyLessons = () => {
     { id: '5-3', title: 'Sở thích', total: 14, learned: 0, locked: false },
     { id: '6-1', title: 'Kế hoạch và sự kiện', total: 24, learned: 0, locked: false },
     { id: '6-2', title: 'Ăn uống và giải trí', total: 23, learned: 0, locked: false },
-    { id: '6-3', title: 'Ẩm thực Nhật', total: 20, learned: 0, locked: true },
+    { id: '6-3', title: 'Ẩm thực Nhật', total: 8, learned: 0, locked: false },
     { id: '7-1', title: 'Vị trí và địa điểm', total: 20, learned: 0, locked: true },
     { id: '7-2', title: 'Đồ dùng và hành động', total: 20, learned: 0, locked: true },
     { id: '7-3', title: 'Hoạt động thường ngày', total: 20, learned: 0, locked: true },
@@ -84,7 +84,7 @@ export const VocabularyLessons = () => {
                   
                   {/* Top: Lesson ID */}
                   <div className="text-center mb-6">
-                    <span className={`text-[10px] font-bold ${theme.badgeText} uppercase tracking-widest ${theme.bgLight} px-3 py-1 rounded-full`}>
+                    <span className={`text-xs font-bold ${theme.badgeText} uppercase tracking-widest ${theme.bgLight} px-4 py-1.5 rounded-full`}>
                       LESSON {lesson.id}
                     </span>
                   </div>

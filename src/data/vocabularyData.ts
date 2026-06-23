@@ -210,5 +210,15 @@ export const vocabularyData: Record<string, VocabItem[]> = {
     { id: 21, kanji: 'いちばん', hiragana: 'いちばん', romaji: 'ichiban', type: 'Trạng từ', meaning: 'Nhất' },
     { id: 22, kanji: 'ぜんぶ', hiragana: 'ぜんぶ', romaji: 'zenbu', type: 'Danh từ/Trạng từ', meaning: 'Toàn bộ' },
     { id: 23, kanji: 'そうですねえ', hiragana: 'そうですねえ', romaji: 'soudesunee', type: 'Cụm từ', meaning: 'Để xem nào' }
+  ],
+  '6-3': [
+    { id: 1, kanji: 'おこのみやき', hiragana: 'おこのみやき', romaji: 'okonomiyaki', type: 'Danh từ', meaning: 'Bánh xèo Nhật' },
+    { id: 2, kanji: 'すきやき', hiragana: 'すきやき', romaji: 'sukiyaki', type: 'Danh từ', meaning: 'Món nhúng bò và rau' },
+    { id: 3, kanji: 'あそびます', hiragana: 'あそびます', romaji: 'asobimasu', type: 'Động từ', meaning: 'Chơi' },
+    { id: 4, kanji: 'ぜひ', hiragana: 'ぜひ', romaji: 'zehi', type: 'Trạng từ', meaning: 'Nhất định' },
+    { id: 5, kanji: 'まだ', hiragana: 'まだ', romaji: 'mada', type: 'Trạng từ', meaning: 'Vẫn, chưa' },
+    { id: 6, kanji: 'もう', hiragana: 'もう', romaji: 'mou', type: 'Trạng từ', meaning: 'Đã, rồi' },
+    { id: 7, kanji: 'そうしましょう', hiragana: 'そうしましょう', romaji: 'soushimashou', type: 'Cụm từ', meaning: 'Làm như thế đi' },
+    { id: 8, kanji: 'わかりました', hiragana: 'わかりました', romaji: 'wakarimashita', type: 'Cụm từ', meaning: 'Tôi hiểu rồi' }
   ]
 };
