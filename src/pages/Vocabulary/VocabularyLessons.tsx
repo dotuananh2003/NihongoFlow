@@ -16,16 +16,8 @@ export const VocabularyLessons = () => {
     badgeText: isJpd123 ? 'text-blue-500' : 'text-rose-500',
   };
 
-  const getLessonIcon = (id: string) => {
-    switch(id) {
-      case '4-1': return <Navigation size={24} strokeWidth={1.5} />;
-      case '4-2': return <Map size={24} strokeWidth={1.5} />;
-      case '4-3': return <CloudRain size={24} strokeWidth={1.5} />;
-      case '5-1': return <Clock size={24} strokeWidth={1.5} />;
-      case '5-2': return <Heart size={24} strokeWidth={1.5} />;
-      case '5-3': return <Heart size={24} strokeWidth={1.5} />;
-      default: return <Compass size={24} strokeWidth={1.5} />;
-    }
+  const getLessonIcon = () => {
+    return <Book size={24} strokeWidth={1.5} />;
   };
 
   // Modern UI data with progress
@@ -100,7 +92,7 @@ export const VocabularyLessons = () => {
                   {/* Title & Icon */}
                   <div className="flex flex-col items-center text-center gap-4 mb-8 flex-1">
                     <div className={`w-14 h-14 rounded-[1.25rem] ${lesson.locked ? 'bg-slate-100 text-slate-400 dark:bg-slate-800' : `${theme.bgLight} ${theme.color}`} flex items-center justify-center`}>
-                      {getLessonIcon(lesson.id)}
+                      {getLessonIcon()}
                     </div>
                     <div>
                       <h3 className={`font-bold text-slate-800 dark:text-slate-100 text-lg leading-tight mb-2 px-2`}>
