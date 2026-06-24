@@ -8,27 +8,32 @@ export const Layout = () => {
   const outlet = useOutlet();
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#FAF8F5] dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 relative antialiased">
-      <div className="absolute inset-0 bg-washi pointer-events-none z-0 opacity-40 transform-gpu will-change-transform"></div>
-      
-      <Sidebar />
-      <div className="flex-1 flex flex-col min-w-0 z-10 relative h-full">
-        <Header />
-        <main className="flex-1 overflow-y-auto px-4 md:px-8 pb-8 relative scrollbar-hide h-full">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="max-w-[1600px] mx-auto min-h-full w-full will-change-transform transform-gpu"
-            >
-              {outlet}
-            </motion.div>
-          </AnimatePresence>
+    <div className="flex min-h-screen bg-[var(--background)] dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 relative antialiased p-3 gap-3">
+      <div className="sticky top-3 h-[calc(100vh-24px)] shrink-0 z-20">
+        <Sidebar />
+      </div>
+      <div className="flex-1 flex flex-col min-w-0 z-10 relative min-h-[calc(100vh-24px)]">
+        <div className="sticky top-0 z-30 pt-1 pb-2 bg-[var(--background)]/50 dark:bg-slate-950/50 backdrop-blur-md">
+          <Header />
+        </div>
+        <main className="flex-1 px-4 md:px-8 pb-8 relative">
+          <div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={location.pathname}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="max-w-[1600px] mx-auto min-h-full w-full will-change-transform transform-gpu"
+              >
+                {outlet}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </main>
       </div>
     </div>
   );
 };
+

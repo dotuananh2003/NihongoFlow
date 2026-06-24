@@ -36,9 +36,9 @@ export const Sidebar = () => {
       initial={false}
       animate={{ width: isCollapsed ? 80 : 260 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="relative flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl z-20 shrink-0 shadow-[4px_0_24px_-12px_rgba(0,0,0,0.1)] will-change-transform transform-gpu"
+      className="relative flex flex-col bg-white dark:bg-slate-900 rounded-[24px] z-20 shrink-0 shadow-sm border border-slate-100 dark:border-slate-800 will-change-transform transform-gpu h-full overflow-hidden"
     >
-      <div className={`flex items-center h-20 border-b border-slate-100 dark:border-slate-800/50 transition-all ${isCollapsed ? 'justify-center p-0' : 'gap-3 px-5 py-3'}`}>
+      <div className={`absolute top-0 left-0 right-0 z-30 flex items-center h-20 border-b border-slate-100/50 dark:border-slate-800/50 bg-white/40 dark:bg-slate-900/40 backdrop-blur-md transition-all ${isCollapsed ? 'justify-center p-0' : 'gap-3 px-5 py-3'}`}>
         <div className={`shrink-0 flex items-center justify-center ${isCollapsed ? '' : 'pl-1'}`}>
           <img 
             src="/logo.png" 
@@ -68,7 +68,7 @@ export const Sidebar = () => {
         </AnimatePresence>
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-6 space-y-1.5 relative scrollbar-hide">
+      <nav className="flex-1 overflow-y-auto pt-24 pb-6 space-y-1.5 relative scrollbar-hide h-full w-full">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -77,10 +77,10 @@ export const Sidebar = () => {
               to={item.path}
               replace={location.pathname !== '/'}
               className={({ isActive }) =>
-                `relative flex items-center gap-4 py-3 pl-6 pr-4 transition-all duration-300 group overflow-hidden ${
+                `relative flex items-center gap-3 py-2.5 px-3 mx-3 transition-all duration-300 group rounded-2xl ${
                   isActive
-                    ? 'text-[var(--primary)] dark:text-rose-400'
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50/80 dark:hover:bg-slate-800/50'
+                    ? 'text-[var(--primary)] bg-white dark:bg-slate-800 shadow-[0_4px_20px_rgb(0,0,0,0.06)] dark:shadow-none'
+                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50'
                 }`
               }
               title={isCollapsed ? item.label : undefined}
@@ -89,15 +89,15 @@ export const Sidebar = () => {
                 <>
                   {isActive && (
                     <motion.div
-                      layoutId="sidebar-active-bg"
-                      className="absolute inset-0 bg-[#FAF8F5] dark:bg-rose-500/10 border-l-[6px] border-[var(--primary)] dark:border-rose-400 rounded-r-3xl my-1"
+                      layoutId="sidebar-active-indicator"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-[var(--primary)] rounded-r-full shadow-[0_0_8px_var(--primary)]"
                       initial={false}
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                   )}
                   
-                  <div className={`relative z-10 flex items-center justify-center transition-transform duration-300 will-change-transform group-hover:scale-110 ${isActive ? 'scale-110 drop-shadow-sm text-[var(--primary)]' : ''}`}>
-                    <Icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+                  <div className={`relative z-10 w-10 h-10 flex items-center justify-center rounded-xl transition-transform duration-300 will-change-transform group-hover:scale-110 ${isActive ? 'bg-[var(--primary)]/10 text-[var(--primary)] scale-110' : ''}`}>
+                    <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
                   </div>
 
                   <AnimatePresence>
@@ -125,7 +125,7 @@ export const Sidebar = () => {
       </nav>
 
       {/* Collapse Button */}
-      <div className="p-4 mt-auto border-t border-slate-100 dark:border-slate-800/50">
+      <div className="relative z-30 p-4 mt-auto border-t border-slate-100 dark:border-slate-800/50 bg-white dark:bg-slate-900">
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className={`flex items-center gap-3 w-full py-2.5 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 ${isCollapsed ? 'justify-center' : ''}`}

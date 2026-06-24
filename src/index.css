@@ -15,13 +15,13 @@
 
 @layer base {
   :root {
-    --background: #FAF8F5;
-    --foreground: #264653;
+    --background: #F4F8FF;
+    --foreground: #1E293B;
 
     --card: #FFFFFF;
-    --card-foreground: #264653;
+    --card-foreground: #1E293B;
 
-    --primary: #BC002D;
+    --primary: #3B82F6;
     --primary-foreground: #FFFFFF;
 
     --secondary: #F8D7DA;
@@ -41,13 +41,13 @@
   }
 
   .dark {
-    --background: #111827;
-    --foreground: #FAF8F5;
+    --background: #0B1120;
+    --foreground: #F8FAFC;
 
-    --card: #1F2937;
-    --card-foreground: #FAF8F5;
+    --card: #1E293B;
+    --card-foreground: #F8FAFC;
 
-    --primary: #BC002D;
+    --primary: #3B82F6;
     --primary-foreground: #FFFFFF;
 
     --secondary: #374151;
@@ -104,4 +104,17 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
+}
+
+@layer utilities {
+  .glass-card {
+    background: #FFFFFF;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid #F1F5F9;
+  }
+  .dark .glass-card {
+    background: #1E293B;
+    border-color: #334155;
+  }
 }

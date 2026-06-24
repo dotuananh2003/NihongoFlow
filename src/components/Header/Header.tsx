@@ -80,8 +80,8 @@ export const Header = () => {
         </div>
         <input
           type="text"
-          placeholder="検索する..."
-          className="block w-full pl-12 pr-4 py-3 bg-white/80 dark:bg-slate-900/80 border border-slate-200/60 dark:border-slate-800 focus:bg-white dark:focus:bg-slate-800 rounded-2xl text-sm placeholder-slate-400 focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10 transition-all duration-300 outline-none shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] font-jp"
+          placeholder="Tìm kiếm..."
+          className="block w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 focus:bg-white dark:focus:bg-slate-800 rounded-full text-sm placeholder-slate-400 focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10 transition-all duration-300 outline-none shadow-sm font-jp"
         />
       </div>
 
@@ -89,31 +89,29 @@ export const Header = () => {
       <div className="flex items-center gap-4 md:gap-6 ml-auto">
         
         {/* Goal Button */}
-        <button className="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-full bg-rose-50 dark:bg-rose-500/10 text-[var(--primary)] dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-500/20 transition-colors font-bold text-sm font-jp border border-rose-100 dark:border-rose-500/20 shadow-sm">
+        <button className="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-full bg-white dark:bg-slate-900 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors font-bold text-sm font-jp border border-rose-100 dark:border-rose-500/20 shadow-sm">
           <Target size={18} strokeWidth={2.5} />
           <span>Mục tiêu hôm nay</span>
         </button>
 
-        {/* Theme Toggle */}
-        <div className="flex items-center bg-white/80 dark:bg-slate-900/80 rounded-full p-1 border border-slate-200/60 dark:border-slate-800 shadow-sm backdrop-blur-md">
-          <button
-            onClick={() => setIsDarkMode(false)}
-            className={`p-2 rounded-full transition-all duration-300 ${!isDarkMode ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-          >
-            <Sun size={16} strokeWidth={2.5} />
-          </button>
-          <button
-            onClick={() => setIsDarkMode(true)}
-            className={`p-2 rounded-full transition-all duration-300 ${isDarkMode ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-          >
-            <Moon size={16} strokeWidth={2.5} />
-          </button>
-        </div>
+        {/* Theme Toggles */}
+        <button
+          onClick={() => setIsDarkMode(false)}
+          className={`p-3 rounded-full transition-all duration-300 shadow-sm border border-slate-100 dark:border-slate-800 ${!isDarkMode ? 'bg-white text-[var(--primary)]' : 'bg-white dark:bg-slate-900 text-slate-400 hover:text-slate-600'}`}
+        >
+          <Sun size={20} strokeWidth={2.5} />
+        </button>
+        <button
+          onClick={() => setIsDarkMode(true)}
+          className={`p-3 rounded-full transition-all duration-300 shadow-sm border border-slate-100 dark:border-slate-800 ${isDarkMode ? 'bg-slate-800 text-[var(--primary)]' : 'bg-white text-slate-400 hover:text-slate-600'}`}
+        >
+          <Moon size={20} strokeWidth={2.5} />
+        </button>
 
         {/* Notification */}
-        <button className="relative p-3 rounded-full bg-white/80 dark:bg-slate-900/80 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] hover:bg-white transition-all shadow-sm border border-slate-200/60 dark:border-slate-800 backdrop-blur-md">
+        <button className="relative p-3 rounded-full bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] transition-all shadow-sm border border-slate-100 dark:border-slate-800">
           <Bell size={20} strokeWidth={2.5} />
-          <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[var(--primary)] rounded-full border-2 border-white dark:border-slate-900"></span>
+          <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900"></span>
         </button>
 
         {/* Profile */}
@@ -210,12 +208,7 @@ export const Header = () => {
                   <div>
                     <h4 className="text-[13px] font-black text-slate-800 dark:text-slate-100 mb-3 px-2">Tùy chỉnh</h4>
                     <div className="space-y-1">
-                      <MenuItem 
-                        icon={<Moon size={20} />} 
-                        title="Giao diện sáng / tối" 
-                        subtitle="ライト/ダークモード" 
-                        onClick={() => setIsDarkMode(!isDarkMode)} 
-                      />
+
                       <MenuItem icon={<Globe size={20} />} title="Ngôn ngữ hiển thị" subtitle="表示言語" />
                       <MenuItem icon={<Volume2 size={20} />} title="Âm thanh & phát âm" subtitle="音声と発音" />
                       <MenuItem icon={<Bell size={20} />} title="Thông báo" subtitle="通知設定" />
