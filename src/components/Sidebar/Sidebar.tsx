@@ -79,7 +79,7 @@ export const Sidebar = () => {
               className={({ isActive }) =>
                 `relative flex items-center gap-3 py-2.5 px-3 mx-3 transition-all duration-300 group rounded-2xl ${
                   isActive
-                    ? 'text-[var(--primary)] bg-white dark:bg-slate-800 shadow-[0_4px_20px_rgb(0,0,0,0.06)] dark:shadow-none'
+                    ? 'text-[var(--primary)] bg-white dark:bg-slate-800 shadow-[0_8px_24px_rgba(148,163,184,0.35)] dark:shadow-none'
                     : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50'
                 }`
               }
