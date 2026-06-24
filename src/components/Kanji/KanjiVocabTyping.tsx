@@ -380,8 +380,7 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
         </div>
 
         {/* Top Header */}
-        <div className="relative h-20 flex items-center justify-between px-8 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shrink-0">
-          
+        <div className="relative h-20 flex items-center justify-center gap-8 md:gap-16 px-5 md:px-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 shrink-0 mt-4 mx-auto w-fit max-w-[95%] rounded-full shadow-sm z-20">
           {/* Left: Progress */}
           <div className="flex items-center gap-6">
             <div>
@@ -415,9 +414,9 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
             
             <button 
               onClick={onClose}
-              className="px-4 py-2 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-sm transition-colors flex items-center gap-2 shadow-sm"
+              className="px-6 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-full font-bold text-sm transition-colors flex items-center gap-2 shadow-md hover:-translate-y-0.5 active:translate-y-0"
             >
-              <X size={16} /> Thoát
+              <X size={18} strokeWidth={2.5} /> Thoát
             </button>
           </div>
         </div>
@@ -564,9 +563,9 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
         </div>
 
         {/* Footer Stats Bar */}
-        <div className="relative z-10 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 p-4 lg:p-6 mb-6 mt-2 rounded-[2rem] shadow-lg flex flex-col md:flex-row items-center justify-between gap-6 shrink-0 w-full max-w-5xl self-center">
+        <div className="relative z-10 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 h-24 px-4 md:px-8 mb-6 mt-2 rounded-3xl md:rounded-full shadow-lg flex items-center justify-center gap-6 md:gap-12 shrink-0 w-fit max-w-[95%] self-center">
           
-          <div className="flex items-center gap-6 md:gap-12 w-full md:w-auto justify-between md:justify-start px-2">
+          <div className="flex items-center gap-6 md:gap-10 w-full md:w-auto justify-center px-2">
             
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center border border-emerald-100 hidden sm:flex"><Check size={20} strokeWidth={3} /></div>
@@ -604,9 +603,9 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
 
           <button 
             onClick={skipQuestion}
-            className="w-full md:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-600/20"
+            className="w-full md:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold text-base shadow-md transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
           >
-            {status !== null ? 'Tiếp tục' : 'Bỏ qua'} <ChevronRight size={20} />
+            {status !== null ? 'Tiếp tục' : 'Bỏ qua'} <ChevronRight size={18} />
           </button>
         </div>
 
