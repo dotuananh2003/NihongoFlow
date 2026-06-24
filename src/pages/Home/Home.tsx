@@ -67,19 +67,30 @@ export const Home = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden bg-white dark:bg-slate-900 rounded-[2rem] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 dark:border-slate-800 bg-cover bg-center"
-        style={bgUrl ? { backgroundImage: `url(${bgUrl})` } : {}}
+        className="relative overflow-hidden bg-white dark:bg-slate-900 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 dark:border-slate-800"
       >
-        {/* Overlay for text readability if image exists */}
-        {bgUrl && <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/10 to-transparent dark:from-slate-900/90 dark:via-slate-900/20 dark:to-transparent"></div>}
+        {/* Background Image that dictates the height of the banner */}
+        {bgUrl && (
+          <img 
+            src={bgUrl} 
+            alt="Hero Banner" 
+            className="w-full h-auto object-contain block"
+          />
+        )}
 
-        <div className="relative z-10 max-w-xl">
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-800 dark:text-slate-100 mb-4 font-jp flex items-center gap-3">
-            おかえりなさい！ <Sparkles className="text-rose-400" size={32} />
-          </h2>
-          <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 font-medium">
-            Chúc bạn một ngày học tập hiệu quả!
-          </p>
+        {/* Content Container (Absolute to sit on top of the image) */}
+        <div className={`absolute inset-0 p-8 md:p-12 flex flex-col justify-center ${!bgUrl ? 'relative min-h-[250px]' : ''}`}>
+          {/* Overlay for text readability if image exists */}
+          {bgUrl && <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/40 to-transparent dark:from-slate-900/90 dark:via-slate-900/40 dark:to-transparent z-0"></div>}
+
+          <div className="relative z-10 max-w-xl">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-800 dark:text-slate-100 mb-4 font-jp flex items-center gap-3">
+              おかえりなさい！ <Sparkles className="text-rose-400" size={32} />
+            </h2>
+            <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 font-medium">
+              Chúc bạn một ngày học tập hiệu quả!
+            </p>
+          </div>
         </div>
         
         {/* Background Decorative Illustration via pure CSS/SVG (Hide if bgUrl exists) */}
