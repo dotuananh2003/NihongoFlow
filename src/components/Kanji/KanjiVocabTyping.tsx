@@ -229,11 +229,11 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
     const isPerfect = accuracy === 100;
     
     return createPortal(
-      <div className="fixed inset-0 z-[9999] overflow-y-auto bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-500">
+      <div className="fixed inset-0 z-[9999] overflow-y-auto bg-slate-900/60 backdrop-blur-md">
         <div className="flex min-h-full items-center justify-center p-2 sm:p-4">
           <Confetti />
           
-          <div className="max-w-xl w-full bg-white dark:bg-slate-900 rounded-[2rem] p-5 md:p-6 text-center shadow-2xl relative overflow-hidden border border-white/20 dark:border-slate-800/50 animate-in zoom-in-95 duration-500 delay-150 fill-mode-both">
+          <div className="max-w-xl w-full bg-white dark:bg-slate-900 rounded-[2rem] p-5 md:p-6 text-center shadow-2xl relative overflow-hidden border border-slate-100 dark:border-slate-800/50">
           {/* Faint sakura/confetti background pattern */}
           <div className="absolute inset-0 pointer-events-none opacity-20 dark:opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
           <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-blue-50/50 dark:from-blue-900/20 to-transparent pointer-events-none"></div>
