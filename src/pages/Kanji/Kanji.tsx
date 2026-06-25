@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, ChevronRight, Star, Target as TargetIcon, Gift, ChevronDown } from 'lucide-react';
+import { BookOpen, ChevronRight, Target as TargetIcon, Gift, ChevronDown } from 'lucide-react';
 
 const COURSES = [
   {
