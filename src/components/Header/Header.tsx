@@ -71,10 +71,10 @@ export const Header = () => {
   }, [isDarkMode]);
 
   return (
-    <header className="h-20 flex items-center justify-between px-8 bg-transparent z-10 w-full shrink-0">
+    <header className="h-16 lg:h-20 flex items-center justify-between px-4 pl-16 lg:pl-8 lg:px-8 bg-transparent z-10 w-full shrink-0">
       
       {/* Left: Search Bar */}
-      <div className="flex-1 max-w-md relative group">
+      <div className="flex-1 max-w-md relative group hidden md:block">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[var(--primary)] transition-colors">
           <Search size={18} strokeWidth={2.5} />
         </div>
@@ -86,7 +86,7 @@ export const Header = () => {
       </div>
 
       {/* Right: Actions */}
-      <div className="flex items-center gap-4 md:gap-6 ml-auto">
+      <div className="flex items-center gap-2 md:gap-4 lg:gap-6 ml-auto">
         
         {/* Goal Button */}
         <button className="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-full bg-white dark:bg-slate-900 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors font-bold text-sm font-jp border border-rose-100 dark:border-rose-500/20 shadow-sm">
@@ -97,22 +97,23 @@ export const Header = () => {
         {/* Theme Toggles */}
         <button
           onClick={() => setIsDarkMode(false)}
-          className={`p-3 rounded-full transition-all duration-300 shadow-sm border border-slate-100 dark:border-slate-800 ${!isDarkMode ? 'bg-white text-[var(--primary)]' : 'bg-white dark:bg-slate-900 text-slate-400 hover:text-slate-600'}`}
+          className={`p-2.5 lg:p-3 rounded-full transition-all duration-300 shadow-sm border border-slate-100 dark:border-slate-800 ${!isDarkMode ? 'bg-white text-[var(--primary)]' : 'bg-white dark:bg-slate-900 text-slate-400 hover:text-slate-600'}`}
         >
-          <Sun size={20} strokeWidth={2.5} />
+          <Sun size={18} strokeWidth={2.5} />
         </button>
         <button
           onClick={() => setIsDarkMode(true)}
-          className={`p-3 rounded-full transition-all duration-300 shadow-sm border border-slate-100 dark:border-slate-800 ${isDarkMode ? 'bg-slate-800 text-[var(--primary)]' : 'bg-white text-slate-400 hover:text-slate-600'}`}
+          className={`p-2.5 lg:p-3 rounded-full transition-all duration-300 shadow-sm border border-slate-100 dark:border-slate-800 ${isDarkMode ? 'bg-slate-800 text-[var(--primary)]' : 'bg-white text-slate-400 hover:text-slate-600'}`}
         >
-          <Moon size={20} strokeWidth={2.5} />
+          <Moon size={18} strokeWidth={2.5} />
         </button>
 
         {/* Notification */}
-        <button className="relative p-3 rounded-full bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] transition-all shadow-sm border border-slate-100 dark:border-slate-800">
-          <Bell size={20} strokeWidth={2.5} />
-          <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+        <button className="hidden sm:block relative p-2.5 lg:p-3 rounded-full bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] transition-all shadow-sm border border-slate-100 dark:border-slate-800">
+          <Bell size={18} strokeWidth={2.5} />
+          <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900"></span>
         </button>
+
 
         {/* Profile */}
         <div className="relative" ref={profileRef}>
@@ -120,7 +121,7 @@ export const Header = () => {
             onClick={() => setIsProfileOpen(!isProfileOpen)}
             className="flex items-center gap-3 pl-2 cursor-pointer hover:opacity-80 transition-opacity"
           >
-            <div className="w-12 h-12 rounded-full border-2 border-white dark:border-slate-800 shadow-sm overflow-hidden bg-slate-200 shrink-0">
+            <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full border-2 border-white dark:border-slate-800 shadow-sm overflow-hidden bg-slate-200 shrink-0">
               <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
             </div>
             <div className="hidden sm:flex flex-col">
@@ -132,7 +133,7 @@ export const Header = () => {
 
           {/* Mega Dropdown Menu */}
           {isProfileOpen && (
-            <div className="absolute right-0 mt-3 w-[600px] bg-white dark:bg-slate-900 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-slate-100 dark:border-slate-800 p-6 z-50 animate-in fade-in slide-in-from-top-2 origin-top-right">
+            <div className="absolute right-0 mt-3 w-[90vw] max-w-[600px] bg-white dark:bg-slate-900 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-slate-100 dark:border-slate-800 p-4 md:p-6 z-50 animate-in fade-in slide-in-from-top-2 origin-top-right max-h-[80vh] overflow-y-auto">
               {/* Header */}
               <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl mb-6">
                 <div className="flex items-center gap-4">
@@ -169,8 +170,8 @@ export const Header = () => {
                 </button>
               </div>
 
-              {/* Grid 2 Columns */}
-              <div className="grid grid-cols-2 gap-x-8 gap-y-6">
+              {/* Grid - 1 col on mobile, 2 on desktop */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 {/* Column 1 */}
                 <div className="space-y-6">
                   {/* Tài khoản */}
