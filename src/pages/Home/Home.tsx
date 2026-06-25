@@ -207,7 +207,7 @@ export const Home = () => {
         {/* COLUMN 1: Learning Path (Span 5) */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          className="col-span-1 lg:col-span-6 bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 relative overflow-hidden"
+          className="col-span-1 lg:col-span-6 bg-[#FEFBF9] rounded-[2rem] p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 relative overflow-hidden"
         >
           {/* Softly Blended Background Image Layer */}
           {bgUrlLearning && (
@@ -225,17 +225,17 @@ export const Home = () => {
           )}
 
           {/* Text Readability Gradient */}
-          {bgUrlLearning && <div className="absolute inset-0 z-0 bg-gradient-to-r from-white/90 via-white/40 to-transparent dark:from-slate-900/90 dark:via-slate-900/50 dark:to-transparent"></div>}
+          {bgUrlLearning && <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#FEFBF9]/90 via-[#FEFBF9]/50 to-transparent"></div>}
           
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-8">
               <ToriiGate size={20} className="text-[var(--primary)]" />
-              <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100">Lộ trình học tập</h3>
+              <h3 className="font-bold text-lg text-slate-800">Lộ trình học tập</h3>
             </div>
           
           {/* Path timeline */}
           <div className="flex items-center justify-between mb-10 relative">
-            <div className="absolute left-6 right-6 top-6 h-[2px] bg-slate-100 dark:bg-slate-800 -z-10"></div>
+            <div className="absolute left-6 right-6 top-6 h-[2px] bg-slate-100 -z-10"></div>
             
             {/* Steps */}
             {[
@@ -247,19 +247,19 @@ export const Home = () => {
               { id: 'exam', label: 'Thi thử', jp: '試験', icon: '試', active: false },
             ].map((step) => (
                <div key={step.id} className="flex flex-col items-center gap-2">
-                 <div className={`w-12 h-12 rounded-full flex items-center justify-center font-jp font-bold text-lg shadow-sm border-2 ${step.active ? 'bg-white border-[var(--primary)] text-[var(--primary)]' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-300 dark:text-slate-500'}`}>
+                 <div className={`w-12 h-12 rounded-full flex items-center justify-center font-jp font-bold text-lg shadow-sm border-2 ${step.active ? 'bg-[#FEFBF9] border-[var(--primary)] text-[var(--primary)]' : 'bg-white border-slate-100 text-slate-300'}`}>
                    {step.icon}
                  </div>
                  <div className="text-center">
-                   <p className={`text-[11px] font-bold ${step.active ? 'text-slate-800 dark:text-slate-100' : 'text-slate-400'}`}>{step.label}</p>
-                   <p className={`text-[9px] ${step.active ? 'text-slate-500' : 'text-slate-300 dark:text-slate-600'}`}>{step.jp}</p>
+                   <p className={`text-[11px] font-bold ${step.active ? 'text-slate-800' : 'text-slate-400'}`}>{step.label}</p>
+                   <p className={`text-[9px] ${step.active ? 'text-slate-500' : 'text-slate-300'}`}>{step.jp}</p>
                  </div>
                </div>
             ))}
           </div>
 
             <div>
-              <p className="font-medium text-slate-600 dark:text-slate-300 mb-1">Bạn đang ở giai đoạn: <span className="font-bold text-slate-800 dark:text-slate-100">Nhập môn</span></p>
+              <p className="font-medium text-slate-600 mb-1">Bạn đang ở giai đoạn: <span className="font-bold text-slate-800">Nhập môn</span></p>
               <p className="text-sm text-slate-400 mb-6">Hãy bắt đầu hành trình chinh phục tiếng Nhật của bạn!</p>
               <button className="bg-[var(--primary)] text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-md shadow-rose-500/20 hover:bg-rose-700 transition-colors flex items-center gap-2">
                 Tiếp tục học <ChevronRight size={16} />
@@ -271,7 +271,7 @@ export const Home = () => {
         {/* COLUMN 2: Today's Activities (Span 3) */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className="col-span-1 lg:col-span-3 bg-white dark:bg-slate-900 rounded-[2rem] p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800"
+          className="col-span-1 lg:col-span-3 bg-[#FEFBF9] dark:bg-slate-900 rounded-[2rem] p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800"
         >
           <div className="flex items-center gap-2 mb-6">
             <CheckCircle2 size={20} className="text-rose-500" />
@@ -299,7 +299,7 @@ export const Home = () => {
         {/* COLUMN 3: Weekly Chart (Span 3) */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-          className="col-span-1 lg:col-span-3 bg-white dark:bg-slate-900 rounded-[2rem] p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 flex flex-col"
+          className="col-span-1 lg:col-span-3 bg-[#FEFBF9] dark:bg-slate-900 rounded-[2rem] p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 flex flex-col"
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100">Thống kê tuần này</h3>

@@ -1,6 +1,7 @@
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { BookOpen, ChevronRight, Star, Target as TargetIcon, Gift } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { BookOpen, ChevronRight, Star, Target as TargetIcon, Gift, ChevronDown } from 'lucide-react';
 
 const COURSES = [
   {
@@ -68,26 +69,27 @@ const COURSES = [
 
 export const Kanji = () => {
   const navigate = useNavigate();
+  const [isTipsOpen, setIsTipsOpen] = useState(false);
 
   return (
-    <div className="relative min-h-full pb-20 overflow-hidden bg-[#FAF8F5] dark:bg-slate-950 font-sans">
+    <div className="relative min-h-full pb-20 overflow-hidden bg-slate-50 dark:bg-slate-950 font-sans">
       
       {/* =========================================
           BACKGROUND DECORATION (JAPANESE THEME)
       ========================================= */}
       {/* Grid Pattern */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.4] dark:opacity-[0.1]" 
+        className="absolute inset-0 pointer-events-none opacity-[0.4] dark:opacity-[0.1] transform-gpu" 
         style={{ backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '32px 32px' }}
       ></div>
 
       {/* Watermark Kanji */}
-      <div className="absolute top-20 right-10 pointer-events-none opacity-[0.03] dark:opacity-[0.02] transform rotate-12 select-none">
+      <div className="absolute top-20 right-10 pointer-events-none opacity-[0.03] dark:opacity-[0.02] transform rotate-12 select-none transform-gpu">
         <span className="font-jp text-[400px] font-black">漢</span>
       </div>
 
       {/* Minimal Mount Fuji SVG */}
-      <div className="absolute top-0 right-0 w-[600px] h-[400px] pointer-events-none opacity-20 dark:opacity-10 mix-blend-multiply dark:mix-blend-lighten">
+      <div className="absolute top-0 right-0 w-[600px] h-[400px] pointer-events-none opacity-20 dark:opacity-10 mix-blend-multiply dark:mix-blend-lighten transform-gpu">
         <svg viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M300 150 L500 350 L100 350 Z" fill="#94a3b8" />
           <path d="M300 150 L360 210 L330 230 L300 200 L270 230 L240 210 Z" fill="#f8fafc" />
@@ -120,48 +122,37 @@ export const Kanji = () => {
         {/* Global Stats Dashboard */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.05 }}
-          className="bg-white/80 backdrop-blur-xl dark:bg-slate-900/80 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 mb-12 flex flex-wrap gap-8 items-center justify-between"
+          className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 mb-12 flex overflow-x-auto transform-gpu will-change-transform"
         >
-          <div className="flex gap-8 divide-x divide-slate-200 dark:divide-slate-800 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-            <div className="flex items-center gap-4 px-4 min-w-max">
+          <div className="flex gap-4 md:gap-8 divide-x divide-slate-200 dark:divide-slate-800 w-full justify-between pb-2 md:pb-0">
+            <div className="flex items-center gap-4 px-2 md:px-4 min-w-max">
               <div className="w-10 h-10 rounded-full bg-rose-100 text-rose-500 flex items-center justify-center font-jp font-bold text-lg">漢</div>
               <div>
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Tổng khóa học</p>
                 <p className="text-2xl font-black text-slate-800 dark:text-slate-100 leading-none">2</p>
               </div>
             </div>
-            <div className="flex items-center gap-4 px-6 min-w-max">
+            <div className="flex items-center gap-4 px-4 md:px-6 min-w-max">
               <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center"><BookOpen size={18} /></div>
               <div>
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Tổng bài học</p>
                 <p className="text-2xl font-black text-slate-800 dark:text-slate-100 leading-none">7</p>
               </div>
             </div>
-            <div className="flex items-center gap-4 px-6 min-w-max">
+            <div className="flex items-center gap-4 px-4 md:px-6 min-w-max">
               <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-500 flex items-center justify-center"><TargetIcon size={18} /></div>
               <div>
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Tổng Hán tự</p>
                 <p className="text-2xl font-black text-slate-800 dark:text-slate-100 leading-none">77</p>
               </div>
             </div>
-            <div className="flex items-center gap-4 px-6 min-w-max">
+            <div className="flex items-center gap-4 px-4 md:px-6 min-w-max">
               <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center"><Gift size={18} /></div>
               <div>
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Tổng từ vựng</p>
                 <p className="text-2xl font-black text-slate-800 dark:text-slate-100 leading-none">208</p>
               </div>
             </div>
-          </div>
-          
-          {/* Progress Bar overall */}
-          <div className="flex-1 min-w-[200px] md:pl-8 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800 pt-4 md:pt-0 mt-4 md:mt-0">
-             <div className="flex justify-between items-center mb-2">
-               <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-wider"><Star size={14} className="text-orange-400" /> Tiến độ chung</div>
-               <div className="text-lg font-black text-slate-800 dark:text-slate-100">0%</div>
-             </div>
-             <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-               <div className="bg-slate-800 dark:bg-slate-100 rounded-full h-2 w-[0%]"></div>
-             </div>
           </div>
         </motion.div>
 
@@ -210,7 +201,7 @@ export const Kanji = () => {
               </div>
 
               {/* Right Side: Learning Path / Lessons */}
-              <div className="flex-1 bg-white/80 backdrop-blur-md dark:bg-slate-900/50 rounded-3xl p-4 lg:p-5 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="flex-1 bg-white dark:bg-slate-900 rounded-3xl p-4 lg:p-5 border border-slate-200 dark:border-slate-800 shadow-sm transform-gpu will-change-transform">
                  {/* Header Row */}
                  <div className="flex justify-between items-start mb-4">
                    <div>
@@ -263,17 +254,89 @@ export const Kanji = () => {
         </div>
 
         {/* Footer info/tips */}
-        <div className="mt-12 mb-8 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-200 dark:border-slate-800 flex items-start gap-4">
-          <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <div className="mt-12 mb-8 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm transition-all duration-300 transform-gpu will-change-transform">
+          <div 
+            className="p-6 flex items-center gap-4 cursor-pointer hover:bg-white/60 dark:hover:bg-slate-800/50 transition-colors"
+            onClick={() => setIsTipsOpen(!isTipsOpen)}
+          >
+            <div className="w-10 h-10 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </div>
+            <div className="flex-1">
+              <h4 className="font-bold text-slate-800 dark:text-slate-100 mb-1">Mẹo học Hán tự hiệu quả</h4>
+              <p className="text-sm text-slate-500 font-medium line-clamp-1 md:line-clamp-none">Nhấn để khám phá các phương pháp giúp bạn chinh phục Kanji dễ dàng hơn!</p>
+            </div>
+            <div className="shrink-0 hidden md:block opacity-20 mr-4">
+              <span className="font-jp text-4xl font-black">漢字</span>
+            </div>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300 ${isTipsOpen ? 'rotate-180 bg-orange-100 text-orange-500' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}`}>
+              <ChevronDown size={18} />
+            </div>
           </div>
-          <div>
-            <h4 className="font-bold text-slate-800 dark:text-slate-100 mb-1">Mẹo học Hán tự</h4>
-            <p className="text-sm text-slate-500 font-medium">Học đều mỗi ngày sẽ giúp bạn ghi nhớ lâu hơn và ứng dụng tốt hơn trong giao tiếp. Cố gắng hoàn thành ít nhất 1 bài học mỗi tuần nhé!</p>
-          </div>
-          <div className="ml-auto shrink-0 hidden md:block opacity-20">
-            <span className="font-jp text-5xl font-black">漢字</span>
-          </div>
+          
+          <AnimatePresence>
+            {isTipsOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="px-6 pb-6 pt-2 border-t border-slate-100 dark:border-slate-800">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                    {/* Tip 1 */}
+                    <div className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold">1</div>
+                        <h5 className="font-bold text-slate-800 dark:text-slate-100 leading-tight">Học theo bộ thủ (Radicals)</h5>
+                      </div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mt-auto">Kanji được cấu tạo từ 214 bộ thủ. Nắm vững bộ thủ giúp bạn đoán được ý nghĩa và cách đọc của các chữ phức tạp (VD: Bộ Thủy 氵 thường chỉ các từ liên quan đến nước).</p>
+                    </div>
+                    {/* Tip 2 */}
+                    <div className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">2</div>
+                        <h5 className="font-bold text-slate-800 dark:text-slate-100 leading-tight">Học qua câu chuyện (Mnemonics)</h5>
+                      </div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mt-auto">Tưởng tượng ra một câu chuyện kết nối các nét chữ Hán với ý nghĩa của nó. Não bộ ghi nhớ hình ảnh và câu chuyện tốt hơn rất nhiều so với học vẹt từng nét chữ.</p>
+                    </div>
+                    {/* Tip 3 */}
+                    <div className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center font-bold">3</div>
+                        <h5 className="font-bold text-slate-800 dark:text-slate-100 leading-tight">Học theo cụm từ vựng</h5>
+                      </div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mt-auto">Đừng học Kanji đứng một mình. Hãy học luôn cả từ vựng chứa Kanji đó để biết chính xác khi nào dùng âm On (âm Hán), khi nào dùng âm Kun (âm Nhật).</p>
+                    </div>
+                    {/* Tip 4 */}
+                    <div className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center font-bold">4</div>
+                        <h5 className="font-bold text-slate-800 dark:text-slate-100 leading-tight">Ôn tập ngắt quãng</h5>
+                      </div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mt-auto">Sử dụng Flashcard để ôn lại các Kanji bạn đã học vào các khoảng thời gian tăng dần. Đây là chìa khóa để chuyển Kanji vào trí nhớ dài hạn của bạn.</p>
+                    </div>
+                    {/* Tip 5 */}
+                    <div className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center font-bold">5</div>
+                        <h5 className="font-bold text-slate-800 dark:text-slate-100 leading-tight">Luyện viết đúng thứ tự nét</h5>
+                      </div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mt-auto">Việc viết tay đúng quy tắc (Trái trước phải sau, trên trước dưới sau) sẽ rèn luyện trí nhớ cơ bắp, giúp bạn nhớ cấu trúc chữ tự nhiên hơn rất nhiều.</p>
+                    </div>
+                    {/* Tip 6 */}
+                    <div className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold">6</div>
+                        <h5 className="font-bold text-slate-800 dark:text-slate-100 leading-tight">Đọc nhiều tài liệu thực tế</h5>
+                      </div>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 mt-auto">Đọc sách, báo, truyện tranh (Manga) có chứa Furigana sẽ giúp bạn gặp lại Kanji nhiều lần trong các ngữ cảnh đa dạng, củng cố phản xạ nhận diện chữ.</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
       </div>
