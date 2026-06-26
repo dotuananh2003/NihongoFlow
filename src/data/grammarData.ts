@@ -119,22 +119,46 @@ export const grammarCourses: GrammarCourse[] = [
           {
             id: 'g4', title: 'N は Aじゃありません。', meaning: 'N không [tính chất] A', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'じゃ', iconBg: 'bg-purple-50 dark:bg-purple-900/30', iconColor: 'text-purple-500',
-            examples: [{ japanese: 'あの映画は面白くないです。', vietnamese: 'Bộ phim đó không thú vị.' }], isLearned: false
+            examples: [
+              { japanese: '私の部屋はきれいじゃありません。', reading: 'わたしのへやはきれいじゃありません。', romaji: 'watashi no heya wa kirei ja arimasen.', vietnamese: 'Phòng của tôi không sạch đẹp.' },
+              { japanese: 'この町は静かじゃありません。', reading: 'このまちはしずかじゃありません。', romaji: 'kono machi wa shizuka ja arimasen.', vietnamese: 'Thành phố này không yên tĩnh.' },
+              { japanese: '私は暇じゃありません。', reading: 'わたしはひまじゃありません。', romaji: 'watashi wa hima ja arimasen.', vietnamese: 'Tôi không rảnh rỗi.' },
+              { japanese: 'あのレストランは有名じゃありません。', reading: 'あのレストランはゆうめいじゃありません。', romaji: 'ano resutoran wa yuumei ja arimasen.', vietnamese: 'Nhà hàng đó không nổi tiếng.' },
+              { japanese: '今日の仕事は大変じゃありません。', reading: 'きょうのしごとはたいへんじゃありません。', romaji: 'kyou no shigoto wa taihen ja arimasen.', vietnamese: 'Công việc hôm nay không vất vả.' }
+            ], isLearned: false
           },
           {
             id: 'g5', title: 'とても / すこし + A', meaning: 'Rất / Một chút', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: '✨', iconBg: 'bg-pink-50 dark:bg-pink-900/30', iconColor: 'text-pink-500',
-            examples: [{ japanese: 'この町は静かです。', vietnamese: 'Thị trấn này yên tĩnh.' }], isLearned: false
+            examples: [
+              { japanese: 'この町はとても静かです。', reading: 'このまちはとてもしずかです。', romaji: 'kono machi wa totemo shizuka desu.', vietnamese: 'Thị trấn này rất yên tĩnh.' },
+              { japanese: '今日は少し暑いです。', reading: 'きょうはすこしあついです。', romaji: 'kyou wa sukoshi atsui desu.', vietnamese: 'Hôm nay hơi nóng.' },
+              { japanese: 'このケーキはとても美味しいです。', reading: 'このケーキはとてもおいしいです。', romaji: 'kono keeki wa totemo oishii desu.', vietnamese: 'Cái bánh này rất ngon.' },
+              { japanese: '日本の物価は少し高いです。', reading: 'にほんのぶっかはすこしたかいです。', romaji: 'nihon no bukka wa sukoshi takai desu.', vietnamese: 'Vật giá ở Nhật Bản hơi đắt.' },
+              { japanese: '彼女はとても親切です。', reading: 'かのじょはとてもしんせつです。', romaji: 'kanojo wa totemo shinsetsu desu.', vietnamese: 'Cô ấy rất tốt bụng.' }
+            ], isLearned: false
           },
           {
             id: 'g6', title: 'あまり + Aくない', meaning: 'Không ... lắm', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'あ', iconBg: 'bg-orange-50 dark:bg-orange-900/30', iconColor: 'text-orange-500',
-            examples: [{ japanese: '私は暇じゃありません。', vietnamese: 'Tôi không rảnh rỗi.' }], isLearned: false
+            examples: [
+              { japanese: '私はあまり暇じゃありません。', reading: 'わたしはあまりひまじゃありません。', romaji: 'watashi wa amari hima ja arimasen.', vietnamese: 'Tôi không rảnh rỗi lắm.' },
+              { japanese: 'この試験はあまり難しくないです。', reading: 'このしけんはあまりむずかしくないです。', romaji: 'kono shiken wa amari muzukashikunai desu.', vietnamese: 'Bài thi này không khó lắm.' },
+              { japanese: '今日はあまり寒くないです。', reading: 'きょうはあまりさむくないです。', romaji: 'kyou wa amari samukunai desu.', vietnamese: 'Hôm nay không lạnh lắm.' },
+              { japanese: 'その映画はあまり面白くないです。', reading: 'そのえいがはあまりおもしろくないです。', romaji: 'sono eiga wa amari omoshirokunai desu.', vietnamese: 'Bộ phim đó không thú vị lắm.' },
+              { japanese: 'ここはあまり静かじゃありません。', reading: 'ここはあまりしずかじゃありません。', romaji: 'koko wa amari shizuka ja arimasen.', vietnamese: 'Chỗ này không yên tĩnh lắm.' }
+            ], isLearned: false
           },
           {
             id: 'g7', title: 'N1 に N2 が あります。', meaning: 'Ở N1 có N2', type: 'Phó từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: '📦', iconBg: 'bg-blue-50 dark:bg-blue-900/30', iconColor: 'text-blue-600', barColor: 'bg-emerald-500',
-            examples: [{ japanese: 'この料理はとても美味しいです。', vietnamese: 'Món ăn này rất ngon.' }], isLearned: false
+            examples: [
+              { japanese: '公園に木があります。', reading: 'こうえんにきがあります。', romaji: 'kouen ni ki ga arimasu.', vietnamese: 'Ở công viên có cây.' },
+              { japanese: '部屋に机があります。', reading: 'へやにつくえがあります。', romaji: 'heya ni tsukue ga arimasu.', vietnamese: 'Trong phòng có cái bàn.' },
+              { japanese: '机の上に本があります。', reading: 'つくえのうえにほんがあります。', romaji: 'tsukue no ue ni hon ga arimasu.', vietnamese: 'Trên bàn có quyển sách.' },
+              { japanese: '箱の中に時計があります。', reading: 'はこのなかにとけいがあります。', romaji: 'hako no naka ni tokei ga arimasu.', vietnamese: 'Trong hộp có cái đồng hồ.' },
+              { japanese: 'あそこにコンビニがあります。', reading: 'あそこにコンビニがあります。', romaji: 'asoko ni konbini ga arimasu.', vietnamese: 'Ở đằng kia có cửa hàng tiện lợi.' }
+            ], isLearned: false
           }
         ]
       },

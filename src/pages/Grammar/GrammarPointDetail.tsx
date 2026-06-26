@@ -1,15 +1,34 @@
+import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, BookmarkPlus, Edit3, Volume2, Layers, BookOpen, AlertCircle, Sparkles, Lightbulb, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { grammarCourses } from '../../data/grammarData';
+import { vocabularyData } from '../../data/vocabularyData';
+import { GrammarExercise } from '../../components/Grammar/GrammarExercise';
 
 export const GrammarPointDetail = () => {
   const { courseId, lessonId, pointId } = useParams();
   const navigate = useNavigate();
+  const [isExerciseOpen, setIsExerciseOpen] = useState(false);
 
   const course = grammarCourses.find(c => c.id === courseId);
   const lesson = course?.lessons.find(l => l.id === lessonId);
   const point = lesson?.grammarPoints.find(p => p.id === pointId);
+
+  // Get vocabulary for this lesson
+  const vocabList = useMemo(() => {
+    if (!lessonId) return [];
+    // Extract lesson number (e.g. 'lesson-4' -> '4')
+    const lessonNum = lessonId.replace('lesson-', '');
+    // Collect all sub-lessons vocabulary (e.g. '4-1', '4-2', '4-3')
+    let combinedVocab: any[] = [];
+    Object.keys(vocabularyData).forEach(key => {
+      if (key.startsWith(`${lessonNum}-`)) {
+        combinedVocab = [...combinedVocab, ...vocabularyData[key]];
+      }
+    });
+    return combinedVocab.length > 0 ? combinedVocab : (vocabularyData['4-1'] || []);
+  }, [lessonId]);
 
   const renderStructure = (structure?: React.ReactNode | string) => {
     if (!structure) return null;
@@ -59,7 +78,10 @@ export const GrammarPointDetail = () => {
           <button className="flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm text-sm">
             <BookmarkPlus size={18} /> Thêm vào ghi nhớ
           </button>
-          <button className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-sm text-sm">
+          <button 
+            onClick={() => setIsExerciseOpen(true)}
+            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-sm text-sm"
+          >
             <Edit3 size={18} /> Làm bài tập
           </button>
         </div>
@@ -188,6 +210,16 @@ export const GrammarPointDetail = () => {
           })}
         </div>
       </div>
+
+      {/* EXERCISE MODAL */}
+      {isExerciseOpen && (
+        <GrammarExercise
+          grammarPoint={point}
+          vocabList={vocabList}
+          lessonName={`Lesson ${lesson.id.replace('lesson-', '')}`}
+          onClose={() => setIsExerciseOpen(false)}
+        />
+      )}
 
     </div>
   );
