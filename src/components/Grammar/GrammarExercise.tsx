@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, X, Trophy, Flame, Star, Clock, Check, ArrowRight, RotateCcw, PenTool, Type, HelpCircle, Lightbulb, Keyboard, Volume2 } from 'lucide-react';
+import { ChevronLeft, X, Trophy, Flame, Star, Check, ArrowRight, RotateCcw, PenTool, Type, HelpCircle, Lightbulb, Keyboard } from 'lucide-react';
 import { toHiragana, toKatakana, toRomaji } from 'wanakana';
 import type { GrammarExample, GrammarPoint } from '../../data/grammarData';
 import type { VocabItem } from '../../data/vocabularyData';
@@ -68,8 +68,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   const [maxCombo, setMaxCombo] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
-  const [timeElapsed, setTimeElapsed] = useState(0);
-  
+
   // MCQ state
   const [selectedAnswerIdx, setSelectedAnswerIdx] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -79,27 +78,12 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   const [imeMode, setImeMode] = useState<'hira' | 'kata'>('hira');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Timer
-  useEffect(() => {
-    let timer: ReturnType<typeof setInterval>;
-    if (screen === 'playing') {
-      timer = setInterval(() => setTimeElapsed(prev => prev + 1), 1000);
-    }
-    return () => clearInterval(timer);
-  }, [screen]);
-
   // Focus input automatically for Type 3
   useEffect(() => {
     if (screen === 'playing' && questions[currentIdx]?.type === 'type3' && !isAnswered) {
       inputRef.current?.focus();
     }
   }, [currentIdx, screen, isAnswered, questions]);
-
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-    const s = (seconds % 60).toString().padStart(2, '0');
-    return `${m}:${s}`;
-  };
 
   const toggleType = (type: ExerciseType) => {
     setSelectedTypes(prev => {
@@ -242,7 +226,6 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
     setMaxCombo(0);
     setCorrectCount(0);
     setWrongCount(0);
-    setTimeElapsed(0);
     setSelectedAnswerIdx(null);
     setIsAnswered(false);
     setTextInput('');
