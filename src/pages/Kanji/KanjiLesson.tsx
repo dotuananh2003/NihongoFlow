@@ -20,7 +20,6 @@ import { VocabQuiz } from '../../components/Kanji/VocabQuiz';
 export const KanjiLesson = () => {
   const { courseId, lessonId } = useParams();
   const navigate = useNavigate();
-  const [isTypingMode, setIsTypingMode] = useState(false);
   const [isSelectMode, setIsSelectMode] = useState(false);
   const [isFlashcardMode, setIsFlashcardMode] = useState(false);
   const [isVocabFlashcardMode, setIsVocabFlashcardMode] = useState(false);
