@@ -22,18 +22,18 @@ export const VocabularyLessons = () => {
 
   // Modern UI data with progress
   const lessons = isJpd123 ? [
-    { id: '4-1', title: 'Phương hướng và phương tiện', total: 20, learned: 12, locked: false },
-    { id: '4-2', title: 'Địa điểm và tính từ', total: 18, learned: 0, locked: false },
-    { id: '4-3', title: 'Thời tiết và vị giác', total: 16, learned: 0, locked: false },
-    { id: '5-1', title: 'Thời gian và hoạt động', total: 25, learned: 0, locked: false },
-    { id: '5-2', title: 'Thời tiết và cảm xúc', total: 20, learned: 0, locked: false },
-    { id: '5-3', title: 'Sở thích', total: 14, learned: 0, locked: false },
-    { id: '6-1', title: 'Kế hoạch và sự kiện', total: 24, learned: 0, locked: false },
-    { id: '6-2', title: 'Ăn uống và giải trí', total: 23, learned: 0, locked: false },
-    { id: '6-3', title: 'Ẩm thực Nhật', total: 8, learned: 0, locked: false },
-    { id: '7-1', title: 'Vị trí và địa điểm', total: 20, learned: 0, locked: true },
-    { id: '7-2', title: 'Đồ dùng và hành động', total: 20, learned: 0, locked: true },
-    { id: '7-3', title: 'Hoạt động thường ngày', total: 20, learned: 0, locked: true },
+    { id: '4-1', title: 'Phương hướng và phương tiện', desc: 'Học về các phương hướng và phương tiện giao thông', total: 20, learned: 12, locked: false },
+    { id: '4-2', title: 'Địa điểm và tính từ', desc: 'Học về các địa điểm và tính từ miêu tả', total: 18, learned: 0, locked: false },
+    { id: '4-3', title: 'Thời tiết và vị giác', desc: 'Học về thời tiết và các vị của thức ăn', total: 16, learned: 0, locked: false },
+    { id: '5-1', title: 'Thời gian và hoạt động', desc: 'Học về các mốc thời gian và hoạt động hàng ngày', total: 25, learned: 0, locked: false },
+    { id: '5-2', title: 'Thời tiết và cảm xúc', desc: 'Học về thời tiết và các tính từ chỉ cảm giác, trạng thái', total: 20, learned: 0, locked: false },
+    { id: '5-3', title: 'Sở thích', desc: 'Học về các sở thích và hoạt động giải trí', total: 14, learned: 0, locked: false },
+    { id: '6-1', title: 'Kế hoạch và sự kiện', desc: 'Học về kế hoạch, sự kiện và cách đếm vật mỏng', total: 24, learned: 0, locked: false },
+    { id: '6-2', title: 'Ăn uống và giải trí', desc: 'Học về đồ ăn, thức uống và các hoạt động giải trí', total: 23, learned: 0, locked: false },
+    { id: '6-3', title: 'Ẩm thực Nhật', desc: 'Học về các món ăn đặc trưng của Nhật Bản', total: 8, learned: 0, locked: false },
+    { id: '7-1', title: 'Vị trí và địa điểm', desc: 'Học về các từ chỉ vị trí và địa điểm công cộng', total: 20, learned: 0, locked: false },
+    { id: '7-2', title: 'Đồ dùng và hành động', desc: 'Học về các vật dụng trong nhà và các động từ liên quan', total: 20, learned: 0, locked: false },
+    { id: '7-3', title: 'Hoạt động thường ngày', desc: 'Học về các hoạt động giải trí và sinh hoạt hàng ngày', total: 20, learned: 0, locked: false },
   ] : [
     { id: '1-1', title: 'Chào hỏi cơ bản', total: 15, learned: 5, locked: false },
     { id: '1-2', title: 'Số đếm và tuổi', total: 20, learned: 0, locked: true },
@@ -98,8 +98,9 @@ export const VocabularyLessons = () => {
                       <h3 className={`font-bold text-slate-800 dark:text-slate-100 text-lg leading-tight mb-2 px-2`}>
                         {lesson.title}
                       </h3>
-                      <p className="text-xs font-bold text-slate-400">
-                        {lesson.total} từ vựng
+                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 px-2 leading-relaxed">
+                        {/* @ts-ignore */}
+                        {lesson.desc || `${lesson.total} từ vựng`}
                       </p>
                     </div>
                   </div>

@@ -63,10 +63,14 @@ export const kanjiLesson1: KanjiDetail[] = [
     jlpt: 'N5',
     mnemonic: 'Bộ Nhật (日 - mặt trời, ngày) bắt nguồn từ chữ tượng hình. Hình vuông tượng trưng cho hình dáng mặt trời, còn nét gạch ngang ở giữa tượng trưng cho nguồn năng lượng, ánh sáng đang tỏa ra.',
     vocab: [
-      { kanji: '日', hiragana: 'ひ', meaning: 'Mặt trời' },
+      { kanji: '日', hiragana: 'ひ', meaning: 'Ngày' },
       { kanji: '日本', hiragana: 'にほん', meaning: 'Nhật Bản' },
       { kanji: '日曜日', hiragana: 'にちようび', meaning: 'Chủ nhật' },
-      { kanji: '今日', hiragana: 'きょう', meaning: 'Hôm nay' }
+      { kanji: '今日', hiragana: 'きょう', meaning: 'Hôm nay' },
+      { kanji: '10日', hiragana: 'とおか', meaning: 'Mùng 10' },
+      { kanji: '休日', hiragana: 'きゅうじつ', meaning: 'Ngày nghỉ' },
+      { kanji: '日本人', hiragana: 'にほんじん', meaning: 'Người Nhật Bản' },
+      { kanji: '日本語', hiragana: 'にほんご', meaning: 'Tiếng Nhật' }
     ],
     radicalTree: {
       char: '日',
@@ -85,9 +89,11 @@ export const kanjiLesson1: KanjiDetail[] = [
     jlpt: 'N5',
     mnemonic: 'Chữ Bản (本 - gốc rễ, cội nguồn) được tạo ra bằng cách thêm một nét gạch ngang (一) vào phần dưới của bộ Mộc (木 - cái cây). Nét gạch này dùng để đánh dấu và nhấn mạnh phần "gốc rễ" của cây.',
     vocab: [
-      { kanji: '本', hiragana: 'ほん', meaning: 'Sách' },
+      { kanji: '本', hiragana: 'ほん', meaning: 'sách' },
       { kanji: '日本', hiragana: 'にほん', meaning: 'Nhật Bản' },
-      { kanji: '本当', hiragana: 'ほんとう', meaning: 'Sự thật' }
+      { kanji: '本当', hiragana: 'ほんとう', meaning: 'Sự thật' },
+      { kanji: '日本人', hiragana: 'にほんじん', meaning: 'Người Nhật Bản' },
+      { kanji: '日本語', hiragana: 'にほんご', meaning: 'Tiếng Nhật' }
     ],
     radicalTree: {
       char: '本',
@@ -133,7 +139,8 @@ export const kanjiLesson1: KanjiDetail[] = [
     vocab: [
       { kanji: '学生', hiragana: 'がくせい', meaning: 'Học sinh' },
       { kanji: '学校', hiragana: 'がっこう', meaning: 'Trường học' },
-      { kanji: '学ぶ', hiragana: 'まなぶ', meaning: 'Học' }
+      { kanji: '学ぶ', hiragana: 'まなぶ', meaning: 'Học' },
+      { kanji: '大学', hiragana: 'だいがく', meaning: 'Đại học' }
     ],
     radicalTree: {
       char: '学',
@@ -159,7 +166,8 @@ export const kanjiLesson1: KanjiDetail[] = [
     vocab: [
       { kanji: '日本語', hiragana: 'にほんご', meaning: 'Tiếng Nhật' },
       { kanji: '英語', hiragana: 'えいご', meaning: 'Tiếng Anh' },
-      { kanji: '語る', hiragana: 'かたる', meaning: 'Kể lại' }
+      { kanji: '語る', hiragana: 'かたる', meaning: 'Kể lại' },
+      { kanji: 'ベトナム語', hiragana: 'ベトナムご', meaning: 'Tiếng Việt' }
     ],
     radicalTree: {
       char: '語',
@@ -235,10 +243,11 @@ export const kanjiLesson1: KanjiDetail[] = [
     jlpt: 'N5',
     mnemonic: 'Bộ Nhân (人 - con người) là chữ tượng hình khắc họa lại dáng đứng nghiêng của một người, với hai chân đang bước đi vững chãi trên mặt đất, tượng trưng cho bản lĩnh của con người.',
     vocab: [
-      { kanji: '人', hiragana: 'ひと', meaning: 'Người' },
+      { kanji: '人', hiragana: 'ひと', meaning: 'Con người' },
       { kanji: 'あの人', hiragana: 'あのひと', meaning: 'Người kia' },
-      { kanji: '日本人', hiragana: 'にほんじん', meaning: 'Người Nhật' },
-      { kanji: '三人', hiragana: 'さんにん', meaning: '3 người' }
+      { kanji: '日本人', hiragana: 'にほんじん', meaning: 'Người Nhật Bản' },
+      { kanji: '三人', hiragana: 'さんにん', meaning: '3 người' },
+      { kanji: '～人', hiragana: '～じん', meaning: 'người (nước ~)' }
     ],
     radicalTree: {
       char: '人',
@@ -257,7 +266,8 @@ export const kanjiLesson1: KanjiDetail[] = [
     jlpt: 'N5',
     mnemonic: 'Chữ Tài (才 - tuổi tác, tài năng) mượn hình ảnh một chồi non nhú lên khỏi mặt đất. Giống như một đứa trẻ ở "độ tuổi" mầm non (才) đang bắt đầu bộc lộ "tài năng" thiên bẩm của mình.',
     vocab: [
-      { kanji: '二才', hiragana: 'にさい', meaning: '2 tuổi' },
+      { kanji: '2才', hiragana: 'にさい', meaning: '2 tuổi' },
+      { kanji: '8才', hiragana: 'はっさい', meaning: '8 tuổi' },
       { kanji: '何才', hiragana: 'なんさい', meaning: 'Mấy tuổi' },
       { kanji: '天才', hiragana: 'てんさい', meaning: 'Thiên tài' }
     ],
@@ -271,7 +281,7 @@ export const kanjiLesson1: KanjiDetail[] = [
 
 // Vocabulary list for the lesson (combined + some extra examples if needed)
 export const lesson1Vocab: VocabExample[] = [
-  { kanji: '私', hiragana: 'わたし', meaning: 'Tôi' },
+  { kanji: '私', hiragana: 'わたし', meaning: 'tôi' },
   { kanji: '人', hiragana: 'ひと', meaning: 'Con người' },
   { kanji: 'あの人', hiragana: 'あのひと', meaning: 'Người kia' },
   { kanji: '2才', hiragana: 'にさい', meaning: '2 tuổi' },
@@ -279,8 +289,16 @@ export const lesson1Vocab: VocabExample[] = [
   { kanji: '何才', hiragana: 'なんさい', meaning: 'Mấy tuổi' },
   { kanji: '大学', hiragana: 'だいがく', meaning: 'Đại học' },
   { kanji: '学生', hiragana: 'がくせい', meaning: 'Học sinh' },
+  { kanji: '先生', hiragana: 'せんせい', meaning: 'Thầy/cô giáo' },
   { kanji: '学校', hiragana: 'がっこう', meaning: 'Trường học' },
-  { kanji: '先生', hiragana: 'せんせい', meaning: 'Giáo viên' },
+  { kanji: '10日', hiragana: 'とおか', meaning: 'Mùng 10' },
+  { kanji: '日曜日', hiragana: 'にちようび', meaning: 'Chủ nhật' },
+  { kanji: '日', hiragana: 'ひ', meaning: 'Ngày' },
+  { kanji: '休日', hiragana: 'きゅうじつ', meaning: 'Ngày nghỉ' },
+  { kanji: '本', hiragana: 'ほん', meaning: 'sách' },
   { kanji: '日本', hiragana: 'にほん', meaning: 'Nhật Bản' },
+  { kanji: '日本人', hiragana: 'にほんじん', meaning: 'Người Nhật Bản' },
   { kanji: '日本語', hiragana: 'にほんご', meaning: 'Tiếng Nhật' },
+  { kanji: 'ベトナム語', hiragana: 'ベトナムご', meaning: 'Tiếng Việt' },
+  { kanji: '～人', hiragana: '～じん', meaning: 'người (nước ~)' }
 ];

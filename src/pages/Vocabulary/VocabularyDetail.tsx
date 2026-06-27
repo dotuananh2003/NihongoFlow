@@ -248,6 +248,7 @@ export const VocabularyDetail = () => {
           }}
           kanjiChar={`Bài ${lessonId}`}
           mode="vocab"
+          isJPD123={isJpd123}
         />
       )}
       {isVocabQuizMode && (

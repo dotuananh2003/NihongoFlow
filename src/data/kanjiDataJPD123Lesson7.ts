@@ -36,7 +36,8 @@ export const kanjiLesson7JPD123: KanjiDetail[] = [
     mnemonic: 'Bộ Ngôn (言) có 4 gạch ngang ở trên giống như những sóng âm phát ra từ miệng (口) bên dưới khi chúng ta nói.',
     vocab: [
       { kanji: '言います', hiragana: 'いいます', meaning: 'nói' },
-      { kanji: '言葉', hiragana: 'ことば', meaning: 'từ vựng' }
+      { kanji: '言葉', hiragana: 'ことば', meaning: 'từ vựng' },
+      { kanji: '言語', hiragana: 'げんご', meaning: 'ngôn ngữ' }
     ],
     radicalTree: {
       char: '言',
@@ -95,7 +96,8 @@ export const kanjiLesson7JPD123: KanjiDetail[] = [
     mnemonic: 'Chữ Lực (力) giống hình ảnh bắp tay đang gồng lên thể hiện sức mạnh.',
     vocab: [
       { kanji: '力', hiragana: 'ちから', meaning: 'sức lực' },
-      { kanji: '水力', hiragana: 'すいりょく', meaning: 'sức nước' }
+      { kanji: '水力', hiragana: 'すいりょく', meaning: 'sức nước' },
+      { kanji: '火力', hiragana: 'かりょく', meaning: 'công suất nhiệt, hỏa lực' }
     ],
     radicalTree: {
       char: '力',
@@ -227,7 +229,10 @@ export const kanjiLesson7JPD123: KanjiDetail[] = [
     vocab: [
       { kanji: '半分', hiragana: 'はんぶん', meaning: 'Một nửa' },
       { kanji: '半年', hiragana: 'はんとし／はんねん', meaning: 'nửa năm' },
-      { kanji: '半日', hiragana: 'はんじつ／はんにち', meaning: 'Nửa ngày' }
+      { kanji: '半日', hiragana: 'はんじつ／はんにち', meaning: 'Nửa ngày' },
+      { kanji: '半月', hiragana: 'はんつき', meaning: 'Nửa tháng' },
+      { kanji: '七時半', hiragana: 'しちじはん', meaning: '7h30' },
+      { kanji: '大半', hiragana: 'たいはん', meaning: 'Phần lớn' }
     ],
     radicalTree: {
       char: '半',

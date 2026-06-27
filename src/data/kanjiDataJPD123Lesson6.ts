@@ -102,7 +102,8 @@ export const kanjiLesson6JPD123: KanjiDetail[] = [
       { kanji: '会います', hiragana: 'あいます', meaning: 'gặp gỡ' },
       { kanji: '会社', hiragana: 'かいしゃ', meaning: 'công ty' },
       { kanji: '会話', hiragana: 'かいわ', meaning: 'hội thoại' },
-      { kanji: '会議', hiragana: 'かいぎ', meaning: 'cuộc họp' }
+      { kanji: '会議', hiragana: 'かいぎ', meaning: 'cuộc họp' },
+      { kanji: '社会', hiragana: 'しゃかい', meaning: 'xã hội' }
     ],
     radicalTree: {
       char: '会',
@@ -209,7 +210,8 @@ export const kanjiLesson6JPD123: KanjiDetail[] = [
       { kanji: '書き物', hiragana: 'かきもの', meaning: 'tài liệu viết' },
       { kanji: '辞書', hiragana: 'じしょ', meaning: 'từ điển' },
       { kanji: '図書館', hiragana: 'としょかん', meaning: 'thư viện' },
-      { kanji: '下書き', hiragana: 'したがき', meaning: 'bản nháp' }
+      { kanji: '下書き', hiragana: 'したがき', meaning: 'bản nháp' },
+      { kanji: '読書', hiragana: 'どくしょ', meaning: 'đọc sách' }
     ],
     radicalTree: {
       char: '書',

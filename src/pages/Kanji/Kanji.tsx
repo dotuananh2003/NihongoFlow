@@ -215,33 +215,31 @@ export const Kanji = () => {
                    </div>
                  </div>
 
-                 {/* Lessons Grid */}
-                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 h-[350px] xl:h-[155px] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-slate-200 dark:[&::-webkit-scrollbar-thumb]:bg-slate-700 [&::-webkit-scrollbar-thumb]:rounded-full">
+                 {/* Lessons List (Horizontal Layout) */}
+                 <div className="flex flex-col gap-3 h-[350px] xl:h-[260px] overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-slate-200 dark:[&::-webkit-scrollbar-thumb]:bg-slate-700 [&::-webkit-scrollbar-thumb]:rounded-full">
                    {course.lessons.map(lesson => (
                      <div 
                        key={lesson.id} 
                        onClick={() => navigate(`/kanji/${course.id}/lesson/${lesson.id}`)}
-                       className={`bg-white dark:bg-slate-800 p-5 rounded-[1.5rem] border-2 border-slate-100 dark:border-slate-700 ${course.lessonHoverBorder} transition-all cursor-pointer group hover:-translate-y-1 shadow-sm hover:shadow-[0_10px_20px_rgb(0,0,0,0.04)] flex flex-col`}
+                       className={`bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-4 rounded-[20px] border border-slate-100 dark:border-slate-700 ${course.lessonHoverBorder} transition-all cursor-pointer group hover:-translate-y-1 shadow-sm hover:shadow-md flex items-center justify-between`}
                      >
-                       <div className="flex items-start gap-3 mb-3">
-                         <div className={`w-10 h-10 rounded-xl ${course.lessonIconBg} dark:bg-slate-700 ${course.lessonIconText} flex items-center justify-center shrink-0 border ${course.lessonIconBorder}`}>
-                           {lesson.id % 2 === 0 ? <BookOpen size={18} /> : <span className="font-jp font-bold text-base">漢</span>}
+                       <div className="flex items-center gap-4">
+                         <div className={`w-12 h-12 rounded-[14px] ${course.lessonIconBg} dark:bg-slate-700 ${course.lessonIconText} flex items-center justify-center shrink-0 border ${course.lessonIconBorder}`}>
+                           {lesson.id % 2 === 0 ? <BookOpen size={20} /> : <span className="font-jp font-bold text-lg">漢</span>}
                          </div>
-                         <div>
-                           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Lesson {lesson.id}</p>
-                           <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm leading-snug line-clamp-2">{lesson.title}</h4>
+                         <div className="flex flex-col">
+                           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Lesson {lesson.id}</p>
+                           <h4 className="font-bold text-slate-800 dark:text-slate-100 text-sm leading-snug line-clamp-1">{lesson.title}</h4>
                          </div>
                        </div>
                        
-                       {/* Card Footer */}
-                       <div className="mt-auto flex items-center justify-between border-t border-slate-50 dark:border-slate-700 pt-4">
-                         <div className="flex gap-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                           <span>{lesson.kanji} Hán tự</span>
-                           <span className="w-1 h-1 rounded-full bg-slate-300 self-center"></span>
-                           <span>{lesson.vocab} Từ vựng</span>
+                       <div className="flex items-center gap-4 shrink-0 ml-2">
+                         <div className="flex flex-col items-end gap-1">
+                           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{lesson.kanji} Kanji</span>
+                           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{lesson.vocab} Vocab</span>
                          </div>
-                         <div className={`w-6 h-6 rounded-full bg-slate-50 flex items-center justify-center ${course.arrowBgHover} text-slate-400 ${course.arrowTextHover} transition-colors`}>
-                           <ChevronRight size={14} />
+                         <div className={`w-8 h-8 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center ${course.arrowBgHover} text-slate-400 ${course.arrowTextHover} transition-colors border border-slate-100 dark:border-slate-700`}>
+                           <ChevronRight size={16} />
                          </div>
                        </div>
                      </div>

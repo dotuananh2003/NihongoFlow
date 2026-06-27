@@ -10,9 +10,18 @@ interface KanjiVocabTypingProps {
   onClose: () => void;
   kanjiChar?: string;
   mode?: 'kanji' | 'vocab';
+  isJPD123?: boolean;
 }
 
-export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, onClose, kanjiChar, mode = 'kanji' }) => {
+export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, onClose, kanjiChar, mode = 'kanji', isJPD123 = false }) => {
+  const theme = {
+    progressFill: isJPD123 ? 'bg-blue-600' : 'bg-rose-600',
+    btnGhost: isJPD123 ? 'bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 text-blue-500' : 'bg-rose-50 hover:bg-rose-100 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 text-rose-500',
+    inputBorder: isJPD123 ? 'border-blue-400/50 focus-within:border-blue-500' : 'border-rose-400/50 focus-within:border-rose-500',
+    cursorPulse: isJPD123 ? 'text-blue-400' : 'text-rose-400',
+    tabActive: isJPD123 ? 'border-blue-500 text-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'border-rose-500 text-rose-600 bg-rose-50 dark:bg-rose-900/20',
+    tabIcon: isJPD123 ? 'text-blue-500' : 'text-rose-500',
+  };
   const [shuffledVocabList, setShuffledVocabList] = useState<VocabExample[]>(() => {
     return [...vocabList].sort(() => Math.random() - 0.5);
   });
@@ -389,7 +398,7 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
             </div>
             <div className="w-48 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden hidden sm:block">
               <div 
-                className="h-full bg-blue-600 rounded-full transition-all duration-300"
+                className={`h-full rounded-full transition-all duration-300 ${theme.progressFill}`}
                 style={{ width: `${((currentIndex + 1) / vocabList.length) * 100}%` }}
               />
             </div>
@@ -436,7 +445,7 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
                 {mode === 'vocab' ? currentVocab?.meaning : currentVocab?.kanji}
               </div>
               
-              <button className="w-12 h-12 rounded-full bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 text-blue-500 flex items-center justify-center transition-colors">
+              <button className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${theme.btnGhost}`}>
                 <Volume2 size={24} />
               </button>
             </div>
@@ -446,10 +455,10 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
               <div className={`relative bg-white dark:bg-slate-900 rounded-2xl border-[3px] transition-all duration-300 ${
                 status === 'correct' ? 'border-emerald-400 shadow-[0_0_40px_rgba(52,211,153,0.3)]' :
                 status === 'wrong' ? 'border-rose-400 animate-shake shadow-[0_0_40px_rgba(251,113,133,0.3)]' :
-                'border-blue-400/50 focus-within:border-blue-500 shadow-lg'
+                `${theme.inputBorder} shadow-lg`
               }`}>
                 <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-                  <span className="text-blue-400 font-black animate-pulse">|</span>
+                  <span className={`font-black animate-pulse ${theme.cursorPulse}`}>|</span>
                 </div>
                 <input
                   ref={inputRef}
@@ -484,18 +493,18 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
                 <button 
                   onClick={() => { setImeMode('hira'); inputRef.current?.focus(); }}
                   className={`flex-1 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 border-2 transition-all ${
-                    imeMode === 'hira' ? 'border-blue-500 text-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'border-white dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:border-slate-200 shadow-sm'
+                    imeMode === 'hira' ? theme.tabActive : 'border-white dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:border-slate-200 shadow-sm'
                   }`}
                 >
-                  <span className="text-xl font-jp text-blue-500">あ</span> Hiragana
+                  <span className={`text-xl font-jp ${theme.tabIcon}`}>あ</span> Hiragana
                 </button>
                 <button 
                   onClick={() => { setImeMode('kata'); inputRef.current?.focus(); }}
                   className={`flex-1 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 border-2 transition-all ${
-                    imeMode === 'kata' ? 'border-blue-500 text-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'border-white dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:border-slate-200 shadow-sm'
+                    imeMode === 'kata' ? theme.tabActive : 'border-white dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:border-slate-200 shadow-sm'
                   }`}
                 >
-                  <span className="text-xl font-jp text-blue-500">ア</span> Katakana
+                  <span className={`text-xl font-jp ${theme.tabIcon}`}>ア</span> Katakana
                 </button>
               </div>
             </div>
