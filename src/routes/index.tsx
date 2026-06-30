@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Layout } from '../components/Layout/Layout';
 import { Home } from '../pages/Home/Home';
+import { Landing } from '../pages/Landing/Landing';
 import { Introduction } from '../pages/Introduction/Introduction';
 import { Kanji } from '../pages/Kanji/Kanji';
 import { KanjiLesson } from '../pages/Kanji/KanjiLesson';
@@ -23,6 +24,7 @@ import { TypingPage } from '../pages/Introduction/TypingPage';
 export const AppRoutes = () => {
   return (
     <Routes>
+      <Route path="/landing" element={<Landing />} />
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="introduction" element={<Introduction />} />

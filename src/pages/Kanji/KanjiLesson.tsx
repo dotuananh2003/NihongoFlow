@@ -88,7 +88,7 @@ export const KanjiLesson = () => {
   }
 
   return (
-    <div className="relative min-h-full pb-20 bg-[#FAF8F5] dark:bg-slate-950 font-sans">
+    <div className="relative min-h-full pb-20 bg-transparent font-sans">
       <div className="max-w-[1400px] mx-auto px-6 md:px-8 pt-8">
         
         {/* Header */}
@@ -188,8 +188,8 @@ export const KanjiLesson = () => {
               {kanjiList.map((kanji, idx) => (
                 <motion.div
                   key={kanji.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 25, delay: idx * 0.03 }}
                   onClick={() => {
                     if (isSelectMode) {
@@ -198,7 +198,7 @@ export const KanjiLesson = () => {
                       navigate(`/kanji/${courseId}/lesson/${lessonId}/${kanji.id}`);
                     }
                   }}
-                  className={`p-4 rounded-[1.5rem] border shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1 transition-all cursor-pointer flex items-center gap-5 group relative ${
+                  className={`p-4 rounded-[1.5rem] border shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgb(0,0,0,0.08)]  transition-all cursor-pointer flex items-center gap-5 group relative ${
                     isSelectMode && selectedKanjiIds.includes(kanji.id)
                       ? isJPD123 ? 'bg-blue-50 border-blue-400 dark:bg-blue-900/20 dark:border-blue-500' : 'bg-rose-50 border-rose-400 dark:bg-rose-900/20 dark:border-rose-500'
                       : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800'
@@ -240,8 +240,8 @@ export const KanjiLesson = () => {
 
               {otherVocab.length > 0 && (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 25, delay: kanjiList.length * 0.03 }}
                   onClick={() => {
                     if (isSelectMode) {
@@ -250,7 +250,7 @@ export const KanjiLesson = () => {
                       navigate(`/kanji/${courseId}/lesson/${lessonId}/other`);
                     }
                   }}
-                  className={`p-4 rounded-[1.5rem] border shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1 transition-all cursor-pointer flex items-center gap-5 group relative ${
+                  className={`p-4 rounded-[1.5rem] border shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_10px_30px_rgb(0,0,0,0.08)]  transition-all cursor-pointer flex items-center gap-5 group relative ${
                     isSelectMode && selectedKanjiIds.includes('other')
                       ? isJPD123 ? 'bg-blue-50 border-blue-400 dark:bg-blue-900/20 dark:border-blue-500' : 'bg-rose-50 border-rose-400 dark:bg-rose-900/20 dark:border-rose-500'
                       : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700'
@@ -323,8 +323,8 @@ export const KanjiLesson = () => {
                 ) : vocabList.map((vocab, idx) => (
                   <motion.div 
                     key={idx}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 25, delay: idx * 0.02 }}
                     className="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors flex items-center justify-between rounded-2xl mx-2 my-1"
                   >

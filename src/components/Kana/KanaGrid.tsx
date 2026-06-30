@@ -26,7 +26,7 @@ export const KanaGrid = ({ title, items, columns, colorClass }: KanaGridProps) =
           char.jp ? (
             <div 
               key={idx}
-              className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-1 hover:scale-105 transition-transform duration-300 cursor-pointer group will-change-transform transform-gpu relative overflow-hidden`}
+              className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-1 hover:scale-105 transition-transform duration-300 cursor-pointer group relative overflow-hidden`}
               onClick={(e) => playAudio(e, char.r)}
             >
               <span className={`text-2xl font-jp font-medium text-slate-800 dark:text-slate-100 transition-colors ${colorClass.replace('text-', 'group-hover:text-')}`}>{char.jp}</span>

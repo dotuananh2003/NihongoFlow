@@ -86,7 +86,7 @@ export const TypingPage = () => {
       grouped[grp].push(parseInt(idx, 10));
     }
     
-    let rawChars: any[] = [];
+    const rawChars: any[] = [];
     for (const grp of Object.keys(grouped)) {
       const chunks = getChunks(sys, grp);
       for (const idx of grouped[grp]) {
@@ -96,7 +96,7 @@ export const TypingPage = () => {
       }
     }
     
-    let shuffled = [...rawChars];
+    const shuffled = [...rawChars];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];

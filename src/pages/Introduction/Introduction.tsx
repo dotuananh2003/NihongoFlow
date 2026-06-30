@@ -119,7 +119,7 @@ const KanaGrid = ({ title, items, columns, colorClass }: { title: string, items:
           char.jp ? (
             <div 
               key={idx}
-              className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-1 hover:scale-105 transition-transform duration-300 cursor-pointer group will-change-transform transform-gpu relative overflow-hidden`}
+              className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-1 hover:scale-105 transition-transform duration-300 cursor-pointer group relative overflow-hidden`}
             >
               <span className={`text-2xl font-jp font-medium text-slate-800 dark:text-slate-100 transition-colors ${colorClass.replace('text-', 'group-hover:text-')}`}>{char.jp}</span>
               <span className="text-[10px] font-semibold text-slate-400 mt-0.5">{char.r}</span>
@@ -466,8 +466,8 @@ export const Introduction = () => {
   return (
     <div className="space-y-6 pb-12 relative min-h-full">
       {/* Background Decor */}
-      <div className="absolute top-0 right-0 left-0 h-64 pointer-events-none opacity-60 z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-rose-100/50 via-transparent to-transparent transform-gpu will-change-transform">
-         <div className="absolute right-64 top-4 w-32 h-32 bg-rose-200/40 rounded-full blur-xl transform-gpu will-change-transform"></div>
+      <div className="absolute top-0 right-0 left-0 h-64 pointer-events-none opacity-60 z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-rose-100/50 via-transparent to-transparent">
+         <div className="absolute right-64 top-4 w-32 h-32 bg-rose-200/40 rounded-full blur-xl"></div>
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto pt-8">

@@ -88,25 +88,7 @@ export const Header = () => {
       {/* Right: Actions */}
       <div className="flex items-center gap-4 md:gap-6 ml-auto">
         
-        {/* Goal Button */}
-        <button className="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-full bg-white dark:bg-slate-900 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors font-bold text-sm font-jp border border-rose-100 dark:border-rose-500/20 shadow-sm">
-          <Target size={18} strokeWidth={2.5} />
-          <span>Mục tiêu hôm nay</span>
-        </button>
 
-        {/* Theme Toggles */}
-        <button
-          onClick={() => setIsDarkMode(false)}
-          className={`p-3 rounded-full transition-all duration-300 shadow-sm border border-slate-100 dark:border-slate-800 ${!isDarkMode ? 'bg-white text-[var(--primary)]' : 'bg-white dark:bg-slate-900 text-slate-400 hover:text-slate-600'}`}
-        >
-          <Sun size={20} strokeWidth={2.5} />
-        </button>
-        <button
-          onClick={() => setIsDarkMode(true)}
-          className={`p-3 rounded-full transition-all duration-300 shadow-sm border border-slate-100 dark:border-slate-800 ${isDarkMode ? 'bg-slate-800 text-[var(--primary)]' : 'bg-white text-slate-400 hover:text-slate-600'}`}
-        >
-          <Moon size={20} strokeWidth={2.5} />
-        </button>
 
         {/* Notification */}
         <button className="relative p-3 rounded-full bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] transition-all shadow-sm border border-slate-100 dark:border-slate-800">

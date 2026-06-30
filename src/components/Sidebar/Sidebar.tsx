@@ -36,7 +36,7 @@ export const Sidebar = () => {
       initial={false}
       animate={{ width: isCollapsed ? 80 : 260 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="relative flex flex-col bg-white dark:bg-slate-900 rounded-[24px] z-20 shrink-0 shadow-sm border border-slate-100 dark:border-slate-800 will-change-transform transform-gpu h-full overflow-hidden"
+      className="relative flex flex-col bg-white dark:bg-slate-900 rounded-[24px] z-20 shrink-0 shadow-sm border border-slate-100 dark:border-slate-800 h-full overflow-hidden"
     >
       <div className={`absolute top-0 left-0 right-0 z-30 flex items-center h-20 border-b border-slate-100/50 dark:border-slate-800/50 bg-white/40 dark:bg-slate-900/40 backdrop-blur-md transition-all ${isCollapsed ? 'justify-center p-0' : 'gap-3 px-5 py-3'}`}>
         <div className={`shrink-0 flex items-center justify-center ${isCollapsed ? '' : 'pl-1'}`}>
@@ -96,7 +96,7 @@ export const Sidebar = () => {
                     />
                   )}
                   
-                  <div className={`relative z-10 w-10 h-10 flex items-center justify-center rounded-xl transition-transform duration-300 will-change-transform group-hover:scale-110 ${isActive ? 'bg-[var(--primary)]/10 text-[var(--primary)] scale-110' : ''}`}>
+                  <div className={`relative z-10 w-10 h-10 flex items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${isActive ? 'bg-[var(--primary)]/10 text-[var(--primary)] scale-110' : ''}`}>
                     <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
                   </div>
 

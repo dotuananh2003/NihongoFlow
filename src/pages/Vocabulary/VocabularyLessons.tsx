@@ -41,7 +41,8 @@ export const VocabularyLessons = () => {
   ];
 
   return (
-    <div className="max-w-[1400px] mx-auto pt-8 pb-20 px-4 relative min-h-[calc(100vh-80px)]">
+    <>
+      <div className="max-w-[1400px] mx-auto pt-8 pb-20 px-4 relative min-h-[calc(100vh-80px)]">
       {/* Background aesthetics */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-300/10 rounded-full blur-[100px] pointer-events-none -z-10" />
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none -z-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, slate-400 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
@@ -99,7 +100,7 @@ export const VocabularyLessons = () => {
                         {lesson.title}
                       </h3>
                       <p className="text-xs font-medium text-slate-500 dark:text-slate-400 px-2 leading-relaxed">
-                        {/* @ts-ignore */}
+                        {/* @ts-expect-error type error */}
                         {lesson.desc || `${lesson.total} từ vựng`}
                       </p>
                     </div>
@@ -119,5 +120,6 @@ export const VocabularyLessons = () => {
         })}
       </div>
     </div>
+    </>
   );
 };

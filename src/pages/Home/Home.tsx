@@ -98,7 +98,7 @@ export const Home = () => {
           <div className="absolute right-0 bottom-0 top-0 w-1/2 pointer-events-none opacity-80 mix-blend-multiply dark:mix-blend-screen hidden md:block">
              <div className="absolute inset-0 bg-gradient-to-l from-rose-100/40 to-transparent"></div>
              {/* Sun */}
-             <div className="absolute right-64 top-4 w-32 h-32 bg-rose-200/40 rounded-full blur-xl transform-gpu will-change-transform"></div>
+             <div className="absolute right-64 top-4 w-32 h-32 bg-rose-200/40 rounded-full blur-xl"></div>
              <div className="absolute right-40 top-20 w-24 h-24 rounded-full bg-rose-400 shadow-[0_0_50px_rgba(251,113,133,0.6)]"></div>
              {/* Abstract Torii / Fuji placeholder */}
              <svg className="absolute bottom-0 right-10 w-64 h-64 text-rose-900/10 dark:text-rose-200/5" viewBox="0 0 24 24" fill="currentColor">
@@ -111,7 +111,7 @@ export const Home = () => {
       {/* 2. STATS CARDS */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {/* Card 1: Kanji */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 hover:-translate-y-1 transition-transform duration-300 will-change-transform transform-gpu">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 hover:-translate-y-1 transition-transform duration-300">
           <div className="flex justify-between items-start mb-3">
             <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center text-2xl font-jp font-bold">字</div>
             <div className="text-right">
@@ -129,7 +129,7 @@ export const Home = () => {
         </div>
 
         {/* Card 2: Vocab */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 border-b-4 border-b-blue-500 hover:-translate-y-1 transition-transform duration-300 will-change-transform transform-gpu">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 border-b-4 border-b-blue-500 hover:-translate-y-1 transition-transform duration-300">
           <div className="flex justify-between items-start mb-3">
             <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center"><BookOpen size={20} strokeWidth={2.5}/></div>
             <div className="text-right">
@@ -147,7 +147,7 @@ export const Home = () => {
         </div>
 
         {/* Card 3: Grammar */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 border-b-4 border-b-emerald-500 hover:-translate-y-1 transition-transform duration-300 will-change-transform transform-gpu">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 border-b-4 border-b-emerald-500 hover:-translate-y-1 transition-transform duration-300">
           <div className="flex justify-between items-start mb-3">
             <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center"><Brain size={22} strokeWidth={2.5}/></div>
             <div className="text-right">
@@ -165,7 +165,7 @@ export const Home = () => {
         </div>
 
         {/* Card 4: Streak */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 hover:-translate-y-1 transition-transform duration-300 will-change-transform transform-gpu">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 hover:-translate-y-1 transition-transform duration-300">
           <div className="flex justify-between items-start mb-3">
             <div className="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center"><Flame size={24} strokeWidth={2.5}/></div>
             <div className="text-right">
@@ -184,7 +184,7 @@ export const Home = () => {
         </div>
 
         {/* Card 5: JLPT */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 border-b-4 border-b-indigo-500 hover:-translate-y-1 transition-transform duration-300 will-change-transform transform-gpu">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 border-b-4 border-b-indigo-500 hover:-translate-y-1 transition-transform duration-300">
           <div className="flex justify-between items-start mb-3">
             <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center"><Target size={22} strokeWidth={2.5}/></div>
             <div className="text-right">

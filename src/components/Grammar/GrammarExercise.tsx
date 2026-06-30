@@ -148,7 +148,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
         
         const particlesInSentence = PARTICLES.filter(p => ex.japanese.includes(p));
         
-        let pool = Array.from(new Set([...particlesInSentence, ...vocabInSentence]));
+        const pool = Array.from(new Set([...particlesInSentence, ...vocabInSentence]));
         if (grammarPoint.icon && ex.japanese.includes(grammarPoint.icon) && !pool.includes(grammarPoint.icon)) {
           pool.push(grammarPoint.icon);
         }
@@ -182,7 +182,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
           attempts++;
           const distractor = selectedTargets.map(t => {
             if (PARTICLES.includes(t)) {
-               let randP = PARTICLES[Math.floor(Math.random() * PARTICLES.length)];
+               const randP = PARTICLES[Math.floor(Math.random() * PARTICLES.length)];
                return randP;
             } else {
                const randVocab = vocabList[Math.floor(Math.random() * vocabList.length)];
@@ -306,7 +306,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
       if (imeMode === 'hira') {
         setTextInput(toHiragana(val, { IMEMode: true }));
       } else {
-        let preVal = val.replace(/ディ/g, 'di').replace(/ティ/g, 'ti');
+        const preVal = val.replace(/ディ/g, 'di').replace(/ティ/g, 'ti');
         let romaji = toRomaji(preVal);
         romaji = romaji.replace(/([aiueo])\1/g, '$1-');
         setTextInput(toKatakana(romaji, { IMEMode: true, customKanaMapping: { di: 'ディ', ti: 'ティ' } }));

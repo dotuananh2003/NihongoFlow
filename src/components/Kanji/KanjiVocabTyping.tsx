@@ -124,17 +124,17 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
     
     // Auto convert based on imeMode
     if (imeMode === 'hira') {
-      setInput(toHiragana(val, { IMEMode: true }));
+      setInput(toHiragana(val, { IMEMode: true }).replace(/・/g, '/'));
     } else {
       // Preserve special kana before they are lossily converted by toRomaji
-      let preVal = val.replace(/ディ/g, 'di').replace(/ティ/g, 'ti');
+      const preVal = val.replace(/ディ/g, 'di').replace(/ティ/g, 'ti');
       let romaji = toRomaji(preVal);
       // Auto convert double vowels (aa, ii, uu, ee, oo) to a hyphen to naturally produce Katakana long vowels
       romaji = romaji.replace(/([aiueo])\1/g, '$1-');
       setInput(toKatakana(romaji, { 
         IMEMode: true,
         customKanaMapping: { di: 'ディ', ti: 'ティ' }
-      }));
+      }).replace(/・/g, '/'));
     }
     setStatus(null);
   };
@@ -166,13 +166,13 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
   const checkAnswer = () => {
     if (!currentVocab) return;
     
-    // Normalize full-width tilde and wave dash to half-width tilde for comparison
-    const normalizeTilde = (str: string) => str.replace(/[～〜]/g, '~');
-    const cleanInput = normalizeTilde(input.trim().toLowerCase());
-    const targetHira = normalizeTilde(toHiragana(currentVocab.hiragana));
-    const targetKata = normalizeTilde(toKatakana(currentVocab.hiragana));
-    const targetRoma = normalizeTilde(getRomajiHint(currentVocab));
-    const inputRoma = normalizeTilde(toRomaji(cleanInput).toLowerCase());
+    // Normalize full-width tilde and slashes for comparison
+    const normalizeChars = (str: string) => str.replace(/[～〜]/g, '~').replace(/[／・]/g, '/');
+    const cleanInput = normalizeChars(input.trim().toLowerCase());
+    const targetHira = normalizeChars(toHiragana(currentVocab.hiragana));
+    const targetKata = normalizeChars(toKatakana(currentVocab.hiragana));
+    const targetRoma = normalizeChars(getRomajiHint(currentVocab));
+    const inputRoma = normalizeChars(toRomaji(cleanInput).toLowerCase());
 
     const isCorrect = cleanInput === targetHira || cleanInput === targetKata || cleanInput === targetRoma || inputRoma === targetRoma;
 

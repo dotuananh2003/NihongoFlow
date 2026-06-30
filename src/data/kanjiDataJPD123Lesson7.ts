@@ -157,8 +157,7 @@ export const kanjiLesson7JPD123: KanjiDetail[] = [
     jlpt: 'JPD123',
     mnemonic: 'Chữ Liêu (料) ghép từ bộ Mễ (米 - gạo) và chữ Đẩu (斗 - cái đấu đong lường). Lấy cái đấu (斗) để đong đếm gạo (米) làm "nguyên liệu" hoặc trả "chi phí".',
     vocab: [
-      { kanji: '料金', hiragana: 'りょうきん', meaning: 'tiền phí' },
-      { kanji: '料理', hiragana: 'りょうり', meaning: 'món ăn' }
+      { kanji: '料金', hiragana: 'りょうきん', meaning: 'tiền phí' }
     ],
     radicalTree: {
       char: '料',
@@ -264,5 +263,16 @@ export const vocabLesson7JPD123: VocabExample[] = [
   { kanji: '小さい', hiragana: 'ちいさい', meaning: 'bé, nhỏ' },
   { kanji: '小学校', hiragana: 'しょうがっこう', meaning: 'Trường tiểu học' },
   { kanji: '小学生', hiragana: 'しょうがくせい', meaning: 'học sinh tiểu học' },
-  { kanji: '小人', hiragana: 'こびと', meaning: 'đứa trẻ, người tí hon' }
+  { kanji: '小人', hiragana: 'こびと', meaning: 'đứa trẻ, người tí hon' },
+  { kanji: 'お寺', hiragana: 'おてら', meaning: 'chùa' },
+  { kanji: '言います', hiragana: 'いいます', meaning: 'nói' },
+  { kanji: '言語', hiragana: 'げんご', meaning: 'ngôn ngữ' },
+  { kanji: '言葉', hiragana: 'ことば', meaning: 'từ vựng' },
+  { kanji: '貝', hiragana: 'かい', meaning: 'con sò' },
+  { kanji: '田んぼ', hiragana: 'たんぼ', meaning: 'cánh đồng' },
+  { kanji: '水田', hiragana: 'すいでん', meaning: 'cánh đồng lúa nước' },
+  { kanji: '力', hiragana: 'ちから', meaning: 'sức lực' },
+  { kanji: '水力', hiragana: 'すいりょく', meaning: 'sức nước' },
+  { kanji: '火力', hiragana: 'かりょく', meaning: 'công suất nhiệt, hỏa lực' },
+  { kanji: '門', hiragana: 'もん', meaning: 'cổng, cửa' }
 ];

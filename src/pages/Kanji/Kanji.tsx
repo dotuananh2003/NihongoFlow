@@ -59,10 +59,10 @@ const COURSES = [
     arrowTextHover: 'group-hover:text-blue-500',
     progress: 0,
     lessons: [
-      { id: 4, title: 'Địa điểm và Phương hướng', kanji: 10, vocab: 15 },
-      { id: 5, title: 'Hành động và Nghỉ ngơi', kanji: 12, vocab: 31 },
-      { id: 6, title: 'Giao tiếp và Sinh hoạt', kanji: 9, vocab: 42 },
-      { id: 7, title: 'Tự nhiên và Cơ bản', kanji: 11, vocab: 22 },
+      { id: 4, title: 'Địa điểm và Phương hướng', kanji: 10, vocab: 16 },
+      { id: 5, title: 'Hành động và Nghỉ ngơi', kanji: 12, vocab: 30 },
+      { id: 6, title: 'Giao tiếp và Sinh hoạt', kanji: 9, vocab: 56 },
+      { id: 7, title: 'Tự nhiên và Cơ bản', kanji: 11, vocab: 33 },
     ]
   }
 ];
@@ -72,14 +72,14 @@ export const Kanji = () => {
   const [isTipsOpen, setIsTipsOpen] = useState(false);
 
   return (
-    <div className="relative min-h-full pb-20 overflow-hidden bg-slate-50 dark:bg-slate-950 font-sans">
+    <div className="relative min-h-full pb-20 overflow-hidden bg-transparent font-sans">
       
       {/* =========================================
           BACKGROUND DECORATION (JAPANESE THEME)
       ========================================= */}
       {/* Grid Pattern */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.4] dark:opacity-[0.1] transform-gpu" 
+        className="absolute inset-0 pointer-events-none opacity-[0.4] dark:opacity-[0.1] transform-gpu z-0" 
         style={{ backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '32px 32px' }}
       ></div>
 
@@ -105,7 +105,7 @@ export const Kanji = () => {
         
         {/* Header */}
         <motion.div 
-          initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}
           className="mb-8"
         >
           <div className="flex items-center gap-4 mb-3">
@@ -121,8 +121,8 @@ export const Kanji = () => {
 
         {/* Global Stats Dashboard */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.05 }}
-          className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 mb-12 flex overflow-x-auto transform-gpu will-change-transform"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.05 }}
+          className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800 mb-12 flex overflow-x-auto"
         >
           <div className="flex gap-4 md:gap-8 divide-x divide-slate-200 dark:divide-slate-800 w-full justify-between pb-2 md:pb-0">
             <div className="flex items-center gap-4 px-2 md:px-4 min-w-max">
@@ -163,8 +163,8 @@ export const Kanji = () => {
           {COURSES.map((course, idx) => (
             <motion.div
               key={course.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.1 + idx * 0.05 }}
               className="flex flex-col lg:flex-row items-start gap-4"
             >
@@ -201,7 +201,7 @@ export const Kanji = () => {
               </div>
 
               {/* Right Side: Learning Path / Lessons */}
-              <div className="flex-1 bg-white dark:bg-slate-900 rounded-3xl p-4 lg:p-5 border border-slate-200 dark:border-slate-800 shadow-sm transform-gpu will-change-transform">
+              <div className="flex-1 bg-white dark:bg-slate-900 rounded-3xl p-4 lg:p-5 border border-slate-200 dark:border-slate-800 shadow-sm">
                  {/* Header Row */}
                  <div className="flex justify-between items-start mb-4">
                    <div>
@@ -221,7 +221,7 @@ export const Kanji = () => {
                      <div 
                        key={lesson.id} 
                        onClick={() => navigate(`/kanji/${course.id}/lesson/${lesson.id}`)}
-                       className={`bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-4 rounded-[20px] border border-slate-100 dark:border-slate-700 ${course.lessonHoverBorder} transition-all cursor-pointer group hover:-translate-y-1 shadow-sm hover:shadow-md flex items-center justify-between`}
+                       className={`bg-white/80 dark:bg-slate-800/80  p-4 rounded-[20px] border border-slate-100 dark:border-slate-700 ${course.lessonHoverBorder} transition-all cursor-pointer group  shadow-sm hover:shadow-md flex items-center justify-between`}
                      >
                        <div className="flex items-center gap-4">
                          <div className={`w-12 h-12 rounded-[14px] ${course.lessonIconBg} dark:bg-slate-700 ${course.lessonIconText} flex items-center justify-center shrink-0 border ${course.lessonIconBorder}`}>
@@ -252,7 +252,7 @@ export const Kanji = () => {
         </div>
 
         {/* Footer info/tips */}
-        <div className="mt-12 mb-8 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm transition-all duration-300 transform-gpu will-change-transform">
+        <div className="mt-12 mb-8 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm transition-all duration-300">
           <div 
             className="p-6 flex items-center gap-4 cursor-pointer hover:bg-white/60 dark:hover:bg-slate-800/50 transition-colors"
             onClick={() => setIsTipsOpen(!isTipsOpen)}

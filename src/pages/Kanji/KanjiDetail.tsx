@@ -13,7 +13,7 @@ import { kanjiLesson7JPD123, vocabLesson7JPD123 } from '../../data/kanjiDataJPD1
 import { KanjiStrokeCanvas } from '../../components/Kanji/KanjiStrokeCanvas';
 import { KanjiVocabTyping } from '../../components/Kanji/KanjiVocabTyping';
 
-const RadicalTree = ({ node, theme }: { node?: RadicalNode, theme: any }) => {
+const RadicalTree = ({ node, theme }: { node?: RadicalNode, theme: Record<string, string> }) => {
   if (!node) return null;
 
   return (
@@ -98,6 +98,7 @@ export const KanjiDetail = () => {
       const otherVocab = vocabList.filter(vocab => {
         return !kanjiList.some(kanji => vocab.kanji.includes(kanji.char));
       });
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setKanjiData({
         id: 'other',
         char: '…',
@@ -154,7 +155,7 @@ export const KanjiDetail = () => {
   });
 
   return (
-    <div className="relative min-h-full pb-20 bg-[#FAF8F5] dark:bg-slate-950 font-sans">
+    <div className="relative min-h-full pb-20 bg-transparent font-sans">
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 pt-4">
 
         {/* Header */}
@@ -193,7 +194,7 @@ export const KanjiDetail = () => {
 
         {/* Hero Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}
           className="flex items-center gap-3 mb-3"
         >
           <div className="text-4xl font-jp font-medium text-slate-800 dark:text-slate-100">{kanjiData.char}</div>
@@ -208,7 +209,7 @@ export const KanjiDetail = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {kanjiData.radicalTree && kanjiId !== 'other' && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.05 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.05 }}
               className="bg-white dark:bg-slate-900 rounded-[2rem] p-4 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col"
             >
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">BỘ THỦ / THÀNH PHẦN</h3>
@@ -220,7 +221,7 @@ export const KanjiDetail = () => {
 
           {kanjiId !== 'other' && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.1 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.1 }}
               className="bg-white dark:bg-slate-900 rounded-[2rem] p-4 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col items-center"
             >
               <KanjiStrokeCanvas character={kanjiData.char} totalStrokes={kanjiData.strokes} theme={theme} />
@@ -229,7 +230,7 @@ export const KanjiDetail = () => {
 
           <div className="flex flex-col gap-3">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.15 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.15 }}
               className="bg-white dark:bg-slate-900 rounded-[2rem] p-4 shadow-sm border border-slate-200 dark:border-slate-800 relative"
             >
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">THÔNG TIN CHI TIẾT</h3>
@@ -267,7 +268,7 @@ export const KanjiDetail = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.2 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.2 }}
               className={`rounded-[2rem] p-4 border flex flex-col ${theme.bgLight} ${theme.borderLight}`}
             >
               <div className={`flex items-center gap-2 mb-1 font-bold text-xs uppercase tracking-wider ${theme.text}`}>
@@ -282,7 +283,7 @@ export const KanjiDetail = () => {
 
         {/* Block 6: Vocabulary containing this Kanji */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.25 }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.25 }}
           className="mt-4"
         >
           <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 mb-3">
