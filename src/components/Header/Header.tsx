@@ -1,17 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { 
-  Moon, Sun, Search, Bell, Target, ChevronDown, User, LogOut,
+  Search, Bell, ChevronDown, User, LogOut,
   UserCircle, ClipboardList, FolderCheck, Bookmark, BookOpen, History,
   Globe, Volume2, RefreshCw, HelpCircle, MessageSquare, Flame, Camera, X
 } from 'lucide-react';
 
 export const Header = () => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return document.documentElement.classList.contains('dark');
-    }
-    return false;
-  });
+
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -62,13 +57,7 @@ export const Header = () => {
     </button>
   );
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
+
 
   return (
     <header className="h-20 flex items-center justify-between px-8 bg-transparent z-10 w-full shrink-0">

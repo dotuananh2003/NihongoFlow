@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { ArrowRight, BookOpen, Brain, Flame, Sparkles, Target, Keyboard, Play } from 'lucide-react';
+import { ArrowRight, BookOpen, Flame, Sparkles, Target, Keyboard, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Landing = () => {
