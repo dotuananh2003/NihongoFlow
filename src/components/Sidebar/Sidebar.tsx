@@ -11,8 +11,7 @@ import {
   FileText,
   ArrowLeftToLine,
   ArrowRightToLine,
-  Home,
-  BookOpen
+  Home
 } from 'lucide-react';
 import { ToriiGate } from '../Icons/ToriiGate';
 
