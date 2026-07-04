@@ -275,7 +275,7 @@ const KanaQuiz = ({
       </div>
 
       {/* Grid Body */}
-      <div className="flex-1 overflow-y-auto p-6 md:p-8 transform-gpu">
+      <div className="flex-1 overflow-y-auto p-6 md:p-8">
         <div className="max-w-[1200px] mx-auto grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 md:gap-6 pb-20">
           {validChars.map((char: any, idx: number) => {
              const st = status[idx];
@@ -627,7 +627,7 @@ export const Introduction = () => {
               {/* VIEW 2: FULL LEARNING GRID */}
               {viewState === 'learning' && (
                 <div className="flex flex-col flex-1 min-h-0 w-full bg-[#FAF8F5] dark:bg-slate-950">
-                  <div className="flex items-center justify-between px-8 py-6 border-b border-slate-200 dark:border-slate-800 bg-[#FAF8F5] dark:bg-slate-950 sticky top-0 z-20 transform-gpu">
+                  <div className="flex items-center justify-between px-8 py-6 border-b border-slate-200 dark:border-slate-800 bg-[#FAF8F5] dark:bg-slate-950 sticky top-0 z-20">
                     <div className="flex items-center gap-4">
                       <div className={`w-12 h-12 rounded-full text-white flex items-center justify-center text-2xl font-jp font-bold shadow-md bg-${sysColor}-500 shadow-${sysColor}-500/30`}>
                         {activeModal === 'hiragana' ? 'あ' : 'ア'}
@@ -642,7 +642,7 @@ export const Introduction = () => {
                     </button>
                   </div>
                   
-                  <div className="flex-1 overflow-y-auto p-6 md:p-8 relative scrollbar-hide transform-gpu">
+                  <div className="flex-1 overflow-y-auto p-6 md:p-8 relative scrollbar-hide">
                     <div className="max-w-[1000px] mx-auto grid grid-cols-1 xl:grid-cols-2 gap-8 xl:gap-16">
                         <div className="space-y-6">
                           <KanaGrid title="1. Chữ cơ bản (Seion)" items={(kanaData[activeModal] as any).seion} columns={5} colorClass={`text-${sysColor}-500`} />

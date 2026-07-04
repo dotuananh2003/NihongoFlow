@@ -1,54 +1,31 @@
 import { motion } from 'framer-motion';
-import { Flame, Target, BookOpen, Brain, Sparkles, ChevronRight, CheckCircle2, ChevronDown } from 'lucide-react';
-import { ToriiGate } from '../../components/Icons/ToriiGate';
+import { 
+  Sparkles, Play, BookOpen, Brain, Mic, 
+  ArrowRight, Lightbulb, Zap, BookMarked, Target
+} from 'lucide-react';
 
-// --- Dummy Data ---
-const activities = [
-  { id: 1, title: 'Ôn tập 20 từ vựng', sub: 'Đã hoàn thành 12/20', progress: 60, color: 'text-blue-500', bg: 'bg-blue-50' },
-  { id: 2, title: 'Học 5 kanji mới', sub: 'Đã hoàn thành 3/5', progress: 60, color: 'text-emerald-500', bg: 'bg-emerald-50' },
-  { id: 3, title: 'Luyện ngữ pháp N5', sub: 'Đã hoàn thành 1/3', progress: 33, color: 'text-orange-500', bg: 'bg-orange-50' },
-  { id: 4, title: 'Luyện nói 10 phút', sub: 'Đã hoàn thành 0/1', progress: 0, color: 'text-indigo-500', bg: 'bg-indigo-50' },
+const quickModules = [
+  { id: 'vocab', title: 'Từ vựng', icon: <div className="w-12 h-12 rounded-[14px] bg-rose-50 dark:bg-rose-500/10 text-rose-500 flex items-center justify-center group-hover:scale-110 transition-transform"><BookOpen size={24} /></div>, items: ['Học Flashcard', 'Trắc nghiệm', 'Ôn tập', 'Luyện gõ từ vựng'] },
+  { id: 'kanji', title: 'Hán tự', icon: <div className="w-12 h-12 rounded-[14px] bg-blue-50 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform"><BookMarked size={24} /></div>, items: ['Kanji', 'Flashcard', 'Bộ thủ', 'Viết'] },
+  { id: 'grammar', title: 'Ngữ pháp', icon: <div className="w-12 h-12 rounded-[14px] bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform"><Brain size={24} /></div>, items: ['Cấu trúc', 'Ví dụ', 'Luyện tập'] },
+  { id: 'speaking', title: 'Luyện nói', icon: <div className="w-12 h-12 rounded-[14px] bg-purple-50 dark:bg-purple-500/10 text-purple-500 flex items-center justify-center group-hover:scale-110 transition-transform"><Mic size={24} /></div>, items: ['Shadowing', 'Phát âm', 'Hội thoại'] },
+  { id: 'jlpt', title: 'Thi JLPT', icon: <div className="w-12 h-12 rounded-[14px] bg-amber-50 dark:bg-amber-500/10 text-amber-500 flex items-center justify-center group-hover:scale-110 transition-transform"><Target size={24} /></div>, items: ['Mini Test', 'Mock Test', 'N5'] },
 ];
 
-const weeklyStats = [
-  { day: 'T2', value: 35 },
-  { day: 'T3', value: 60 },
-  { day: 'T4', value: 30 },
-  { day: 'T5', value: 55 },
-  { day: 'T6', value: 75 },
-  { day: 'T7', value: 90 },
-  { day: 'CN', value: 20 },
+
+
+const discoveries = [
+  { id: 1, title: 'Từ vựng', desc: 'Học từ vựng qua hình ảnh và flashcard', bg: 'bg-rose-50', color: 'text-rose-500', icon: <BookOpen size={24} /> },
+  { id: 2, title: 'Kanji', desc: 'Nhớ Kanji lâu hơn với hệ thống bộ thủ', bg: 'bg-blue-50', color: 'text-blue-500', icon: <BookMarked size={24} /> },
+  { id: 3, title: 'Ngữ pháp', desc: 'Hàng ngàn cấu trúc ngữ pháp thực tế', bg: 'bg-emerald-50', color: 'text-emerald-500', icon: <Brain size={24} /> },
+  { id: 4, title: 'Luyện nói', desc: 'Thực hành giao tiếp tiếng Nhật mỗi ngày', bg: 'bg-purple-50', color: 'text-purple-500', icon: <Mic size={24} /> },
 ];
 
-const suggestions = [
-  { id: 1, title: 'Học kanji theo bộ thủ', sub: 'Học hiệu quả hơn', icon: '字', color: 'text-rose-500', bg: 'bg-rose-50' },
-  { id: 2, title: 'Từ vựng N5', sub: 'Phù hợp với trình độ của bạn', icon: <BookOpen size={20}/>, color: 'text-blue-500', bg: 'bg-blue-50' },
-  { id: 3, title: 'Luyện phát âm', sub: 'Cải thiện kỹ năng nói', icon: '🎤', color: 'text-purple-500', bg: 'bg-purple-50' },
-  { id: 4, title: 'Thi thử JLPT N5', sub: 'Kiểm tra trình độ', icon: '📝', color: 'text-indigo-500', bg: 'bg-indigo-50' },
+const tips = [
+  { id: 1, title: 'Ví dụ', desc: 'Cách dùng mẫu câu "~てもいいですか" trong thực tế.' },
+  { id: 2, title: 'Kanji mỗi ngày', desc: 'Chữ 「食」 (Thực) - Khám phá Kanji về ăn uống.' },
+  { id: 3, title: 'Ngữ pháp hôm nay', desc: 'Phân biệt "は" và "が" chi tiết và dễ hiểu nhất.' },
 ];
-
-// --- Sub Components ---
-const CircularProgress = ({ value, color }: { value: number, color: string }) => {
-  const radius = 16;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (value / 100) * circumference;
-  
-  return (
-    <div className="relative w-10 h-10 flex items-center justify-center">
-      <svg className="transform -rotate-90 w-10 h-10">
-        <circle cx="20" cy="20" r={radius} stroke="currentColor" strokeWidth="3" fill="transparent" className="text-slate-100 dark:text-slate-800" />
-        <circle 
-          cx="20" cy="20" r={radius} 
-          stroke="currentColor" strokeWidth="3" fill="transparent" 
-          strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} 
-          className={`${color} transition-all duration-1000 ease-out`} 
-          strokeLinecap="round"
-        />
-      </svg>
-      <span className={`absolute text-[10px] font-bold ${color}`}>{value}%</span>
-    </div>
-  );
-};
 
 export const Home = () => {
   // Dynamically load any image from the welcome folder
@@ -56,317 +33,139 @@ export const Home = () => {
   const imageUrls = Object.values(welcomeImages) as string[];
   const bgUrl = imageUrls.length > 0 ? imageUrls[0] : null;
 
-  // Dynamically load any image from the learning-path folder
-  const learningImages = import.meta.glob('../../assets/images/learning-path/*', { eager: true, import: 'default' });
-  const learningImageUrls = Object.values(learningImages) as string[];
-  const bgUrlLearning = learningImageUrls.length > 0 ? learningImageUrls[0] : null;
-
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-12 pb-8 max-w-[1400px] mx-auto pt-2">
       {/* 1. HERO BANNER */}
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden bg-white dark:bg-slate-900 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 dark:border-slate-800"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="relative overflow-hidden bg-slate-900 rounded-[24px] shadow-[0_10px_40px_rgba(15,23,42,0.1)] h-[320px] md:h-[360px]"
       >
-        {/* Background Image that dictates the height of the banner */}
         {bgUrl && (
           <img 
             src={bgUrl} 
             alt="Hero Banner" 
-            className="w-full h-auto object-contain block"
+            className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
           />
         )}
+        {/* Soft dark gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent"></div>
 
-        {/* Content Container (Absolute to sit on top of the image) */}
-        <div className={`absolute inset-0 p-8 md:p-12 flex flex-col justify-center ${!bgUrl ? 'relative min-h-[250px]' : ''}`}>
-          {/* Overlay for text readability if image exists */}
-          {bgUrl && <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/40 to-transparent dark:from-slate-900/90 dark:via-slate-900/40 dark:to-transparent z-0"></div>}
-
-          <div className="relative z-10 max-w-xl">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-800 dark:text-slate-100 mb-4 font-jp flex items-center gap-3">
-              おかえりなさい！ <Sparkles className="text-rose-400" size={32} />
-            </h2>
-            <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 font-medium">
-              Chúc bạn một ngày học tập hiệu quả!
-            </p>
-          </div>
-        </div>
-        
-        {/* Background Decorative Illustration via pure CSS/SVG (Hide if bgUrl exists) */}
-        {!bgUrl && (
-          <div className="absolute right-0 bottom-0 top-0 w-1/2 pointer-events-none opacity-80 mix-blend-multiply dark:mix-blend-screen hidden md:block">
-             <div className="absolute inset-0 bg-gradient-to-l from-rose-100/40 to-transparent"></div>
-             {/* Sun */}
-             <div className="absolute right-64 top-4 w-32 h-32 bg-rose-200/40 rounded-full blur-xl"></div>
-             <div className="absolute right-40 top-20 w-24 h-24 rounded-full bg-rose-400 shadow-[0_0_50px_rgba(251,113,133,0.6)]"></div>
-             {/* Abstract Torii / Fuji placeholder */}
-             <svg className="absolute bottom-0 right-10 w-64 h-64 text-rose-900/10 dark:text-rose-200/5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M4 6h16v2H4zm-1 0l1-2h16l1 2v2H3zm3 2v14h2V8zm10 0v14h2V8zM6 11h12v2H6zm6-5v5h2V6z" />
-             </svg>
-          </div>
-        )}
-      </motion.div>
-
-      {/* 2. STATS CARDS */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {/* Card 1: Kanji */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 hover:-translate-y-1 transition-transform duration-300">
-          <div className="flex justify-between items-start mb-3">
-            <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center text-2xl font-jp font-bold">字</div>
-            <div className="text-right">
-              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Hán tự đã học</p>
-              <div className="flex items-baseline gap-1 justify-end">
-                <span className="text-2xl font-black text-slate-800 dark:text-slate-100">245</span>
-                <span className="text-xs text-slate-400 font-medium">/ 2.136</span>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 mt-4">
-            <div className="bg-rose-500 h-1.5 rounded-full w-[11%]"></div>
-          </div>
-          <p className="text-right text-[10px] font-bold text-slate-400 mt-1">11%</p>
-        </div>
-
-        {/* Card 2: Vocab */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 border-b-4 border-b-blue-500 hover:-translate-y-1 transition-transform duration-300">
-          <div className="flex justify-between items-start mb-3">
-            <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center"><BookOpen size={20} strokeWidth={2.5}/></div>
-            <div className="text-right">
-              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Từ vựng đã học</p>
-              <div className="flex items-baseline gap-1 justify-end">
-                <span className="text-2xl font-black text-slate-800 dark:text-slate-100">1.245</span>
-                <span className="text-xs text-slate-400 font-medium">/ 10.000</span>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 mt-4">
-            <div className="bg-blue-500 h-1.5 rounded-full w-[12%]"></div>
-          </div>
-          <p className="text-right text-[10px] font-bold text-slate-400 mt-1">12%</p>
-        </div>
-
-        {/* Card 3: Grammar */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 border-b-4 border-b-emerald-500 hover:-translate-y-1 transition-transform duration-300">
-          <div className="flex justify-between items-start mb-3">
-            <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center"><Brain size={22} strokeWidth={2.5}/></div>
-            <div className="text-right">
-              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Ngữ pháp đã học</p>
-              <div className="flex items-baseline gap-1 justify-end">
-                <span className="text-2xl font-black text-slate-800 dark:text-slate-100">68</span>
-                <span className="text-xs text-slate-400 font-medium">/ 300</span>
-              </div>
-            </div>
-          </div>
-          <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 mt-4">
-            <div className="bg-emerald-500 h-1.5 rounded-full w-[22%]"></div>
-          </div>
-          <p className="text-right text-[10px] font-bold text-slate-400 mt-1">22%</p>
-        </div>
-
-        {/* Card 4: Streak */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 hover:-translate-y-1 transition-transform duration-300">
-          <div className="flex justify-between items-start mb-3">
-            <div className="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center"><Flame size={24} strokeWidth={2.5}/></div>
-            <div className="text-right">
-              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Chuỗi ngày học</p>
-              <div className="flex items-baseline gap-1 justify-end">
-                <span className="text-2xl font-black text-slate-800 dark:text-slate-100">12</span>
-              </div>
-              <p className="text-[10px] text-slate-400 font-medium">ngày liên tiếp!</p>
-            </div>
-          </div>
-          <div className="flex justify-between items-center mt-3 px-1">
-             {[1,2,3,4,5,6,7].map(i => (
-               <Flame key={i} size={14} className={i <= 4 ? "text-orange-500 fill-orange-500" : "text-slate-200 dark:text-slate-700"} />
-             ))}
-          </div>
-        </div>
-
-        {/* Card 5: JLPT */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 border-b-4 border-b-indigo-500 hover:-translate-y-1 transition-transform duration-300">
-          <div className="flex justify-between items-start mb-3">
-            <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center"><Target size={22} strokeWidth={2.5}/></div>
-            <div className="text-right">
-              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Tiến độ JLPT</p>
-              <div className="flex items-baseline gap-1 justify-end">
-                <span className="text-2xl font-black text-slate-800 dark:text-slate-100">N5</span>
-              </div>
-              <p className="text-[10px] text-slate-400 font-medium">45% hoàn thành</p>
-            </div>
-          </div>
-          <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 mt-4">
-            <div className="bg-indigo-500 h-1.5 rounded-full w-[45%]"></div>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. MAIN DASHBOARD CONTENT GRID */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        {/* COLUMN 1: Learning Path (Span 5) */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          className="col-span-1 lg:col-span-6 bg-[#FEFBF9] rounded-[2rem] p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 relative overflow-hidden"
-        >
-          {/* Softly Blended Background Image Layer */}
-          {bgUrlLearning && (
-            <div 
-              className="absolute inset-0 z-0 pointer-events-none"
-              style={{
-                backgroundImage: `url(${bgUrlLearning})`,
-                backgroundSize: 'contain',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'right bottom',
-                WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at right bottom, black 40%, transparent 100%)',
-                maskImage: 'radial-gradient(ellipse 100% 100% at right bottom, black 40%, transparent 100%)',
-              }}
-            ></div>
-          )}
-
-          {/* Text Readability Gradient */}
-          {bgUrlLearning && <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#FEFBF9]/90 via-[#FEFBF9]/50 to-transparent"></div>}
-          
-          <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-8">
-              <ToriiGate size={20} className="text-[var(--primary)]" />
-              <h3 className="font-bold text-lg text-slate-800">Lộ trình học tập</h3>
-            </div>
-          
-          {/* Path timeline */}
-          <div className="flex items-center justify-between mb-10 relative">
-            <div className="absolute left-6 right-6 top-6 h-[2px] bg-slate-100 -z-10"></div>
-            
-            {/* Steps */}
-            {[
-              { id: 'intro', label: 'Nhập môn', jp: '入門', icon: <ToriiGate size={24} />, active: true },
-              { id: 'kanji', label: 'Hán tự', jp: '漢字', icon: '漢', active: false },
-              { id: 'vocab', label: 'Từ vựng', jp: '語彙', icon: '語', active: false },
-              { id: 'grammar', label: 'Ngữ pháp', jp: '文法', icon: '文', active: false },
-              { id: 'conversation', label: 'Luyện nói', jp: '会話', icon: '話', active: false },
-              { id: 'exam', label: 'Thi thử', jp: '試験', icon: '試', active: false },
-            ].map((step) => (
-               <div key={step.id} className="flex flex-col items-center gap-2">
-                 <div className={`w-12 h-12 rounded-full flex items-center justify-center font-jp font-bold text-lg shadow-sm border-2 ${step.active ? 'bg-[#FEFBF9] border-[var(--primary)] text-[var(--primary)]' : 'bg-white border-slate-100 text-slate-300'}`}>
-                   {step.icon}
-                 </div>
-                 <div className="text-center">
-                   <p className={`text-[11px] font-bold ${step.active ? 'text-slate-800' : 'text-slate-400'}`}>{step.label}</p>
-                   <p className={`text-[9px] ${step.active ? 'text-slate-500' : 'text-slate-300'}`}>{step.jp}</p>
-                 </div>
-               </div>
-            ))}
-          </div>
-
-            <div>
-              <p className="font-medium text-slate-600 mb-1">Bạn đang ở giai đoạn: <span className="font-bold text-slate-800">Nhập môn</span></p>
-              <p className="text-sm text-slate-400 mb-6">Hãy bắt đầu hành trình chinh phục tiếng Nhật của bạn!</p>
-              <button className="bg-[var(--primary)] text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-md shadow-rose-500/20 hover:bg-rose-700 transition-colors flex items-center gap-2">
-                Tiếp tục học <ChevronRight size={16} />
-              </button>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* COLUMN 2: Today's Activities (Span 3) */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className="col-span-1 lg:col-span-3 bg-[#FEFBF9] dark:bg-slate-900 rounded-[2rem] p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800"
-        >
-          <div className="flex items-center gap-2 mb-6">
-            <CheckCircle2 size={20} className="text-rose-500" />
-            <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100">Hoạt động hôm nay</h3>
-          </div>
-
-          <div className="space-y-4">
-            {activities.map(act => (
-              <div key={act.id} className="flex items-center justify-between p-3 rounded-2xl border border-slate-50 dark:border-slate-800/50 hover:shadow-sm transition-shadow bg-slate-50/50 dark:bg-slate-800/20">
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-jp font-bold ${act.bg} ${act.color} dark:bg-opacity-10`}>
-                     {act.title[0]}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-sm text-slate-700 dark:text-slate-200">{act.title}</h4>
-                    <p className="text-[11px] text-slate-400">{act.sub}</p>
-                  </div>
-                </div>
-                <CircularProgress value={act.progress} color={act.color} />
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* COLUMN 3: Weekly Chart (Span 3) */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-          className="col-span-1 lg:col-span-3 bg-[#FEFBF9] dark:bg-slate-900 rounded-[2rem] p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100 dark:border-slate-800 flex flex-col"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100">Thống kê tuần này</h3>
-            <button className="text-xs font-semibold text-slate-500 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg flex items-center gap-1">
-              Tuần này <ChevronDown size={14} />
+        <div className="relative z-10 p-10 md:p-14 h-full flex flex-col justify-center max-w-2xl">
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-4 font-jp flex items-center gap-3">
+            おかえりなさい！ <Sparkles className="text-yellow-400" size={32} />
+          </h2>
+          <p className="text-lg md:text-xl text-slate-200 font-medium mb-8">
+            Chúc bạn một ngày học tập hiệu quả.
+          </p>
+          <div className="flex flex-wrap items-center gap-4">
+            <button className="bg-[var(--primary)] text-white px-8 py-3.5 rounded-full font-bold shadow-lg shadow-[var(--primary)]/30 hover:brightness-110 transition-all active:scale-95 flex items-center gap-2">
+              Bắt đầu học <ArrowRight size={18} />
+            </button>
+            <button className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-3.5 rounded-full font-bold hover:bg-white/20 transition-all active:scale-95 flex items-center gap-2">
+              <Play size={18} /> Tiếp tục bài học
             </button>
           </div>
-
-          {/* CSS Bar Chart */}
-          <div className="flex-1 flex items-end justify-between gap-2 h-40 pt-4 pb-2 border-b border-slate-100 dark:border-slate-800 relative">
-             {/* Y-axis labels */}
-             <div className="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-[10px] text-slate-300 font-medium z-0">
-               <span>100</span><span>75</span><span>50</span><span>25</span><span>0</span>
-             </div>
-             
-             {/* Bars */}
-             <div className="flex justify-between w-full pl-6 relative z-10">
-               {weeklyStats.map(stat => (
-                 <div key={stat.day} className="flex flex-col items-center gap-2 group">
-                   <div className="w-8 h-32 flex items-end justify-center rounded-t-md">
-                     <motion.div 
-                       initial={{ height: 0 }}
-                       animate={{ height: `${stat.value}%` }}
-                       transition={{ duration: 1, type: "spring", delay: 0.4 }}
-                       className={`w-6 rounded-md transition-colors ${stat.day === 'T7' ? 'bg-rose-400' : 'bg-rose-200 dark:bg-rose-900/40 group-hover:bg-rose-300 dark:group-hover:bg-rose-900/60'}`}
-                     />
-                   </div>
-                   <span className="text-[10px] font-bold text-slate-400">{stat.day}</span>
-                 </div>
-               ))}
-             </div>
-          </div>
-
-          {/* Quote */}
-          <div className="mt-4 text-center">
-            <p className="text-sm font-jp font-black text-rose-500 mb-1">継続は力なり。</p>
-            <p className="text-[11px] text-slate-400 font-medium">Kiên trì là sức mạnh.</p>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* 4. SUGGESTIONS ROW */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-      >
-        <div className="flex items-center gap-2 mb-4 mt-8 px-2">
-          <Sparkles size={20} className="text-rose-400" />
-          <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100">Gợi ý dành cho bạn</h3>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {suggestions.map(sug => (
-            <div key={sug.id} className="bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex items-center justify-between group cursor-pointer hover:border-rose-200 dark:hover:border-rose-500/50 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${sug.bg} ${sug.color} dark:bg-opacity-10`}>
-                  {sug.icon}
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm text-slate-700 dark:text-slate-200">{sug.title}</h4>
-                  <p className="text-[11px] text-slate-400">{sug.sub}</p>
-                </div>
-              </div>
-              <ChevronRight size={18} className="text-slate-300 group-hover:text-rose-400 transition-colors" />
-            </div>
-          ))}
         </div>
       </motion.div>
-      
+
+      {/* 2. QUICK LEARNING MODULES */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5"
+      >
+        {quickModules.map((mod) => (
+          <motion.div 
+            key={mod.id}
+            whileHover={{ scale: 1.02, y: -2 }}
+            className="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-[0_10px_35px_rgba(15,23,42,0.04)] dark:shadow-[0_10px_35px_rgba(0,0,0,0.2)] rounded-[20px] p-5 cursor-pointer transition-all duration-300"
+          >
+            <div className="mb-4">{mod.icon}</div>
+            <h3 className="text-[17px] font-bold text-slate-800 dark:text-slate-100 mb-3">{mod.title}</h3>
+            <ul className="space-y-2">
+              {mod.items.map((item, i) => (
+                <li key={i} className="text-[13px] text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        ))}
+      </motion.section>
+
+
+
+      {/* 4. DISCOVERIES */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+      >
+        <div className="flex items-center mb-6 px-1">
+          <h3 className="font-bold text-xl text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <Lightbulb size={22} className="text-amber-500" fill="currentColor" /> Khám phá
+          </h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {discoveries.map(item => (
+            <motion.div 
+              key={item.id}
+              whileHover={{ scale: 1.02, y: -4 }}
+              className="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-6 rounded-[24px] shadow-[0_10px_35px_rgba(15,23,42,0.03)] dark:shadow-none cursor-pointer flex flex-col justify-between min-h-[160px]"
+            >
+              <div className={`w-14 h-14 rounded-2xl ${item.bg} ${item.color} dark:bg-opacity-10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                {item.icon}
+              </div>
+              <div>
+                <h4 className="font-bold text-lg text-slate-800 dark:text-slate-100 mb-2">{item.title}</h4>
+                <p className="text-[13px] text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{item.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* 5. TIPS */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
+      >
+        <div className="flex items-center mb-6 px-1">
+          <h3 className="font-bold text-xl text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <Zap size={20} className="text-indigo-500" fill="currentColor" /> Mẹo học tiếng Nhật
+          </h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {tips.map(tip => (
+            <motion.div 
+              key={tip.id}
+              whileHover={{ scale: 1.02 }}
+              className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-5 rounded-[20px] shadow-[0_8px_30px_rgba(15,23,42,0.03)] dark:shadow-none cursor-pointer"
+            >
+              <h4 className="font-bold text-slate-800 dark:text-slate-100 mb-2">{tip.title}</h4>
+              <p className="text-[14px] text-slate-500 dark:text-slate-400 leading-relaxed">{tip.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* 6. FOOTER */}
+      <motion.footer
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+        className="pt-16 pb-6 flex flex-col items-center justify-center mt-12"
+      >
+        <div className="flex flex-col items-center gap-3 opacity-60 hover:opacity-100 transition-opacity">
+          <img src="/logo.png" alt="Logo" className="w-8 h-8 grayscale" />
+          <p className="text-[11px] font-bold text-slate-400 tracking-wider">© 2026 NIHONGO 学習</p>
+        </div>
+      </motion.footer>
     </div>
   );
 };

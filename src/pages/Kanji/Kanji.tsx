@@ -79,17 +79,17 @@ export const Kanji = () => {
       ========================================= */}
       {/* Grid Pattern */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.4] dark:opacity-[0.1] transform-gpu z-0" 
+        className="absolute inset-0 pointer-events-none opacity-[0.4] dark:opacity-[0.1] z-0" 
         style={{ backgroundImage: 'radial-gradient(#cbd5e1 1px, transparent 1px)', backgroundSize: '32px 32px' }}
       ></div>
 
       {/* Watermark Kanji */}
-      <div className="absolute top-20 right-10 pointer-events-none opacity-[0.03] dark:opacity-[0.02] transform rotate-12 select-none transform-gpu">
+      <div className="absolute top-20 right-10 pointer-events-none opacity-[0.03] dark:opacity-[0.02] transform rotate-12 select-none">
         <span className="font-jp text-[400px] font-black">漢</span>
       </div>
 
       {/* Minimal Mount Fuji SVG */}
-      <div className="absolute top-0 right-0 w-[600px] h-[400px] pointer-events-none opacity-20 dark:opacity-10 mix-blend-multiply dark:mix-blend-lighten transform-gpu">
+      <div className="absolute top-0 right-0 w-[600px] h-[400px] pointer-events-none opacity-20 dark:opacity-10 mix-blend-multiply dark:mix-blend-lighten">
         <svg viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M300 150 L500 350 L100 350 Z" fill="#94a3b8" />
           <path d="M300 150 L360 210 L330 230 L300 200 L270 230 L240 210 Z" fill="#f8fafc" />

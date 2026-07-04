@@ -105,7 +105,7 @@ export const KanaQuiz = ({ system, groups, onBack, onComplete }: KanaQuizProps) 
       </div>
 
       {/* Grid Body */}
-      <div className="flex-1 overflow-y-auto p-6 md:p-8 transform-gpu">
+      <div className="flex-1 overflow-y-auto p-6 md:p-8">
         <div className="max-w-[1200px] mx-auto grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 md:gap-6 pb-20">
           {validChars.map((char: any, idx: number) => {
              const st = status[idx];

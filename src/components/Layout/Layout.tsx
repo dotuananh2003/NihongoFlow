@@ -13,7 +13,7 @@ export const Layout = () => {
 
   return (
     <div className="flex min-h-screen bg-[var(--background)] dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 relative antialiased p-3 gap-3">
-      <div className="sticky top-3 h-[calc(100vh-24px)] shrink-0 z-20">
+      <div className="hidden md:block sticky top-3 h-[calc(100vh-24px)] shrink-0 z-20">
         <Sidebar />
       </div>
       <div className="flex-1 flex flex-col min-w-0 z-10 relative min-h-[calc(100vh-24px)]">
