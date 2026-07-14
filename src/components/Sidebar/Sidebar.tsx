@@ -11,7 +11,8 @@ import {
   FileText,
   ArrowLeftToLine,
   ArrowRightToLine,
-  Home
+  Home,
+  Lock
 } from 'lucide-react';
 import { ToriiGate } from '../Icons/ToriiGate';
 
@@ -20,11 +21,11 @@ const navItems = [
   { path: '/introduction', label: 'Nhập môn', sub: 'はじめての日本語', icon: ToriiGate },
   { path: '/kanji', label: 'Hán tự', sub: 'かんじを学ぶ', icon: Castle },
   { path: '/vocabulary', label: 'Từ vựng', sub: 'ことばを学ぶ', icon: ScrollText },
-  { path: '/grammar', label: 'Ngữ pháp', sub: 'ぶんぽうを学ぶ', icon: Brain },
-  { path: '/memory', label: 'Ghi nhớ', sub: 'おぼえておく', icon: Puzzle },
-  { path: '/active-vocabulary', label: 'Từ vựng chủ động', sub: '使える語彙', icon: Crown },
-  { path: '/speaking', label: 'Luyện nói', sub: 'かいわのれんしゅう', icon: Mic },
-  { path: '/exam', label: 'Luyện thi', sub: 'しけんたいさく', icon: FileText },
+  { path: '/grammar', label: 'Ngữ pháp', sub: 'ぶんぽうを学ぶ', icon: Brain, locked: true },
+  { path: '/memory', label: 'Ghi nhớ', sub: 'おぼえておく', icon: Puzzle, locked: true },
+  { path: '/active-vocabulary', label: 'Từ vựng chủ động', sub: '使える語彙', icon: Crown, locked: true },
+  { path: '/speaking', label: 'Luyện nói', sub: 'かいわのれんしゅう', icon: Mic, locked: true },
+  { path: '/exam', label: 'Luyện thi', sub: 'しけんたいさく', icon: FileText, locked: true },
 ];
 
 export const Sidebar = () => {
@@ -50,14 +51,16 @@ export const Sidebar = () => {
     <motion.aside 
       initial={false}
       animate={{ width: isCollapsed ? 80 : 280 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
+      transition={{ type: "spring", stiffness: 350, damping: 28, mass: 0.8 }}
       className="relative flex flex-col z-20 shrink-0 h-full overflow-hidden rounded-[24px]"
       style={{
         background: 'rgba(255, 255, 255, 0.72)',
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
         border: '1px solid rgba(255, 255, 255, 0.45)',
-        boxShadow: '0 10px 35px rgba(15, 23, 42, 0.08)'
+        boxShadow: '0 10px 35px rgba(15, 23, 42, 0.08)',
+        willChange: 'width',
+        transform: 'translateZ(0)', // Force Hardware Acceleration
       }}
     >
       {/* Dark mode overlay override to keep the structure clean */}
@@ -78,10 +81,10 @@ export const Sidebar = () => {
         <AnimatePresence>
           {!isCollapsed && (
             <motion.div 
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, x: -15, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, x: -15, filter: 'blur(4px)' }}
+              transition={{ type: "spring", stiffness: 350, damping: 28 }}
               className="flex flex-col whitespace-nowrap overflow-hidden"
             >
               <span className="font-black text-xl text-slate-800 dark:text-slate-100 tracking-tight leading-tight">
@@ -101,10 +104,11 @@ export const Sidebar = () => {
           return (
             <NavLink
               key={item.path}
-              to={item.path}
+              to={item.locked ? '#' : item.path}
+              onClick={(e) => { if (item.locked) e.preventDefault(); }}
               replace={location.pathname !== '/'}
               className={() =>
-                `relative flex items-center cursor-pointer transition-all duration-250 ease-in-out group rounded-[16px] `
+                `relative flex items-center transition-all duration-250 ease-in-out group rounded-[16px] ${item.locked ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`
               }
               title={isCollapsed ? item.label : undefined}
             >
@@ -132,7 +136,7 @@ export const Sidebar = () => {
                   
                   <div className={`relative flex items-center w-full px-[16px] py-[16px] gap-[14px]`}>
                     <div 
-                      className={`relative z-10 shrink-0 flex items-center justify-center transition-transform duration-250 ease-in-out group-hover:scale-[1.08]`}
+                      className={`relative z-10 shrink-0 flex items-center justify-center transition-transform duration-250 ease-in-out ${item.locked ? '' : 'group-hover:scale-[1.08]'}`}
                       style={{ color: isActive ? activeColor : undefined }}
                     >
                       <Icon size={22} strokeWidth={1.75} className={isActive ? '' : 'text-slate-500 dark:text-slate-400'} />
@@ -141,11 +145,12 @@ export const Sidebar = () => {
                     <AnimatePresence>
                       {!isCollapsed && (
                         <motion.div 
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0, width: 0 }}
-                          transition={{ duration: 0.2 }}
+                          initial={{ opacity: 0, width: 0, filter: 'blur(2px)' }}
+                          animate={{ opacity: 1, width: 'auto', filter: 'blur(0px)' }}
+                          exit={{ opacity: 0, width: 0, filter: 'blur(2px)' }}
+                          transition={{ type: "spring", stiffness: 350, damping: 28 }}
                           className="relative z-10 flex flex-col whitespace-nowrap overflow-hidden"
+                          style={{ willChange: 'width, opacity' }}
                         >
                           <span 
                             className={`text-[16px] leading-[1.2] tracking-tight ${isActive ? 'font-bold' : 'font-semibold text-slate-800 dark:text-slate-200'}`}
@@ -154,9 +159,17 @@ export const Sidebar = () => {
                             <span className="dark:hidden">{item.label}</span>
                             <span className="hidden dark:inline" style={isActive ? { color: activeColor } : { color: '#F8FAFC' }}>{item.label}</span>
                           </span>
-                          <span className="text-[11px] font-jp font-normal tracking-wide mt-[2px] text-[#94A3B8] dark:text-slate-500">
-                            {item.sub}
-                          </span>
+                          <div className="flex items-center gap-1.5 mt-[2px]">
+                            <span className="text-[11px] font-jp font-normal tracking-wide text-[#94A3B8] dark:text-slate-500">
+                              {item.sub}
+                            </span>
+                            {item.locked && (
+                              <div className="flex items-center gap-1 text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800/50 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase ml-1">
+                                <Lock size={10} strokeWidth={2.5} />
+                                <span>LOCKED</span>
+                              </div>
+                            )}
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -179,9 +192,10 @@ export const Sidebar = () => {
           <AnimatePresence>
             {!isCollapsed && (
               <motion.span 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 'auto' }}
                 exit={{ opacity: 0, width: 0 }}
+                transition={{ type: "spring", stiffness: 350, damping: 28 }}
                 className="font-semibold text-[14px] whitespace-nowrap overflow-hidden text-slate-600 dark:text-slate-400"
               >
                 Thu gọn

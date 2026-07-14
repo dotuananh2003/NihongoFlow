@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, ChevronRight, Volume2, Check, AlertCircle, BookOpen, RotateCcw, Clock, Keyboard } from 'lucide-react';
+import { Sparkles, X, ChevronRight, Volume2, Check, AlertCircle, BookOpen, RotateCcw, Clock, Keyboard, Lock } from 'lucide-react';
 
 // ==========================================
 // KANA DATA
@@ -510,15 +510,19 @@ export const Introduction = () => {
         {/* 2 SUPPLEMENTARY CARDS */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
           <button 
-            onClick={() => navigate('/introduction/mnemonic')}
-            className="bg-white dark:bg-slate-900 rounded-[2rem] p-6 text-left border-2 border-slate-100 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 transition-all group flex items-center gap-6"
+            disabled
+            className="bg-slate-50 dark:bg-slate-800/30 rounded-[2rem] p-6 text-left border-2 border-slate-100 dark:border-slate-800/50 transition-all flex items-center gap-6 opacity-70 cursor-not-allowed"
           >
-            <div className="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+            <div className="w-16 h-16 rounded-2xl bg-slate-200 dark:bg-slate-700/50 text-slate-400 flex items-center justify-center shrink-0">
               <BookOpen size={32} />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-1 uppercase tracking-wider">Học nhớ mẹo</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm">Dùng hình ảnh và liên tưởng để nhớ mặt chữ nhanh hơn.</p>
+              <h3 className="text-xl font-bold text-slate-700 dark:text-slate-300 mb-1 uppercase tracking-wider">Học nhớ mẹo</h3>
+              <p className="text-slate-500 dark:text-slate-500 text-sm mb-2">Dùng hình ảnh và liên tưởng để nhớ mặt chữ nhanh hơn.</p>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
+                <Lock size={12} strokeWidth={2.5} />
+                <span>Locked</span>
+              </div>
             </div>
           </button>
           
