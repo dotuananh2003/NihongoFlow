@@ -126,9 +126,12 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
     if (imeMode === 'hira') {
       setInput(toHiragana(val, { IMEMode: true }).replace(/・/g, '/'));
     } else {
-      // Preserve special kana before they are lossily converted by toRomaji
-      const preVal = val.replace(/ディ/g, 'di').replace(/ティ/g, 'ti');
-      let romaji = toRomaji(preVal);
+      let romaji = toRomaji(val, {
+        customRomajiMapping: {
+          'ふぉ': 'fo', 'フォ': 'fo', 'ふぁ': 'fa', 'ファ': 'fa', 'ふぃ': 'fi', 'フィ': 'fi', 'ふぇ': 'fe', 'フェ': 'fe',
+          'ディ': 'di', 'ティ': 'ti', 'でぃ': 'di', 'てぃ': 'ti'
+        }
+      });
       // Auto convert double vowels (aa, ii, uu, ee, oo) to a hyphen to naturally produce Katakana long vowels
       romaji = romaji.replace(/([aiueo])\1/g, '$1-');
       setInput(toKatakana(romaji, { 
@@ -172,7 +175,12 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
     const targetHira = normalizeChars(toHiragana(currentVocab.hiragana));
     const targetKata = normalizeChars(toKatakana(currentVocab.hiragana));
     const targetRoma = normalizeChars(getRomajiHint(currentVocab));
-    const inputRoma = normalizeChars(toRomaji(cleanInput).toLowerCase());
+    const inputRoma = normalizeChars(toRomaji(cleanInput, {
+      customRomajiMapping: {
+        'ふぉ': 'fo', 'フォ': 'fo', 'ふぁ': 'fa', 'ファ': 'fa', 'ふぃ': 'fi', 'フィ': 'fi', 'ふぇ': 'fe', 'フェ': 'fe',
+        'ディ': 'di', 'ティ': 'ti', 'でぃ': 'di', 'てぃ': 'ti'
+      }
+    }).toLowerCase());
 
     const isCorrect = cleanInput === targetHira || cleanInput === targetKata || cleanInput === targetRoma || inputRoma === targetRoma;
 
