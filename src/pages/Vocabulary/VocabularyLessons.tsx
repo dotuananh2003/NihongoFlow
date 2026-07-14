@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Play, Lock, Book, Layers, Check, Keyboard, X } from 'lucide-react';
+import { ArrowLeft, Play, Lock, Book, Layers, Check, Keyboard, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KanjiVocabTyping } from '../../components/Kanji/KanjiVocabTyping';
 import { vocabularyData, type VocabItem } from '../../data/vocabularyData';
@@ -80,6 +80,35 @@ export const VocabularyLessons = () => {
     return combined;
   }, [selectedLessons, isTypingMode]);
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const mainLessons = useMemo(() => {
+    const mains = Array.from(new Set(lessons.filter(l => !l.locked).map(l => l.id.split('-')[0])));
+    return mains.sort((a, b) => Number(a) - Number(b));
+  }, [lessons]);
+
+  const handleSelectAll = () => {
+    const unlockedIds = lessons.filter(l => !l.locked).map(l => l.id);
+    if (selectedLessons.length === unlockedIds.length) {
+      setSelectedLessons([]);
+    } else {
+      setSelectedLessons(unlockedIds);
+    }
+  };
+
+  const handleSelectMainLesson = (main: string) => {
+    const subLessons = lessons.filter(l => !l.locked && l.id.split('-')[0] === main).map(l => l.id);
+    const allSelected = subLessons.length > 0 && subLessons.every(id => selectedLessons.includes(id));
+    if (allSelected) {
+      setSelectedLessons(prev => prev.filter(id => !subLessons.includes(id)));
+    } else {
+      setSelectedLessons(prev => {
+        const newSet = new Set([...prev, ...subLessons]);
+        return Array.from(newSet);
+      });
+    }
+  };
+
   const enterFullscreen = () => {
     const elem = document.documentElement as HTMLElement & {
       webkitRequestFullscreen?: () => Promise<void>;
@@ -138,17 +167,76 @@ export const VocabularyLessons = () => {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <AnimatePresence>
+            {isMixMode && (
+              <motion.div
+                initial={{ opacity: 0, width: 0, scale: 0.9 }}
+                animate={{ opacity: 1, width: 'auto', scale: 1 }}
+                exit={{ opacity: 0, width: 0, scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                className="flex items-center gap-2 overflow-visible"
+              >
+                <button
+                  onClick={handleSelectAll}
+                  className={`shrink-0 flex items-center gap-1.5 px-3 py-2 border rounded-xl text-sm font-bold transition-all shadow-sm ${selectedLessons.length > 0 && selectedLessons.length === lessons.filter(l => !l.locked).length ? `bg-${theme.themeColor}-500 border-${theme.themeColor}-500 text-white` : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                >
+                  <Check size={16} className={selectedLessons.length > 0 && selectedLessons.length === lessons.filter(l => !l.locked).length ? 'opacity-100' : 'opacity-50'} />
+                  Chọn tất cả
+                </button>
+
+                <div className="relative shrink-0">
+                  <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className={`flex items-center gap-1.5 px-3 py-2 border rounded-xl text-sm font-bold transition-all shadow-sm ${isDropdownOpen ? `border-${theme.themeColor}-400 bg-${theme.themeColor}-50 dark:bg-${theme.themeColor}-900/20 text-${theme.themeColor}-600 dark:text-${theme.themeColor}-400` : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                  >
+                    Chọn theo Lesson <ChevronDown size={16} className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  <AnimatePresence>
+                    {isDropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                        className="absolute right-0 top-[calc(100%+8px)] w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl z-50 overflow-hidden"
+                      >
+                        <div className="py-1">
+                          {mainLessons.map(main => {
+                            const subLessons = lessons.filter(l => !l.locked && l.id.split('-')[0] === main).map(l => l.id);
+                            const allSelected = subLessons.length > 0 && subLessons.every(id => selectedLessons.includes(id));
+                            return (
+                              <button
+                                key={main}
+                                onClick={() => handleSelectMainLesson(main)}
+                                className={`w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/50 ${allSelected ? `text-${theme.themeColor}-600 dark:text-${theme.themeColor}-400 bg-${theme.themeColor}-50/50 dark:bg-${theme.themeColor}-900/10` : 'text-slate-700 dark:text-slate-300'}`}
+                              >
+                                <span>Lesson {main}</span>
+                                {allSelected && <Check size={16} strokeWidth={2.5} />}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <button 
             onClick={() => {
               setIsMixMode(!isMixMode);
-              if (isMixMode) setSelectedLessons([]);
+              if (isMixMode) {
+                setSelectedLessons([]);
+                setIsDropdownOpen(false);
+              }
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 border rounded-xl text-sm font-bold transition-all shadow-sm ${isMixMode ? `bg-${theme.themeColor}-100 border-${theme.themeColor}-200 text-${theme.themeColor}-600 dark:bg-${theme.themeColor}-900/30 dark:border-${theme.themeColor}-800/50 dark:text-${theme.themeColor}-400` : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+            className={`flex items-center gap-2 px-4 py-2 border rounded-xl text-sm font-bold transition-all shadow-sm ${isMixMode ? `bg-${theme.themeColor}-100 border-${theme.themeColor}-200 text-${theme.themeColor}-600 dark:bg-${theme.themeColor}-900/30 dark:border-${theme.themeColor}-800/50 dark:text-${theme.themeColor}-400` : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
           >
             {isMixMode ? <X size={16} /> : <Layers size={16} />} 
             {isMixMode ? 'Hủy Trộn' : 'Trộn Bài'}
           </button>
-          {/* Tiến độ chung đã được loại bỏ */}
         </div>
       </div>
 
