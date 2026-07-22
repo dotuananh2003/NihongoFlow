@@ -13,7 +13,7 @@ interface GrammarExerciseProps {
   onClose: () => void;
 }
 
-type ExerciseType = 'type1' | 'type2' | 'type3';
+type ExerciseType = 'type1' | 'type2' | 'type3' | 'type4';
 type ScreenState = 'setup' | 'playing' | 'result';
 
 interface Question {
@@ -45,7 +45,7 @@ const PARTICLES = ['は', 'が', 'を', 'に', 'へ', 'で', 'と', 'も', 'や'
 
 export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, vocabList, lessonName, onClose }) => {
   const [screen, setScreen] = useState<ScreenState>('setup');
-  const [selectedTypes, setSelectedTypes] = useState<ExerciseType[]>(['type1', 'type2', 'type3']);
+  const [selectedTypes, setSelectedTypes] = useState<ExerciseType[]>(['type1', 'type2', 'type3', 'type4']);
   const [questionCount, setQuestionCount] = useState<number>(Math.min(10, grammarPoint.examples.length));
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -77,6 +77,9 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   const [textInput, setTextInput] = useState('');
   const [imeMode, setImeMode] = useState<'hira' | 'kata'>('hira');
   const inputRef = useRef<HTMLInputElement>(null);
+  const [selectedSortBlocks, setSelectedSortBlocks] = useState<{ id: string; text: string }[]>([]);
+  const [availableSortBlocks, setAvailableSortBlocks] = useState<{ id: string; text: string }[]>([]);
+  const [isCurrentAnswerCorrect, setIsCurrentAnswerCorrect] = useState(false);
 
   // Focus input automatically for Type 3
   useEffect(() => {
@@ -203,7 +206,18 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
           readingWithBlanks: readingText
         };
       }
-      else if (type === 'type3') {
+      else if (type === 'type4' && ex.sortBlocks && ex.sortBlocks.length > 0) {
+        q = {
+          id: `q${i}`,
+          type, subType: 'jp_to_vn',
+          example: ex,
+          questionText: ex.vietnamese,
+          correctAnswer: ex.japanese,
+          sortBlocks: ex.sortBlocks
+        };
+      } else if (type === 'type4') {
+        continue;
+      } else if (type === 'type3') {
         // TYPE 3: Typing Translation
         q = {
           id: `q${i}`,
@@ -346,7 +360,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
         <div className="w-full md:w-2/3 p-6 flex flex-col gap-6">
           <div>
             <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-3 uppercase tracking-wider">1. CHỌN DẠNG BÀI TẬP</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <button onClick={() => toggleType('type1')} className={`relative p-3 rounded-2xl border-2 text-left transition-all ${selectedTypes.includes('type1') ? `border-blue-500 bg-blue-50 dark:bg-blue-900/20` : 'border-slate-200 dark:border-slate-700 hover:border-blue-300'}`}>
                 {selectedTypes.includes('type1') && <div className="absolute -top-2 -right-2 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center text-white"><Check size={12} /></div>}
                 <div className="flex items-center justify-center mb-2 text-blue-500 bg-white dark:bg-slate-800 w-10 h-10 rounded-full shadow-sm"><HelpCircle size={20} /></div>
@@ -477,7 +491,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
           <div className="flex items-center gap-3">
             <div className="px-3 py-1.5 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 font-bold text-xs flex items-center gap-1.5">
               <BookIcon type={q.type} />
-              {q.type === 'type1' ? 'Trắc nghiệm' : q.type === 'type2' ? 'Đục lỗ' : 'Tự luận'}
+              {q.type === 'type1' ? 'Trắc nghiệm' : q.type === 'type2' ? 'Đục lỗ' : q.type === 'type3' ? 'Tự luận' : 'Sắp xếp'}
             </div>
             <div className="hidden sm:block text-sm font-bold text-slate-500">{grammarPoint.title}</div>
           </div>
@@ -523,7 +537,79 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
           </div>
 
           {/* Interaction Area based on Type */}
-          {q.type === 'type3' ? (
+
+          {q.type === 'type4' ? (
+            <div className="w-full flex flex-col items-center">
+              <div className={`w-full min-h-[80px] rounded-2xl border-2 p-4 mb-4 flex flex-wrap gap-2 items-start content-start transition-all duration-300 ${
+                isAnswered 
+                  ? (isCurrentAnswerCorrect ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-400 shadow-[0_0_30px_rgba(52,211,153,0.2)]' : 'bg-rose-50 dark:bg-rose-900/20 border-rose-400 shadow-[0_0_30px_rgba(251,113,133,0.2)]')
+                  : 'bg-slate-100 dark:bg-slate-800/80 border-dashed border-slate-300 dark:border-slate-700'
+              }`}>
+                {selectedSortBlocks.map((block) => (
+                  <motion.button
+                    layoutId={block.id}
+                    key={block.id}
+                    onClick={() => {
+                      if (isAnswered) return;
+                      setSelectedSortBlocks(prev => prev.filter(b => b.id !== block.id));
+                      setAvailableSortBlocks(prev => [...prev, block]);
+                    }}
+                    className="px-4 py-2 bg-white dark:bg-slate-700 rounded-xl shadow-sm border-2 border-slate-200 dark:border-slate-600 font-jp font-bold text-lg md:text-xl text-slate-800 dark:text-slate-100 cursor-pointer hover:-translate-y-0.5 transition-transform"
+                  >
+                    {block.text}
+                  </motion.button>
+                ))}
+                {selectedSortBlocks.length === 0 && (
+                  <div className="w-full text-center text-slate-400 font-bold mt-2">Nhấn vào các thẻ bên dưới để đưa lên đây</div>
+                )}
+              </div>
+
+              <div className="w-full flex flex-wrap justify-center gap-2 mb-6">
+                {availableSortBlocks.map((block) => (
+                  <motion.button
+                    layoutId={block.id}
+                    key={block.id}
+                    onClick={() => {
+                      if (isAnswered) return;
+                      setAvailableSortBlocks(prev => prev.filter(b => b.id !== block.id));
+                      setSelectedSortBlocks(prev => [...prev, block]);
+                    }}
+                    className="px-4 py-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm border-2 border-b-4 border-slate-200 dark:border-slate-700 font-jp font-bold text-lg md:text-xl text-slate-800 dark:text-slate-100 cursor-pointer hover:-translate-y-0.5 hover:border-amber-300 active:translate-y-[2px] active:border-b-2 transition-all"
+                  >
+                    {block.text}
+                  </motion.button>
+                ))}
+              </div>
+
+              {!isAnswered && (
+                <button 
+                  onClick={() => {
+                    if (isAnswered || selectedSortBlocks.length !== q.sortBlocks?.length) return;
+                    setIsAnswered(true);
+                    const userAnswer = selectedSortBlocks.map(b => b.text).join('');
+                    const normalizeNumber = (str) => str.replace(/[０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0));
+                    const isCorrect = normalizeNumber(userAnswer) === normalizeNumber(q.correctAnswer);
+                    setIsCurrentAnswerCorrect(isCorrect);
+                    if (isCorrect) {
+                      setCorrectCount(prev => prev + 1);
+                      const newCombo = combo + 1;
+                      setCombo(newCombo);
+                      setMaxCombo(prev => Math.max(prev, newCombo));
+                      setScore(prev => prev + 10 + (newCombo > 1 ? newCombo * 2 : 0));
+                    } else {
+                      setWrongCount(prev => prev + 1);
+                      setCombo(0);
+                    }
+                  }} 
+                  disabled={selectedSortBlocks.length !== q.sortBlocks?.length}
+                  className={`w-full px-8 py-3 rounded-2xl font-black text-lg flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(59,130,246,0.25)] transition-all ${selectedSortBlocks.length === q.sortBlocks?.length ? 'bg-blue-500 hover:bg-blue-400 border-b-[4px] border-blue-600 text-white hover:-translate-y-1 active:translate-y-1 active:border-b-0 active:mt-[4px]' : 'bg-slate-200 dark:bg-slate-800 text-slate-400 border-b-4 border-slate-300 dark:border-slate-700 cursor-not-allowed'}`}
+                >
+                  KIỂM TRA
+                </button>
+              )}
+            </div>
+          ) : q.type === 'type3' ? (
+
             <div className="w-full flex flex-col items-center">
               <div className={`relative w-full bg-white dark:bg-slate-900 rounded-2xl border-[3px] transition-all duration-300 ${isAnswered ? (textInput.toLowerCase().trim() === q.correctAnswer.toLowerCase().trim() || textInput === q.correctAnswer ? 'border-emerald-400 shadow-[0_0_30px_rgba(52,211,153,0.2)]' : 'border-rose-400 shadow-[0_0_30px_rgba(251,113,133,0.2)]') : 'border-blue-400/50 focus-within:border-blue-500 shadow-md'}`}>
                 <input
@@ -616,6 +702,9 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
                   )}
                   {q.type === 'type2' && (
                     <span>Từ cần điền là <b>{q.correctAnswer}</b> để hoàn thiện cấu trúc <b>{grammarPoint.title}</b> ({grammarPoint.meaning}). Ý nghĩa của câu là: "{q.example.vietnamese}".</span>
+                  )}
+                  {q.type === 'type4' && (
+                    <span>Dịch đúng của câu là "<b>{q.correctAnswer}</b>". Lắp ráp theo cấu trúc <b>{grammarPoint.title}</b> ({grammarPoint.meaning}).</span>
                   )}
                   {q.type === 'type3' && (
                     <span>Dịch đúng của câu là "{q.correctAnswer}". Áp dụng cấu trúc <b>{grammarPoint.title}</b> ({grammarPoint.meaning}).</span>

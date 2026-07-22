@@ -7,6 +7,13 @@ import { vocabularyData } from '../../data/vocabularyData';
 import { GrammarExercise } from '../../components/Grammar/GrammarExercise';
 
 export const GrammarPointDetail = () => {
+  const handleSpeak = (text: string, rate: number = 0.85) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ja-JP';
+    utterance.rate = rate;
+    window.speechSynthesis.speak(utterance);
+  };
+
   const { courseId, lessonId, pointId } = useParams();
   const navigate = useNavigate();
   const [isExerciseOpen, setIsExerciseOpen] = useState(false);
@@ -198,10 +205,10 @@ export const GrammarPointDetail = () => {
                 </div>
 
                 <div className="flex flex-col items-center gap-2 shrink-0">
-                  <button className="flex items-center justify-center gap-2 w-32 py-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm">
+                  <button onClick={() => handleSpeak(ex.japanese, 0.4)} className="flex items-center justify-center gap-2 w-32 py-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm active:scale-95">
                     <Volume2 size={14} /> Đọc chậm
                   </button>
-                  <button className="flex items-center justify-center gap-2 w-32 py-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm">
+                  <button onClick={() => handleSpeak(ex.japanese, 0.85)} className="flex items-center justify-center gap-2 w-32 py-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm active:scale-95">
                     <Volume2 size={14} /> Đọc thường
                   </button>
                 </div>

@@ -71,6 +71,18 @@ export const grammarCourses: GrammarCourse[] = [
             memoryTip: 'Chữ "い" (i) ở cuối tính từ giống như cái đuôi của con mèo vậy. Đừng bao giờ vứt bỏ đuôi này khi đứng trước "です" nhé!',
             commonWords: 'Thường đi kèm với các phó từ chỉ mức độ: とても (rất), 少し (một chút), あまり (không lắm)...',
             examples: [
+          {
+            japanese: 'わたしはがくせいです。',
+            vietnamese: 'Tôi là học sinh.',
+            romaji: 'watashi wa gakusei desu.',
+            sortBlocks: [
+              { id: 'sb1', text: 'わたし' },
+              { id: 'sb2', text: 'は' },
+              { id: 'sb3', text: 'がくせい' },
+              { id: 'sb4', text: 'です' },
+              { id: 'sb5', text: '。' }
+            ]
+          },
               { japanese: 'この料理は辛いです。', reading: 'このりょうりはからいです。', romaji: 'kono ryouri wa karai desu.', vietnamese: 'Món ăn này cay.' },
               { japanese: 'この本はおもしろいです。', reading: 'このほんはおもしろいです。', romaji: 'kono hon wa omoshiroi desu.', vietnamese: 'Quyển sách này thú vị.' },
               { japanese: '日本の冬は寒いです。', reading: 'にほんのふゆはさむいです。', romaji: 'nihon no fuyu wa samui desu.', vietnamese: 'Mùa đông ở Nhật Bản lạnh.' },
@@ -90,6 +102,18 @@ export const grammarCourses: GrammarCourse[] = [
             memoryTip: 'Phủ định của tính từ đuôi い thì vứt đuôi "い" đi và gắn thêm đuôi mới là "くない" (kunai). Cứ nhớ thần chú: Không "i" thì "kunai"!',
             commonWords: 'Thường đi kèm với từ chỉ mức độ phủ định: あまり (không ... lắm), ぜんぜん (hoàn toàn không ...).',
             examples: [
+          {
+            japanese: 'わたしはがくせいです。',
+            vietnamese: 'Tôi là học sinh.',
+            romaji: 'watashi wa gakusei desu.',
+            sortBlocks: [
+              { id: 'sb1', text: 'わたし' },
+              { id: 'sb2', text: 'は' },
+              { id: 'sb3', text: 'がくせい' },
+              { id: 'sb4', text: 'です' },
+              { id: 'sb5', text: '。' }
+            ]
+          },
               { japanese: 'このレモンは酸っぱくないです。', reading: 'このレモンはすっぱくないです。', romaji: 'kono remon wa suppakunai desu.', vietnamese: 'Quả chanh này không chua.' },
               { japanese: 'このお茶は熱くないです。', reading: 'このおちゃはあつくないです。', romaji: 'kono ocha wa atsukunai desu.', vietnamese: 'Trà này không nóng.' },
               { japanese: '今日は忙しくないです。', reading: 'きょうはいそがしくないです。', romaji: 'kyou wa isogashikunai desu.', vietnamese: 'Hôm nay tôi không bận.' },
@@ -109,6 +133,18 @@ export const grammarCourses: GrammarCourse[] = [
             memoryTip: 'Tính từ đuôi な rất "đỏng đảnh", khi đứng ngay trước "です" thì cái đuôi "な" sẽ bị rớt mất. Tuyệt đối đừng viết là "なです" nhé!',
             commonWords: 'Các tính từ đuôi な quốc dân hay gặp: 好き (thích), きれい (đẹp/sạch), 有名 (nổi tiếng), 静か (yên tĩnh), 暇 (rảnh rỗi)...',
             examples: [
+          {
+            japanese: 'わたしはがくせいです。',
+            vietnamese: 'Tôi là học sinh.',
+            romaji: 'watashi wa gakusei desu.',
+            sortBlocks: [
+              { id: 'sb1', text: 'わたし' },
+              { id: 'sb2', text: 'は' },
+              { id: 'sb3', text: 'がくせい' },
+              { id: 'sb4', text: 'です' },
+              { id: 'sb5', text: '。' }
+            ]
+          },
               { japanese: '佐藤先生は有名です。', reading: 'さとうせんせいはゆうめいです。', romaji: 'satou sensei wa yuumei desu.', vietnamese: 'Thầy Sato nổi tiếng.' },
               { japanese: 'この公園は静かです。', reading: 'このこうえんはしずかです。', romaji: 'kono kouen wa shizuka desu.', vietnamese: 'Công viên này yên tĩnh.' },
               { japanese: 'この部屋はきれいです。', reading: 'このへやはきれいです。', romaji: 'kono heya wa kirei desu.', vietnamese: 'Căn phòng này sạch đẹp.' },
@@ -120,6 +156,18 @@ export const grammarCourses: GrammarCourse[] = [
             id: 'g4', title: 'N は Aじゃありません。', meaning: 'N không [tính chất] A', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'じゃ', iconBg: 'bg-purple-50 dark:bg-purple-900/30', iconColor: 'text-purple-500',
             examples: [
+          {
+            japanese: 'わたしはがくせいです。',
+            vietnamese: 'Tôi là học sinh.',
+            romaji: 'watashi wa gakusei desu.',
+            sortBlocks: [
+              { id: 'sb1', text: 'わたし' },
+              { id: 'sb2', text: 'は' },
+              { id: 'sb3', text: 'がくせい' },
+              { id: 'sb4', text: 'です' },
+              { id: 'sb5', text: '。' }
+            ]
+          },
               { japanese: '私の部屋はきれいじゃありません。', reading: 'わたしのへやはきれいじゃありません。', romaji: 'watashi no heya wa kirei ja arimasen.', vietnamese: 'Phòng của tôi không sạch đẹp.' },
               { japanese: 'この町は静かじゃありません。', reading: 'このまちはしずかじゃありません。', romaji: 'kono machi wa shizuka ja arimasen.', vietnamese: 'Thành phố này không yên tĩnh.' },
               { japanese: '私は暇じゃありません。', reading: 'わたしはひまじゃありません。', romaji: 'watashi wa hima ja arimasen.', vietnamese: 'Tôi không rảnh rỗi.' },
@@ -131,6 +179,18 @@ export const grammarCourses: GrammarCourse[] = [
             id: 'g5', title: 'とても / すこし + A', meaning: 'Rất / Một chút', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: '✨', iconBg: 'bg-pink-50 dark:bg-pink-900/30', iconColor: 'text-pink-500',
             examples: [
+          {
+            japanese: 'わたしはがくせいです。',
+            vietnamese: 'Tôi là học sinh.',
+            romaji: 'watashi wa gakusei desu.',
+            sortBlocks: [
+              { id: 'sb1', text: 'わたし' },
+              { id: 'sb2', text: 'は' },
+              { id: 'sb3', text: 'がくせい' },
+              { id: 'sb4', text: 'です' },
+              { id: 'sb5', text: '。' }
+            ]
+          },
               { japanese: 'この町はとても静かです。', reading: 'このまちはとてもしずかです。', romaji: 'kono machi wa totemo shizuka desu.', vietnamese: 'Thị trấn này rất yên tĩnh.' },
               { japanese: '今日は少し暑いです。', reading: 'きょうはすこしあついです。', romaji: 'kyou wa sukoshi atsui desu.', vietnamese: 'Hôm nay hơi nóng.' },
               { japanese: 'このケーキはとても美味しいです。', reading: 'このケーキはとてもおいしいです。', romaji: 'kono keeki wa totemo oishii desu.', vietnamese: 'Cái bánh này rất ngon.' },
@@ -142,6 +202,18 @@ export const grammarCourses: GrammarCourse[] = [
             id: 'g6', title: 'あまり + Aくない', meaning: 'Không ... lắm', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'あ', iconBg: 'bg-orange-50 dark:bg-orange-900/30', iconColor: 'text-orange-500',
             examples: [
+          {
+            japanese: 'わたしはがくせいです。',
+            vietnamese: 'Tôi là học sinh.',
+            romaji: 'watashi wa gakusei desu.',
+            sortBlocks: [
+              { id: 'sb1', text: 'わたし' },
+              { id: 'sb2', text: 'は' },
+              { id: 'sb3', text: 'がくせい' },
+              { id: 'sb4', text: 'です' },
+              { id: 'sb5', text: '。' }
+            ]
+          },
               { japanese: '私はあまり暇じゃありません。', reading: 'わたしはあまりひまじゃありません。', romaji: 'watashi wa amari hima ja arimasen.', vietnamese: 'Tôi không rảnh rỗi lắm.' },
               { japanese: 'この試験はあまり難しくないです。', reading: 'このしけんはあまりむずかしくないです。', romaji: 'kono shiken wa amari muzukashikunai desu.', vietnamese: 'Bài thi này không khó lắm.' },
               { japanese: '今日はあまり寒くないです。', reading: 'きょうはあまりさむくないです。', romaji: 'kyou wa amari samukunai desu.', vietnamese: 'Hôm nay không lạnh lắm.' },
@@ -153,6 +225,18 @@ export const grammarCourses: GrammarCourse[] = [
             id: 'g7', title: 'N1 に N2 が あります。', meaning: 'Ở N1 có N2', type: 'Phó từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: '📦', iconBg: 'bg-blue-50 dark:bg-blue-900/30', iconColor: 'text-blue-600', barColor: 'bg-emerald-500',
             examples: [
+          {
+            japanese: 'わたしはがくせいです。',
+            vietnamese: 'Tôi là học sinh.',
+            romaji: 'watashi wa gakusei desu.',
+            sortBlocks: [
+              { id: 'sb1', text: 'わたし' },
+              { id: 'sb2', text: 'は' },
+              { id: 'sb3', text: 'がくせい' },
+              { id: 'sb4', text: 'です' },
+              { id: 'sb5', text: '。' }
+            ]
+          },
               { japanese: '公園に木があります。', reading: 'こうえんにきがあります。', romaji: 'kouen ni ki ga arimasu.', vietnamese: 'Ở công viên có cây.' },
               { japanese: '部屋に机があります。', reading: 'へやにつくえがあります。', romaji: 'heya ni tsukue ga arimasu.', vietnamese: 'Trong phòng có cái bàn.' },
               { japanese: '机の上に本があります。', reading: 'つくえのうえにほんがあります。', romaji: 'tsukue no ue ni hon ga arimasu.', vietnamese: 'Trên bàn có quyển sách.' },
@@ -175,6 +259,18 @@ export const grammarCourses: GrammarCourse[] = [
             jlpt: 'N5',
             difficulty: 'Cơ bản',
             examples: [
+          {
+            japanese: 'わたしはがくせいです。',
+            vietnamese: 'Tôi là học sinh.',
+            romaji: 'watashi wa gakusei desu.',
+            sortBlocks: [
+              { id: 'sb1', text: 'わたし' },
+              { id: 'sb2', text: 'は' },
+              { id: 'sb3', text: 'がくせい' },
+              { id: 'sb4', text: 'です' },
+              { id: 'sb5', text: '。' }
+            ]
+          },
               {
                 japanese: '昨日は雨でした。',
                 vietnamese: 'Hôm qua trời đã mưa.'
@@ -182,8 +278,32 @@ export const grammarCourses: GrammarCourse[] = [
             ],
             isLearned: false
           },
-          { id: 'g9', title: '〜が好きです', meaning: 'Thích...', type: 'Sở thích', jlpt: 'N5', difficulty: 'Cơ bản', examples: [{ japanese: '私はスポーツが好きです。', vietnamese: 'Tôi thích thể thao.' }] },
-          { id: 'g10', title: '〜が上手です', meaning: 'Giỏi...', type: 'Kỹ năng', jlpt: 'N5', difficulty: 'Cơ bản', examples: [{ japanese: '彼女は歌が上手です。', vietnamese: 'Cô ấy hát giỏi.' }] },
+          { id: 'g9', title: '〜が好きです', meaning: 'Thích...', type: 'Sở thích', jlpt: 'N5', difficulty: 'Cơ bản', examples: [
+          {
+            japanese: 'わたしはがくせいです。',
+            vietnamese: 'Tôi là học sinh.',
+            romaji: 'watashi wa gakusei desu.',
+            sortBlocks: [
+              { id: 'sb1', text: 'わたし' },
+              { id: 'sb2', text: 'は' },
+              { id: 'sb3', text: 'がくせい' },
+              { id: 'sb4', text: 'です' },
+              { id: 'sb5', text: '。' }
+            ]
+          },{ japanese: '私はスポーツが好きです。', vietnamese: 'Tôi thích thể thao.' }] },
+          { id: 'g10', title: '〜が上手です', meaning: 'Giỏi...', type: 'Kỹ năng', jlpt: 'N5', difficulty: 'Cơ bản', examples: [
+          {
+            japanese: 'わたしはがくせいです。',
+            vietnamese: 'Tôi là học sinh.',
+            romaji: 'watashi wa gakusei desu.',
+            sortBlocks: [
+              { id: 'sb1', text: 'わたし' },
+              { id: 'sb2', text: 'は' },
+              { id: 'sb3', text: 'がくせい' },
+              { id: 'sb4', text: 'です' },
+              { id: 'sb5', text: '。' }
+            ]
+          },{ japanese: '彼女は歌が上手です。', vietnamese: 'Cô ấy hát giỏi.' }] },
           { id: 'g11', title: '〜が下手です', meaning: 'Kém...', type: 'Kỹ năng', jlpt: 'N5', difficulty: 'Cơ bản', examples: [{ japanese: '私は料理が下手です。', vietnamese: 'Tôi nấu ăn kém.' }] },
           { id: 'g12', title: '〜が欲しいです', meaning: 'Muốn có...', type: 'Mong muốn', jlpt: 'N5', difficulty: 'Trung bình', examples: [{ japanese: '新しい車が欲しいです。', vietnamese: 'Tôi muốn có một chiếc xe hơi mới.' }] },
           { id: 'g13', title: '〜たいです', meaning: 'Muốn làm...', type: 'Mong muốn', jlpt: 'N5', difficulty: 'Trung bình', examples: [{ japanese: '日本へ行きたいです。', vietnamese: 'Tôi muốn đi Nhật Bản.' }] }

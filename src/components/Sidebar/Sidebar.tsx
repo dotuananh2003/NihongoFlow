@@ -21,7 +21,7 @@ const navItems = [
   { path: '/introduction', label: 'Nhập môn', sub: 'はじめての日本語', icon: ToriiGate },
   { path: '/kanji', label: 'Hán tự', sub: 'かんじを学ぶ', icon: Castle },
   { path: '/vocabulary', label: 'Từ vựng', sub: 'ことばを学ぶ', icon: ScrollText },
-  { path: '/grammar', label: 'Ngữ pháp', sub: 'ぶんぽうを学ぶ', icon: Brain, locked: true },
+  { path: '/grammar', label: 'Ngữ pháp', sub: 'ぶんぽうを学ぶ', icon: Brain },
   { path: '/memory', label: 'Ghi nhớ', sub: 'おぼえておく', icon: Puzzle, locked: true },
   { path: '/active-vocabulary', label: 'Từ vựng chủ động', sub: '使える語彙', icon: Crown, locked: true },
   { path: '/speaking', label: 'Luyện nói', sub: 'かいわのれんしゅう', icon: Mic, locked: true },
