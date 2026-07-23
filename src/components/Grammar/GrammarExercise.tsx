@@ -313,9 +313,22 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
       if (cleanInput === targetVn) {
         isCorrect = true;
       } else {
-        const distance = levenshteinDistance(cleanInput, targetVn);
-        const maxTypo = targetVn.length >= 15 ? 2 : (targetVn.length >= 5 ? 1 : 0);
-        isCorrect = distance <= maxTypo;
+        // Character-level Levenshtein
+        const charDist = levenshteinDistance(cleanInput, targetVn);
+        const maxCharTypo = targetVn.length >= 15 ? 2 : (targetVn.length >= 5 ? 1 : 0);
+        
+        // Word-level inclusion/difference (To tolerate missing/extra minor words like "này", "thì", "là")
+        const inputWords = cleanInput.split(' ');
+        const targetWords = targetVn.split(' ');
+        
+        // 1. User missed 1 word, but all typed words are correct
+        const isInputSubsetOfTarget = inputWords.every(w => targetWords.includes(w)) && inputWords.length >= targetWords.length - 1;
+        
+        // 2. User typed 1 extra word, but got all target words correct
+        const isTargetSubsetOfInput = targetWords.every(w => inputWords.includes(w)) && inputWords.length <= targetWords.length + 1;
+        
+        // If it's a small typo OR it has all the core words (only 1 extra/missing word)
+        isCorrect = charDist <= maxCharTypo || isInputSubsetOfTarget || isTargetSubsetOfInput;
       }
     }
 
