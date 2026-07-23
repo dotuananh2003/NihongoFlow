@@ -241,6 +241,15 @@ export const grammarCourses: GrammarCourse[] = [
           {
             id: 'g4', title: 'N は Aじゃありません。', meaning: 'N không [tính chất] A', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'じゃ', iconBg: 'bg-purple-50 dark:bg-purple-900/30', iconColor: 'text-purple-500',
+            barColor: 'bg-purple-500',
+            structure: 'N は A じゃありません',
+            structureDetails: 'Danh từ + は + Tính từ đuôi な (bỏ な) + じゃありません',
+            explanationTitle: 'N không [tính chất] A',
+            explanationDetails: 'Tính từ đuôi な (Phủ định)',
+            usage: 'Phủ định tính chất của sự vật bằng tính từ đuôi na.',
+            note: 'Dùng trong hội thoại thông thường. Trang trọng hơn dùng では ありません.',
+            memoryTip: 'Tính từ đuôi な cũng giống Danh từ, khi phủ định cứ thêm "じゃありません" vào sau là xong.',
+            commonWords: 'Tương tự khẳng định: 好き, きれい, 有名, 静か, 暇...',
             relatedGrammars: [
       {
         name: 'N は Aくない です',
@@ -287,6 +296,15 @@ export const grammarCourses: GrammarCourse[] = [
           {
             id: 'g5', title: 'とても / すこし + A', meaning: 'Rất / Một chút', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'と', iconBg: 'bg-pink-50 dark:bg-pink-900/30', iconColor: 'text-pink-500',
+            barColor: 'bg-pink-500',
+            structure: 'とても / すこし + A',
+            structureDetails: 'Trạng từ + Tính từ',
+            explanationTitle: 'Rất / Một chút',
+            explanationDetails: 'Trạng từ chỉ mức độ',
+            usage: 'Nhấn mạnh mức độ của tính từ. Dùng với câu khẳng định.',
+            note: 'とても (rất) chỉ mức độ cao, すこし (một chút) chỉ mức độ thấp.',
+            memoryTip: 'Hai từ này luôn đứng trước tính từ và luôn đi với câu mang nghĩa Khẳng định (です).',
+            commonWords: 'Thường đi với các tính từ chỉ cảm xúc, cảm giác, tính chất.',
             relatedGrammars: [
       {
         name: 'あまり + Aくない / じゃありません',
@@ -333,6 +351,15 @@ export const grammarCourses: GrammarCourse[] = [
           {
             id: 'g6', title: 'あまり + Aくない', meaning: 'Không ... lắm', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'あ', iconBg: 'bg-orange-50 dark:bg-orange-900/30', iconColor: 'text-orange-500',
+            barColor: 'bg-orange-500',
+            structure: 'あまり + A (phủ định)',
+            structureDetails: 'あまり + Tính từ chia ở dạng phủ định (くない / じゃありません)',
+            explanationTitle: 'Không ... lắm',
+            explanationDetails: 'Trạng từ chỉ mức độ phủ định',
+            usage: 'Phủ định một phần mức độ của tính chất.',
+            note: 'Luôn luôn đi kèm với thể phủ định ở cuối câu.',
+            memoryTip: 'Cứ thấy あまり (amari) thì nhắm mắt cũng biết đuôi câu phải là phủ định (nai / masen).',
+            commonWords: 'Thường gặp trong câu đánh giá: không ngon lắm, không đắt lắm, không khó lắm...',
             relatedGrammars: [
       {
         name: 'とても + Aい / Aな',
