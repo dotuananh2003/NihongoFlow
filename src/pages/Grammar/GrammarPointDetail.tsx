@@ -105,14 +105,26 @@ export const GrammarPointDetail = () => {
     return combinedVocab.length > 0 ? combinedVocab : (vocabularyData['4-1'] || []);
   }, [lessonId]);
 
+  const colorizeGrammarTitle = (text: string) => {
+    if (!text) return text;
+    const regex = /(N[1-3]?|A[いな]?|V)/g;
+    const parts = text.split(regex);
+    return parts.map((part, i) => {
+      if (/^N[1-3]?$/.test(part)) return <span key={i} className="text-blue-500 dark:text-blue-400 font-sans px-[2px]">{part}</span>;
+      if (/^A[いな]?$/.test(part)) return <span key={i} className="text-orange-500 dark:text-orange-400 font-sans px-[2px]">{part}</span>;
+      if (part === 'V') return <span key={i} className="text-emerald-500 dark:text-emerald-400 font-sans px-[2px]">{part}</span>;
+      return part;
+    });
+  };
+
   const renderStructure = (structure?: React.ReactNode | string) => {
     if (!structure) return null;
     if (typeof structure !== 'string') return structure;
     
     return structure.split(' ').map((part, index) => {
-      if (part === 'N' || part === '[N]') return <span key={index} className="bg-blue-100 text-blue-600 rounded-lg px-2 py-1 text-xl mx-0.5 font-sans">N</span>;
-      if (part === 'A' || part === '[A]') return <span key={index} className="bg-orange-100 text-orange-600 rounded-lg px-2 py-1 text-xl mx-0.5 font-sans">A</span>;
-      if (part === 'V' || part === '[V]') return <span key={index} className="bg-emerald-100 text-emerald-600 rounded-lg px-2 py-1 text-xl mx-0.5 font-sans">V</span>;
+      if (/^\[?N[1-3]?\]?$/.test(part)) return <span key={index} className="bg-blue-100 text-blue-600 rounded-lg px-2 py-1 text-xl mx-0.5 font-sans font-black">{part.replace(/\[|\]/g, '')}</span>;
+      if (/^\[?A[いな]?\]?$/.test(part)) return <span key={index} className="bg-orange-100 text-orange-600 rounded-lg px-2 py-1 text-xl mx-0.5 font-sans font-black">{part.replace(/\[|\]/g, '')}</span>;
+      if (part === 'V' || part === '[V]') return <span key={index} className="bg-emerald-100 text-emerald-600 rounded-lg px-2 py-1 text-xl mx-0.5 font-sans font-black">V</span>;
       return <span key={index} className="mx-0.5">{part}</span>;
     });
   };
@@ -142,10 +154,10 @@ export const GrammarPointDetail = () => {
           </button>
           
           <h1 className="text-3xl md:text-4xl font-black text-slate-800 dark:text-slate-100 tracking-tight font-jp mb-2">
-            {point.title}
+            {colorizeGrammarTitle(point.title)}
           </h1>
           <p className="text-slate-600 dark:text-slate-300 font-medium text-lg inline-block border-b-[3px] border-yellow-400 pb-1">
-            {point.explanationTitle || point.meaning}
+            {colorizeGrammarTitle(point.explanationTitle || point.meaning)}
           </p>
         </div>
 
@@ -191,7 +203,7 @@ export const GrammarPointDetail = () => {
           </div>
           
           <div className="text-xl font-black mb-4">
-            {point.explanationTitle || point.meaning}
+            {colorizeGrammarTitle(point.explanationTitle || point.meaning)}
           </div>
           <div className="text-sm font-medium text-slate-300">
             {point.explanationDetails || point.type}
@@ -259,8 +271,8 @@ export const GrammarPointDetail = () => {
             {point.relatedGrammars.map((rg, idx) => (
               <div key={idx} className="bg-purple-50 dark:bg-purple-900/10 rounded-[1.5rem] p-4 md:p-5 shadow-sm border border-purple-100 dark:border-purple-900/30">
                 <div className="mb-4">
-                  <h3 className="text-base md:text-lg font-black text-purple-600 dark:text-purple-400 font-jp">{rg.name}</h3>
-                  <p className="text-sm font-bold text-purple-800 dark:text-purple-200 mt-1.5">{rg.meaning}</p>
+                  <h3 className="text-base md:text-lg font-black text-purple-600 dark:text-purple-400 font-jp">{colorizeGrammarTitle(rg.name)}</h3>
+                  <p className="text-sm font-bold text-purple-800 dark:text-purple-200 mt-1.5">{colorizeGrammarTitle(rg.meaning)}</p>
                 </div>
                 
                 <div className="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
