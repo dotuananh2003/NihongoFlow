@@ -502,17 +502,22 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
         </div>
 
         {/* Progress & Stats */}
-        <div className="flex items-center gap-4 md:gap-8 mb-3 md:mb-4 bg-white dark:bg-slate-900 p-2 md:p-3 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-3 font-bold text-slate-700 dark:text-slate-300">
-            <span className="w-8 text-center">{currentIdx + 1}/{questions.length}</span>
-            <div className="w-32 md:w-64 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-              <div className="h-full bg-blue-500 transition-all duration-300" style={{ width: `${progress}%` }} />
+        <div className="flex items-center justify-between mb-3 md:mb-4 bg-white dark:bg-slate-900 p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+          <div className="flex-1 flex items-center gap-3 md:gap-4 font-bold text-slate-700 dark:text-slate-300 mr-4 md:mr-8">
+            <span className="w-8 text-center text-sm md:text-base shrink-0">{currentIdx + 1}/{questions.length}</span>
+            <div className="flex-1 h-3 md:h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner relative">
+              <div 
+                className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 transition-all duration-500 ease-out shadow-[0_0_12px_rgba(59,130,246,0.6)]" 
+                style={{ width: `${progress}%` }} 
+              >
+                <div className="absolute inset-0 bg-white/20 w-full h-1/3"></div>
+              </div>
             </div>
           </div>
-          <div className="w-px h-6 bg-slate-200 dark:bg-slate-700"></div>
-          <div className="flex items-center gap-4 text-sm font-black">
-            <div className="flex items-center gap-1.5 text-amber-500"><Flame size={16} /> {combo}</div>
-            <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400"><Star size={16} /> {score}</div>
+          
+          <div className="flex items-center gap-4 text-sm md:text-base font-black shrink-0">
+            <div className="flex items-center gap-1.5 text-amber-500 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded-lg"><Flame size={18} /> {combo}</div>
+            <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-lg"><Star size={18} /> {score}</div>
           </div>
         </div>
 
@@ -645,24 +650,29 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
               )}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 w-full flex-shrink-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 w-full flex-shrink-0 mb-2">
               {q.options?.map((opt, idx) => {
                 const isSelected = selectedAnswerIdx === idx;
                 const isCorrectOption = opt === q.correctAnswer;
                 
-                let btnStyle = "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-400 hover:bg-slate-50 dark:hover:bg-slate-700/50";
+                let btnStyle = "";
                 let icon = null;
+                let accentStyle = "bg-slate-200 dark:bg-slate-700"; 
 
                 if (isAnswered) {
                   if (isCorrectOption) {
-                    btnStyle = "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-500 text-emerald-700 dark:text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]";
-                    icon = <Check size={20} className="text-emerald-500" />;
+                    btnStyle = "bg-emerald-50 dark:bg-emerald-900/20 border-2 border-emerald-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px] text-emerald-700 dark:text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]";
+                    accentStyle = "bg-emerald-500";
+                    icon = <Check size={20} className="text-emerald-500 shrink-0" />;
                   } else if (isSelected) {
-                    btnStyle = "bg-rose-50 dark:bg-rose-900/20 border-rose-500 text-rose-700 dark:text-rose-400";
-                    icon = <X size={20} className="text-rose-500" />;
+                    btnStyle = "bg-rose-50 dark:bg-rose-900/20 border-2 border-rose-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px] text-rose-700 dark:text-rose-400 opacity-90";
+                    accentStyle = "bg-rose-500";
+                    icon = <X size={20} className="text-rose-500 shrink-0" />;
                   } else {
-                    btnStyle = "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 opacity-50";
+                    btnStyle = "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 border-b-[6px] opacity-50";
                   }
+                } else {
+                  btnStyle = "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 border-b-[6px] hover:border-blue-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 active:border-b-[2px] active:translate-y-[4px] shadow-sm";
                 }
 
                 return (
@@ -670,9 +680,22 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
                     key={idx}
                     disabled={isAnswered}
                     onClick={() => handleMCQAnswer(idx)}
-                    className={`relative w-full p-3 md:p-4 rounded-xl flex items-center gap-3 transition-all duration-300 text-left ${btnStyle} ${!isAnswered ? 'active:scale-95' : ''}`}
+                    className={`group relative w-full p-3 md:p-4 rounded-xl flex items-center gap-3 transition-all duration-200 text-left overflow-hidden ${btnStyle}`}
                   >
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${isAnswered && isCorrectOption ? 'bg-emerald-500 text-white' : isAnswered && isSelected ? 'bg-rose-500 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-500'}`}>
+                    {!isAnswered && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-200 dark:bg-slate-700 group-hover:bg-blue-400 transition-colors"></div>
+                    )}
+                    {isAnswered && (
+                      <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${accentStyle}`}></div>
+                    )}
+
+                    <div className={`ml-2 w-8 h-8 rounded-full flex items-center justify-center font-black text-sm shrink-0 transition-colors ${
+                      isAnswered && isCorrectOption 
+                        ? 'bg-emerald-500 text-white' 
+                        : isAnswered && isSelected 
+                          ? 'bg-rose-500 text-white' 
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:bg-blue-100 group-hover:text-blue-600 dark:group-hover:bg-blue-900 dark:group-hover:text-blue-400'
+                    }`}>
                       {['A', 'B', 'C', 'D'][idx]}
                     </div>
                     <span className={`text-sm md:text-base font-bold flex-1 ${q.subType === 'vn_to_jp' || q.type === 'type2' ? 'font-jp' : ''}`}>
