@@ -6,6 +6,60 @@ import { grammarCourses } from '../../data/grammarData';
 import { vocabularyData } from '../../data/vocabularyData';
 import { GrammarExercise } from '../../components/Grammar/GrammarExercise';
 
+const PARSE_COLORS = [
+  'text-pink-500',
+  'text-emerald-500',
+  'text-amber-500',
+  'text-indigo-500',
+  'text-cyan-500',
+  'text-rose-500',
+  'text-violet-500'
+];
+
+interface ParsedBlock {
+  text: string;
+  type: 'kana' | 'kanji' | 'mixed';
+  reading?: string;
+}
+
+function parseKanjiReading(japanese: string, reading?: string): ParsedBlock[] {
+  if (!reading || japanese === reading) return [{ text: japanese, type: 'kana' }];
+  const kanjiRegex = /([\u4E00-\u9FAF]+)/g;
+  const parts = japanese.split(kanjiRegex);
+  if (parts.length === 1) return [{ text: japanese, type: 'kana' }]; 
+
+  let regexStr = '^';
+  parts.forEach((part, i) => {
+    if (i % 2 === 0) {
+      const escaped = part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      regexStr += escaped;
+    } else {
+      regexStr += '(.*?)';
+    }
+  });
+  regexStr += '$';
+
+  try {
+    const readingRegex = new RegExp(regexStr);
+    const match = reading.match(readingRegex);
+
+    if (!match) return [{ text: japanese, type: 'mixed', reading }];
+
+    const result: ParsedBlock[] = [];
+    parts.forEach((part, i) => {
+      if (i % 2 === 0) {
+        if (part) result.push({ text: part, type: 'kana' });
+      } else {
+        const kanjiReading = match[(i + 1) / 2];
+        result.push({ text: part, type: 'kanji', reading: kanjiReading });
+      }
+    });
+    return result;
+  } catch (e) {
+    return [{ text: japanese, type: 'mixed', reading }];
+  }
+}
+
 export const GrammarPointDetail = () => {
   const [playingId, setPlayingId] = useState<string | null>(null);
 
@@ -209,8 +263,40 @@ export const GrammarPointDetail = () => {
               >
                 <div className="flex-1 min-w-0 flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
                   <div className="flex-[1.5] min-w-0">
-                    <div className="text-xl md:text-2xl font-black text-slate-800 dark:text-slate-100 font-jp mb-1">{ex.japanese}</div>
-                    <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{ex.reading || ex.japanese}</div>
+                    {(() => {
+                      const parsed = parseKanjiReading(ex.japanese, ex.reading || ex.japanese);
+                      let colorIdx = 0;
+                      const renderBlocks = parsed.map(item => {
+                        if (item.type === 'kanji') {
+                          const color = PARSE_COLORS[colorIdx % PARSE_COLORS.length];
+                          colorIdx++;
+                          return { ...item, color };
+                        }
+                        return item;
+                      });
+
+                      return (
+                        <>
+                          <div className="text-xl md:text-2xl font-black text-slate-800 dark:text-slate-100 font-jp mb-1">
+                            {renderBlocks.map((item, i) => (
+                              item.type === 'kanji' 
+                                ? <span key={i} className={(item as any).color}>{item.text}</span>
+                                : <span key={i}>{item.text}</span>
+                            ))}
+                          </div>
+                          <div className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                            {parsed.length === 1 && parsed[0].type === 'mixed' 
+                              ? (ex.reading || ex.japanese)
+                              : renderBlocks.map((item, i) => (
+                                item.type === 'kanji'
+                                  ? <span key={i} className={(item as any).color}>{item.reading}</span>
+                                  : <span key={i}>{item.text}</span>
+                              ))
+                            }
+                          </div>
+                        </>
+                      );
+                    })()}
                     {ex.romaji && <div className="text-xs font-medium text-slate-400 dark:text-slate-500 italic mt-0.5">{ex.romaji}</div>}
                   </div>
                   <div className="flex-1 min-w-0 text-sm font-medium text-slate-600 dark:text-slate-300">
