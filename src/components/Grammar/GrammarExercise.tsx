@@ -616,7 +616,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
           ) : q.type === 'type3' ? (
 
             <div className="w-full flex flex-col items-center">
-              <div className={`relative w-full bg-white dark:bg-slate-900 rounded-2xl border-[3px] transition-all duration-300 ${isAnswered ? (textInput.toLowerCase().trim() === q.correctAnswer.toLowerCase().trim() || textInput === q.correctAnswer ? 'border-emerald-400 shadow-[0_0_30px_rgba(52,211,153,0.2)]' : 'border-rose-400 shadow-[0_0_30px_rgba(251,113,133,0.2)]') : 'border-blue-400/50 focus-within:border-blue-500 shadow-md'}`}>
+              <div className={`relative w-full bg-white dark:bg-slate-900 rounded-2xl border-[3px] transition-all duration-300 ${isAnswered ? (textInput.toLowerCase().trim() === q.correctAnswer.toLowerCase().trim() || textInput === q.correctAnswer ? 'border-emerald-400 shadow-[0_0_30px_rgba(52,211,153,0.2)]' : 'border-rose-400 shadow-[0_0_30px_rgba(251,113,133,0.2)]') : 'border-slate-200 dark:border-slate-700 focus-within:border-blue-400 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.2)]'}`}>
                 <input
                   ref={inputRef}
                   type="text"
@@ -625,7 +625,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
                   onKeyDown={handleKeyDown}
                   readOnly={isAnswered}
                   placeholder={q.subType === 'vn_to_jp' ? "Nhập romaji..." : "Nhập tiếng Việt..."}
-                  className={`w-full bg-transparent py-3 md:py-4 px-5 md:px-6 text-lg md:text-xl font-bold outline-none placeholder:text-slate-300 dark:placeholder:text-slate-600 ${q.subType === 'vn_to_jp' ? 'font-jp' : ''} ${isAnswered ? 'text-slate-500' : 'text-slate-800 dark:text-slate-100'}`}
+                  className={`w-full bg-transparent py-4 md:py-5 px-5 md:px-6 text-lg md:text-xl font-bold outline-none placeholder:text-slate-300 dark:placeholder:text-slate-600 ${q.subType === 'vn_to_jp' ? 'font-jp' : ''} ${isAnswered ? 'text-slate-500' : 'text-slate-800 dark:text-slate-100'}`}
                 />
               </div>
 
@@ -644,8 +644,19 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
               )}
 
               {!isAnswered && (
-                <button onClick={handleTypingSubmit} className="mt-4 px-6 py-2.5 bg-slate-800 hover:bg-slate-900 dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 text-white rounded-xl font-bold transition-all shadow-md active:scale-95">
-                  Kiểm tra <kbd className="ml-2 font-mono text-[10px] bg-white/20 dark:bg-black/10 px-1.5 py-0.5 rounded">ENTER</kbd>
+                <button 
+                  onClick={handleTypingSubmit} 
+                  disabled={!textInput.trim()}
+                  className={`mt-6 w-full px-8 py-3.5 rounded-xl text-white font-black text-lg md:text-xl flex items-center justify-center gap-2 transition-all shadow-sm ${
+                    textInput.trim() 
+                      ? 'bg-blue-500 hover:bg-blue-400 border-2 border-blue-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px]' 
+                      : 'bg-slate-300 dark:bg-slate-700 border-2 border-slate-300 dark:border-slate-700 border-b-[6px] text-slate-500 dark:text-slate-400 cursor-not-allowed'
+                  }`}
+                >
+                  KIỂM TRA 
+                  <kbd className={`ml-2 font-mono text-xs md:text-sm px-2 py-1 rounded-lg ${textInput.trim() ? 'bg-white/20' : 'bg-black/10'}`}>
+                    ENTER
+                  </kbd>
                 </button>
               )}
             </div>
