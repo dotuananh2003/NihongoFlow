@@ -41,6 +41,36 @@ const shuffle = <T,>(array: T[]): T[] => {
 // Particles for distractor generation in fill-in-the-blank
 const PARTICLES = ['は', 'が', 'を', 'に', 'へ', 'で', 'と', 'も', 'や', 'から', 'まで'];
 
+const levenshteinDistance = (a: string, b: string): number => {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  const matrix = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+  for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+  for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      if (a[i - 1] === b[j - 1]) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1, // substitution
+          matrix[i][j - 1] + 1,     // insertion
+          matrix[i - 1][j] + 1      // deletion
+        );
+      }
+    }
+  }
+  return matrix[a.length][b.length];
+};
+
+const normalizeForTyping = (str: string): string => {
+  return str.toLowerCase()
+    .replace(/[.,/#!$%^&*;:{}=\-_`~()？。、！]/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+};
+
 
 
 export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, vocabList, lessonName, onClose }) => {
@@ -276,17 +306,24 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
 
       isCorrect = cleanInput === targetJp || cleanInput === targetHira || cleanInput === targetRoma || inputRoma === targetRoma;
     } else {
-      // User typed Vietnamese. Compare strings loosely
-      // (Very simple comparison, in reality could use Levenshtein distance)
-      const cleanInput = textInput.toLowerCase().trim();
-      const targetVn = q.correctAnswer.toLowerCase().trim();
-      isCorrect = cleanInput === targetVn || targetVn.includes(cleanInput); 
+      // User typed Vietnamese. Compare with fuzzy matching
+      const cleanInput = normalizeForTyping(textInput);
+      const targetVn = normalizeForTyping(q.correctAnswer);
+      
+      if (cleanInput === targetVn) {
+        isCorrect = true;
+      } else {
+        const distance = levenshteinDistance(cleanInput, targetVn);
+        const maxTypo = targetVn.length >= 15 ? 2 : (targetVn.length >= 5 ? 1 : 0);
+        isCorrect = distance <= maxTypo;
+      }
     }
 
     processResult(isCorrect);
   };
 
   const processResult = (isCorrect: boolean) => {
+    setIsCurrentAnswerCorrect(isCorrect);
     if (isCorrect) {
       setCorrectCount(prev => prev + 1);
       const newCombo = combo + 1;
@@ -616,7 +653,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
           ) : q.type === 'type3' ? (
 
             <div className="w-full flex flex-col items-center">
-              <div className={`relative w-full bg-white dark:bg-slate-900 rounded-2xl border-[3px] transition-all duration-300 ${isAnswered ? (textInput.toLowerCase().trim() === q.correctAnswer.toLowerCase().trim() || textInput === q.correctAnswer ? 'border-emerald-400 shadow-[0_0_30px_rgba(52,211,153,0.2)]' : 'border-rose-400 shadow-[0_0_30px_rgba(251,113,133,0.2)]') : 'border-slate-200 dark:border-slate-700 focus-within:border-blue-400 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.2)]'}`}>
+              <div className={`relative w-full bg-white dark:bg-slate-900 rounded-2xl border-[3px] transition-all duration-300 ${isAnswered ? (isCurrentAnswerCorrect ? 'border-emerald-400 shadow-[0_0_30px_rgba(52,211,153,0.2)]' : 'border-rose-400 shadow-[0_0_30px_rgba(251,113,133,0.2)]') : 'border-slate-200 dark:border-slate-700 focus-within:border-blue-400 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.2)]'}`}>
                 <input
                   ref={inputRef}
                   type="text"
@@ -711,7 +748,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
 
           {/* Answer Feedback */}
           {isAnswered && (() => {
-            const isFeedbackCorrect = q.options?.[selectedAnswerIdx!] === q.correctAnswer;
+            const isFeedbackCorrect = isCurrentAnswerCorrect;
             return (
               <motion.div 
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
