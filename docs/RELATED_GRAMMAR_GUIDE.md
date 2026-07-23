@@ -75,3 +75,29 @@ Dưới đây là một số mẫu cấu trúc mở rộng đã được áp d�
 - Khẳng định / Phủ định / Quá khứ: `N は Aい N です (N2 là N1 A)`, `N は Aかった です (N đã A)`
 - Mức độ: `ぜんぜん + A (phủ định) (Hoàn toàn không A)`
 - Đặt câu hỏi & Liệt kê (Sự tồn tại): `N1 に なに が ありますか (Ở N1 có gì?)`, `N1 に N2 や N3 が あります (Ở N1 có N2 và N3)`
+
+## 6. Quy chuẩn Hoàn thiện Dữ liệu Ngữ pháp (Grammar Details)
+Ngoài mảng `relatedGrammars`, để một mục ngữ pháp hiển thị đầy đủ thông tin (5 khối thẻ màu) trên UI, đối tượng ngữ pháp gốc BẮT BUỘC phải khai báo đầy đủ các trường chi tiết sau:
+
+```typescript
+{
+  id: 'gX',
+  title: '...',
+  meaning: '...',
+  // ... (các trường cơ bản)
+  barColor: 'bg-blue-500', // Màu sắc dải viền (VD: bg-blue-500, bg-emerald-500)
+  structure: 'N1 に N2 が あります', // Công thức rút gọn
+  structureDetails: 'Địa điểm + に + Danh từ + が + あります', // Công thức chi tiết (Diễn giải N1, N2 là gì)
+  explanationTitle: 'Ở N1 có N2', // Tiêu đề giải nghĩa
+  explanationDetails: 'Sự tồn tại / Hiện diện', // Chuyên mục ý nghĩa
+  usage: 'Diễn tả sự tồn tại của sự vật...', // Phạm vi sử dụng & Bối cảnh
+  note: 'があります dùng cho vật vô tri vô giác...', // Lưu ý quan trọng
+  memoryTip: 'Nhớ cặp bài trùng: "Địa điểm" đi với trợ từ "に"...', // Mẹo ghi nhớ học nhanh
+  commonWords: 'Từ chỉ vị trí: 上 (trên), 下 (dưới)...', // Dấu hiệu nhận biết / Từ đi kèm
+  relatedGrammars: [ ... ]
+}
+```
+
+**Lưu ý:**
+- Nếu thiếu các trường này, UI sẽ hiển thị các dòng text mẫu (placeholder) chung chung không chính xác.
+- Khi làm dữ liệu cho Bài 5, Bài 6 trở đi, hãy luôn check kỹ để đảm bảo không bị sót các trường giải thích chi tiết này!
