@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookmarkPlus, Edit3, Volume2, Layers, BookOpen, AlertCircle, Sparkles, Lightbulb, Search } from 'lucide-react';
+import { ArrowLeft, BookmarkPlus, Edit3, Volume2, Layers, BookOpen, AlertCircle, Sparkles, Lightbulb, Search, ChevronDown, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { grammarCourses } from '../../data/grammarData';
 import { vocabularyData } from '../../data/vocabularyData';
@@ -62,11 +62,41 @@ function parseKanjiReading(japanese: string, reading?: string): ParsedBlock[] {
 
 export const GrammarPointDetail = () => {
   const [playingId, setPlayingId] = useState<string | null>(null);
+  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [isVoiceMenuOpen, setIsVoiceMenuOpen] = useState(false);
+  const voiceMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const loadVoices = () => {
+      const voices = window.speechSynthesis.getVoices();
+      const jaVoices = voices.filter(v => v.lang.includes('ja'));
+      setAvailableVoices(jaVoices);
+      if (jaVoices.length > 0) {
+        setSelectedVoice(prev => {
+          if (prev) return prev;
+          return jaVoices.find(v => v.name.toLowerCase().includes('haruka') || v.name.toLowerCase().includes('kyoko')) || jaVoices[0];
+        });
+      }
+    };
+    
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    
     return () => {
+      window.speechSynthesis.onvoiceschanged = null;
       window.speechSynthesis.cancel();
     };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (voiceMenuRef.current && !voiceMenuRef.current.contains(event.target as Node)) {
+        setIsVoiceMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleSpeak = (text: string, rate: number = 0.85, id: string) => {
@@ -74,6 +104,9 @@ export const GrammarPointDetail = () => {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ja-JP';
     utterance.rate = rate;
+    if (selectedVoice) {
+      utterance.voice = selectedVoice;
+    }
     
     utterance.onstart = () => setPlayingId(id);
     utterance.onend = () => setPlayingId(null);
@@ -347,9 +380,52 @@ export const GrammarPointDetail = () => {
 
       {/* VÍ DỤ */}
       <div className="mb-6">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-1.5 h-6 bg-blue-500 rounded-full"></div>
-          <h2 className="text-lg font-black text-slate-800 dark:text-slate-100 uppercase tracking-widest">VÍ DỤ</h2>
+        <div className="flex items-center justify-between mb-6 relative" ref={voiceMenuRef}>
+          <div className="flex items-center gap-3">
+            <div className="w-1.5 h-6 bg-blue-500 rounded-full"></div>
+            <h2 className="text-lg font-black text-slate-800 dark:text-slate-100 uppercase tracking-widest">VÍ DỤ</h2>
+          </div>
+          
+          {/* Voice Selector */}
+          {availableVoices.length > 0 && (
+            <div className="relative">
+              <button 
+                onClick={() => setIsVoiceMenuOpen(!isVoiceMenuOpen)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
+              >
+                <Volume2 size={16} className="text-purple-500" />
+                <span className="max-w-[120px] truncate">{selectedVoice?.name || 'Chọn giọng đọc'}</span>
+                <ChevronDown size={14} className="text-slate-400" />
+              </button>
+              
+              {isVoiceMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 py-2 z-50 overflow-hidden backdrop-blur-sm">
+                  <div className="px-3 pb-2 mb-2 border-b border-slate-100 dark:border-slate-700">
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Chọn Giọng Đọc</p>
+                  </div>
+                  <div className="max-h-[300px] overflow-y-auto">
+                    {availableVoices.map((voice, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setSelectedVoice(voice);
+                          setIsVoiceMenuOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between transition-colors ${
+                          selectedVoice?.name === voice.name 
+                            ? 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold' 
+                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50'
+                        }`}
+                      >
+                        <span className="truncate pr-4">{voice.name}</span>
+                        {selectedVoice?.name === voice.name && <Check size={16} />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="space-y-4">
