@@ -157,7 +157,7 @@ export const GrammarPointDetail = () => {
             {colorizeGrammarTitle(point.title)}
           </h1>
           <p className="text-slate-600 dark:text-slate-300 font-medium text-lg inline-block border-b-[3px] border-yellow-400 pb-1">
-            {colorizeGrammarTitle(point.explanationTitle || point.meaning)}
+            {point.explanationTitle || point.meaning}
           </p>
         </div>
 
@@ -203,7 +203,7 @@ export const GrammarPointDetail = () => {
           </div>
           
           <div className="text-xl font-black mb-4">
-            {colorizeGrammarTitle(point.explanationTitle || point.meaning)}
+            {point.explanationTitle || point.meaning}
           </div>
           <div className="text-sm font-medium text-slate-300">
             {point.explanationDetails || point.type}
