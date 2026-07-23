@@ -7,8 +7,8 @@ function App() {
     <ReactLenis
       root
       options={{
-        lerp: 0.8,
-        duration: 1.2,
+        duration: 0.15,
+        wheelMultiplier: 1.8,
         smoothWheel: true,
         syncTouch: true,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
