@@ -1,10 +1,22 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookmarkPlus, Edit3, Volume2, Layers, BookOpen, AlertCircle, Sparkles, Lightbulb, Search, ChevronDown, Check } from 'lucide-react';
+import { ArrowLeft, BookmarkPlus, Edit3, Volume2, Layers, BookOpen, AlertCircle, Sparkles, Lightbulb, Search, ChevronDown, Check, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { grammarCourses } from '../../data/grammarData';
 import { vocabularyData } from '../../data/vocabularyData';
 import { GrammarExercise } from '../../components/Grammar/GrammarExercise';
+
+type AppVoice = 
+  | { type: 'os'; voice: SpeechSynthesisVoice }
+  | { type: 'voicevox'; id: number; name: string };
+
+const VOICEVOX_CHARACTERS = [
+  { id: 3, name: 'Zundamon (Nữ - Đáng yêu)' },
+  { id: 2, name: 'Shikoku Metan (Nữ - Truyền cảm)' },
+  { id: 8, name: 'Kasukabe Tsumugi (Nữ - Trầm ấm)' },
+  { id: 11, name: 'Kurono Takehiro (Nam - Trầm)' },
+  { id: 1, name: 'Tsukuyomi Shouta (Nam - Bé trai)' }
+];
 
 const PARSE_COLORS = [
   'text-pink-500',
@@ -63,9 +75,11 @@ function parseKanjiReading(japanese: string, reading?: string): ParsedBlock[] {
 export const GrammarPointDetail = () => {
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
-  const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState<AppVoice | null>(null);
   const [isVoiceMenuOpen, setIsVoiceMenuOpen] = useState(false);
+  const [isLoadingAudio, setIsLoadingAudio] = useState(false);
   const voiceMenuRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const loadVoices = () => {
@@ -75,7 +89,8 @@ export const GrammarPointDetail = () => {
       if (jaVoices.length > 0) {
         setSelectedVoice(prev => {
           if (prev) return prev;
-          return jaVoices.find(v => v.name.toLowerCase().includes('haruka') || v.name.toLowerCase().includes('kyoko')) || jaVoices[0];
+          const defaultOs = jaVoices.find(v => v.name.toLowerCase().includes('haruka') || v.name.toLowerCase().includes('kyoko')) || jaVoices[0];
+          return { type: 'os', voice: defaultOs };
         });
       }
     };
@@ -86,6 +101,9 @@ export const GrammarPointDetail = () => {
     return () => {
       window.speechSynthesis.onvoiceschanged = null;
       window.speechSynthesis.cancel();
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
     };
   }, []);
 
@@ -99,20 +117,57 @@ export const GrammarPointDetail = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSpeak = (text: string, rate: number = 0.85, id: string) => {
+  const handleSpeak = async (text: string, rate: number = 0.85, id: string) => {
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ja-JP';
-    utterance.rate = rate;
-    if (selectedVoice) {
-      utterance.voice = selectedVoice;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
     }
     
-    utterance.onstart = () => setPlayingId(id);
-    utterance.onend = () => setPlayingId(null);
-    utterance.onerror = () => setPlayingId(null);
+    if (selectedVoice?.type === 'voicevox') {
+      setIsLoadingAudio(true);
+      setPlayingId(id);
+      try {
+        const speed = rate < 0.5 ? 0.7 : 1.0; 
+        const res = await fetch(`https://api.tts.quest/v3/voicevox/synthesis?text=${encodeURIComponent(text)}&speaker=${selectedVoice.id}&speedScale=${speed}`);
+        const data = await res.json();
+        
+        if (data.success && data.mp3DownloadUrl) {
+          const audio = new Audio(data.mp3DownloadUrl);
+          audioRef.current = audio;
+          
+          audio.onplay = () => setIsLoadingAudio(false);
+          audio.onended = () => {
+            setPlayingId(null);
+            setIsLoadingAudio(false);
+          };
+          audio.onerror = () => {
+            setPlayingId(null);
+            setIsLoadingAudio(false);
+          };
+          audio.play();
+        } else {
+          setIsLoadingAudio(false);
+          setPlayingId(null);
+        }
+      } catch (err) {
+        setIsLoadingAudio(false);
+        setPlayingId(null);
+      }
+    } else {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ja-JP';
+      utterance.rate = rate;
+      if (selectedVoice && selectedVoice.type === 'os') {
+        utterance.voice = selectedVoice.voice;
+      }
+      
+      utterance.onstart = () => setPlayingId(id);
+      utterance.onend = () => setPlayingId(null);
+      utterance.onerror = () => setPlayingId(null);
 
-    window.speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(utterance);
+    }
   };
 
   const { courseId, lessonId, pointId } = useParams();
@@ -362,10 +417,14 @@ export const GrammarPointDetail = () => {
                       }`}
                     >
                       {playingId === `rg-${idx}-normal` ? (
-                        <div className="relative flex items-center justify-center h-4 w-4">
-                          <Volume2 size={16} className="relative z-10" />
-                          <div className="absolute inset-0 rounded-full bg-white opacity-50 animate-ping"></div>
-                        </div>
+                        isLoadingAudio ? (
+                          <Loader2 size={16} className="animate-spin" />
+                        ) : (
+                          <div className="relative flex items-center justify-center h-4 w-4">
+                            <Volume2 size={16} className="relative z-10" />
+                            <div className="absolute inset-0 rounded-full bg-white opacity-50 animate-ping"></div>
+                          </div>
+                        )
                       ) : (
                         <Volume2 size={16} />
                       )}
@@ -393,32 +452,68 @@ export const GrammarPointDetail = () => {
                 onClick={() => setIsVoiceMenuOpen(!isVoiceMenuOpen)}
                 className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
               >
-                <Volume2 size={16} className="text-purple-500" />
-                <span className="max-w-[120px] truncate">{selectedVoice?.name || 'Chọn giọng đọc'}</span>
-                <ChevronDown size={14} className="text-slate-400" />
+                <Volume2 size={16} className="text-purple-500 shrink-0" />
+                <span className="max-w-[200px] sm:max-w-[300px] truncate">
+                  {selectedVoice 
+                    ? (selectedVoice.type === 'voicevox' ? selectedVoice.name : selectedVoice.voice.name) 
+                    : 'Chọn giọng đọc'}
+                </span>
+                <ChevronDown size={14} className={`text-slate-400 shrink-0 transition-transform duration-300 ${isVoiceMenuOpen ? 'rotate-180' : ''}`} />
               </button>
               
               {isVoiceMenuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 py-2 z-50 overflow-hidden backdrop-blur-sm">
+                <div className="absolute right-0 top-full mt-2 w-[320px] max-w-[90vw] bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 py-2 z-50 overflow-hidden backdrop-blur-sm">
                   <div className="px-3 pb-2 mb-2 border-b border-slate-100 dark:border-slate-700">
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Chọn Giọng Đọc</p>
                   </div>
                   <div className="max-h-[300px] overflow-y-auto">
-                    {availableVoices.map((voice, idx) => (
+                    {/* Voicevox API Category */}
+                    <div className="px-3 py-1 bg-slate-50 dark:bg-slate-900 border-y border-slate-100 dark:border-slate-700">
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                        <Sparkles size={12} className="text-amber-500" />
+                        Giọng AI Lồng Tiếng (Online)
+                      </p>
+                    </div>
+                    {VOICEVOX_CHARACTERS.map((char) => (
                       <button
-                        key={idx}
+                        key={`vv-${char.id}`}
                         onClick={() => {
-                          setSelectedVoice(voice);
+                          setSelectedVoice({ type: 'voicevox', id: char.id, name: char.name });
                           setIsVoiceMenuOpen(false);
                         }}
                         className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between transition-colors ${
-                          selectedVoice?.name === voice.name 
+                          selectedVoice?.type === 'voicevox' && selectedVoice.id === char.id
+                            ? 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold' 
+                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50'
+                        }`}
+                      >
+                        <span className="truncate pr-4">{char.name}</span>
+                        {selectedVoice?.type === 'voicevox' && selectedVoice.id === char.id && <Check size={16} className="shrink-0" />}
+                      </button>
+                    ))}
+
+                    {/* Web Speech API Category */}
+                    <div className="px-3 py-1 bg-slate-50 dark:bg-slate-900 border-y border-slate-100 dark:border-slate-700 mt-2">
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                        <Layers size={12} className="text-blue-500" />
+                        Giọng Hệ Điều Hành (Offline)
+                      </p>
+                    </div>
+                    {availableVoices.map((voice, idx) => (
+                      <button
+                        key={`os-${idx}`}
+                        onClick={() => {
+                          setSelectedVoice({ type: 'os', voice });
+                          setIsVoiceMenuOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between transition-colors ${
+                          selectedVoice?.type === 'os' && selectedVoice.voice.name === voice.name 
                             ? 'bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold' 
                             : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50'
                         }`}
                       >
                         <span className="truncate pr-4">{voice.name}</span>
-                        {selectedVoice?.name === voice.name && <Check size={16} />}
+                        {selectedVoice?.type === 'os' && selectedVoice.voice.name === voice.name && <Check size={16} className="shrink-0" />}
                       </button>
                     ))}
                   </div>
@@ -489,13 +584,17 @@ export const GrammarPointDetail = () => {
                     }`}
                   >
                     {playingId === `${idx}-slow` ? (
-                      <>
-                        <div className="relative flex items-center justify-center h-4 w-4">
-                          <Volume2 size={14} className="relative z-10" />
-                          <div className="absolute inset-0 rounded-full bg-white opacity-50 animate-ping"></div>
-                        </div>
-                        Đang phát
-                      </>
+                      isLoadingAudio ? (
+                        <Loader2 size={16} className="animate-spin" />
+                      ) : (
+                        <>
+                          <div className="relative flex items-center justify-center h-4 w-4">
+                            <Volume2 size={14} className="relative z-10" />
+                            <div className="absolute inset-0 rounded-full bg-white opacity-50 animate-ping"></div>
+                          </div>
+                          Đang phát
+                        </>
+                      )
                     ) : (
                       <><Volume2 size={14} /> Đọc chậm</>
                     )}
@@ -509,13 +608,17 @@ export const GrammarPointDetail = () => {
                     }`}
                   >
                     {playingId === `${idx}-normal` ? (
-                      <>
-                        <div className="relative flex items-center justify-center h-4 w-4">
-                          <Volume2 size={14} className="relative z-10" />
-                          <div className="absolute inset-0 rounded-full bg-white opacity-50 animate-ping"></div>
-                        </div>
-                        Đang phát
-                      </>
+                      isLoadingAudio ? (
+                        <Loader2 size={16} className="animate-spin" />
+                      ) : (
+                        <>
+                          <div className="relative flex items-center justify-center h-4 w-4">
+                            <Volume2 size={14} className="relative z-10" />
+                            <div className="absolute inset-0 rounded-full bg-white opacity-50 animate-ping"></div>
+                          </div>
+                          Đang phát
+                        </>
+                      )
                     ) : (
                       <><Volume2 size={14} /> Đọc thường</>
                     )}
