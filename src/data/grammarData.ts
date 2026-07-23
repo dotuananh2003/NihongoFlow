@@ -79,22 +79,22 @@ export const grammarCourses: GrammarCourse[] = [
             commonWords: 'Thường đi kèm với các phó từ chỉ mức độ: とても (rất), 少し (một chút), あまり (không lắm)...',
             relatedGrammars: [
       {
-        name: 'N は Aい N です',
+        name: 'N は Aい N です (N2 là N1 A)',
         meaning: 'Tính từ i bổ nghĩa cho danh từ',
         example: { japanese: 'これは新しい本です。', reading: 'これはあたらしいほんです。', romaji: 'kore wa atarashii hon desu.', vietnamese: 'Đây là cuốn sách mới.' }
       },
       {
-        name: 'N は Aかった です',
+        name: 'N は Aかった です (N đã A)',
         meaning: 'Khẳng định trong quá khứ',
         example: { japanese: '昨日は寒かったです。', reading: 'きのうはさむかったです。', romaji: 'kinou wa samukatta desu.', vietnamese: 'Hôm qua trời lạnh.' }
       },
       {
-        name: 'N は N です',
+        name: 'N は N です (N1 là N2)',
         meaning: 'Miêu tả bản chất sự vật bằng Danh từ',
         example: { japanese: '彼は学生です。', reading: 'かれはがくせいです。', romaji: 'kare wa gakusei desu.', vietnamese: 'Anh ấy là học sinh.' }
       },
       {
-        name: 'N は Aな です',
+        name: 'N は Aな です (N thì A)',
         meaning: 'Miêu tả tính chất bằng tính từ đuôi na',
         example: { japanese: 'その町は静かです。', reading: 'そのまちはしずかです。', romaji: 'sono machi wa shizuka desu.', vietnamese: 'Thị trấn đó yên tĩnh.' }
       }
@@ -148,22 +148,22 @@ export const grammarCourses: GrammarCourse[] = [
             commonWords: 'Thường đi kèm với từ chỉ mức độ phủ định: あまり (không ... lắm), ぜんぜん (hoàn toàn không ...).',
             relatedGrammars: [
       {
-        name: 'N は Aくありません',
+        name: 'N は Aくありません (N không A)',
         meaning: 'Cách nói lịch sự, trang trọng hơn',
         example: { japanese: 'このお茶は熱くありません。', reading: 'このおちゃはあつくありません。', romaji: 'kono ocha wa atsuku arimasen.', vietnamese: 'Trà này không nóng.' }
       },
       {
-        name: 'N は Aくなかった です',
+        name: 'N は Aくなかった です (N đã không A)',
         meaning: 'Phủ định trong quá khứ',
         example: { japanese: '昨日は寒くなかったです。', reading: 'きのうはさむくなかったです。', romaji: 'kinou wa samukunakatta desu.', vietnamese: 'Hôm qua trời không lạnh.' }
       },
       {
-        name: 'N は N じゃありません',
+        name: 'N は N じゃありません (N1 không phải là N2)',
         meaning: 'Phủ định bản chất sự vật (Danh từ)',
         example: { japanese: '私は医者じゃありません。', reading: 'わたしはいしゃじゃありません。', romaji: 'watashi wa isha ja arimasen.', vietnamese: 'Tôi không phải là bác sĩ.' }
       },
       {
-        name: 'N は Aな じゃありません',
+        name: 'N は Aな じゃありません (N không A)',
         meaning: 'Phủ định tính chất (Tính từ đuôi na)',
         example: { japanese: 'その町は静かじゃありません。', reading: 'そのまちはしずかじゃありません。', romaji: 'sono machi wa shizuka ja arimasen.', vietnamese: 'Thị trấn đó không yên tĩnh.' }
       }
@@ -217,17 +217,17 @@ export const grammarCourses: GrammarCourse[] = [
             commonWords: 'Các tính từ đuôi な quốc dân hay gặp: 好き (thích), きれい (đẹp/sạch), 有名 (nổi tiếng), 静か (yên tĩnh), 暇 (rảnh rỗi)...',
             relatedGrammars: [
       {
-        name: 'N は Aな N です',
+        name: 'N は Aな N です (N2 là N1 A)',
         meaning: 'Tính từ na bổ nghĩa danh từ',
         example: { japanese: '彼女はきれいな人です。', reading: 'かのじょはきれいなひとです。', romaji: 'kanojo wa kireina hito desu.', vietnamese: 'Cô ấy là người đẹp.' }
       },
       {
-        name: 'N は Aでした',
+        name: 'N は Aでした (N đã A)',
         meaning: 'Khẳng định trong quá khứ',
         example: { japanese: '昔はこの町は静かでした。', reading: 'むかしはこのまちはしずかでした。', romaji: 'mukashi wa kono machi wa shizuka deshita.', vietnamese: 'Ngày xưa thị trấn này yên tĩnh.' }
       },
       {
-        name: 'N は Aい です',
+        name: 'N は Aい です (N thì A)',
         meaning: 'Miêu tả tính chất bằng tính từ đuôi i',
         example: { japanese: 'この本は新しいです。', reading: 'このほんはあたらしいです。', romaji: 'kono hon wa atarashii desu.', vietnamese: 'Cuốn sách này mới.' }
       }
@@ -282,17 +282,17 @@ export const grammarCourses: GrammarCourse[] = [
             commonWords: 'Tương tự khẳng định: 好き, きれい, 有名, 静か, 暇...',
             relatedGrammars: [
       {
-        name: 'N は Aではありません',
+        name: 'N は Aではありません (N không A)',
         meaning: 'Văn viết, trang trọng hơn',
         example: { japanese: '彼は有名ではありません。', reading: 'かれはゆうめいではありません。', romaji: 'kare wa yuumei dewa arimasen.', vietnamese: 'Anh ấy không nổi tiếng.' }
       },
       {
-        name: 'N は Aじゃありませんでした',
+        name: 'N は Aじゃありませんでした (N đã không A)',
         meaning: 'Phủ định trong quá khứ',
         example: { japanese: '昔はこの町は静かじゃありませんでした。', reading: 'むかしはこのまちはしずかじゃありませんでした。', romaji: 'mukashi wa kono machi wa shizuka ja arimasen deshita.', vietnamese: 'Ngày xưa thị trấn này không yên tĩnh.' }
       },
       {
-        name: 'N は Aくない です',
+        name: 'N は Aくない です (N không A)',
         meaning: 'Phủ định tính chất (Tính từ đuôi i)',
         example: { japanese: 'この本は新しくないです。', reading: 'このほんはあたらしくないです。', romaji: 'kono hon wa atarashikunai desu.', vietnamese: 'Cuốn sách này không mới.' }
       }
@@ -471,22 +471,22 @@ export const grammarCourses: GrammarCourse[] = [
             commonWords: 'Từ chỉ vị trí: 上 (trên), 下 (dưới), 前 (trước), 後ろ (sau), 中 (trong), 外 (ngoài)...',
             relatedGrammars: [
       {
-        name: 'N1 に なに が ありますか',
+        name: 'N1 に なに が ありますか (Ở N1 có gì?)',
         meaning: 'Cấu trúc đặt câu hỏi',
         example: { japanese: '箱の中に何がありますか。', reading: 'はこのなかに何がありますか。', romaji: 'hako no naka ni nani ga arimasu ka.', vietnamese: 'Trong hộp có cái gì vậy?' }
       },
       {
-        name: 'N1 に N2 や N3 が あります',
+        name: 'N1 に N2 や N3 が あります (Ở N1 có N2 và N3)',
         meaning: 'Liệt kê một phần',
         example: { japanese: '机の上に本やペンがあります。', reading: 'つくえのうえにほんやペンがあります。', romaji: 'tsukue no ue ni hon ya pen ga arimasu.', vietnamese: 'Trên bàn có sách và bút (và v.v).' }
       },
       {
-        name: 'N1 に N2 が います',
+        name: 'N1 に N2 が います (Ở N1 có N2)',
         meaning: 'Sự tồn tại của người hoặc động vật',
         example: { japanese: '公園に犬がいます。', reading: 'こうえんにいぬがいます。', romaji: 'kouen ni inu ga imasu.', vietnamese: 'Ở công viên có con chó.' }
       },
       {
-        name: 'N2 は N1 に あります',
+        name: 'N2 は N1 に あります (N2 thì ở N1)',
         meaning: 'Nhấn mạnh vị trí của một vật thể đã xác định',
         example: { japanese: 'トイレはあそこにあります。', reading: 'トイレはあそこにあります。', romaji: 'toire wa asoko ni arimasu.', vietnamese: 'Nhà vệ sinh ở đằng kia.' }
       }
