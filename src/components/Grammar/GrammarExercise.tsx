@@ -758,18 +758,25 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
                   <div className={`flex items-center justify-center md:justify-start gap-2 text-xl md:text-2xl font-black mb-2 ${isFeedbackCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
                     {isFeedbackCorrect ? <><CheckCircle2 size={28} /> Tuyệt vời!</> : <><XCircle size={28} /> Sai mất rồi!</>}
                   </div>
-                  <div className={`text-lg md:text-xl font-bold mb-3 ${q.subType === 'vn_to_jp' || q.type === 'type2' ? 'font-jp' : ''} ${isFeedbackCorrect ? 'text-emerald-800 dark:text-emerald-200' : 'text-rose-800 dark:text-rose-200'}`}>
+                  <div className={`text-lg md:text-xl font-bold mb-1 ${q.subType === 'vn_to_jp' || q.type === 'type2' ? 'font-jp' : ''} ${isFeedbackCorrect ? 'text-emerald-800 dark:text-emerald-200' : 'text-rose-800 dark:text-rose-200'}`}>
                     {q.correctAnswer}
                   </div>
                   
+                  {(q.subType === 'vn_to_jp' || q.type === 'type4') && (
+                    <div className={`font-medium mb-3 ${isFeedbackCorrect ? 'text-emerald-700/80 dark:text-emerald-300/80' : 'text-rose-700/80 dark:text-rose-300/80'}`}>
+                      <div className="text-sm">{q.example.reading}</div>
+                      <div className="text-xs">{q.example.romaji}</div>
+                    </div>
+                  )}
+                  {q.type !== 'type4' && q.subType !== 'vn_to_jp' && <div className="mb-3"></div>}
+                  
                   <div className={`text-xs md:text-sm p-3 rounded-xl bg-white/60 dark:bg-black/20 ${isFeedbackCorrect ? 'text-emerald-900 dark:text-emerald-100' : 'text-rose-900 dark:text-rose-100'}`}>
-                    <span className="font-bold flex items-center gap-1.5 mb-1"><Lightbulb size={14} /> Giải thích: </span>
-                    {q.type === 'type1' && (
-                      <span>Câu này có nghĩa là "{q.example.vietnamese}". Được sử dụng với cấu trúc <b>{grammarPoint.title}</b> mang ý nghĩa "{grammarPoint.meaning}".</span>
-                    )}
-                    {q.type === 'type2' && (
-                      <span>Từ cần điền là <b>{q.correctAnswer}</b> để hoàn thiện cấu trúc <b>{grammarPoint.title}</b> ({grammarPoint.meaning}). Ý nghĩa của câu là: "{q.example.vietnamese}".</span>
-                    )}
+                    <span className="font-bold flex items-center gap-1.5 mb-1.5"><Lightbulb size={14} /> Giải thích: </span>
+                    <div className="space-y-1">
+                      <div>Câu này có nghĩa là: <b>"{q.example.vietnamese}"</b></div>
+                      {q.type === 'type2' && <div>Từ cần điền là <b>{q.correctAnswer}</b> để hoàn thiện cấu trúc.</div>}
+                      <div>Nó áp dụng cấu trúc <b>{grammarPoint.title}</b> nhằm diễn đạt ý nghĩa <i>"{grammarPoint.meaning}"</i>.</div>
+                    </div>
                   </div>
                 </div>
                 <button 
