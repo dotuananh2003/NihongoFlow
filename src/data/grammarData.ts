@@ -177,7 +177,7 @@ export const grammarCourses: GrammarCourse[] = [
           },
           {
             id: 'g5', title: 'とても / すこし + A', meaning: 'Rất / Một chút', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
-            icon: '✨', iconBg: 'bg-pink-50 dark:bg-pink-900/30', iconColor: 'text-pink-500',
+            icon: 'と', iconBg: 'bg-pink-50 dark:bg-pink-900/30', iconColor: 'text-pink-500',
             examples: [
           {
             japanese: 'わたしはがくせいです。',
@@ -223,7 +223,7 @@ export const grammarCourses: GrammarCourse[] = [
           },
           {
             id: 'g7', title: 'N1 に N2 が あります。', meaning: 'Ở N1 có N2', type: 'Phó từ', jlpt: 'N5', difficulty: 'Cơ bản',
-            icon: '📦', iconBg: 'bg-blue-50 dark:bg-blue-900/30', iconColor: 'text-blue-600', barColor: 'bg-emerald-500',
+            icon: 'あ', iconBg: 'bg-blue-50 dark:bg-blue-900/30', iconColor: 'text-blue-600', barColor: 'bg-emerald-500',
             examples: [
           {
             japanese: 'わたしはがくせいです。',

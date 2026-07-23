@@ -60,7 +60,6 @@ export const GrammarDetail = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {lesson.grammarPoints.map((point, index) => {
           const num = (index + 1).toString().padStart(2, '0');
-          const isSpecialIcon = point.icon === '✨' || point.icon === '📦';
           
           return (
             <motion.div
@@ -72,14 +71,10 @@ export const GrammarDetail = () => {
             >
               {/* Left: Icon */}
               <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 ${point.iconBg || 'bg-slate-100'} ${point.iconColor || 'text-slate-600'}`}>
-                {isSpecialIcon ? (
-                  <span className="text-3xl drop-shadow-sm">{point.icon}</span>
-                ) : (
-                  <span className={`font-black font-jp leading-none ${
-                    (point.icon?.length || 0) > 2 ? 'text-lg' : 
-                    (point.icon?.length || 0) > 1 ? 'text-2xl' : 'text-3xl'
-                  }`}>{point.icon}</span>
-                )}
+                <span className={`font-black font-jp leading-none ${
+                  (point.icon?.length || 0) > 2 ? 'text-lg' : 
+                  (point.icon?.length || 0) > 1 ? 'text-2xl' : 'text-3xl'
+                }`}>{point.icon}</span>
               </div>
 
               {/* Center: Info */}
