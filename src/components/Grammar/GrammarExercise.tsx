@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, X, Trophy, Flame, Star, Check, ArrowRight, RotateCcw, PenTool, Type, HelpCircle, Lightbulb, Keyboard } from 'lucide-react';
+import { ChevronLeft, X, Trophy, Flame, Star, Check, ArrowRight, RotateCcw, PenTool, Type, HelpCircle, Lightbulb, Keyboard, CheckCircle2, XCircle } from 'lucide-react';
 import { toHiragana, toKatakana, toRomaji } from 'wanakana';
 import type { GrammarExample, GrammarPoint } from '../../data/grammarData';
 import type { VocabItem } from '../../data/vocabularyData';
@@ -699,36 +699,44 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
           )}
 
           {/* Answer Feedback */}
-          {isAnswered && (
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-              className={`w-full mt-4 p-3 md:p-4 rounded-xl border flex flex-col md:flex-row items-center justify-between gap-4 ${textInput.toLowerCase().trim() === q.correctAnswer.toLowerCase().trim() || q.options?.[selectedAnswerIdx!] === q.correctAnswer || (q.type === 'type3' && q.subType === 'vn_to_jp' && ['correct'].includes('correct')) ? 'bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800' : 'bg-rose-50/80 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800'}`}
-            >
-              <div className="flex-1 text-center md:text-left">
-                <div className="text-[10px] font-black uppercase tracking-widest mb-1 opacity-60">ĐÁP ÁN ĐÚNG</div>
-                <div className={`text-lg md:text-xl font-bold ${q.subType === 'vn_to_jp' || q.type === 'type2' ? 'font-jp' : ''}`}>{q.correctAnswer}</div>
-                
-                <div className="mt-2 text-xs md:text-sm opacity-90 border-t border-current pt-2 border-opacity-20 max-w-2xl">
-                  <span className="font-bold flex items-center gap-1.5 mb-1"><Lightbulb size={14} /> Giải thích: </span>
-                  {q.type === 'type1' && (
-                    <span>Câu này có nghĩa là "{q.example.vietnamese}". Được sử dụng với cấu trúc <b>{grammarPoint.title}</b> mang ý nghĩa "{grammarPoint.meaning}".</span>
-                  )}
-                  {q.type === 'type2' && (
-                    <span>Từ cần điền là <b>{q.correctAnswer}</b> để hoàn thiện cấu trúc <b>{grammarPoint.title}</b> ({grammarPoint.meaning}). Ý nghĩa của câu là: "{q.example.vietnamese}".</span>
-                  )}
-                  {q.type === 'type4' && (
-                    <span>Dịch đúng của câu là "<b>{q.correctAnswer}</b>". Lắp ráp theo cấu trúc <b>{grammarPoint.title}</b> ({grammarPoint.meaning}).</span>
-                  )}
-                  {q.type === 'type3' && (
-                    <span>Dịch đúng của câu là "{q.correctAnswer}". Áp dụng cấu trúc <b>{grammarPoint.title}</b> ({grammarPoint.meaning}).</span>
-                  )}
+          {isAnswered && (() => {
+            const isFeedbackCorrect = q.options?.[selectedAnswerIdx!] === q.correctAnswer;
+            return (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                className={`w-full mt-4 p-4 md:p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 border-2 border-b-[6px] ${isFeedbackCorrect ? 'bg-emerald-100/50 dark:bg-emerald-900/20 border-emerald-500' : 'bg-rose-100/50 dark:bg-rose-900/20 border-rose-500'}`}
+              >
+                <div className="flex-1 text-center md:text-left">
+                  <div className={`flex items-center justify-center md:justify-start gap-2 text-xl md:text-2xl font-black mb-2 ${isFeedbackCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                    {isFeedbackCorrect ? <><CheckCircle2 size={28} /> Tuyệt vời!</> : <><XCircle size={28} /> Sai mất rồi!</>}
+                  </div>
+                  <div className={`text-lg md:text-xl font-bold mb-3 ${q.subType === 'vn_to_jp' || q.type === 'type2' ? 'font-jp' : ''} ${isFeedbackCorrect ? 'text-emerald-800 dark:text-emerald-200' : 'text-rose-800 dark:text-rose-200'}`}>
+                    {q.correctAnswer}
+                  </div>
+                  
+                  <div className={`text-xs md:text-sm p-3 rounded-xl bg-white/60 dark:bg-black/20 ${isFeedbackCorrect ? 'text-emerald-900 dark:text-emerald-100' : 'text-rose-900 dark:text-rose-100'}`}>
+                    <span className="font-bold flex items-center gap-1.5 mb-1"><Lightbulb size={14} /> Giải thích: </span>
+                    {q.type === 'type1' && (
+                      <span>Câu này có nghĩa là "{q.example.vietnamese}". Được sử dụng với cấu trúc <b>{grammarPoint.title}</b> mang ý nghĩa "{grammarPoint.meaning}".</span>
+                    )}
+                    {q.type === 'type2' && (
+                      <span>Từ cần điền là <b>{q.correctAnswer}</b> để hoàn thiện cấu trúc <b>{grammarPoint.title}</b> ({grammarPoint.meaning}). Ý nghĩa của câu là: "{q.example.vietnamese}".</span>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <button onClick={nextQuestion} className="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-2 transition-all shadow-md active:scale-95 whitespace-nowrap text-sm shrink-0">
-                Tiếp tục <ArrowRight size={16} />
-              </button>
-            </motion.div>
-          )}
+                <button 
+                  onClick={nextQuestion} 
+                  className={`w-full md:w-auto px-8 py-3.5 rounded-xl text-white font-black text-lg flex items-center justify-center gap-2 transition-all active:translate-y-[4px] active:border-b-[2px] border-b-[6px] shadow-sm ${
+                    isFeedbackCorrect 
+                      ? 'bg-emerald-500 hover:bg-emerald-400 border-emerald-600 dark:border-emerald-700' 
+                      : 'bg-rose-500 hover:bg-rose-400 border-rose-600 dark:border-rose-700'
+                  }`}
+                >
+                  TIẾP TỤC <ArrowRight size={20} />
+                </button>
+              </motion.div>
+            );
+          })()}
 
         </div>
       </div>
