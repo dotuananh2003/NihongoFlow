@@ -205,15 +205,15 @@ export const GrammarPointDetail = () => {
               <motion.div 
                 key={idx}
                 whileHover={{ y: -2 }}
-                className="bg-white dark:bg-slate-900 rounded-[1.5rem] p-5 md:p-6 shadow-sm border border-slate-200 dark:border-slate-800 relative flex flex-col md:flex-row md:items-center justify-between gap-6"
+                className="bg-white dark:bg-slate-900 rounded-[1.5rem] p-4 md:p-5 shadow-sm border border-slate-200 dark:border-slate-800 relative flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6"
               >
-                <div className="flex-1 min-w-0 flex flex-col md:flex-row md:items-center gap-4 md:gap-10">
-                  <div className="flex-1">
+                <div className="flex-1 min-w-0 flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
+                  <div className="flex-[1.5] min-w-0">
                     <div className="text-xl md:text-2xl font-black text-slate-800 dark:text-slate-100 font-jp mb-1">{ex.japanese}</div>
                     <div className="text-xs font-medium text-slate-500 dark:text-slate-400">{ex.reading || ex.japanese}</div>
                     {ex.romaji && <div className="text-xs font-medium text-slate-400 dark:text-slate-500 italic mt-0.5">{ex.romaji}</div>}
                   </div>
-                  <div className="flex-1 text-sm font-medium text-slate-600 dark:text-slate-300">
+                  <div className="flex-1 min-w-0 text-sm font-medium text-slate-600 dark:text-slate-300">
                     {ex.vietnamese}
                   </div>
                 </div>
