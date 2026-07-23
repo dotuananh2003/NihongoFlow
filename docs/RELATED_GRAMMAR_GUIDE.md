@@ -52,4 +52,26 @@ const newRelatedData = {
 ## 3. Quy tắc Hiển thị UI
 Giao diện hiển thị cấu trúc này đã được lập trình sẵn và tự động hiển thị trong component `GrammarPointDetail.tsx`. 
 
-Thuật toán `parseKanjiReading` sẽ tự động đảm nhiệm việc bóc tách và bôi màu Kanji. Bạn **không cần phải sửa UI** thêm lần nào nữa, chỉ cần chạy Script để nạp Data là web sẽ tự động render rất đẹp!
+Thuật toán `parseKanjiReading` sẽ tự động đảm nhiệm việc bóc tách và bôi màu Kanji. 
+
+**Quy tắc lên màu tự động (Colorization):**
+Thành phần giao diện tự động nhận diện các ký hiệu ngữ pháp và bôi màu để tạo sự liên kết đa ngôn ngữ (cho cả Tiếng Nhật và Tiếng Việt):
+- `N`, `N1`, `N2`, `N3` (Danh từ): Xanh dương (Blue)
+- `A`, `Aい`, `Aな` (Tính từ): Cam (Orange)
+- `V` (Động từ): Xanh ngọc (Emerald)
+
+## 4. Cách Dịch nghĩa Hình dung (Literal Translation)
+
+Để giúp học viên dễ dàng hình dung cấu trúc bằng tiếng Việt, tiêu đề của cấu trúc liên quan (`name`) nên được đính kèm cụm dịch nghĩa trực tiếp nằm trong dấu ngoặc đơn. 
+
+Ví dụ chuẩn cho dữ liệu:
+- **Sai:** `name: 'N1 に N2 が あります'`
+- **Đúng:** `name: 'N1 に N2 が あります (Ở N1 có N2)'`
+
+Nhờ tính năng Colorization ở mục 3, các chữ `N1, N2` bên trong cụm tiếng Việt này cũng sẽ tự động được lên màu tương đồng với cấu trúc gốc!
+
+## 5. Tham khảo: Hệ sinh thái Cấu trúc Bài 4 (Mẫu)
+Dưới đây là một số mẫu cấu trúc mở rộng đã được áp dụng thành công cho Bài 4, bạn có thể tham khảo để phát triển cho các bài sau:
+- Khẳng định / Phủ định / Quá khứ: `N は Aい N です (N2 là N1 A)`, `N は Aかった です (N đã A)`
+- Mức độ: `ぜんぜん + A (phủ định) (Hoàn toàn không A)`
+- Đặt câu hỏi & Liệt kê (Sự tồn tại): `N1 に なに が ありますか (Ở N1 có gì?)`, `N1 に N2 や N3 が あります (Ở N1 có N2 và N3)`
