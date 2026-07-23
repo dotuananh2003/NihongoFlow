@@ -132,20 +132,47 @@ export const GrammarPointDetail = () => {
         const res = await fetch(`https://api.tts.quest/v3/voicevox/synthesis?text=${encodeURIComponent(text)}&speaker=${selectedVoice.id}&speedScale=${speed}`);
         const data = await res.json();
         
-        if (data.success && data.mp3DownloadUrl) {
-          const audio = new Audio(data.mp3DownloadUrl);
-          audioRef.current = audio;
+        if (data.success && data.audioStatusUrl) {
+          let isReady = false;
+          let attempts = 0;
           
-          audio.onplay = () => setIsLoadingAudio(false);
-          audio.onended = () => {
-            setPlayingId(null);
+          while (!isReady && attempts < 30) {
+            await new Promise(r => setTimeout(r, 500));
+            try {
+              const statusRes = await fetch(data.audioStatusUrl);
+              const statusData = await statusRes.json();
+              if (statusData.isAudioReady) {
+                isReady = true;
+              } else if (statusData.isAudioError) {
+                throw new Error("Voicevox API Error");
+              }
+            } catch (e) {
+              // Ignore fetch errors during polling and try again
+            }
+            attempts++;
+          }
+          
+          if (isReady && data.mp3DownloadUrl) {
+            const audio = new Audio(data.mp3DownloadUrl);
+            audioRef.current = audio;
+            
+            audio.onplay = () => setIsLoadingAudio(false);
+            audio.onended = () => {
+              setPlayingId(null);
+              setIsLoadingAudio(false);
+            };
+            audio.onerror = () => {
+              setPlayingId(null);
+              setIsLoadingAudio(false);
+            };
+            audio.play().catch(() => {
+              setPlayingId(null);
+              setIsLoadingAudio(false);
+            });
+          } else {
             setIsLoadingAudio(false);
-          };
-          audio.onerror = () => {
             setPlayingId(null);
-            setIsLoadingAudio(false);
-          };
-          audio.play();
+          }
         } else {
           setIsLoadingAudio(false);
           setPlayingId(null);
