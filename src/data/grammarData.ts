@@ -526,6 +526,105 @@ export const grammarCourses: GrammarCourse[] = [
               { japanese: '机の上に本があります。', reading: 'つくえのうえにほんがあります。', romaji: 'tsukue no ue ni hon ga arimasu.', vietnamese: 'Trên bàn có sách.' },
               { japanese: 'かばんの中に時計があります。', reading: 'かばんのなかにとけいがあります。', romaji: 'kaban no naka ni tokei ga arimasu.', vietnamese: 'Trong cặp có đồng hồ.' }
             ], isLearned: false
+          },
+          {
+            id: 'g24', title: 'N1 は N2 の N3 です。', meaning: 'N1 ở vị trí N3 của N2', type: 'Vị trí', jlpt: 'N5', difficulty: 'Cơ bản',
+            icon: 'の', iconBg: 'bg-pink-50 dark:bg-pink-900/30', iconColor: 'text-pink-500', barColor: 'bg-pink-500',
+            structure: 'N1 は N2 の N3 です',
+            structureDetails: 'Danh từ 1 + は + Danh từ 2 + の + Danh từ vị trí + です',
+            explanationTitle: 'N1 ở vị trí N3 của N2',
+            explanationDetails: 'Chỉ định vị trí tương đối',
+            usage: 'Dùng để xác định vị trí của một vật (N1) dựa trên một vật khác làm mốc (N2). N3 là từ chỉ vị trí (trên, dưới, trong, ngoài...).',
+            note: 'Từ chỉ vị trí luôn đứng sau trợ từ の.',
+            memoryTip: 'Nhớ cụm "N2 の N3" như một khối danh từ thống nhất mang nghĩa "Phía N3 của N2".',
+            commonWords: '上 (trên), 下 (dưới), 前 (trước), 後ろ (sau), 右 (phải), 左 (trái), 中 (trong), 外 (ngoài), 隣 (bên cạnh), 近く (gần)',
+            examples: [
+              { japanese: 'おきなわは 日本の みなみです。', reading: 'おきなわは にほんの みなみです。', romaji: 'okinawa wa nihon no minami desu.', vietnamese: 'Okinawa ở phía nam Nhật Bản.' },
+              { japanese: '本は 机の 上です。', reading: 'ほんは つくえの うえです。', romaji: 'hon wa tsukue no ue desu.', vietnamese: 'Sách ở trên bàn.' },
+              { japanese: '銀行は 郵便局の 隣です。', reading: 'ぎんこうは ゆうびんきょくの となりです。', romaji: 'ginkou wa yuubinkyoku no tonari desu.', vietnamese: 'Ngân hàng ở bên cạnh bưu điện.' }
+            ],
+            relatedGrammars: [
+              { name: 'N1 に N2 が あります (Ở N1 có N2)', meaning: 'Tồn tại vật vô tri', example: { japanese: '机の上に本があります。', reading: 'つくえのうえにほんがあります。', romaji: 'tsukue no ue ni hon ga arimasu.', vietnamese: 'Trên bàn có quyển sách.' } }
+            ]
+          },
+          {
+            id: 'g25', title: 'N1 から N2 まで どのくらい ですか。', meaning: 'Từ N1 đến N2 mất bao lâu?', type: 'Khoảng thời gian', jlpt: 'N5', difficulty: 'Cơ bản',
+            icon: 'か', iconBg: 'bg-indigo-50 dark:bg-indigo-900/30', iconColor: 'text-indigo-500', barColor: 'bg-indigo-500',
+            structure: 'N1 から N2 まで どのくらい ですか',
+            structureDetails: 'Danh từ (Địa điểm) + から + Danh từ (Địa điểm) + まで + どのくらい + ですか',
+            explanationTitle: 'Từ N1 đến N2 mất bao lâu?',
+            explanationDetails: 'Hỏi về khoảng thời gian di chuyển',
+            usage: 'Dùng để hỏi về khoảng thời gian cần thiết để đi từ địa điểm N1 đến địa điểm N2.',
+            note: 'どのくらい (Dono kurai) có nghĩa là "khoảng bao lâu", dùng để hỏi lượng thời gian.',
+            memoryTip: 'から (từ) - まで (đến) giống như một đoạn đường nối 2 điểm. どのくらい (bao lâu) là câu hỏi cho đoạn đường đó.',
+            commonWords: 'どのくらい (bao lâu), 時間 (thời gian), かかりますか (mất bao nhiêu)',
+            examples: [
+              { japanese: 'うちから 学校まで どのくらいですか。', reading: 'うちから がっこうまで どのくらいですか。', romaji: 'uchi kara gakkou made dono kurai desu ka.', vietnamese: 'Từ nhà đến trường mất bao lâu?' },
+              { japanese: 'ハノイから ホーチミンまで どのくらいですか。', reading: 'ハノイから ホーチミンまで どのくらいですか。', romaji: 'hanoi kara hoochimin made dono kurai desu ka.', vietnamese: 'Từ Hà Nội đến Hồ Chí Minh mất bao lâu?' }
+            ],
+            relatedGrammars: [
+              { name: 'N1 から N2 まで ~Time です (Từ N1 đến N2 mất ~Time)', meaning: 'Khoảng thời gian', example: { japanese: 'うちから学校まで10分です。', reading: 'うちからがっこうまでじゅっぷんです。', romaji: 'uchi kara gakkou made juppun desu.', vietnamese: 'Từ nhà đến trường mất 10 phút.' } }
+            ]
+          },
+          {
+            id: 'g26', title: 'N1 から N2 まで Time (くらい) です。', meaning: 'Từ N1 đến N2 mất ~Time', type: 'Khoảng thời gian', jlpt: 'N5', difficulty: 'Cơ bản',
+            icon: 'ま', iconBg: 'bg-teal-50 dark:bg-teal-900/30', iconColor: 'text-teal-500', barColor: 'bg-teal-500',
+            structure: 'N1 から N2 まで Time (くらい) です',
+            structureDetails: 'Danh từ (Địa điểm) + から + Danh từ (Địa điểm) + まで + Lượng thời gian + (くらい) + です',
+            explanationTitle: 'Từ N1 đến N2 mất ~Time',
+            explanationDetails: 'Trích dẫn khoảng thời gian di chuyển',
+            usage: 'Dùng để trả lời cho câu hỏi どのくらい, biểu thị khoảng thời gian cần thiết để đi từ N1 đến N2.',
+            note: 'くらい (kurai) mang nghĩa "khoảng", dùng khi lượng thời gian là ước lượng, không chính xác tuyệt đối.',
+            memoryTip: 'Thêm くらい vào sau thời gian để câu nói tự nhiên hơn khi bạn không chắc chắn 100% thời gian chạy xe.',
+            commonWords: '分 (phút), 時間 (tiếng), 日 (ngày), 週間 (tuần), ヶ月 (tháng), 年 (năm)',
+            examples: [
+              { japanese: 'えきから うちまで 10分です。', reading: 'えきから うちまで じゅっぷんです。', romaji: 'eki kara uchi made juppun desu.', vietnamese: 'Từ ga đến nhà mất 10 phút.' },
+              { japanese: 'ハノイから ホーチミンまで 飛行機で 2時間くらいです。', reading: 'ハノイから ホーチミンまで ひこうきで にじかんくらいです。', romaji: 'hanoi kara hoochimin made hikouki de nijikan kurai desu.', vietnamese: 'Từ Hà Nội đến Hồ Chí Minh bằng máy bay mất khoảng 2 tiếng.' }
+            ],
+            relatedGrammars: [
+              { name: 'N で ~Time です (Đi bằng N mất ~Time)', meaning: 'Thời gian đi lại bằng phương tiện', example: { japanese: 'バスで1時間です。', reading: 'バスでいちじかんです。', romaji: 'basu de ichijikan desu.', vietnamese: 'Đi bằng xe buýt mất 1 tiếng.' } }
+            ]
+          },
+          {
+            id: 'g27', title: 'N で ~Time です。', meaning: 'Đi bằng N mất ~Time', type: 'Phương tiện & Thời gian', jlpt: 'N5', difficulty: 'Cơ bản',
+            icon: 'で', iconBg: 'bg-yellow-50 dark:bg-yellow-900/30', iconColor: 'text-yellow-600', barColor: 'bg-yellow-500',
+            structure: 'N で ~Time です',
+            structureDetails: 'Danh từ (Phương tiện) + で + Lượng thời gian + です',
+            explanationTitle: 'Đi bằng N mất ~Time',
+            explanationDetails: 'Thời gian di chuyển bằng phương tiện',
+            usage: 'Dùng để biểu thị khoảng thời gian cần thiết để di chuyển bằng một phương tiện giao thông cụ thể.',
+            note: 'Trợ từ で (de) ở đây mang nghĩa là "bằng (phương tiện gì)".',
+            memoryTip: 'Chữ で đọc là "đe", giống như "đe" xe ra đi vậy. Đi bằng cái gì thì thêm で vào sau cái đó!',
+            commonWords: '自転車 (xe đạp), バイク (xe máy), 車 (ô tô), タクシー (taxi), バス (xe buýt), 電車 (tàu điện), 飛行機 (máy bay)',
+            examples: [
+              { japanese: 'バスで 1時間です。', reading: 'バスで いちじかんです。', romaji: 'basu de ichijikan desu.', vietnamese: 'Đi bằng xe buýt mất 1 tiếng.' },
+              { japanese: '自転車で 15分です。', reading: 'じてんしゃで じゅうごふんです。', romaji: 'jitensha de juugofun desu.', vietnamese: 'Đi bằng xe đạp mất 15 phút.' }
+            ],
+            relatedGrammars: [
+              { name: 'N で 行きます (Đi bằng N)', meaning: 'Hành động di chuyển bằng phương tiện', example: { japanese: 'バスで学校へ行きます。', reading: 'バスでがっこうへいきます。', romaji: 'basu de gakkou e ikimasu.', vietnamese: 'Đến trường bằng xe buýt.' } },
+              { name: '歩いて 行きます (Đi bộ)', meaning: 'Hành động đi bộ (không dùng de)', example: { japanese: '歩いて行きます。', reading: 'あるいていきます。', romaji: 'aruite ikimasu.', vietnamese: 'Tôi đi bộ.' } }
+            ]
+          },
+          {
+            id: 'g28', title: 'N で 行きます／来ます／帰ります。', meaning: 'Đi/đến/về bằng phương tiện N', type: 'Động từ di chuyển', jlpt: 'N5', difficulty: 'Cơ bản',
+            icon: '行', iconBg: 'bg-red-50 dark:bg-red-900/30', iconColor: 'text-red-500', barColor: 'bg-red-500',
+            structure: 'N で 行きます / 来ます / 帰ります',
+            structureDetails: 'Danh từ (Phương tiện) + で + Động từ di chuyển (行きます/来ます/帰ります)',
+            explanationTitle: 'Đi/đến/về bằng phương tiện N',
+            explanationDetails: 'Cách thức di chuyển',
+            usage: 'Dùng để diễn tả hành động đi đến, đi tới hoặc trở về một địa điểm nào đó bằng phương tiện giao thông N.',
+            note: 'Nếu đi bộ thì dùng 歩いて (aruite) KHÔNG đi kèm với trợ từ で.',
+            memoryTip: 'Gắn phương tiện với chữ で để tạo thành "bộ máy" di chuyển cho động từ 行きます.',
+            commonWords: '行きます (đi), 来ます (đến), 帰ります (về), 歩いて (đi bộ)',
+            examples: [
+              { japanese: 'ひこうきで 行きます。', reading: 'ひこうきで いきます。', romaji: 'hikouki de ikimasu.', vietnamese: 'Đi bằng máy bay.' },
+              { japanese: '電車で うちへ 帰ります。', reading: 'でんしゃで うちへ かえります。', romaji: 'densha de uchi e kaerimasu.', vietnamese: 'Về nhà bằng tàu điện.' },
+              { japanese: '歩いて 学校へ 行きます。', reading: 'あるいて がっこうへ いきます。', romaji: 'aruite gakkou e ikimasu.', vietnamese: 'Đi bộ đến trường.' }
+            ],
+            relatedGrammars: [
+              { name: 'N へ 行きます (Đi đến N)', meaning: 'Chỉ phương hướng di chuyển', example: { japanese: '日本へ行きます。', reading: 'にほんへいきます。', romaji: 'nihon e ikimasu.', vietnamese: 'Tôi đi Nhật Bản.' } },
+              { name: 'だれと 行きますか (Đi với ai?)', meaning: 'Hỏi người cùng đi', example: { japanese: 'だれと行きますか。', reading: 'だれといきますか。', romaji: 'dare to ikimasu ka.', vietnamese: 'Bạn đi với ai?' } }
+            ]
           }
         ]
       },
