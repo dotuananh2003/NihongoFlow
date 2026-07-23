@@ -272,7 +272,7 @@ export const GrammarPointDetail = () => {
               <div key={idx} className="bg-purple-50 dark:bg-purple-900/10 rounded-[1.5rem] p-4 md:p-5 shadow-sm border border-purple-100 dark:border-purple-900/30">
                 <div className="mb-4">
                   <h3 className="text-base md:text-lg font-black text-purple-600 dark:text-purple-400 font-jp">{colorizeGrammarTitle(rg.name)}</h3>
-                  <p className="text-sm font-bold text-purple-800 dark:text-purple-200 mt-1.5">{rg.meaning}</p>
+                  <p className="text-sm font-bold text-purple-800 dark:text-purple-200 mt-1.5 font-jp">{rg.meaning}</p>
                 </div>
                 
                 <div className="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
