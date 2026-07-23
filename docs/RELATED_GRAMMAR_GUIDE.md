@@ -54,6 +54,12 @@ Giao diện hiển thị cấu trúc này đã được lập trình sẵn và t
 
 Thuật toán `parseKanjiReading` sẽ tự động đảm nhiệm việc bóc tách và bôi màu Kanji. 
 
+**Quy tắc Đồng bộ Chuỗi Phiên âm (Bắt buộc):**
+Để thuật toán có thể bóc tách và bôi màu tự động (cho cả Kanji và cụm phiên âm tương ứng phía dưới), tất cả các ký tự **không phải là Kanji** (bao gồm số đếm, chữ Katakana, dấu câu, khoảng trắng...) ở câu tiếng Nhật gốc (`japanese`) **BẮT BUỘC** phải được giữ nguyên y hệt khi viết xuống dòng phiên âm (`reading`).
+*Ví dụ:*
+- Đúng: `japanese`: `ホテルから 10分` -> `reading`: `ホテルから 10ぷん`
+- Sai: `japanese`: `ホテルから 10分` -> `reading`: `ほてるから じゅっぷん` (Lỗi thuật toán mất màu do khác Katakana và số)
+
 **Quy tắc lên màu tự động (Colorization):**
 Thành phần giao diện tự động nhận diện các ký hiệu ngữ pháp và bôi màu để tạo sự liên kết đa ngôn ngữ (cho cả Tiếng Nhật và Tiếng Việt):
 - `N`, `N1`, `N2`, `N3` (Danh từ): Xanh dương (Blue)
@@ -107,3 +113,18 @@ Ngoài mảng `relatedGrammars`, để một mục ngữ pháp hiển thị đ�
 1. **Liệt kê TỐI ĐA các cấu trúc liên quan:** Mở rộng danh sách `relatedGrammars` cho mỗi cấu trúc (từ 3-5 cấu trúc thay vì chỉ 1 cái) để học viên dễ dàng liên kết kiến thức, đối chiếu phủ định/khẳng định, quá khứ/hiện tại, câu hỏi/câu trả lời.
 2. **Ví dụ chính phong phú (~15 ví dụ):** Mảng `examples` (ví dụ gốc của cấu trúc chính) nên được cung cấp thật nhiều (khoảng 15 câu). Điều này giúp học viên trải nghiệm đủ mọi ngữ cảnh, sắc thái từ vựng trong thực tế thay vì chỉ học vẹt 2-3 câu sách giáo khoa.
 3. **Quy tắc "1 Ví dụ" cho Cấu trúc liên quan:** Để giữ giao diện thẻ ngữ pháp tinh gọn và không bị rối mắt, bên trong mảng `relatedGrammars`, mỗi cấu trúc phụ vẫn CẦN VÀ CHỈ CẦN DUY NHẤT **1 ví dụ** minh họa. Cấu trúc: `example: { japanese, reading, romaji, vietnamese }`.
+
+## 8. Quy tắc Phát âm Tự động (TTS & Voice Selector)
+Nhằm mang lại trải nghiệm luyện nghe chân thực, ứng dụng đã tích hợp cả 2 hệ thống phát âm (Giọng Hệ điều hành & Giọng AI Lồng tiếng Anime) cho các câu ví dụ:
+- **Chống đọc sai (Đọc bằng Hiragana):** Do chữ Kanji có nhiều cách đọc tùy ngữ cảnh, thuật toán phát âm sẽ **LUÔN LUÔN ưu tiên lấy chuỗi `reading` (phiên âm Hiragana/Katakana) để đọc** thay vì chuỗi `japanese`. Đây là lý do tại sao ở mục 3, bạn bắt buộc phải tuân thủ nghiêm ngặt "Quy tắc Đồng bộ Chuỗi Phiên âm".
+- **Giao diện Voice Selector (2 Nhóm Giọng):** Tại ngay đầu danh sách "VÍ DỤ", UI được trang bị một Custom Dropdown phân chia thành 2 nhóm giọng đọc:
+  1. **Giọng AI Lồng Tiếng (VOICEVOX - Online):** Tích hợp qua API `tts.quest`, cung cấp các giọng lồng tiếng siêu đáng yêu và truyền cảm (như Zundamon, Shikoku Metan, Tsukuyomi Shouta...). Yêu cầu kết nối mạng và mất 1-2s để tải âm thanh (có hiệu ứng Loading).
+  2. **Giọng Hệ Điều Hành (Offline):** Trích xuất qua `Web Speech API` từ các giọng Tiếng Nhật có sẵn trên máy (Ví dụ: Ichiro, Haruka, Kyoko). Phát âm ngay lập tức, không có độ trễ.
+Hệ thống sẽ tự động bắt lấy giọng đọc do người dùng chọn để áp dụng cho tất cả các câu tiếng Nhật trên trang.
+
+## 9. Quy tắc Giao diện Gamification (Bài tập)
+Để mang lại trải nghiệm học tập sinh động và cuốn hút như các ứng dụng hàng đầu (Duolingo, Quizlet), thành phần `GrammarExercise.tsx` đã được áp dụng bộ thiết kế Gamification cao cấp:
+- **Thanh Tiến Trình (Progress Header):** Trải dài toàn màn hình, sử dụng dải màu Gradient lấp lánh (Cyan sang Indigo) với hiệu ứng bóng đổ phát sáng (Glow). Các chỉ số thành tích (Combo Lửa, Điểm Sao) được bố trí gọn gàng sát lề phải.
+- **Thẻ Đáp Án Trắc Nghiệm (3D Gamification Card):** 
+  - Khối 3D: Viền dưới của nút bấm được làm cực dày (`border-b-[6px]`) tạo chiều sâu. Khi click, thẻ sẽ lún xuống vật lý (giảm viền dưới và `translate-y-[4px]`) mang lại haptic feedback cực kỳ thỏa mãn.
+  - Vệt màu (Accent Stripe): Mép trái mỗi thẻ có một dải màu nhỏ. Khi rê chuột (hover) sẽ chớp sáng, và khi chọn đáp án, toàn bộ thẻ (và vệt màu) sẽ bùng sáng màu Ngọc lục bảo (Đúng) hoặc Đỏ hồng (Sai) rất trực quan và rực rỡ.
