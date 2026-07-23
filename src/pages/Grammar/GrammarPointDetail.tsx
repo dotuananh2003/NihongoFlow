@@ -161,13 +161,13 @@ export const GrammarPointDetail = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm text-sm">
+        <div className="flex items-center gap-3 w-full lg:w-auto">
+          <button className="flex-1 lg:flex-none min-w-[160px] flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm text-sm whitespace-nowrap">
             <BookmarkPlus size={18} /> Thêm vào ghi nhớ
           </button>
           <button 
             onClick={() => setIsExerciseOpen(true)}
-            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-sm text-sm"
+            className="flex-1 lg:flex-none min-w-[160px] flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-sm text-sm whitespace-nowrap"
           >
             <Edit3 size={18} /> Làm bài tập
           </button>
