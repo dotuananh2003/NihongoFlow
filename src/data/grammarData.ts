@@ -410,7 +410,15 @@ export const grammarCourses: GrammarCourse[] = [
           },
           {
             id: 'g7', title: 'N1 に N2 が あります。', meaning: 'Ở N1 có N2', type: 'Phó từ', jlpt: 'N5', difficulty: 'Cơ bản',
-            icon: 'あ', iconBg: 'bg-blue-50 dark:bg-blue-900/30', iconColor: 'text-blue-600', barColor: 'bg-emerald-500',
+            icon: 'あ', iconBg: 'bg-blue-50 dark:bg-blue-900/30', iconColor: 'text-blue-600', barColor: 'bg-blue-500',
+            structure: 'N1 に N2 が あります/います',
+            structureDetails: 'Địa điểm + に + Danh từ + が + あります/います',
+            explanationTitle: 'Ở N1 có N2',
+            explanationDetails: 'Sự tồn tại / Hiện diện',
+            usage: 'Diễn tả sự tồn tại của sự vật (があります) hoặc con người/động vật (がいます) ở một địa điểm cụ thể.',
+            note: 'があります dùng cho vật vô tri vô giác, thực vật. がいます dùng cho sinh vật (người, động vật).',
+            memoryTip: 'Nhớ cặp bài trùng: "Địa điểm" đi với trợ từ "に", "Chủ thể" đi với trợ từ "が".',
+            commonWords: 'Từ chỉ vị trí: 上 (trên), 下 (dưới), 前 (trước), 後ろ (sau), 中 (trong), 外 (ngoài)...',
             relatedGrammars: [
       {
         name: 'N1 に N2 が います',
