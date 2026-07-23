@@ -321,7 +321,7 @@ export const GrammarPointDetail = () => {
                   
                   <div className="flex flex-col items-center gap-2 shrink-0">
                     <button 
-                      onClick={() => handleSpeak(rg.example.japanese, 0.85, `rg-${idx}-normal`)} 
+                      onClick={() => handleSpeak(rg.example.reading || rg.example.japanese, 0.85, `rg-${idx}-normal`)} 
                       className={`flex items-center justify-center gap-2 w-10 h-10 border rounded-full text-xs font-bold transition-all shadow-sm active:scale-95 ${
                         playingId === `rg-${idx}-normal` 
                           ? 'bg-purple-500 text-white border-purple-600 shadow-[0_4px_12px_rgba(168,85,247,0.3)]' 
@@ -405,7 +405,7 @@ export const GrammarPointDetail = () => {
 
                 <div className="flex flex-col items-center gap-2 shrink-0">
                   <button 
-                    onClick={() => handleSpeak(ex.japanese, 0.4, `${idx}-slow`)} 
+                    onClick={() => handleSpeak(ex.reading || ex.japanese, 0.4, `${idx}-slow`)} 
                     className={`flex items-center justify-center gap-2 w-32 py-2 border rounded-xl text-xs font-bold transition-all shadow-sm active:scale-95 ${
                       playingId === `${idx}-slow` 
                         ? 'bg-blue-500 text-white border-blue-600 shadow-[0_4px_12px_rgba(59,130,246,0.3)]' 
@@ -425,7 +425,7 @@ export const GrammarPointDetail = () => {
                     )}
                   </button>
                   <button 
-                    onClick={() => handleSpeak(ex.japanese, 0.85, `${idx}-normal`)} 
+                    onClick={() => handleSpeak(ex.reading || ex.japanese, 0.85, `${idx}-normal`)} 
                     className={`flex items-center justify-center gap-2 w-32 py-2 border rounded-xl text-xs font-bold transition-all shadow-sm active:scale-95 ${
                       playingId === `${idx}-normal` 
                         ? 'bg-blue-500 text-white border-blue-600 shadow-[0_4px_12px_rgba(59,130,246,0.3)]' 
