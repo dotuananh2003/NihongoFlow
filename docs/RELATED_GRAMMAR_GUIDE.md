@@ -101,3 +101,9 @@ Ngoài mảng `relatedGrammars`, để một mục ngữ pháp hiển thị đ�
 **Lưu ý:**
 - Nếu thiếu các trường này, UI sẽ hiển thị các dòng text mẫu (placeholder) chung chung không chính xác.
 - Khi làm dữ liệu cho Bài 5, Bài 6 trở đi, hãy luôn check kỹ để đảm bảo không bị sót các trường giải thích chi tiết này!
+
+## 7. Quy tắc Tối đa hóa Dữ liệu (Maximized Data Guidelines)
+Để mang lại trải nghiệm học tập phong phú nhất, bộ dữ liệu cho một cấu trúc ngữ pháp cần tuân thủ 3 nguyên tắc sau:
+1. **Liệt kê TỐI ĐA các cấu trúc liên quan:** Mở rộng danh sách `relatedGrammars` cho mỗi cấu trúc (từ 3-5 cấu trúc thay vì chỉ 1 cái) để học viên dễ dàng liên kết kiến thức, đối chiếu phủ định/khẳng định, quá khứ/hiện tại, câu hỏi/câu trả lời.
+2. **Ví dụ chính phong phú (~15 ví dụ):** Mảng `examples` (ví dụ gốc của cấu trúc chính) nên được cung cấp thật nhiều (khoảng 15 câu). Điều này giúp học viên trải nghiệm đủ mọi ngữ cảnh, sắc thái từ vựng trong thực tế thay vì chỉ học vẹt 2-3 câu sách giáo khoa.
+3. **Quy tắc "1 Ví dụ" cho Cấu trúc liên quan:** Để giữ giao diện thẻ ngữ pháp tinh gọn và không bị rối mắt, bên trong mảng `relatedGrammars`, mỗi cấu trúc phụ vẫn CẦN VÀ CHỈ CẦN DUY NHẤT **1 ví dụ** minh họa. Cấu trúc: `example: { japanese, reading, romaji, vietnamese }`.
