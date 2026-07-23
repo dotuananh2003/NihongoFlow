@@ -293,18 +293,22 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
     setIsAnswered(true);
 
     // Normalize Japanese input for comparison
-    const normalize = (str: string) => str.replace(/[～〜]/g, '~').replace(/\s/g, '').toLowerCase();
-    
     let isCorrect = false;
     if (q.subType === 'vn_to_jp') {
       // User typed Japanese. Compare with target Japanese, hiragana, or romaji
-      const cleanInput = normalize(textInput);
-      const targetJp = normalize(q.correctAnswer);
-      const targetHira = normalize(toHiragana(q.example.reading || q.example.japanese));
-      const targetRoma = normalize(q.example.romaji || toRomaji(targetHira));
-      const inputRoma = normalize(toRomaji(cleanInput));
+      const normalizeJp = (str: string) => normalizeForTyping(str).replace(/\s/g, '');
+      const normalizeHira = (str: string) => str.replace(/は/g, 'わ').replace(/を/g, 'お').replace(/へ/g, 'え');
+      
+      const cleanInput = normalizeJp(textInput);
+      const targetJp = normalizeJp(q.correctAnswer);
+      
+      const targetHira = normalizeHira(normalizeJp(toHiragana(q.example.reading || q.example.japanese)));
+      const inputHira = normalizeHira(toHiragana(cleanInput));
+      
+      const targetRoma = normalizeJp(q.example.romaji || toRomaji(targetHira));
+      const inputRoma = normalizeJp(toRomaji(cleanInput));
 
-      isCorrect = cleanInput === targetJp || cleanInput === targetHira || cleanInput === targetRoma || inputRoma === targetRoma;
+      isCorrect = cleanInput === targetJp || inputHira === targetHira || inputRoma === targetRoma;
     } else {
       // User typed Vietnamese. Compare with fuzzy matching
       const cleanInput = normalizeForTyping(textInput);
