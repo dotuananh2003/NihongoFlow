@@ -128,3 +128,17 @@ Hệ thống sẽ tự động bắt lấy giọng đọc do người dùng ch�
 - **Thẻ Đáp Án Trắc Nghiệm (3D Gamification Card):** 
   - Khối 3D: Viền dưới của nút bấm được làm cực dày (`border-b-[6px]`) tạo chiều sâu. Khi click, thẻ sẽ lún xuống vật lý (giảm viền dưới và `translate-y-[4px]`) mang lại haptic feedback cực kỳ thỏa mãn.
   - Vệt màu (Accent Stripe): Mép trái mỗi thẻ có một dải màu nhỏ. Khi rê chuột (hover) sẽ chớp sáng, và khi chọn đáp án, toàn bộ thẻ (và vệt màu) sẽ bùng sáng màu Ngọc lục bảo (Đúng) hoặc Đỏ hồng (Sai) rất trực quan và rực rỡ.
+- **Nút "Kiểm Tra" (Type 3 - Tự Luận):** Được thiết kế thành khối phím cơ 3D khổng lồ màu Xanh lam rực rỡ (`bg-blue-500`, `border-b-[6px]`). Nút có cơ chế thông minh: Vô hiệu hóa (màu xám) khi chưa nhập liệu, phát sáng khi đã nhập, và hiệu ứng lún thụt mạnh khi click/nhấn Enter.
+- **Khung Phản hồi Kết quả (Feedback Banner 3D):**
+  - Loại bỏ hoàn toàn giao diện viền phẳng (Flat UI). Thay bằng khối Panel 3D chắc nịch (`border-b-[6px]`).
+  - Phân cực cảm xúc rõ nét bằng màu sắc: Ngọc lục bảo rực rỡ + Icon ✔ + Tiêu đề "Tuyệt vời!" khi làm đúng, và Đỏ hồng + Icon ✖ + Tiêu đề "Sai mất rồi!" khi làm sai.
+  - Nút "Tiếp tục" bên trong cũng biến đổi thành phím cơ 3D đồng bộ 100% màu sắc với kết quả.
+
+## 10. Quy tắc Dò chính tả & Châm chước lỗi (Fuzzy Matching & Typo Tolerance)
+Trong dạng bài tập Tự luận (Type 3) - gõ phím, để mang lại trải nghiệm êm ái và không gây ức chế, hệ thống chấm điểm áp dụng cơ chế "Bao dung" gồm 2 bước:
+1. **Chuẩn hóa Chuỗi (Normalization):** 
+   - Hàm `normalizeForTyping` tự động bóc tách và loại bỏ sạch sẽ mọi dấu câu (như chấm, phẩy, hỏi chấm, chấm than...) và đưa về chữ thường.
+   - Nhờ đó, việc học viên gõ thừa hay thiếu 1 dấu chấm câu (ví dụ `Cà phê này nóng` thay vì `Cà phê này nóng.`) vẫn được công nhận đúng tuyệt đối.
+2. **Thuật toán Levenshtein (Fuzzy Matching):**
+   - Nếu vẫn không khớp, hệ thống tính toán độ lệch ký tự (Levenshtein Distance).
+   - Cho phép sai lệch **1 ký tự** (với câu ngắn <15 ký tự) và **2 ký tự** (với câu dài >=15 ký tự) để châm chước các lỗi typo (gõ nhầm dấu sắc thành ngã, thiếu chữ cái). Hệ thống vẫn tính điểm "ĐÚNG" và kích hoạt giao diện Banner hiển thị màu Xanh thành công.
