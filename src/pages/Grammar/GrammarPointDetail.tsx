@@ -7,10 +7,24 @@ import { vocabularyData } from '../../data/vocabularyData';
 import { GrammarExercise } from '../../components/Grammar/GrammarExercise';
 
 export const GrammarPointDetail = () => {
-  const handleSpeak = (text: string, rate: number = 0.85) => {
+  const [playingId, setPlayingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []);
+
+  const handleSpeak = (text: string, rate: number = 0.85, id: string) => {
+    window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ja-JP';
     utterance.rate = rate;
+    
+    utterance.onstart = () => setPlayingId(id);
+    utterance.onend = () => setPlayingId(null);
+    utterance.onerror = () => setPlayingId(null);
+
     window.speechSynthesis.speak(utterance);
   };
 
@@ -205,11 +219,45 @@ export const GrammarPointDetail = () => {
                 </div>
 
                 <div className="flex flex-col items-center gap-2 shrink-0">
-                  <button onClick={() => handleSpeak(ex.japanese, 0.4)} className="flex items-center justify-center gap-2 w-32 py-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm active:scale-95">
-                    <Volume2 size={14} /> Đọc chậm
+                  <button 
+                    onClick={() => handleSpeak(ex.japanese, 0.4, `${idx}-slow`)} 
+                    className={`flex items-center justify-center gap-2 w-32 py-2 border rounded-xl text-xs font-bold transition-all shadow-sm active:scale-95 ${
+                      playingId === `${idx}-slow` 
+                        ? 'bg-emerald-500 text-white border-emerald-600 shadow-[0_4px_12px_rgba(16,185,129,0.3)]' 
+                        : 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    {playingId === `${idx}-slow` ? (
+                      <>
+                        <div className="relative flex items-center justify-center h-4 w-4">
+                          <Volume2 size={14} className="relative z-10" />
+                          <div className="absolute inset-0 rounded-full bg-white opacity-50 animate-ping"></div>
+                        </div>
+                        Đang phát
+                      </>
+                    ) : (
+                      <><Volume2 size={14} /> Đọc chậm</>
+                    )}
                   </button>
-                  <button onClick={() => handleSpeak(ex.japanese, 0.85)} className="flex items-center justify-center gap-2 w-32 py-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm active:scale-95">
-                    <Volume2 size={14} /> Đọc thường
+                  <button 
+                    onClick={() => handleSpeak(ex.japanese, 0.85, `${idx}-normal`)} 
+                    className={`flex items-center justify-center gap-2 w-32 py-2 border rounded-xl text-xs font-bold transition-all shadow-sm active:scale-95 ${
+                      playingId === `${idx}-normal` 
+                        ? 'bg-emerald-500 text-white border-emerald-600 shadow-[0_4px_12px_rgba(16,185,129,0.3)]' 
+                        : 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    {playingId === `${idx}-normal` ? (
+                      <>
+                        <div className="relative flex items-center justify-center h-4 w-4">
+                          <Volume2 size={14} className="relative z-10" />
+                          <div className="absolute inset-0 rounded-full bg-white opacity-50 animate-ping"></div>
+                        </div>
+                        Đang phát
+                      </>
+                    ) : (
+                      <><Volume2 size={14} /> Đọc thường</>
+                    )}
                   </button>
                 </div>
               </motion.div>
