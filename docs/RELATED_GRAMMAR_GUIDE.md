@@ -142,3 +142,13 @@ Trong dạng bài tập Tự luận (Type 3) - gõ phím, để mang lại trả
 2. **Thuật toán Levenshtein (Fuzzy Matching):**
    - Nếu vẫn không khớp, hệ thống tính toán độ lệch ký tự (Levenshtein Distance).
    - Cho phép sai lệch **1 ký tự** (với câu ngắn <15 ký tự) và **2 ký tự** (với câu dài >=15 ký tự) để châm chước các lỗi typo (gõ nhầm dấu sắc thành ngã, thiếu chữ cái). Hệ thống vẫn tính điểm "ĐÚNG" và kích hoạt giao diện Banner hiển thị màu Xanh thành công.
+
+## 11. Quy tắc Trình bày Thông tin Phản hồi (Feedback Data Presentation)
+Để bảng phản hồi (Answer Feedback) mang lại giá trị học tập cao nhất, nó phải tuân thủ nghiêm ngặt 2 nguyên tắc hiển thị dữ liệu:
+1. **Bắt buộc hiển thị Phiên âm (Reading & Romaji):** Khi đáp án đúng chứa Kanji (đặc biệt trong các dạng bài tập Tự luận hoặc Sắp xếp tiếng Nhật), hệ thống BẮT BUỘC hiển thị chuỗi phiên âm Hiragana (`reading`) và `romaji` ngay bên dưới để học viên biết cách đọc. Việc chỉ hiển thị Kanji là một trải nghiệm tồi.
+2. **Giải thích Đa năng & Đầy đủ (Universal Explanation):**
+   - Ô "Giải thích" không được phép để trống ở bất kỳ dạng bài nào (Type 1, 2, 3, 4).
+   - Nội dung giải thích phải bao gồm 2 phần cốt lõi: 
+     - **Bối cảnh:** Dịch nghĩa tiếng Việt của toàn bộ câu ví dụ đó.
+     - **Phân tích:** Giải thích tại sao lại dùng cấu trúc ngữ pháp đó trong câu (kết nối giữa `grammarPoint.title` và `grammarPoint.meaning`).
+   - Cấu trúc chung: *"Câu này có nghĩa là: [Nghĩa Tiếng Việt]. Nó áp dụng cấu trúc [Tên Ngữ pháp] để diễn tả ý nghĩa [Ý nghĩa Ngữ pháp]."*
