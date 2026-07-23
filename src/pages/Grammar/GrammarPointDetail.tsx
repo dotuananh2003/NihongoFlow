@@ -223,7 +223,7 @@ export const GrammarPointDetail = () => {
                     onClick={() => handleSpeak(ex.japanese, 0.4, `${idx}-slow`)} 
                     className={`flex items-center justify-center gap-2 w-32 py-2 border rounded-xl text-xs font-bold transition-all shadow-sm active:scale-95 ${
                       playingId === `${idx}-slow` 
-                        ? 'bg-emerald-500 text-white border-emerald-600 shadow-[0_4px_12px_rgba(16,185,129,0.3)]' 
+                        ? 'bg-blue-500 text-white border-blue-600 shadow-[0_4px_12px_rgba(59,130,246,0.3)]' 
                         : 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
                     }`}
                   >
@@ -243,7 +243,7 @@ export const GrammarPointDetail = () => {
                     onClick={() => handleSpeak(ex.japanese, 0.85, `${idx}-normal`)} 
                     className={`flex items-center justify-center gap-2 w-32 py-2 border rounded-xl text-xs font-bold transition-all shadow-sm active:scale-95 ${
                       playingId === `${idx}-normal` 
-                        ? 'bg-emerald-500 text-white border-emerald-600 shadow-[0_4px_12px_rgba(16,185,129,0.3)]' 
+                        ? 'bg-blue-500 text-white border-blue-600 shadow-[0_4px_12px_rgba(59,130,246,0.3)]' 
                         : 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
                     }`}
                   >
