@@ -79,6 +79,16 @@ export const grammarCourses: GrammarCourse[] = [
             commonWords: 'Thường đi kèm với các phó từ chỉ mức độ: とても (rất), 少し (một chút), あまり (không lắm)...',
             relatedGrammars: [
       {
+        name: 'N は Aい N です',
+        meaning: 'Tính từ i bổ nghĩa cho danh từ',
+        example: { japanese: 'これは新しい本です。', reading: 'これはあたらしいほんです。', romaji: 'kore wa atarashii hon desu.', vietnamese: 'Đây là cuốn sách mới.' }
+      },
+      {
+        name: 'N は Aかった です',
+        meaning: 'Khẳng định trong quá khứ',
+        example: { japanese: '昨日は寒かったです。', reading: 'きのうはさむかったです。', romaji: 'kinou wa samukatta desu.', vietnamese: 'Hôm qua trời lạnh.' }
+      },
+      {
         name: 'N は N です',
         meaning: 'Miêu tả bản chất sự vật bằng Danh từ',
         example: { japanese: '彼は学生です。', reading: 'かれはがくせいです。', romaji: 'kare wa gakusei desu.', vietnamese: 'Anh ấy là học sinh.' }
@@ -137,6 +147,16 @@ export const grammarCourses: GrammarCourse[] = [
             memoryTip: 'Phủ định của tính từ đuôi い thì vứt đuôi "い" đi và gắn thêm đuôi mới là "くない" (kunai). Cứ nhớ thần chú: Không "i" thì "kunai"!',
             commonWords: 'Thường đi kèm với từ chỉ mức độ phủ định: あまり (không ... lắm), ぜんぜん (hoàn toàn không ...).',
             relatedGrammars: [
+      {
+        name: 'N は Aくありません',
+        meaning: 'Cách nói lịch sự, trang trọng hơn',
+        example: { japanese: 'このお茶は熱くありません。', reading: 'このおちゃはあつくありません。', romaji: 'kono ocha wa atsuku arimasen.', vietnamese: 'Trà này không nóng.' }
+      },
+      {
+        name: 'N は Aくなかった です',
+        meaning: 'Phủ định trong quá khứ',
+        example: { japanese: '昨日は寒くなかったです。', reading: 'きのうはさむくなかったです。', romaji: 'kinou wa samukunakatta desu.', vietnamese: 'Hôm qua trời không lạnh.' }
+      },
       {
         name: 'N は N じゃありません',
         meaning: 'Phủ định bản chất sự vật (Danh từ)',
@@ -197,6 +217,16 @@ export const grammarCourses: GrammarCourse[] = [
             commonWords: 'Các tính từ đuôi な quốc dân hay gặp: 好き (thích), きれい (đẹp/sạch), 有名 (nổi tiếng), 静か (yên tĩnh), 暇 (rảnh rỗi)...',
             relatedGrammars: [
       {
+        name: 'N は Aな N です',
+        meaning: 'Tính từ na bổ nghĩa danh từ',
+        example: { japanese: '彼女はきれいな人です。', reading: 'かのじょはきれいなひとです。', romaji: 'kanojo wa kireina hito desu.', vietnamese: 'Cô ấy là người đẹp.' }
+      },
+      {
+        name: 'N は Aでした',
+        meaning: 'Khẳng định trong quá khứ',
+        example: { japanese: '昔はこの町は静かでした。', reading: 'むかしはこのまちはしずかでした。', romaji: 'mukashi wa kono machi wa shizuka deshita.', vietnamese: 'Ngày xưa thị trấn này yên tĩnh.' }
+      },
+      {
         name: 'N は Aい です',
         meaning: 'Miêu tả tính chất bằng tính từ đuôi i',
         example: { japanese: 'この本は新しいです。', reading: 'このほんはあたらしいです。', romaji: 'kono hon wa atarashii desu.', vietnamese: 'Cuốn sách này mới.' }
@@ -251,6 +281,16 @@ export const grammarCourses: GrammarCourse[] = [
             memoryTip: 'Tính từ đuôi な cũng giống Danh từ, khi phủ định cứ thêm "じゃありません" vào sau là xong.',
             commonWords: 'Tương tự khẳng định: 好き, きれい, 有名, 静か, 暇...',
             relatedGrammars: [
+      {
+        name: 'N は Aではありません',
+        meaning: 'Văn viết, trang trọng hơn',
+        example: { japanese: '彼は有名ではありません。', reading: 'かれはゆうめいではありません。', romaji: 'kare wa yuumei dewa arimasen.', vietnamese: 'Anh ấy không nổi tiếng.' }
+      },
+      {
+        name: 'N は Aじゃありませんでした',
+        meaning: 'Phủ định trong quá khứ',
+        example: { japanese: '昔はこの町は静かじゃありませんでした。', reading: 'むかしはこのまちはしずかじゃありませんでした。', romaji: 'mukashi wa kono machi wa shizuka ja arimasen deshita.', vietnamese: 'Ngày xưa thị trấn này không yên tĩnh.' }
+      },
       {
         name: 'N は Aくない です',
         meaning: 'Phủ định tính chất (Tính từ đuôi i)',
@@ -307,6 +347,11 @@ export const grammarCourses: GrammarCourse[] = [
             commonWords: 'Thường đi với các tính từ chỉ cảm xúc, cảm giác, tính chất.',
             relatedGrammars: [
       {
+        name: 'ぜんぜん + A (phủ định)',
+        meaning: 'Mức độ phủ định tuyệt đối (Hoàn toàn không)',
+        example: { japanese: 'この映画はぜんぜん面白くないです。', reading: 'このえいがはぜんぜんおもしろくないです。', romaji: 'kono eiga wa zenzen omoshirokunai desu.', vietnamese: 'Bộ phim này hoàn toàn không thú vị.' }
+      },
+      {
         name: 'あまり + Aくない / じゃありません',
         meaning: 'Phủ định một phần mức độ (Không ... lắm)',
         example: { japanese: 'この本はあまり高くないです。', reading: 'このほんはあまりたかくないです。', romaji: 'kono hon wa amari takakunai desu.', vietnamese: 'Cuốn sách này không đắt lắm.' }
@@ -361,6 +406,11 @@ export const grammarCourses: GrammarCourse[] = [
             memoryTip: 'Cứ thấy あまり (amari) thì nhắm mắt cũng biết đuôi câu phải là phủ định (nai / masen).',
             commonWords: 'Thường gặp trong câu đánh giá: không ngon lắm, không đắt lắm, không khó lắm...',
             relatedGrammars: [
+      {
+        name: 'ぜんぜん + A (phủ định)',
+        meaning: 'Mức độ phủ định tuyệt đối',
+        example: { japanese: 'このテストはぜんぜん難しくないです。', reading: 'このテストはぜんぜんむずかしくないです。', romaji: 'kono tesuto wa zenzen muzukashikunai desu.', vietnamese: 'Bài kiểm tra này hoàn toàn không khó.' }
+      },
       {
         name: 'とても + Aい / Aな',
         meaning: 'Khẳng định mức độ cao (Rất ...)',
@@ -420,6 +470,16 @@ export const grammarCourses: GrammarCourse[] = [
             memoryTip: 'Nhớ cặp bài trùng: "Địa điểm" đi với trợ từ "に", "Chủ thể" đi với trợ từ "が".',
             commonWords: 'Từ chỉ vị trí: 上 (trên), 下 (dưới), 前 (trước), 後ろ (sau), 中 (trong), 外 (ngoài)...',
             relatedGrammars: [
+      {
+        name: 'N1 に なに が ありますか',
+        meaning: 'Cấu trúc đặt câu hỏi',
+        example: { japanese: '箱の中に何がありますか。', reading: 'はこのなかに何がありますか。', romaji: 'hako no naka ni nani ga arimasu ka.', vietnamese: 'Trong hộp có cái gì vậy?' }
+      },
+      {
+        name: 'N1 に N2 や N3 が あります',
+        meaning: 'Liệt kê một phần',
+        example: { japanese: '机の上に本やペンがあります。', reading: 'つくえのうえにほんやペンがあります。', romaji: 'tsukue no ue ni hon ya pen ga arimasu.', vietnamese: 'Trên bàn có sách và bút (và v.v).' }
+      },
       {
         name: 'N1 に N2 が います',
         meaning: 'Sự tồn tại của người hoặc động vật',
