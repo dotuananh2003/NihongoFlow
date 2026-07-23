@@ -657,22 +657,19 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
                 
                 let btnStyle = "";
                 let icon = null;
-                let accentStyle = "bg-slate-200 dark:bg-slate-700"; 
 
                 if (isAnswered) {
                   if (isCorrectOption) {
-                    btnStyle = "bg-emerald-50 dark:bg-emerald-900/20 border-2 border-emerald-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px] text-emerald-700 dark:text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]";
-                    accentStyle = "bg-emerald-500";
+                    btnStyle = "bg-emerald-50 dark:bg-emerald-900/20 border-2 border-l-[4px] border-emerald-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px] text-emerald-700 dark:text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]";
                     icon = <Check size={20} className="text-emerald-500 shrink-0" />;
                   } else if (isSelected) {
-                    btnStyle = "bg-rose-50 dark:bg-rose-900/20 border-2 border-rose-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px] text-rose-700 dark:text-rose-400 opacity-90";
-                    accentStyle = "bg-rose-500";
+                    btnStyle = "bg-rose-50 dark:bg-rose-900/20 border-2 border-l-[4px] border-rose-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px] text-rose-700 dark:text-rose-400 opacity-90";
                     icon = <X size={20} className="text-rose-500 shrink-0" />;
                   } else {
-                    btnStyle = "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 border-b-[6px] opacity-50";
+                    btnStyle = "bg-white dark:bg-slate-800 border-2 border-l-[4px] border-slate-200 dark:border-slate-700 border-b-[6px] opacity-50";
                   }
                 } else {
-                  btnStyle = "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 border-b-[6px] hover:border-blue-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 active:border-b-[2px] active:translate-y-[4px] shadow-sm";
+                  btnStyle = "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 border-l-[4px] border-l-slate-300 dark:border-l-slate-600 border-b-[6px] hover:border-blue-400 hover:border-l-blue-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 active:border-b-[2px] active:translate-y-[4px] shadow-sm";
                 }
 
                 return (
@@ -682,14 +679,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
                     onClick={() => handleMCQAnswer(idx)}
                     className={`group relative w-full p-3 md:p-4 rounded-xl flex items-center gap-3 transition-all duration-200 text-left overflow-hidden ${btnStyle}`}
                   >
-                    {!isAnswered && (
-                      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-200 dark:bg-slate-700 group-hover:bg-blue-400 transition-colors"></div>
-                    )}
-                    {isAnswered && (
-                      <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${accentStyle}`}></div>
-                    )}
-
-                    <div className={`ml-2 w-8 h-8 rounded-full flex items-center justify-center font-black text-sm shrink-0 transition-colors ${
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm shrink-0 transition-colors ${
                       isAnswered && isCorrectOption 
                         ? 'bg-emerald-500 text-white' 
                         : isAnswered && isSelected 
