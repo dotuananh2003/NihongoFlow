@@ -1,3 +1,9 @@
+export interface RelatedGrammar {
+  name: string;
+  meaning: string;
+  example: GrammarExample;
+}
+
 export interface GrammarExample {
   japanese: string;
   reading?: string;
@@ -26,6 +32,7 @@ export interface GrammarPoint {
   note?: string;
   memoryTip?: string;
   commonWords?: string;
+  relatedGrammars?: RelatedGrammar[];
 }
 
 export interface GrammarLesson {
@@ -70,7 +77,19 @@ export const grammarCourses: GrammarCourse[] = [
             note: 'Giữ nguyên い khi đi với です.',
             memoryTip: 'Chữ "い" (i) ở cuối tính từ giống như cái đuôi của con mèo vậy. Đừng bao giờ vứt bỏ đuôi này khi đứng trước "です" nhé!',
             commonWords: 'Thường đi kèm với các phó từ chỉ mức độ: とても (rất), 少し (một chút), あまり (không lắm)...',
-            examples: [
+            relatedGrammars: [
+      {
+        name: 'N は N です',
+        meaning: 'Miêu tả bản chất sự vật bằng Danh từ',
+        example: { japanese: '彼は学生です。', reading: 'かれはがくせいです。', romaji: 'kare wa gakusei desu.', vietnamese: 'Anh ấy là học sinh.' }
+      },
+      {
+        name: 'N は Aな です',
+        meaning: 'Miêu tả tính chất bằng tính từ đuôi na',
+        example: { japanese: 'その町は静かです。', reading: 'そのまちはしずかです。', romaji: 'sono machi wa shizuka desu.', vietnamese: 'Thị trấn đó yên tĩnh.' }
+      }
+    ],
+    examples: [
           {
             japanese: 'わたしはがくせいです。',
             vietnamese: 'Tôi là học sinh.',
@@ -117,7 +136,19 @@ export const grammarCourses: GrammarCourse[] = [
             note: 'Ngoại lệ: いい (tốt) -> よく ない。',
             memoryTip: 'Phủ định của tính từ đuôi い thì vứt đuôi "い" đi và gắn thêm đuôi mới là "くない" (kunai). Cứ nhớ thần chú: Không "i" thì "kunai"!',
             commonWords: 'Thường đi kèm với từ chỉ mức độ phủ định: あまり (không ... lắm), ぜんぜん (hoàn toàn không ...).',
-            examples: [
+            relatedGrammars: [
+      {
+        name: 'N は N じゃありません',
+        meaning: 'Phủ định bản chất sự vật (Danh từ)',
+        example: { japanese: '私は医者じゃありません。', reading: 'わたしはいしゃじゃありません。', romaji: 'watashi wa isha ja arimasen.', vietnamese: 'Tôi không phải là bác sĩ.' }
+      },
+      {
+        name: 'N は Aな じゃありません',
+        meaning: 'Phủ định tính chất (Tính từ đuôi na)',
+        example: { japanese: 'その町は静かじゃありません。', reading: 'そのまちはしずかじゃありません。', romaji: 'sono machi wa shizuka ja arimasen.', vietnamese: 'Thị trấn đó không yên tĩnh.' }
+      }
+    ],
+    examples: [
           {
             japanese: 'わたしはがくせいです。',
             vietnamese: 'Tôi là học sinh.',
@@ -164,7 +195,14 @@ export const grammarCourses: GrammarCourse[] = [
             note: 'Cần lưu ý các từ như きれい, ゆうめい là tính từ đuôi な.',
             memoryTip: 'Tính từ đuôi な rất "đỏng đảnh", khi đứng ngay trước "です" thì cái đuôi "な" sẽ bị rớt mất. Tuyệt đối đừng viết là "なです" nhé!',
             commonWords: 'Các tính từ đuôi な quốc dân hay gặp: 好き (thích), きれい (đẹp/sạch), 有名 (nổi tiếng), 静か (yên tĩnh), 暇 (rảnh rỗi)...',
-            examples: [
+            relatedGrammars: [
+      {
+        name: 'N は Aい です',
+        meaning: 'Miêu tả tính chất bằng tính từ đuôi i',
+        example: { japanese: 'この本は新しいです。', reading: 'このほんはあたらしいです。', romaji: 'kono hon wa atarashii desu.', vietnamese: 'Cuốn sách này mới.' }
+      }
+    ],
+    examples: [
           {
             japanese: 'わたしはがくせいです。',
             vietnamese: 'Tôi là học sinh.',
@@ -203,7 +241,14 @@ export const grammarCourses: GrammarCourse[] = [
           {
             id: 'g4', title: 'N は Aじゃありません。', meaning: 'N không [tính chất] A', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'じゃ', iconBg: 'bg-purple-50 dark:bg-purple-900/30', iconColor: 'text-purple-500',
-            examples: [
+            relatedGrammars: [
+      {
+        name: 'N は Aくない です',
+        meaning: 'Phủ định tính chất (Tính từ đuôi i)',
+        example: { japanese: 'この本は新しくないです。', reading: 'このほんはあたらしくないです。', romaji: 'kono hon wa atarashikunai desu.', vietnamese: 'Cuốn sách này không mới.' }
+      }
+    ],
+    examples: [
           {
             japanese: 'わたしはがくせいです。',
             vietnamese: 'Tôi là học sinh.',
@@ -242,7 +287,14 @@ export const grammarCourses: GrammarCourse[] = [
           {
             id: 'g5', title: 'とても / すこし + A', meaning: 'Rất / Một chút', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'と', iconBg: 'bg-pink-50 dark:bg-pink-900/30', iconColor: 'text-pink-500',
-            examples: [
+            relatedGrammars: [
+      {
+        name: 'あまり + Aくない / じゃありません',
+        meaning: 'Phủ định một phần mức độ (Không ... lắm)',
+        example: { japanese: 'この本はあまり高くないです。', reading: 'このほんはあまりたかくないです。', romaji: 'kono hon wa amari takakunai desu.', vietnamese: 'Cuốn sách này không đắt lắm.' }
+      }
+    ],
+    examples: [
           {
             japanese: 'わたしはがくせいです。',
             vietnamese: 'Tôi là học sinh.',
@@ -281,7 +333,19 @@ export const grammarCourses: GrammarCourse[] = [
           {
             id: 'g6', title: 'あまり + Aくない', meaning: 'Không ... lắm', type: 'Tính từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'あ', iconBg: 'bg-orange-50 dark:bg-orange-900/30', iconColor: 'text-orange-500',
-            examples: [
+            relatedGrammars: [
+      {
+        name: 'とても + Aい / Aな',
+        meaning: 'Khẳng định mức độ cao (Rất ...)',
+        example: { japanese: 'このケーキはとても美味しいです。', reading: 'このケーキはとてもおいしいです。', romaji: 'kono keeki wa totemo oishii desu.', vietnamese: 'Cái bánh này rất ngon.' }
+      },
+      {
+        name: '少し + Aい / Aな',
+        meaning: 'Khẳng định mức độ thấp (Một chút / Hơi ...)',
+        example: { japanese: '今日は少し暑いです。', reading: 'きょうはすこしあついです。', romaji: 'kyou wa sukoshi atsui desu.', vietnamese: 'Hôm nay hơi nóng.' }
+      }
+    ],
+    examples: [
           {
             japanese: 'わたしはがくせいです。',
             vietnamese: 'Tôi là học sinh.',
@@ -320,7 +384,19 @@ export const grammarCourses: GrammarCourse[] = [
           {
             id: 'g7', title: 'N1 に N2 が あります。', meaning: 'Ở N1 có N2', type: 'Phó từ', jlpt: 'N5', difficulty: 'Cơ bản',
             icon: 'あ', iconBg: 'bg-blue-50 dark:bg-blue-900/30', iconColor: 'text-blue-600', barColor: 'bg-emerald-500',
-            examples: [
+            relatedGrammars: [
+      {
+        name: 'N1 に N2 が います',
+        meaning: 'Sự tồn tại của người hoặc động vật',
+        example: { japanese: '公園に犬がいます。', reading: 'こうえんにいぬがいます。', romaji: 'kouen ni inu ga imasu.', vietnamese: 'Ở công viên có con chó.' }
+      },
+      {
+        name: 'N2 は N1 に あります',
+        meaning: 'Nhấn mạnh vị trí của một vật thể đã xác định',
+        example: { japanese: 'トイレはあそこにあります。', reading: 'トイレはあそこにあります。', romaji: 'toire wa asoko ni arimasu.', vietnamese: 'Nhà vệ sinh ở đằng kia.' }
+      }
+    ],
+    examples: [
           {
             japanese: 'わたしはがくせいです。',
             vietnamese: 'Tôi là học sinh.',

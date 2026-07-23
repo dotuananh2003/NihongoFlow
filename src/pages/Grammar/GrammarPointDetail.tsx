@@ -246,6 +246,93 @@ export const GrammarPointDetail = () => {
 
       </div>
 
+      {/* CẤU TRÚC LIÊN QUAN */}
+      {/* @ts-ignore - relatedGrammars is added to interface */}
+      {point.relatedGrammars && point.relatedGrammars.length > 0 && (
+        <div className="mb-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-1.5 h-6 bg-purple-500 rounded-full"></div>
+            <h2 className="text-lg font-black text-slate-800 dark:text-slate-100 uppercase tracking-widest">CẤU TRÚC LIÊN QUAN</h2>
+          </div>
+          <div className="space-y-4">
+            {/* @ts-ignore */}
+            {point.relatedGrammars.map((rg, idx) => (
+              <div key={idx} className="bg-purple-50 dark:bg-purple-900/10 rounded-[1.5rem] p-4 md:p-5 shadow-sm border border-purple-100 dark:border-purple-900/30">
+                <div className="mb-3">
+                  <h3 className="text-sm font-black text-purple-600 dark:text-purple-400 font-jp">{rg.name}</h3>
+                  <p className="text-xs font-bold text-purple-800 dark:text-purple-200 mt-1">{rg.meaning}</p>
+                </div>
+                
+                <div className="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
+                  <div className="flex-1 min-w-0 flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
+                    <div className="flex-[1.5] min-w-0">
+                      {(() => {
+                        const parsed = parseKanjiReading(rg.example.japanese, rg.example.reading || rg.example.japanese);
+                        let colorIdx = 0;
+                        const renderBlocks = parsed.map(item => {
+                          if (item.type === 'kanji') {
+                            const color = PARSE_COLORS[colorIdx % PARSE_COLORS.length];
+                            colorIdx++;
+                            return { ...item, color };
+                          }
+                          return item;
+                        });
+
+                        return (
+                          <>
+                            <div className="text-lg md:text-xl font-black text-slate-800 dark:text-slate-100 font-jp mb-1">
+                              {renderBlocks.map((item, i) => (
+                                item.type === 'kanji' 
+                                  ? <span key={i} className={(item as any).color}>{item.text}</span>
+                                  : <span key={i}>{item.text}</span>
+                              ))}
+                            </div>
+                            <div className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                              {parsed.length === 1 && parsed[0].type === 'mixed' 
+                                ? (rg.example.reading || rg.example.japanese)
+                                : renderBlocks.map((item, i) => (
+                                  item.type === 'kanji'
+                                    ? <span key={i} className={(item as any).color}>{item.reading}</span>
+                                    : <span key={i}>{item.text}</span>
+                                ))
+                              }
+                            </div>
+                          </>
+                        );
+                      })()}
+                      {rg.example.romaji && <div className="text-xs font-medium text-slate-400 dark:text-slate-500 italic mt-0.5">{rg.example.romaji}</div>}
+                    </div>
+                    <div className="flex-1 min-w-0 text-sm font-medium text-slate-600 dark:text-slate-300">
+                      {rg.example.vietnamese}
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col items-center gap-2 shrink-0">
+                    <button 
+                      onClick={() => handleSpeak(rg.example.japanese, 0.85, `rg-${idx}-normal`)} 
+                      className={`flex items-center justify-center gap-2 w-10 h-10 border rounded-full text-xs font-bold transition-all shadow-sm active:scale-95 ${
+                        playingId === `rg-${idx}-normal` 
+                          ? 'bg-purple-500 text-white border-purple-600 shadow-[0_4px_12px_rgba(168,85,247,0.3)]' 
+                          : 'bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-900/50 hover:bg-purple-50 dark:hover:bg-purple-900/20'
+                      }`}
+                    >
+                      {playingId === `rg-${idx}-normal` ? (
+                        <div className="relative flex items-center justify-center h-4 w-4">
+                          <Volume2 size={16} className="relative z-10" />
+                          <div className="absolute inset-0 rounded-full bg-white opacity-50 animate-ping"></div>
+                        </div>
+                      ) : (
+                        <Volume2 size={16} />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* VÍ DỤ */}
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-6">
