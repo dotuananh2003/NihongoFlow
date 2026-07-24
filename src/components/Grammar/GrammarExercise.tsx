@@ -236,7 +236,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
           correctAnswer: subType === 'jp_to_vn' ? ex.vietnamese : ex.japanese,
           options: shuffle(options)
         };
-      else if (type === 'type2') {
+      } else if (type === 'type2') {
         // TYPE 2: Fill in the blank (1 to 3 blanks)
         const candidates = [];
         
