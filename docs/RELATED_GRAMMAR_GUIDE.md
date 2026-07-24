@@ -164,3 +164,18 @@ Trong dạng bài tập Tự luận (Type 3) - gõ phím, để mang lại trả
 1. **Memoization thuật toán nặng (CPU Bound):** Các thao tác xử lý chuỗi phức tạp (đặc biệt là thuật toán Regex như `parseKanjiReading`) tuyệt đối **không được đặt trực tiếp bên trong vòng lặp render**. Phải sử dụng `useMemo` để tính toán trước một lần duy nhất vào bộ nhớ đệm (cache), sau đó biến render mới lôi ra sử dụng.
 2. **Loại bỏ Thư viện JS Animation (GPU Bound):** Tuyệt đối không lạm dụng các thư viện hoạt ảnh bằng Javascript (như `framer-motion`, `motion.div`) cho các danh sách dài. Việc gắn quá nhiều Listener sự kiện vào hàng chục phần tử sẽ làm nghẽn Main Thread, tốn bộ nhớ và gây lag khung hình.
 3. **Ưu tiên CSS Native Transitions:** Chuyển đổi mọi hiệu ứng tương tác đơn giản (hover lún, nổi, mờ, đổ bóng) sang CSS Native thuần túy (VD: `hover:-translate-y-[2px] transition-transform duration-300`). Trình duyệt sẽ giao cho GPU xử lý trực tiếp các layer này, mang lại trải nghiệm cuộn mượt mà tuyệt đối 90-120fps mà không cần viện đến các thư viện cuộn ngoại vi.
+
+## 13. Quy tắc Hiển thị Modal & Giao diện Lớp phủ (Z-index & Stacking Context)
+Khi xây dựng các giao diện toàn màn hình (Full-screen Modal) như bài tập ngữ pháp, rất dễ gặp phải lỗi CSS kinh điển: "Lớp nền xám bị hụt khi cuộn trang, làm lộ trang web bên dưới". Để khắc phục triệt để, phải tuân thủ 2 nguyên tắc:
+1. **Tuyệt đối không dùng `absolute inset-0` cho lớp nền bên trong một thẻ có thanh cuộn (`overflow-y-auto`).** Vì `absolute` sẽ chỉ đo chiều cao của màn hình ban đầu (Viewport Height), dẫn đến phần nội dung bị cuộn xuống sâu hơn sẽ không có nền che phủ.
+2. **Luôn thiết lập màu nền (background-color) trực tiếp vào thẻ gốc `fixed inset-0`**, hoặc dùng `fixed inset-0` cho các lớp phủ trang trí (Texture/Pattern) nằm bên trong. Việc này đảm bảo lớp nền luôn bám chặt và phủ kín toàn bộ thiết bị dù nội dung bên trong có cuộn dài đến đâu. Đồng thời, chú ý quản lý chặt chẽ Stacking Context (Z-index) giữa các thành phần tĩnh và động (như `motion.div`) để tránh việc nút bấm bị đè lấp.
+
+## 14. Quy tắc Dò tìm & Lọc Từ Vựng (Vocabulary Filtering Algorithm)
+Thành phần "Siêu Từ Điển" (Global Dictionary) dựa trên thuật toán dò từ tự động, do đó phải thiết lập các luật lệ nghiêm ngặt để cân bằng giữa việc bắt nhầm từ (False Positives) và bỏ sót từ (False Negatives):
+1. **Luật Gom Chuỗi (String Concatenation):** Phải gộp toàn bộ mọi khu vực văn bản trên màn hình (`questionText`, `correctAnswer`, 4 đáp án `options`, `example.japanese`, `example.vietnamese`, `example.reading`) thành một chuỗi duy nhất để đảm bảo thuật toán không bỏ sót bất kỳ từ nào.
+2. **Luật Bắt Tiếng Nhật (Strict Japanese Matching):**
+   - Tuyệt đối ưu tiên Hán tự (Kanji). Nếu một từ có Kanji (VD: `部屋`), bắt buộc phải dò theo Kanji đó, bỏ qua Hiragana.
+   - Chỉ được phép quét Hiragana đối với các từ thuần Kana (VD: `これ`) HOẶC có độ dài từ 3 ký tự trở lên (VD: `いつも`). Việc này chặn triệt để tình trạng các chữ Hiragana ngắn (1-2 âm tiết) như `に` (Số 2), `か` (Muỗi) bị bắt nhầm vào các Trợ từ ngữ pháp phổ biến trong câu.
+3. **Luật Bắt Tiếng Việt (Smart Regex Matching):**
+   - **Tẩy rỉ sét (Sanitization):** Nghĩa tiếng Việt trong Database thường chứa ngoặc đơn chú thích (VD: `Nước (uống)`, `Đi (bộ)`). Bắt buộc phải dùng Regex `replace(/\(.*?\)/g, '')` để loại bỏ toàn bộ phần này trước khi dò, tránh tình trạng so khớp thất bại.
+   - **Dò Ranh Giới (Word Boundaries):** Không được dùng hàm `.includes()` cho tiếng Việt vì sẽ bắt nhầm chuỗi con (VD: "xe" trong "xem"). Bắt buộc phải dùng Regex có chốt chặn ký tự lạ ở hai đầu: `(^|[^a-zA-ZÀ-ỹ0-9])(từ_khóa)([^a-zA-ZÀ-ỹ0-9]|$)` để đảm bảo chỉ bắt đúng từ vựng độc lập.
