@@ -6,6 +6,7 @@ import { toHiragana, toKatakana, toRomaji } from 'wanakana';
 import type { GrammarExample, GrammarPoint } from '../../data/grammarData';
 import type { VocabItem } from '../../data/vocabularyData';
 import { vocabularyData, extraVocab } from '../../data/vocabularyData';
+import { generateBlanks } from '../../utils/questionUtils';
 
 interface GrammarExerciseProps {
   grammarPoint: GrammarPoint;
@@ -235,52 +236,47 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
           correctAnswer: subType === 'jp_to_vn' ? ex.vietnamese : ex.japanese,
           options: shuffle(options)
         };
-      } 
       else if (type === 'type2') {
         // TYPE 2: Fill in the blank (1 to 3 blanks)
-        const vocabInSentence = vocabList.filter(v => 
-          (v.kanji && ex.japanese.includes(v.kanji)) || 
-          (v.hiragana && ex.japanese.includes(v.hiragana) && v.hiragana.length > 1)
-        ).map(v => v.kanji || v.hiragana);
+        const candidates = [];
         
-        const particlesInSentence = PARTICLES.filter(p => ex.japanese.includes(p));
-        
-        const pool = Array.from(new Set([...particlesInSentence, ...vocabInSentence]));
-        if (grammarPoint.icon && ex.japanese.includes(grammarPoint.icon) && !pool.includes(grammarPoint.icon)) {
-          pool.push(grammarPoint.icon);
-        }
-        
-        if (pool.length === 0) continue; // Skip if nothing to blank
-        
-        const numBlanks = Math.floor(Math.random() * Math.min(3, pool.length)) + 1; // 1 to 3
-        const selectedTargets = shuffle(pool).slice(0, numBlanks);
-        
-        // Sort by appearance index so blanks are left-to-right
-        selectedTargets.sort((a, b) => ex.japanese.indexOf(a) - ex.japanese.indexOf(b));
-        
-        let questionText = ex.japanese;
-        let readingText = ex.reading || ex.romaji || '';
-        
-        selectedTargets.forEach(t => {
-          questionText = questionText.replace(t, '___');
-          let readingToReplace = t;
-          if (!PARTICLES.includes(t)) {
-             const v = vocabList.find(v => v.kanji === t || v.hiragana === t);
-             if (v && v.hiragana) readingToReplace = v.hiragana;
+        // 1. Add vocab candidates
+        vocabList.forEach(v => {
+          if (v.kanji && ex.japanese.includes(v.kanji)) {
+            candidates.push({ text: v.kanji, readingText: v.hiragana });
+          } else if (v.hiragana && ex.japanese.includes(v.hiragana)) {
+            // Only use hiragana if it's long enough to avoid false positives (particles), or if it's the only form
+            if (v.kanji === v.hiragana || v.hiragana.length >= 2) {
+               candidates.push({ text: v.hiragana, readingText: v.hiragana });
+            }
           }
-          readingText = readingText.replace(readingToReplace, '___');
         });
         
-        const correctAnswer = selectedTargets.join(' - ');
+        // 2. Add particles
+        PARTICLES.forEach(p => {
+          if (ex.japanese.includes(p)) {
+             candidates.push({ text: p, readingText: p });
+          }
+        });
         
-        const options = [correctAnswer];
+        // 3. Add grammar icon
+        if (grammarPoint.icon && ex.japanese.includes(grammarPoint.icon)) {
+          candidates.push({ text: grammarPoint.icon, readingText: grammarPoint.icon });
+        }
+        
+        const blankResult = generateBlanks(ex.japanese, ex.reading || ex.romaji || '', candidates, 3);
+        
+        if (!blankResult) continue; // Skip if generation failed or no candidates
+        
+        const options = [blankResult.correctAnswer];
         let attempts = 0;
+        const distractorPool = [...vocabList.map(v => v.kanji || v.hiragana), ...PARTICLES];
+        
         while (options.length < 4 && attempts < 30) {
           attempts++;
-          const distractor = selectedTargets.map(t => {
+          const distractor = blankResult.selectedTargets.map(t => {
             if (PARTICLES.includes(t)) {
-               const randP = PARTICLES[Math.floor(Math.random() * PARTICLES.length)];
-               return randP;
+               return PARTICLES[Math.floor(Math.random() * PARTICLES.length)];
             } else {
                const randVocab = vocabList[Math.floor(Math.random() * vocabList.length)];
                return randVocab?.kanji || randVocab?.hiragana || t;
@@ -294,10 +290,10 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
           id: `q${i}`,
           type, subType: 'jp_to_vn', // Forced
           example: ex,
-          questionText: questionText,
-          correctAnswer: correctAnswer,
+          questionText: blankResult.questionText,
+          correctAnswer: blankResult.correctAnswer,
           options: shuffle(options),
-          readingWithBlanks: readingText
+          readingWithBlanks: blankResult.readingWithBlanks
         };
       }
       else if (type === 'type4' && ex.sortBlocks && ex.sortBlocks.length > 0) {
