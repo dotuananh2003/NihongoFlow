@@ -125,6 +125,7 @@ Hệ thống sẽ tự động bắt lấy giọng đọc do người dùng ch�
 ## 9. Quy tắc Giao diện Gamification (Bài tập)
 Để mang lại trải nghiệm học tập sinh động và cuốn hút như các ứng dụng hàng đầu (Duolingo, Quizlet), thành phần `GrammarExercise.tsx` đã được áp dụng bộ thiết kế Gamification cao cấp:
 - **Thanh Tiêu Đề Bài Tập (Exercise Header):** Lột xác toàn diện để đồng bộ phong cách Gamification.
+  - **Nút Từ Vựng Động (Dynamic Vocab Dictionary):** Một nút "Pill 3D" màu xanh dương nằm cạnh nút Thoát. Được lập trình thông minh để tự động quét chữ Hán và Hiragana từ câu hỏi hiện tại và hiển thị thành một lưới 2 cột (`grid-cols-2`). Bảng tra cứu này bám đỉnh trơn tru (`sticky top-0` kết hợp `backdrop-blur`) và tự động thay đổi từ vựng khi học viên qua câu mới, giúp biến mọi bài kiểm tra thành công cụ học từ vựng tương tác.
   - **Badge Dạng Bài:** Được thiết kế dạng viên thuốc (`rounded-full`) kết hợp đổ bóng phát sáng (Glow) tùy theo dạng bài (Xanh, Lục, Tím, Cam).
   - **Nút Thoát:** Là một khối "Pill 3D" tinh tế với viền dưới dày nhẹ. Khi hover sẽ ửng màu tương ứng, khi click lún xuống (tactile feedback) giống các nút chính, duy trì sự hài hòa tuyệt đối.
   - **Tiêu đề ngữ pháp:** Sử dụng font tiếng Nhật siêu đậm (`font-black font-jp`) cao cấp, phân tách bằng dấu chấm tròn.
