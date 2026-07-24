@@ -119,12 +119,18 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
     const q = questions[currentIdx];
     const textToSearch = [
       q.example.japanese,
+      q.example.vietnamese,
       q.questionText,
       ...(q.options || [])
-    ].join(' ');
+    ].join(' ').toLowerCase();
 
     return vocabList.filter(v => {
-      return textToSearch.includes(v.kanji) || textToSearch.includes(v.hiragana);
+      if (textToSearch.includes(v.kanji.toLowerCase()) || textToSearch.includes(v.hiragana.toLowerCase())) {
+        return true;
+      }
+      
+      const meanings = v.meaning.toLowerCase().split(/[,;/]/).map(m => m.replace(/~/g, '').trim());
+      return meanings.some(m => m.length > 0 && textToSearch.includes(m));
     });
   }, [questions, currentIdx, vocabList]);
   
