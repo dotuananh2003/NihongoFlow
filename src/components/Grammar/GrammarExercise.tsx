@@ -134,22 +134,37 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
     const textToSearch = [
       q.example.japanese,
       q.example.vietnamese,
+      q.example.reading,
       q.questionText,
+      q.correctAnswer,
+      q.readingWithBlanks,
       ...(q.options || [])
-    ].join(' ').toLowerCase();
+    ].filter(Boolean).join(' ').toLowerCase();
 
     return uniqueMergedVocabs.filter(v => {
-      if (textToSearch.includes(v.kanji.toLowerCase()) || textToSearch.includes(v.hiragana.toLowerCase())) {
-        return true;
-      }
+      // 1. Japanese Matching
+      const kanji = v.kanji ? v.kanji.toLowerCase() : '';
+      const hiragana = v.hiragana ? v.hiragana.toLowerCase() : '';
       
-      const meanings = v.meaning.toLowerCase().split(/[,;/]/).map(m => m.replace(/~/g, '').trim());
+      const hasKanji = kanji && kanji !== hiragana;
+      const kanjiMatch = hasKanji && textToSearch.includes(kanji);
+      
+      // To avoid false positives (like matching 'に' or 'か' particles), 
+      // only match hiragana if it's 3+ chars long, OR if the word doesn't have Kanji
+      const hiraganaMatch = (!hasKanji || hiragana.length >= 3) && hiragana && textToSearch.includes(hiragana);
+      
+      if (kanjiMatch || hiraganaMatch) return true;
+      
+      // 2. Vietnamese Matching
+      // Remove text inside parentheses e.g. "Nước (uống)" -> "Nước "
+      const cleanMeaning = v.meaning.replace(/\(.*?\)/g, '').toLowerCase();
+      const meanings = cleanMeaning.split(/[,;/、-]/).map(m => m.replace(/~/g, '').trim());
+      
       return meanings.some(m => {
         if (m.length === 0) return false;
-        // Sử dụng Regex với Word Boundaries cho Tiếng Việt để tránh bắt nhầm chữ (VD: "xe" trong "xem")
-        // Quy tắc: (^|[^a-zA-ZÀ-ỹ]) + từ_khóa + ([^a-zA-ZÀ-ỹ]|$)
         const escapeRegExp = (string: string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const pattern = new RegExp(`(^|[^a-zA-ZÀ-ỹ])${escapeRegExp(m)}([^a-zA-ZÀ-ỹ]|$)`, 'i');
+        // Match word boundaries for Vietnamese to avoid substring matches
+        const pattern = new RegExp(`(^|[^a-zA-ZÀ-ỹ0-9])${escapeRegExp(m)}([^a-zA-ZÀ-ỹ0-9]|$)`, 'i');
         return pattern.test(textToSearch);
       });
     });
