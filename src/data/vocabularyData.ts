@@ -298,3 +298,20 @@ export const vocabularyData: Record<string, VocabItem[]> = {
     { id: 16, kanji: 'もってきます', hiragana: 'もってきます', romaji: 'mottekimasu', type: 'Động từ', meaning: 'Mang đến' }
   ]
 };
+
+export const commonPlaces: VocabItem[] = [
+  { id: 9001, kanji: 'ハノイ', hiragana: 'ハノイ', romaji: 'hanoi', type: 'Danh từ riêng', meaning: 'Hà Nội' },
+  { id: 9002, kanji: 'ホーチミン', hiragana: 'ホーチミン', romaji: 'hoochimin', type: 'Danh từ riêng', meaning: 'Hồ Chí Minh' },
+  { id: 9003, kanji: '東京', hiragana: 'とうきょう', romaji: 'toukyou', type: 'Danh từ riêng', meaning: 'Tokyo' },
+  { id: 9004, kanji: '京都', hiragana: 'きょうと', romaji: 'kyouto', type: 'Danh từ riêng', meaning: 'Kyoto' },
+  { id: 9005, kanji: '大阪', hiragana: 'おおさか', romaji: 'oosaka', type: 'Danh từ riêng', meaning: 'Osaka' },
+  { id: 9006, kanji: '日本', hiragana: 'にほん', romaji: 'nihon', type: 'Danh từ riêng', meaning: 'Nhật Bản' },
+  { id: 9007, kanji: 'ベトナム', hiragana: 'ベトナム', romaji: 'betonamu', type: 'Danh từ riêng', meaning: 'Việt Nam' },
+  { id: 9008, kanji: 'アメリカ', hiragana: 'アメリカ', romaji: 'amerika', type: 'Danh từ riêng', meaning: 'Mỹ' },
+  { id: 9009, kanji: 'フランス', hiragana: 'フランス', romaji: 'furansu', type: 'Danh từ riêng', meaning: 'Pháp' },
+  { id: 9010, kanji: '駅', hiragana: 'えき', romaji: 'eki', type: 'Danh từ', meaning: 'Nhà ga' },
+  { id: 9011, kanji: '学校', hiragana: 'がっこう', romaji: 'gakkou', type: 'Danh từ', meaning: 'Trường học' },
+  { id: 9012, kanji: '会社', hiragana: 'かいしゃ', romaji: 'kaisha', type: 'Danh từ', meaning: 'Công ty' },
+  { id: 9013, kanji: '病院', hiragana: 'びょういん', romaji: 'byouin', type: 'Danh từ', meaning: 'Bệnh viện' },
+  { id: 9014, kanji: 'スーパー', hiragana: 'スーパー', romaji: 'suupaa', type: 'Danh từ', meaning: 'Siêu thị' }
+];

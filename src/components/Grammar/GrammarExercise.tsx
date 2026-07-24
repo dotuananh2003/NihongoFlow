@@ -5,6 +5,7 @@ import { ChevronLeft, X, Trophy, Flame, Star, Check, ArrowRight, RotateCcw, PenT
 import { toHiragana, toKatakana, toRomaji } from 'wanakana';
 import type { GrammarExample, GrammarPoint } from '../../data/grammarData';
 import type { VocabItem } from '../../data/vocabularyData';
+import { commonPlaces } from '../../data/vocabularyData';
 
 interface GrammarExerciseProps {
   grammarPoint: GrammarPoint;
@@ -116,6 +117,10 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   // Dynamic Vocab Filtering
   const currentVocabs = React.useMemo(() => {
     if (questions.length === 0 || !vocabList) return [];
+    
+    // Gộp từ điển địa danh vào danh sách từ vựng bài học
+    const mergedVocabList = [...vocabList, ...commonPlaces];
+    
     const q = questions[currentIdx];
     const textToSearch = [
       q.example.japanese,
@@ -124,7 +129,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
       ...(q.options || [])
     ].join(' ').toLowerCase();
 
-    return vocabList.filter(v => {
+    return mergedVocabList.filter(v => {
       if (textToSearch.includes(v.kanji.toLowerCase()) || textToSearch.includes(v.hiragana.toLowerCase())) {
         return true;
       }
