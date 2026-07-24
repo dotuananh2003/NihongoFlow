@@ -542,16 +542,24 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
       <div className="flex flex-col w-full h-full max-w-4xl mx-auto px-4 py-2 md:py-4 relative z-10">
         {/* Header */}
         <div className="flex items-center justify-between mb-3 md:mb-4">
-          <div className="flex items-center gap-3">
-            <div className="px-3 py-1.5 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 font-bold text-xs flex items-center gap-1.5">
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className={`px-3.5 py-1.5 rounded-full font-bold text-xs flex items-center gap-1.5 shadow-sm border ${
+              q.type === 'type1' ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800 shadow-[0_0_8px_rgba(59,130,246,0.3)]' :
+              q.type === 'type2' ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 shadow-[0_0_8px_rgba(16,185,129,0.3)]' :
+              q.type === 'type3' ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-800 shadow-[0_0_8px_rgba(168,85,247,0.3)]' :
+              'bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+            }`}>
               <BookIcon type={q.type} />
               {q.type === 'type1' ? 'Trắc nghiệm' : q.type === 'type2' ? 'Đục lỗ' : q.type === 'type3' ? 'Tự luận' : 'Sắp xếp'}
             </div>
-            <div className="hidden sm:block text-sm font-bold text-slate-500">{grammarPoint.title}</div>
+            <div className="hidden sm:flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>
+              <div className="text-sm font-black font-jp text-slate-400 dark:text-slate-500 tracking-wide">{grammarPoint.title}</div>
+            </div>
           </div>
           
-          <button onClick={onClose} className="flex items-center gap-2 text-slate-500 hover:text-rose-500 transition-colors px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-900">
-            <X size={16} /> Thoát
+          <button onClick={onClose} className="flex items-center gap-2 text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 transition-all px-4 py-1.5 border-x border-t border-b-[3px] border-slate-200 dark:border-slate-700 hover:border-rose-200 dark:hover:border-rose-900/50 hover:border-b-rose-300 dark:hover:border-b-rose-700 rounded-full text-sm font-bold bg-white dark:bg-slate-900 hover:bg-rose-50 dark:hover:bg-rose-900/20 active:translate-y-[2px] active:border-b active:border-slate-200 dark:active:border-slate-700 shadow-sm hover:shadow-md">
+            <X size={16} strokeWidth={2.5} /> Thoát
           </button>
         </div>
 
