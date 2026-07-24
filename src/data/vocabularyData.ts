@@ -12,6 +12,37 @@ export interface VocabItem {
 }
 
 export const vocabularyData: Record<string, VocabItem[]> = {
+  'basic': [
+    { id: 101, kanji: '私', hiragana: 'わたし', romaji: 'watashi', type: 'Đại từ', meaning: 'Tôi' },
+    { id: 102, kanji: 'あなた', hiragana: 'あなた', romaji: 'anata', type: 'Đại từ', meaning: 'Bạn' },
+    { id: 103, kanji: 'あの人', hiragana: 'あのひと', romaji: 'anohito', type: 'Đại từ', meaning: 'Người kia' },
+    { id: 104, kanji: '先生', hiragana: 'せんせい', romaji: 'sensei', type: 'Danh từ', meaning: 'Giáo viên' },
+    { id: 105, kanji: '学生', hiragana: 'がくせい', romaji: 'gakusei', type: 'Danh từ', meaning: 'Học sinh, sinh viên' },
+    { id: 106, kanji: '会社員', hiragana: 'かいしゃいん', romaji: 'kaishain', type: 'Danh từ', meaning: 'Nhân viên công ty' },
+    { id: 107, kanji: '医者', hiragana: 'いしゃ', romaji: 'isha', type: 'Danh từ', meaning: 'Bác sĩ' },
+    { id: 108, kanji: '本', hiragana: 'ほん', romaji: 'hon', type: 'Danh từ', meaning: 'Sách' },
+    { id: 109, kanji: '辞書', hiragana: 'じしょ', romaji: 'jisho', type: 'Danh từ', meaning: 'Từ điển' },
+    { id: 110, kanji: 'カメラ', hiragana: 'カメラ', romaji: 'kamera', type: 'Danh từ', meaning: 'Máy ảnh' },
+    { id: 111, kanji: 'パソコン', hiragana: 'パソコン', romaji: 'pasokon', type: 'Danh từ', meaning: 'Máy tính' },
+    { id: 112, kanji: 'かばん', hiragana: 'かばん', romaji: 'kaban', type: 'Danh từ', meaning: 'Cặp, túi xách' },
+    { id: 113, kanji: '時計', hiragana: 'とけい', romaji: 'tokei', type: 'Danh từ', meaning: 'Đồng hồ' },
+    { id: 114, kanji: '机', hiragana: 'つくえ', romaji: 'tsukue', type: 'Danh từ', meaning: 'Bàn' },
+    { id: 115, kanji: '部屋', hiragana: 'へや', romaji: 'heya', type: 'Danh từ', meaning: 'Căn phòng' },
+    { id: 116, kanji: '店', hiragana: 'みせ', romaji: 'mise', type: 'Danh từ', meaning: 'Cửa hàng' },
+    { id: 117, kanji: '富士山', hiragana: 'ふじさん', romaji: 'fujisan', type: 'Danh từ riêng', meaning: 'Núi Phú Sĩ' },
+    { id: 118, kanji: 'レモン', hiragana: 'レモン', romaji: 'remon', type: 'Danh từ', meaning: 'Quả chanh' },
+    { id: 119, kanji: 'りんご', hiragana: 'りんご', romaji: 'ringo', type: 'Danh từ', meaning: 'Quả táo' },
+    { id: 120, kanji: '薬', hiragana: 'くすり', romaji: 'kusuri', type: 'Danh từ', meaning: 'Thuốc' },
+    { id: 121, kanji: '水', hiragana: 'みず', romaji: 'mizu', type: 'Danh từ', meaning: 'Nước' },
+    { id: 122, kanji: '夏', hiragana: 'なつ', romaji: 'natsu', type: 'Danh từ', meaning: 'Mùa hè' },
+    { id: 123, kanji: '冬', hiragana: 'ふゆ', romaji: 'fuyu', type: 'Danh từ', meaning: 'Mùa đông' },
+    { id: 124, kanji: 'これ', hiragana: 'これ', romaji: 'kore', type: 'Đại từ', meaning: 'Cái này' },
+    { id: 125, kanji: 'それ', hiragana: 'それ', romaji: 'sore', type: 'Đại từ', meaning: 'Cái đó' },
+    { id: 126, kanji: 'あれ', hiragana: 'あれ', romaji: 'are', type: 'Đại từ', meaning: 'Cái kia' },
+    { id: 127, kanji: '昨日', hiragana: 'きのう', romaji: 'kinou', type: 'Danh từ chỉ thời gian', meaning: 'Hôm qua' },
+    { id: 128, kanji: '今日', hiragana: 'きょう', romaji: 'kyou', type: 'Danh từ chỉ thời gian', meaning: 'Hôm nay' },
+    { id: 129, kanji: '明日', hiragana: 'あした', romaji: 'ashita', type: 'Danh từ chỉ thời gian', meaning: 'Ngày mai' }
+  ],
   '4-1': [
     { 
       id: 1, kanji: '北', hiragana: 'きた', romaji: 'kita', type: 'Danh từ', meaning: 'Phía bắc',
@@ -323,5 +354,9 @@ export const extraVocab: VocabItem[] = [
   { id: 9021, kanji: '船', hiragana: 'ふね', romaji: 'fune', type: 'Danh từ', meaning: 'Thuyền, tàu thủy' },
   { id: 9022, kanji: '自転車', hiragana: 'じてんしゃ', romaji: 'jitensha', type: 'Danh từ', meaning: 'Xe đạp' },
   { id: 9023, kanji: '車', hiragana: 'くるま', romaji: 'kuruma', type: 'Danh từ', meaning: 'Ô tô' },
-  { id: 9024, kanji: '電車', hiragana: 'でんしゃ', romaji: 'densha', type: 'Danh từ', meaning: 'Tàu điện' }
+  { id: 9024, kanji: '電車', hiragana: 'でんしゃ', romaji: 'densha', type: 'Danh từ', meaning: 'Tàu điện' },
+  { id: 9025, kanji: '島', hiragana: 'しま', romaji: 'shima', type: 'Danh từ', meaning: 'Đảo' },
+  { id: 9026, kanji: 'ダラット', hiragana: 'ダラット', romaji: 'daratto', type: 'Danh từ riêng', meaning: 'Đà Lạt' },
+  { id: 9027, kanji: '歩いて', hiragana: 'あるいて', romaji: 'aruite', type: 'Trạng từ', meaning: 'Đi bộ' },
+  { id: 9028, kanji: 'デパート', hiragana: 'デパート', romaji: 'depaato', type: 'Danh từ', meaning: 'Trung tâm thương mại' }
 ];
