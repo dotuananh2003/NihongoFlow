@@ -975,15 +975,14 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex flex-col font-sans animate-in fade-in duration-300 overflow-y-auto">
-      <div className="absolute inset-0 bg-slate-50 dark:bg-slate-950" />
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/japanese-pattern.png')]" />
+    <div className="fixed inset-0 z-[9999] bg-slate-50 dark:bg-slate-950 flex flex-col font-sans animate-in fade-in duration-300 overflow-y-auto">
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/japanese-pattern.png')]" />
       
       {/* Decorative gradient blobs */}
       {screen !== 'playing' && (
         <>
-          <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-blue-400/20 blur-[120px] rounded-full pointer-events-none" />
-          <div className="absolute bottom-[-10%] left-[-5%] w-[30%] h-[30%] bg-purple-400/20 blur-[100px] rounded-full pointer-events-none" />
+          <div className="fixed top-[-10%] right-[-5%] w-[40%] h-[40%] bg-blue-400/20 blur-[120px] rounded-full pointer-events-none" />
+          <div className="fixed bottom-[-10%] left-[-5%] w-[30%] h-[30%] bg-purple-400/20 blur-[100px] rounded-full pointer-events-none" />
         </>
       )}
 
