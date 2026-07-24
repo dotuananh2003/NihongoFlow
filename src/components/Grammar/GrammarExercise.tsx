@@ -565,8 +565,8 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
 
         {/* Progress & Stats */}
         <div className="flex items-center justify-between mb-3 md:mb-4 bg-white dark:bg-slate-900 p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-          <div className="flex-1 flex items-center gap-3 md:gap-4 font-bold text-slate-700 dark:text-slate-300 mr-4 md:mr-8">
-            <span className="w-8 text-center text-sm md:text-base shrink-0">{currentIdx + 1}/{questions.length}</span>
+          <div className="flex-1 flex items-center gap-3 md:gap-4 text-slate-700 dark:text-slate-300 mr-4 md:mr-8">
+            <span className="min-w-[3rem] text-center text-sm md:text-base font-black shrink-0">{currentIdx + 1}/{questions.length}</span>
             <div className="flex-1 h-3 md:h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner relative">
               <div 
                 className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 transition-all duration-500 ease-out shadow-[0_0_12px_rgba(59,130,246,0.6)]" 
