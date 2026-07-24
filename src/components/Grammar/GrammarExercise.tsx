@@ -5,7 +5,7 @@ import { ChevronLeft, X, Trophy, Flame, Star, Check, ArrowRight, RotateCcw, PenT
 import { toHiragana, toKatakana, toRomaji } from 'wanakana';
 import type { GrammarExample, GrammarPoint } from '../../data/grammarData';
 import type { VocabItem } from '../../data/vocabularyData';
-import { commonPlaces } from '../../data/vocabularyData';
+import { vocabularyData, extraVocab } from '../../data/vocabularyData';
 
 interface GrammarExerciseProps {
   grammarPoint: GrammarPoint;
@@ -118,8 +118,17 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   const currentVocabs = React.useMemo(() => {
     if (questions.length === 0 || !vocabList) return [];
     
-    // Gộp từ điển địa danh vào danh sách từ vựng bài học
-    const mergedVocabList = [...vocabList, ...commonPlaces];
+    // Gộp từ điển dùng chung và TẤT CẢ từ vựng của mọi bài học thành Siêu Từ Điển
+    const allLessonsVocab = Object.values(vocabularyData).flat();
+    
+    // Dùng Map để loại bỏ các từ vựng trùng lặp (nếu có) dựa trên kanji và hiragana
+    const mergedVocabList = [...allLessonsVocab, ...extraVocab].reduce((acc, curr) => {
+      const key = `${curr.kanji}-${curr.hiragana}`;
+      if (!acc.has(key)) acc.set(key, curr);
+      return acc;
+    }, new Map<string, VocabItem>());
+    
+    const uniqueMergedVocabs = Array.from(mergedVocabList.values());
     
     const q = questions[currentIdx];
     const textToSearch = [
@@ -129,13 +138,20 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
       ...(q.options || [])
     ].join(' ').toLowerCase();
 
-    return mergedVocabList.filter(v => {
+    return uniqueMergedVocabs.filter(v => {
       if (textToSearch.includes(v.kanji.toLowerCase()) || textToSearch.includes(v.hiragana.toLowerCase())) {
         return true;
       }
       
       const meanings = v.meaning.toLowerCase().split(/[,;/]/).map(m => m.replace(/~/g, '').trim());
-      return meanings.some(m => m.length > 0 && textToSearch.includes(m));
+      return meanings.some(m => {
+        if (m.length === 0) return false;
+        // Sử dụng Regex với Word Boundaries cho Tiếng Việt để tránh bắt nhầm chữ (VD: "xe" trong "xem")
+        // Quy tắc: (^|[^a-zA-ZÀ-ỹ]) + từ_khóa + ([^a-zA-ZÀ-ỹ]|$)
+        const escapeRegExp = (string: string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const pattern = new RegExp(`(^|[^a-zA-ZÀ-ỹ])${escapeRegExp(m)}([^a-zA-ZÀ-ỹ]|$)`, 'i');
+        return pattern.test(textToSearch);
+      });
     });
   }, [questions, currentIdx, vocabList]);
   

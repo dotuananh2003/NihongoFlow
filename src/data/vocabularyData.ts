@@ -299,7 +299,7 @@ export const vocabularyData: Record<string, VocabItem[]> = {
   ]
 };
 
-export const commonPlaces: VocabItem[] = [
+export const extraVocab: VocabItem[] = [
   { id: 9001, kanji: 'ハノイ', hiragana: 'ハノイ', romaji: 'hanoi', type: 'Danh từ riêng', meaning: 'Hà Nội' },
   { id: 9002, kanji: 'ホーチミン', hiragana: 'ホーチミン', romaji: 'hoochimin', type: 'Danh từ riêng', meaning: 'Hồ Chí Minh' },
   { id: 9003, kanji: '東京', hiragana: 'とうきょう', romaji: 'toukyou', type: 'Danh từ riêng', meaning: 'Tokyo' },
@@ -313,5 +313,15 @@ export const commonPlaces: VocabItem[] = [
   { id: 9011, kanji: '学校', hiragana: 'がっこう', romaji: 'gakkou', type: 'Danh từ', meaning: 'Trường học' },
   { id: 9012, kanji: '会社', hiragana: 'かいしゃ', romaji: 'kaisha', type: 'Danh từ', meaning: 'Công ty' },
   { id: 9013, kanji: '病院', hiragana: 'びょういん', romaji: 'byouin', type: 'Danh từ', meaning: 'Bệnh viện' },
-  { id: 9014, kanji: 'スーパー', hiragana: 'スーパー', romaji: 'suupaa', type: 'Danh từ', meaning: 'Siêu thị' }
+  { id: 9014, kanji: 'スーパー', hiragana: 'スーパー', romaji: 'suupaa', type: 'Danh từ', meaning: 'Siêu thị' },
+  { id: 9015, kanji: '家', hiragana: 'うち', romaji: 'uchi', type: 'Danh từ', meaning: 'Nhà' },
+  { id: 9016, kanji: '空港', hiragana: 'くうこう', romaji: 'kuukou', type: 'Danh từ', meaning: 'Sân bay' },
+  { id: 9017, kanji: 'バス', hiragana: 'バス', romaji: 'basu', type: 'Danh từ', meaning: 'Xe buýt' },
+  { id: 9018, kanji: 'ホテル', hiragana: 'ホテル', romaji: 'hoteru', type: 'Danh từ', meaning: 'Khách sạn' },
+  { id: 9019, kanji: 'タクシー', hiragana: 'タクシー', romaji: 'takushii', type: 'Danh từ', meaning: 'Taxi' },
+  { id: 9020, kanji: '飛行機', hiragana: 'ひこうき', romaji: 'hikouki', type: 'Danh từ', meaning: 'Máy bay' },
+  { id: 9021, kanji: '船', hiragana: 'ふね', romaji: 'fune', type: 'Danh từ', meaning: 'Thuyền, tàu thủy' },
+  { id: 9022, kanji: '自転車', hiragana: 'じてんしゃ', romaji: 'jitensha', type: 'Danh từ', meaning: 'Xe đạp' },
+  { id: 9023, kanji: '車', hiragana: 'くるま', romaji: 'kuruma', type: 'Danh từ', meaning: 'Ô tô' },
+  { id: 9024, kanji: '電車', hiragana: 'でんしゃ', romaji: 'densha', type: 'Danh từ', meaning: 'Tàu điện' }
 ];
