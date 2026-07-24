@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, X, Trophy, Flame, Star, Check, ArrowRight, RotateCcw, PenTool, Type, HelpCircle, Lightbulb, Keyboard, CheckCircle2, XCircle } from 'lucide-react';
+import { ChevronLeft, X, Trophy, Flame, Star, Check, ArrowRight, RotateCcw, PenTool, Type, HelpCircle, Lightbulb, Keyboard, CheckCircle2, XCircle, BookOpen } from 'lucide-react';
 import { toHiragana, toKatakana, toRomaji } from 'wanakana';
 import type { GrammarExample, GrammarPoint } from '../../data/grammarData';
 import type { VocabItem } from '../../data/vocabularyData';
@@ -78,12 +78,17 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   const [selectedTypes, setSelectedTypes] = useState<ExerciseType[]>(['type1', 'type2', 'type3', 'type4']);
   const [questionCount, setQuestionCount] = useState<number>(Math.min(10, grammarPoint.examples.length));
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isVocabOpen, setIsVocabOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const vocabDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
+      }
+      if (vocabDropdownRef.current && !vocabDropdownRef.current.contains(event.target as Node)) {
+        setIsVocabOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -106,6 +111,23 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   // Typing state
   const [textInput, setTextInput] = useState('');
   const [imeMode, setImeMode] = useState<'hira' | 'kata'>('hira');
+  const [isVietnameseTyping, setIsVietnameseTyping] = useState(false);
+
+  // Dynamic Vocab Filtering
+  const currentVocabs = React.useMemo(() => {
+    if (questions.length === 0 || !vocabList) return [];
+    const q = questions[currentIdx];
+    const textToSearch = [
+      q.example.japanese,
+      q.questionText,
+      ...(q.options || [])
+    ].join(' ');
+
+    return vocabList.filter(v => {
+      return textToSearch.includes(v.kanji) || textToSearch.includes(v.hiragana);
+    });
+  }, [questions, currentIdx, vocabList]);
+  
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedSortBlocks, setSelectedSortBlocks] = useState<{ id: string; text: string }[]>([]);
   const [availableSortBlocks, setAvailableSortBlocks] = useState<{ id: string; text: string }[]>([]);
@@ -558,9 +580,62 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
             </div>
           </div>
           
-          <button onClick={onClose} className="flex items-center gap-2 text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 transition-all px-4 py-1.5 border-x border-t border-b-[3px] border-slate-200 dark:border-slate-700 hover:border-rose-200 dark:hover:border-rose-900/50 hover:border-b-rose-300 dark:hover:border-b-rose-700 rounded-full text-sm font-bold bg-white dark:bg-slate-900 hover:bg-rose-50 dark:hover:bg-rose-900/20 active:translate-y-[2px] active:border-b active:border-slate-200 dark:active:border-slate-700 shadow-sm hover:shadow-md">
-            <X size={16} strokeWidth={2.5} /> Thoát
-          </button>
+          <div className="flex items-center gap-2">
+            <div className="relative" ref={vocabDropdownRef}>
+              <button 
+                onClick={() => setIsVocabOpen(!isVocabOpen)} 
+                className={`flex items-center gap-2 transition-all px-4 py-1.5 border-x border-t border-b-[3px] rounded-full text-sm font-bold shadow-sm hover:shadow-md active:translate-y-[2px] active:border-b ${
+                  isVocabOpen 
+                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-900/50' 
+                    : 'text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 bg-white dark:bg-slate-900 hover:bg-blue-50 dark:hover:bg-blue-900/20 border-slate-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-900/50 hover:border-b-blue-300 dark:hover:border-b-blue-700 active:border-slate-200 dark:active:border-slate-700'
+                }`}
+              >
+                <BookOpen size={16} strokeWidth={2.5} /> Từ vựng
+              </button>
+              
+              <AnimatePresence>
+                {isVocabOpen && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 top-full mt-2 w-72 max-h-96 overflow-y-auto bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 z-50 p-2 custom-scrollbar"
+                  >
+                    <div className="p-2 mb-2 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white dark:bg-slate-800 z-10">
+                      <span className="font-bold text-sm text-slate-700 dark:text-slate-200">Từ vựng trong câu</span>
+                      <span className="text-xs font-bold text-blue-500 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-md">{currentVocabs.length} từ</span>
+                    </div>
+                    
+                    {currentVocabs.length > 0 ? (
+                      <div className="flex flex-col gap-2">
+                        {currentVocabs.map(v => (
+                          <div key={v.id} className="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors border border-transparent hover:border-blue-100 dark:hover:border-blue-900/30">
+                            <div className="flex items-end gap-2 mb-1">
+                              <span className="font-black font-jp text-lg text-slate-800 dark:text-slate-100">{v.kanji}</span>
+                              {v.kanji !== v.hiragana && (
+                                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-0.5">{v.hiragana}</span>
+                              )}
+                            </div>
+                            {v.romaji && <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 mb-1 uppercase tracking-wider">{v.romaji}</div>}
+                            <div className="text-sm font-medium text-slate-600 dark:text-slate-300">{v.meaning}</div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="p-6 text-center text-slate-500 dark:text-slate-400 text-sm">
+                        Không tìm thấy từ vựng nào thuộc bài học hiện tại trong câu này.
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <button onClick={onClose} className="flex items-center gap-2 text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 transition-all px-4 py-1.5 border-x border-t border-b-[3px] border-slate-200 dark:border-slate-700 hover:border-rose-200 dark:hover:border-rose-900/50 hover:border-b-rose-300 dark:hover:border-b-rose-700 rounded-full text-sm font-bold bg-white dark:bg-slate-900 hover:bg-rose-50 dark:hover:bg-rose-900/20 active:translate-y-[2px] active:border-b active:border-slate-200 dark:active:border-slate-700 shadow-sm hover:shadow-md">
+              <X size={16} strokeWidth={2.5} /> Thoát
+            </button>
+          </div>
         </div>
 
         {/* Progress & Stats */}
