@@ -220,6 +220,25 @@ export const GrammarPointDetail = () => {
     return combinedVocab.length > 0 ? combinedVocab : (vocabularyData['4-1'] || []);
   }, [lessonId]);
 
+  // Pre-parse Kanji readings to avoid scroll jank
+  const parsedExamples = useMemo(() => {
+    if (!point) return [];
+    return point.examples.map(ex => ({
+      ...ex,
+      parsed: parseKanjiReading(ex.japanese, ex.reading || ex.japanese)
+    }));
+  }, [point]);
+
+  const parsedRelatedGrammars = useMemo(() => {
+    // @ts-ignore
+    if (!point || !point.relatedGrammars) return [];
+    // @ts-ignore
+    return point.relatedGrammars.map(rg => ({
+      ...rg,
+      parsed: parseKanjiReading(rg.example.japanese, rg.example.reading || rg.example.japanese)
+    }));
+  }, [point]);
+
   const colorizeGrammarTitle = (text: string) => {
     if (!text) return text;
     const regex = /(N[1-3]?|A[いな]?|V)/g;
@@ -383,7 +402,7 @@ export const GrammarPointDetail = () => {
           </div>
           <div className="space-y-4">
             {/* @ts-ignore */}
-            {point.relatedGrammars.map((rg, idx) => (
+            {parsedRelatedGrammars.map((rg, idx) => (
               <div key={idx} className="bg-purple-50 dark:bg-purple-900/10 rounded-[1.5rem] p-4 md:p-5 shadow-sm border border-purple-100 dark:border-purple-900/30">
                 <div className="mb-4">
                   <h3 className="text-base md:text-lg font-black text-purple-600 dark:text-purple-400 font-jp">{colorizeGrammarTitle(rg.name)}</h3>
@@ -394,9 +413,9 @@ export const GrammarPointDetail = () => {
                   <div className="flex-1 min-w-0 flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
                     <div className="flex-[1.5] min-w-0">
                       {(() => {
-                        const parsed = parseKanjiReading(rg.example.japanese, rg.example.reading || rg.example.japanese);
+                        const parsed = rg.parsed;
                         let colorIdx = 0;
-                        const renderBlocks = parsed.map(item => {
+                        const renderBlocks = parsed.map((item: any) => {
                           if (item.type === 'kanji') {
                             const color = PARSE_COLORS[colorIdx % PARSE_COLORS.length];
                             colorIdx++;
@@ -551,19 +570,18 @@ export const GrammarPointDetail = () => {
         </div>
 
         <div className="space-y-4">
-          {point.examples.map((ex, idx) => {
+          {parsedExamples.map((ex, idx) => {
             return (
-              <motion.div 
+              <div 
                 key={idx}
-                whileHover={{ y: -2 }}
-                className="bg-white dark:bg-slate-900 rounded-[1.5rem] p-4 md:p-5 shadow-sm border border-slate-200 dark:border-slate-800 relative flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6"
+                className="bg-white dark:bg-slate-900 rounded-[1.5rem] p-4 md:p-5 shadow-sm border border-slate-200 dark:border-slate-800 relative flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6 hover:-translate-y-[2px] transition-transform duration-300"
               >
                 <div className="flex-1 min-w-0 flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
                   <div className="flex-[1.5] min-w-0">
                     {(() => {
-                      const parsed = parseKanjiReading(ex.japanese, ex.reading || ex.japanese);
+                      const parsed = ex.parsed;
                       let colorIdx = 0;
-                      const renderBlocks = parsed.map(item => {
+                      const renderBlocks = parsed.map((item: any) => {
                         if (item.type === 'kanji') {
                           const color = PARSE_COLORS[colorIdx % PARSE_COLORS.length];
                           colorIdx++;
@@ -651,7 +669,7 @@ export const GrammarPointDetail = () => {
                     )}
                   </button>
                 </div>
-              </motion.div>
+              </div>
             )
           })}
         </div>
