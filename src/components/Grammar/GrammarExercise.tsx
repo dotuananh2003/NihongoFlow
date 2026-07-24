@@ -600,15 +600,15 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 top-full mt-2 w-72 max-h-96 overflow-y-auto bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 z-50 p-2 custom-scrollbar"
+                    className="absolute right-0 top-full mt-2 w-[26rem] max-h-96 overflow-y-auto bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 z-50 custom-scrollbar"
                   >
-                    <div className="p-2 mb-2 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white dark:bg-slate-800 z-10">
+                    <div className="px-4 py-3 mb-2 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur-md dark:bg-slate-800/95 z-20 shadow-sm">
                       <span className="font-bold text-sm text-slate-700 dark:text-slate-200">Từ vựng trong câu</span>
                       <span className="text-xs font-bold text-blue-500 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-md">{currentVocabs.length} từ</span>
                     </div>
                     
                     {currentVocabs.length > 0 ? (
-                      <div className="flex flex-col gap-2">
+                      <div className="grid grid-cols-2 gap-2 px-2 pb-2">
                         {currentVocabs.map(v => (
                           <div key={v.id} className="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors border border-transparent hover:border-blue-100 dark:hover:border-blue-900/30">
                             <div className="flex items-end gap-2 mb-1">
