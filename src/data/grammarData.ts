@@ -121,12 +121,26 @@ export const grammarCourses: GrammarCourse[] = [
                 "reading": "あそこにだれがいますか。\nきむらさんがいます。",
                 "romaji": "asoko ni dare ga imasu ka.\nkimura san ga imasu.",
                 "vietnamese": "Ở đằng kia có ai vậy?\nCó anh Kimura."
+              }
+            ]
+          },
+          {
+            "questionFormat": "N1 に N2 が ありますか",
+            "answerFormat": "はい、あります / いいえ、ありません",
+            "identifier": "〜か (Có... không)",
+            "tip": "Câu hỏi xác nhận thông tin (Yes/No). Trả lời bằng はい (Có) hoặc いいえ (Không) kèm theo động từ tương ứng.",
+            "examples": [
+              {
+                "japanese": "部屋にテレビがありますか。\nはい、あります。",
+                "reading": "へやにテレビがありますか。\nはい、あります。",
+                "romaji": "heya ni terebi ga arimasu ka.\nhai, arimasu.",
+                "vietnamese": "Trong phòng có tivi không?\nVâng, có."
               },
               {
-                "japanese": "公園に誰がいますか。\n子供がいます。",
-                "reading": "こうえんにだれがいますか。\nこどもがいます。",
-                "romaji": "kouen ni dare ga imasu ka.\nkodomo ga imasu.",
-                "vietnamese": "Ở công viên có ai vậy?\nCó bọn trẻ con."
+                "japanese": "庭に犬がいますか。\nいいえ、いません。猫がいます。",
+                "reading": "にわにいぬがいますか。\nいいえ、いません。ねこがいます。",
+                "romaji": "niwa ni inu ga imasu ka.\niie, imasen. neko ga imasu.",
+                "vietnamese": "Ngoài vườn có con chó nào không?\nKhông, không có. Có con mèo."
               }
             ]
           }
@@ -214,16 +228,30 @@ export const grammarCourses: GrammarCourse[] = [
                 "vietnamese": "Nhà vệ sinh ở đâu vậy?\nỞ đằng kia."
               },
               {
-                "japanese": "猫はどこにいますか。\n机の下にいます。",
-                "reading": "ねこはどこにいますか。\nつくえのしたにいます。",
-                "romaji": "neko wa doko ni imasu ka.\ntsukue no shita ni imasu.",
-                "vietnamese": "Con mèo ở đâu thế?\nNó ở dưới gầm bàn."
-              },
-              {
                 "japanese": "田中さんはどこにいますか。\n会議室にいます。",
                 "reading": "たなかさんはどこにいますか。\nかいぎしつにいます。",
                 "romaji": "tanaka san wa doko ni imasu ka.\nkaigishitsu ni imasu.",
                 "vietnamese": "Anh Tanaka đang ở đâu vậy?\nAnh ấy đang ở phòng họp."
+              }
+            ]
+          },
+          {
+            "questionFormat": "N は N(Địa điểm) に ありますか",
+            "answerFormat": "はい、あります / いいえ、ありません",
+            "identifier": "〜か (Có ở... không)",
+            "tip": "Hỏi xác nhận xem một vật/người có đang ở vị trí đó hay không.",
+            "examples": [
+              {
+                "japanese": "山田さんは会議室にいますか。\nはい、います。",
+                "reading": "やまださんはかいぎしつにいますか。\nはい、います。",
+                "romaji": "yamada san wa kaigishitsu ni imasu ka.\nhai, imasu.",
+                "vietnamese": "Anh Yamada có ở phòng họp không?\nVâng, có ở đó."
+              },
+              {
+                "japanese": "私の携帯は机の上にありますか。\nいいえ、ありませんよ。",
+                "reading": "わたしのけいたいはつくえのうえにありますか。\nいいえ、ありませんよ。",
+                "romaji": "watashi no keitai wa tsukue no ue ni arimasu ka.\niie, arimasen yo.",
+                "vietnamese": "Điện thoại của tôi có ở trên bàn không?\nKhông, không có đâu."
               }
             ]
           }
@@ -379,12 +407,26 @@ export const grammarCourses: GrammarCourse[] = [
                 "reading": "にちようびどこへいきましたか。\nどこもいきませんでした。",
                 "romaji": "nichiyoubi doko he ikimashita ka.\ndokomo ikimasen deshita.",
                 "vietnamese": "Chủ nhật bạn đã đi đâu vậy?\nTôi đã không đi đâu cả."
+              }
+            ]
+          },
+          {
+            "questionFormat": "N へ 行きますか",
+            "answerFormat": "はい、行きます / いいえ、行きません",
+            "identifier": "〜か (Có đi... không)",
+            "tip": "Xác nhận xem đối phương có dự định đi đến một địa điểm cụ thể hay không.",
+            "examples": [
+              {
+                "japanese": "明日、学校へ行きますか。\nはい、行きます。",
+                "reading": "あした、がっこうへいきますか。\nはい、いきます。",
+                "romaji": "ashita, gakkou he ikimasu ka.\nhai, ikimasu.",
+                "vietnamese": "Ngày mai bạn có đi học không?\nVâng, tôi có đi."
               },
               {
-                "japanese": "今からどこへ来ますか。\nあなたの家へ来ます。",
-                "reading": "いまからどこへきますか。\nあなたのうちへきます。",
-                "romaji": "ima kara doko he kimasu ka.\nanata no uchi he kimasu.",
-                "vietnamese": "Từ bây giờ bạn sẽ đến đâu?\nTôi sẽ đến nhà bạn."
+                "japanese": "週末、スーパーへ行きましたか。\nいいえ、行きませんでした。",
+                "reading": "しゅうまつ、スーパーへいきましたか。\nいいえ、いきませんでした。",
+                "romaji": "shuumatsu, suupaa he ikimashita ka.\niie, ikimasen deshita.",
+                "vietnamese": "Cuối tuần bạn có đi siêu thị không?\nKhông, tôi đã không đi."
               }
             ]
           }
@@ -472,12 +514,26 @@ export const grammarCourses: GrammarCourse[] = [
                 "reading": "なんでにほんへきましたか。\nひこうきできました。",
                 "romaji": "nan de nihon he kimashita ka.\nhikouki de kimashita.",
                 "vietnamese": "Bạn đã đến Nhật Bản bằng gì?\nTôi đã đến bằng máy bay."
+              }
+            ]
+          },
+          {
+            "questionFormat": "N(Phương tiện) で 行きますか",
+            "answerFormat": "はい、そうです / いいえ、N で 行きます",
+            "identifier": "〜か (Đi bằng... phải không)",
+            "tip": "Xác nhận loại phương tiện. Có thể phủ định và đính chính bằng một phương tiện khác.",
+            "examples": [
+              {
+                "japanese": "毎日バスで学校へ行きますか。\nはい、そうです。",
+                "reading": "まいにちバスでがっこうへいきますか。\nはい、そうです。",
+                "romaji": "mainichi basu de gakkou he ikimasu ka.\nhai, sou desu.",
+                "vietnamese": "Mỗi ngày bạn đi học bằng xe buýt phải không?\nVâng, đúng vậy."
               },
               {
-                "japanese": "何で駅へ行きますか。\n歩いて行きます。",
-                "reading": "なんでえきへいきますか。\nあるいていきます。",
-                "romaji": "nan de eki he ikimasu ka.\naruite ikimasu.",
-                "vietnamese": "Bạn đi đến nhà ga bằng gì?\nTôi đi bộ."
+                "japanese": "タクシーで帰りましたか。\nいいえ、電車で帰りました。",
+                "reading": "タクシーでかえりましたか。\nいいえ、でんしゃでかえりました。",
+                "romaji": "takushii de kaerimashita ka.\niie, densha de kaerimashita.",
+                "vietnamese": "Bạn đã về bằng taxi à?\nKhông, tôi về bằng tàu điện."
               }
             ]
           }
@@ -560,12 +616,26 @@ export const grammarCourses: GrammarCourse[] = [
                 "reading": "だれとにほんへきましたか。\nかぞくときました。",
                 "romaji": "dare to nihon he kimashita ka.\nkazoku to kimashita.",
                 "vietnamese": "Bạn đã đến Nhật với ai vậy?\nTôi đã đến cùng gia đình."
+              }
+            ]
+          },
+          {
+            "questionFormat": "N と 行きますか",
+            "answerFormat": "はい、そうです / いいえ、一人で 行きます",
+            "identifier": "〜か (Cùng với... phải không)",
+            "tip": "Hỏi xác nhận đối tượng đi cùng.",
+            "examples": [
+              {
+                "japanese": "明日、彼女とデートに行きますか。\nはい、そうです。",
+                "reading": "あした、かのじょとデートにいきますか。\nはい、そうです。",
+                "romaji": "ashita, kanojo to deeto ni ikimasu ka.\nhai, sou desu.",
+                "vietnamese": "Ngày mai bạn đi hẹn hò với bạn gái à?\nVâng, đúng vậy."
               },
               {
-                "japanese": "誰とスーパーへ行きますか。\n一人で行きます。",
-                "reading": "だれとスーパーへいきますか。\nひとりでいきます。",
-                "romaji": "dare to suupaa he ikimasu ka.\nhitori de ikimasu.",
-                "vietnamese": "Bạn đi siêu thị với ai?\nTôi đi một mình."
+                "japanese": "お母さんと買い物に行きますか。\nいいえ、一人で行きます。",
+                "reading": "おかあさんとかいものにいきますか。\nいいえ、ひとりでいきます。",
+                "romaji": "okaasan to kaimono ni ikimasu ka.\niie, hitori de ikimasu.",
+                "vietnamese": "Bạn đi mua sắm với mẹ à?\nKhông, tôi đi một mình."
               }
             ]
           }
@@ -653,12 +723,6 @@ export const grammarCourses: GrammarCourse[] = [
                 "reading": "いつくにへかえりますか。\nらいしゅうかえります。",
                 "romaji": "itsu kuni he kaerimasu ka.\nraishuu kaerimasu.",
                 "vietnamese": "Khi nào bạn về nước?\nTuần sau tôi sẽ về. (Lưu ý: Không dùng に)"
-              },
-              {
-                "japanese": "誕生日はいつですか。\n9月10日です。",
-                "reading": "たんじょうびはいつですか。\n9がつ10かです。",
-                "romaji": "tanjoubi wa itsu desu ka.\nkugatsu tooka desu.",
-                "vietnamese": "Sinh nhật của bạn là khi nào?\nLà ngày 10 tháng 9."
               }
             ]
           }
@@ -992,12 +1056,26 @@ export const grammarCourses: GrammarCourse[] = [
                 "reading": "どんなえいががすきですか。\nアクションえいががすきです。",
                 "romaji": "donna eiga ga suki desu ka.\nakushon eiga ga suki desu.",
                 "vietnamese": "Bạn thích thể loại phim nào?\nTôi thích phim hành động."
+              }
+            ]
+          },
+          {
+            "questionFormat": "N が 好きですか",
+            "answerFormat": "はい、好きです / いいえ、好きじゃありません",
+            "identifier": "〜か (Có thích... không)",
+            "tip": "Dùng để hỏi xem ai đó có thích một vật/việc cụ thể nào không.",
+            "examples": [
+              {
+                "japanese": "日本のアニメが好きですか。\nはい、とても好きです。",
+                "reading": "にほんのアニメがすきですか。\nはい、とてもすきです。",
+                "romaji": "nihon no anime ga suki desu ka.\nhai, totemo suki desu.",
+                "vietnamese": "Bạn có thích Anime Nhật Bản không?\nVâng, rất thích."
               },
               {
-                "japanese": "どんな料理が好きですか。\n日本の料理が好きです。",
-                "reading": "どんなりょうりがすきですか。\nにほんのりょうりがすきです。",
-                "romaji": "donna ryouri ga suki desu ka.\nnihon no ryouri ga suki desu.",
-                "vietnamese": "Bạn thích đồ ăn nước nào?\nTôi thích đồ ăn Nhật Bản."
+                "japanese": "辛い料理が好きですか。\nいいえ、あまり好きじゃありません。",
+                "reading": "からいりょうりがすきですか。\nいいえ、あまりすきじゃありません。",
+                "romaji": "karai ryouri ga suki desu ka.\niie, amari suki ja arimasen.",
+                "vietnamese": "Bạn có thích đồ ăn cay không?\nKhông, không thích lắm."
               }
             ]
           }
@@ -1066,16 +1144,30 @@ export const grammarCourses: GrammarCourse[] = [
                 "vietnamese": "Bạn tiếng Nhật có giỏi không?\nKhông, tôi vẫn còn kém lắm."
               },
               {
-                "japanese": "歌が上手ですか。\nはい、少し上手です。",
-                "reading": "うたがじょうずですか。\nはい、すこしじょうずです。",
-                "romaji": "uta ga jouzu desu ka.\nhai, sukoshi jouzu desu.",
-                "vietnamese": "Bạn hát có hay không?\nVâng, tôi hát được một chút."
-              },
-              {
                 "japanese": "料理が上手ですか。\nいいえ、下手です。",
                 "reading": "りょうりがじょうずですか。\nいいえ、へたです。",
                 "romaji": "ryouri ga jouzu desu ka.\niie, heta desu.",
                 "vietnamese": "Bạn nấu ăn có giỏi không?\nKhông, tôi nấu tệ lắm."
+              }
+            ]
+          },
+          {
+            "questionFormat": "N1 と N2 と どちら が 上手ですか",
+            "answerFormat": "N1 の ほう が 上手です",
+            "identifier": "どちら (Cái nào... hơn)",
+            "tip": "Câu hỏi so sánh, yêu cầu lựa chọn xem trong 2 thứ thì giỏi cái nào hơn.",
+            "examples": [
+              {
+                "japanese": "テニスとサッカーとどちらが上手ですか。\nサッカーのほうが上手です。",
+                "reading": "テニスとサッカーとどちらがじょうずですか。\nサッカーのほうがじょうずです。",
+                "romaji": "tenisu to sakkaa to dochira ga jouzu desu ka.\nsakkaa no hou ga jouzu desu.",
+                "vietnamese": "Tennis và bóng đá, bạn giỏi cái nào hơn?\nTôi giỏi bóng đá hơn."
+              },
+              {
+                "japanese": "英語と日本語とどちらが上手ですか。\n英語のほうが上手です。",
+                "reading": "えいごとにほんごとどちらがじょうずですか。\nえいごのほうがじょうずです。",
+                "romaji": "eigo to nihongo to dochira ga jouzu desu ka.\neigo no hou ga jouzu desu.",
+                "vietnamese": "Tiếng Anh và tiếng Nhật, bạn giỏi cái nào hơn?\nTôi giỏi tiếng Anh hơn."
               }
             ]
           }
@@ -1184,16 +1276,30 @@ export const grammarCourses: GrammarCourse[] = [
                 "vietnamese": "Bây giờ bạn muốn có cái gì nhất?\nTôi muốn có một chiếc ô tô mới."
               },
               {
-                "japanese": "誕生日に何が欲しいですか。\nパソコンが欲しいです。",
-                "reading": "たんじょうびになにがほしいですか。\nパソコンがほしいです。",
-                "romaji": "tanjoubi ni nani ga hoshii desu ka.\npasokon ga hoshii desu.",
-                "vietnamese": "Bạn muốn có quà gì vào ngày sinh nhật?\nTôi muốn có máy tính."
-              },
-              {
                 "japanese": "今、何が欲しいですか。\nお金が欲しいです。",
                 "reading": "いま、なにがほしいですか。\nおかねがほしいです。",
                 "romaji": "ima, nani ga hoshii desu ka.\nokane ga hoshii desu.",
                 "vietnamese": "Bây giờ bạn muốn có cái gì?\nTôi muốn có tiền."
+              }
+            ]
+          },
+          {
+            "questionFormat": "N が 欲しいですか",
+            "answerFormat": "はい、欲しいです / いいえ、欲しくないです",
+            "identifier": "〜か (Có muốn... không)",
+            "tip": "Dùng để hỏi xem ai đó có muốn một thứ cụ thể nào đó không.",
+            "examples": [
+              {
+                "japanese": "新しいパソコンが欲しいですか。\nはい、とても欲しいです。",
+                "reading": "あたらしいパソコンがほしいですか。\nはい、とてもほしいです。",
+                "romaji": "atarashii pasokon ga hoshii desu ka.\nhai, totemo hoshii desu.",
+                "vietnamese": "Bạn có muốn máy tính mới không?\nVâng, tôi rất muốn."
+              },
+              {
+                "japanese": "コーヒーが欲しいですか。\nいいえ、欲しくないです。",
+                "reading": "コーヒーがほしいですか。\nいいえ、ほしくないです。",
+                "romaji": "koohii ga hoshii desu ka.\niie, hoshikunai desu.",
+                "vietnamese": "Bạn có muốn cà phê không?\nKhông, tôi không muốn."
               }
             ]
           }
@@ -1257,12 +1363,6 @@ export const grammarCourses: GrammarCourse[] = [
                 "vietnamese": "Cuối tuần bạn muốn làm gì?\nTôi muốn đi chơi với bạn."
               },
               {
-                "japanese": "日本で何をしたいですか。\n富士山に登りたいです。",
-                "reading": "にほんでなにをしたいですか。\nふじさんにのぼりたいです。",
-                "romaji": "nihon de nani o shitai desu ka.\nfujisan ni noboritai desu.",
-                "vietnamese": "Bạn muốn làm gì ở Nhật Bản?\nTôi muốn leo núi Phú Sĩ."
-              },
-              {
                 "japanese": "今、何をしたいですか。\n水を飲みたいです。",
                 "reading": "いま、なにをしたいですか。\nみずをのみたいです。",
                 "romaji": "ima, nani o shitai desu ka.\nmizu o nomitai desu.",
@@ -1271,28 +1371,22 @@ export const grammarCourses: GrammarCourse[] = [
             ]
           },
           {
-            "questionFormat": "どこ へ 行きたいですか",
-            "answerFormat": "N(Địa điểm) へ 行きたいです",
-            "identifier": "どこへ 行きたい (Muốn đi đâu)",
-            "tip": "Kết hợp từ để hỏi địa điểm với động từ Vたい để hỏi về nơi muốn đến.",
+            "questionFormat": "Vたいですか",
+            "answerFormat": "はい、Vたいです / いいえ、Vたくないです",
+            "identifier": "〜か (Có muốn làm... không)",
+            "tip": "Hỏi xác nhận xem ai đó có muốn thực hiện một hành động không.",
             "examples": [
               {
-                "japanese": "夏休みにどこへ行きたいですか。\n海へ行きたいです。",
-                "reading": "なつやすみにどこへいきたいですか。\nうみへいきたいです。",
-                "romaji": "natsuyasumi ni doko he ikitai desu ka.\numi he ikitai desu.",
-                "vietnamese": "Kỳ nghỉ hè bạn muốn đi đâu?\nTôi muốn đi biển."
+                "japanese": "今、ご飯を食べたいですか。\nはい、食べたいです。",
+                "reading": "いま、ごはんをたべたいですか。\nはい、たべたいです。",
+                "romaji": "ima, gohan o tabetai desu ka.\nhai, tabetai desu.",
+                "vietnamese": "Bây giờ bạn có muốn ăn cơm không?\nVâng, tôi muốn ăn."
               },
               {
-                "japanese": "今、どこへ行きたいですか。\nどこも行きたくないです。",
-                "reading": "いま、どこへいきたいですか。\nどこもいきたくないです。",
-                "romaji": "ima, doko he ikitai desu ka.\ndokomo ikitakunai desu.",
-                "vietnamese": "Bây giờ bạn muốn đi đâu?\nTôi không muốn đi đâu cả."
-              },
-              {
-                "japanese": "外国でどこへ行きたいですか。\nアメリカへ行きたいです。",
-                "reading": "がいこくでどこへいきたいですか。\nアメリカへいきたいです。",
-                "romaji": "gaikoku de doko he ikitai desu ka.\namerika he ikitai desu.",
-                "vietnamese": "Ở nước ngoài bạn muốn đi đâu?\nTôi muốn đi Mỹ."
+                "japanese": "日曜日、仕事に行きたいですか。\nいいえ、行きたくないです。",
+                "reading": "にちようび、しごとにいきたいですか。\nいいえ、いきたくないです。",
+                "romaji": "nichiyoubi, shigoto ni ikitai desu ka.\niie, ikitakunai desu.",
+                "vietnamese": "Chủ nhật bạn có muốn đi làm không?\nKhông, tôi không muốn đi đâu."
               }
             ]
           }

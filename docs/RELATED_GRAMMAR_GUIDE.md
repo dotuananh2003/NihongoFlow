@@ -189,7 +189,10 @@ Dạng bài tập điền vào chỗ trống (Fill Blank) là một trong nhữn
 ## 16. Quy tắc Xây dựng Mục Vấn Đáp (Q&A Section)
 Mọi điểm ngữ pháp mang tính chất giao tiếp (ví dụ: Ở đâu, Mấy giờ, Sở thích là gì, Có thể làm gì...) đều **BẮT BUỘC** phải trang bị cấu trúc `qa` (Q&A Section) để học viên luyện phản xạ Hỏi - Đáp.
 1. **Trường dữ liệu:** Mỗi `QASection` cần có `questionFormat` (Mẫu câu hỏi), `answerFormat` (Mẫu câu trả lời), `identifier` (Dấu hiệu nhận biết - thường là từ để hỏi), `tip` (Mẹo giao tiếp / phát âm), và `examples` (Danh sách ví dụ).
-2. **Quy tắc Số lượng & Định dạng Ví dụ:** 
+2. **Quy tắc Đa Dạng Hóa Dạng Câu Hỏi (Multi-type Q&A):**
+   - Tuyệt đối không chỉ cung cấp mỗi dạng câu hỏi từ để hỏi (WH-Question). Bắt buộc phải bổ sung thêm các block Q&A dạng Xác nhận thông tin (Yes/No Question) hoặc Câu hỏi lựa chọn để phủ kín các tình huống giao tiếp.
+   - Ví dụ: Bài "Ở đâu" phải có "Nhà vệ sinh ở ĐÂU?" và "Anh Tanaka CÓ Ở phòng họp KHÔNG?".
+3. **Quy tắc Số lượng & Định dạng Ví dụ:** 
    - Cần tối thiểu **3-5 ví dụ** (Hỏi & Đáp) cho mỗi mục Q&A.
    - Để giao diện Conversation UI (tin nhắn chat) hoạt động chính xác, dữ liệu trong `examples` phải tuân thủ định dạng phân tách bằng dấu xuống dòng `\n`.
    - Cụ thể: `japanese: "Câu hỏi\nCâu trả lời"`, tương tự cho `reading`, `romaji`, `vietnamese`.
