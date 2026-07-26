@@ -185,3 +185,12 @@ Dạng bài tập điền vào chỗ trống (Fill Blank) là một trong nhữn
 1. **Kiến trúc Non-Overlapping (Chống đè chữ):** Thuật toán sẽ trích xuất chính xác vị trí bắt đầu (`start`) và kết thúc (`end`) của từ trong câu. Đồng thời, nó tự động đối chiếu và lọc bỏ các từ bị nằm đè lên nhau (ví dụ: `日本` và `日本語`), ưu tiên giữ lại các cụm từ độc lập dài nhất để làm mồi nhử.
 2. **Trích xuất Đục lỗ Theo Index (Tuyệt đối không dùng replace string):** Hàm không dùng hàm `String.replace()` lỏng lẻo (dễ thay nhầm chữ giống nhau ở vị trí khác hoặc thay lộn Kanji/Hiragana), mà dùng hàm cắt chuỗi chuẩn xác tới từng ký tự (`substring`), bứng chính xác chữ đang có mặt trên màn hình ra khỏi câu gốc và thả vào danh sách Đáp án đúng. 
 3. **Auto-Verification (Tự động Xác minh):** Đây là chốt chặn cuối cùng. Mỗi khi một đề đục lỗ được sinh ra, thuật toán sẽ ngay lập tức tự động thử ghép các đáp án vào chỗ trống. Chỉ khi câu được ghép (Reconstructed sentence) **khớp 100% tuyệt đối** với câu gốc ban đầu thì đề bài đó mới được duyệt. Việc này chặn đứng hoàn toàn mọi thảm họa lặp từ hay lệch chữ Hán. Mọi dạng bài đục lỗ, kéo thả, ghép câu trong tương lai đều phải tuân thủ luồng kiểm duyệt này.
+
+## 16. Quy tắc Xây dựng Mục Vấn Đáp (Q&A Section)
+Mọi điểm ngữ pháp mang tính chất giao tiếp (ví dụ: Ở đâu, Mấy giờ, Sở thích là gì, Có thể làm gì...) đều **BẮT BUỘC** phải trang bị cấu trúc `qa` (Q&A Section) để học viên luyện phản xạ Hỏi - Đáp.
+1. **Trường dữ liệu:** Mỗi `QASection` cần có `questionFormat` (Mẫu câu hỏi), `answerFormat` (Mẫu câu trả lời), `identifier` (Dấu hiệu nhận biết - thường là từ để hỏi), `tip` (Mẹo giao tiếp / phát âm), và `examples` (Danh sách ví dụ).
+2. **Quy tắc Số lượng & Định dạng Ví dụ:** 
+   - Cần tối thiểu **3-5 ví dụ** (Hỏi & Đáp) cho mỗi mục Q&A.
+   - Để giao diện Conversation UI (tin nhắn chat) hoạt động chính xác, dữ liệu trong `examples` phải tuân thủ định dạng phân tách bằng dấu xuống dòng `\n`.
+   - Cụ thể: `japanese: "Câu hỏi\nCâu trả lời"`, tương tự cho `reading`, `romaji`, `vietnamese`.
+   - *Lưu ý:* Không ghi thủ công các chữ "A:", "B:" vào chuỗi `japanese` hay `vietnamese` vì Giao diện (UI) đã tự động sinh ra các bong bóng "Q" và "A" cực kỳ đẹp mắt.

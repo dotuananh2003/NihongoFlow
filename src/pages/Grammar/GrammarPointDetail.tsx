@@ -483,6 +483,117 @@ export const GrammarPointDetail = () => {
         </div>
       )}
 
+      {/* VẤN ĐÁP (Q&A) */}
+      {/* @ts-ignore - qa is added to interface */}
+      {point.qa && point.qa.length > 0 && (
+        <div className="mb-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-1.5 h-6 bg-cyan-500 rounded-full"></div>
+            <h2 className="text-lg font-black text-slate-800 dark:text-slate-100 uppercase tracking-widest">VẤN ĐÁP (Q&A)</h2>
+          </div>
+          
+          <div className="space-y-6">
+            {/* @ts-ignore */}
+            {point.qa.map((qaItem, qaIdx) => (
+              <div key={qaIdx} className="bg-cyan-50 dark:bg-cyan-900/10 rounded-[1.5rem] p-5 shadow-sm border border-cyan-100 dark:border-cyan-900/30">
+                
+                {/* Formats */}
+                <div className="flex flex-col md:flex-row gap-4 mb-6">
+                  {/* Question Bubble */}
+                  <div className="flex-1 bg-white dark:bg-slate-800 rounded-2xl rounded-tl-none p-4 shadow-sm border border-slate-100 dark:border-slate-700 relative">
+                    <div className="absolute -left-[1px] -top-[1px] w-4 h-4 bg-white dark:bg-slate-800 border-t border-l border-slate-100 dark:border-slate-700"></div>
+                    <div className="text-xs font-black text-cyan-500 mb-1 flex items-center gap-1.5"><Search size={14} /> CÂU HỎI</div>
+                    <div className="text-lg font-black text-slate-700 dark:text-slate-200 font-jp leading-relaxed">{renderStructure(qaItem.questionFormat)}</div>
+                  </div>
+                  
+                  {/* Answer Bubble */}
+                  <div className="flex-1 bg-cyan-500 rounded-2xl rounded-tr-none p-4 shadow-sm relative text-white">
+                    <div className="absolute -right-[1px] -top-[1px] w-4 h-4 bg-cyan-500"></div>
+                    <div className="text-xs font-black text-cyan-100 mb-1 flex items-center gap-1.5"><Check size={14} /> TRẢ LỜI</div>
+                    <div className="text-lg font-black font-jp leading-relaxed">{renderStructure(qaItem.answerFormat)}</div>
+                  </div>
+                </div>
+
+                {/* Tips & Identifier */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <div className="flex items-start gap-3 bg-white/60 dark:bg-slate-900/60 p-4 rounded-xl shadow-sm">
+                    <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center shrink-0 mt-0.5">
+                      <Search size={16} className="text-indigo-600 dark:text-indigo-400" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-black text-indigo-500 uppercase tracking-widest mb-1">Dấu hiệu nhận biết</div>
+                      <div className="text-sm font-bold text-slate-700 dark:text-slate-300 leading-relaxed">{qaItem.identifier}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 bg-white/60 dark:bg-slate-900/60 p-4 rounded-xl shadow-sm">
+                    <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shrink-0 mt-0.5">
+                      <Lightbulb size={16} className="text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-black text-amber-500 uppercase tracking-widest mb-1">Mẹo giao tiếp</div>
+                      <div className="text-sm font-bold text-slate-700 dark:text-slate-300 leading-relaxed">{qaItem.tip}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* QA Examples */}
+                <div className="space-y-3">
+                  {qaItem.examples.map((ex: any, exIdx: number) => {
+                    const parts = ex.japanese.split('\n');
+                    const readingParts = (ex.reading || ex.japanese).split('\n');
+                    const vietParts = ex.vietnamese.split('\n');
+                    const romajiParts = (ex.romaji || '').split('\n');
+
+                    return (
+                      <div key={exIdx} className="bg-white dark:bg-slate-900 rounded-xl p-4 md:p-5 shadow-sm border border-slate-100 dark:border-slate-800 transition-colors hover:border-cyan-200 dark:hover:border-cyan-800">
+                        <div className="flex flex-col gap-4">
+                          {/* Q */}
+                          <div className="flex items-start gap-3 md:gap-4">
+                            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-sm font-black text-slate-500 shrink-0 mt-0.5">Q</div>
+                            <div className="flex-1 min-w-0">
+                              <div className="text-base md:text-lg font-black text-slate-800 dark:text-slate-100 font-jp mb-0.5">
+                                {parts[0] ? parseKanjiReading(parts[0], readingParts[0]).map((item: any, i: number) => 
+                                  item.type === 'kanji' ? <span key={i} className={PARSE_COLORS[i % PARSE_COLORS.length]}>{item.text}</span> : <span key={i}>{item.text}</span>
+                                ) : ''}
+                              </div>
+                              <div className="text-xs md:text-sm font-medium text-slate-500 dark:text-slate-400">{vietParts[0]}</div>
+                              {romajiParts[0] && <div className="text-[10px] md:text-xs text-slate-400 dark:text-slate-500 italic mt-1">{romajiParts[0]}</div>}
+                            </div>
+                            <button onClick={() => handleSpeak(readingParts[0] || parts[0], 0.85, `qa-q-${qaIdx}-${exIdx}`)} className="text-slate-400 hover:text-cyan-500 p-2 rounded-full hover:bg-cyan-50 transition-colors shrink-0">
+                              {playingId === `qa-q-${qaIdx}-${exIdx}` ? <Loader2 size={18} className="animate-spin text-cyan-500" /> : <Volume2 size={18} />}
+                            </button>
+                          </div>
+                          
+                          <div className="h-px w-full bg-slate-100 dark:bg-slate-800 ml-12"></div>
+                          
+                          {/* A */}
+                          <div className="flex items-start gap-3 md:gap-4">
+                            <div className="w-8 h-8 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center text-sm font-black text-cyan-600 dark:text-cyan-400 shrink-0 mt-0.5">A</div>
+                            <div className="flex-1 min-w-0">
+                              <div className="text-base md:text-lg font-black text-slate-800 dark:text-slate-100 font-jp mb-0.5">
+                                {parts[1] ? parseKanjiReading(parts[1], readingParts[1]).map((item: any, i: number) => 
+                                  item.type === 'kanji' ? <span key={i} className={PARSE_COLORS[i % PARSE_COLORS.length]}>{item.text}</span> : <span key={i}>{item.text}</span>
+                                ) : ''}
+                              </div>
+                              <div className="text-xs md:text-sm font-medium text-slate-500 dark:text-slate-400">{vietParts[1]}</div>
+                              {romajiParts[1] && <div className="text-[10px] md:text-xs text-slate-400 dark:text-slate-500 italic mt-1">{romajiParts[1]}</div>}
+                            </div>
+                            <button onClick={() => handleSpeak(readingParts[1] || parts[1], 0.85, `qa-a-${qaIdx}-${exIdx}`)} className="text-slate-400 hover:text-cyan-500 p-2 rounded-full hover:bg-cyan-50 transition-colors shrink-0">
+                              {playingId === `qa-a-${qaIdx}-${exIdx}` ? <Loader2 size={18} className="animate-spin text-cyan-500" /> : <Volume2 size={18} />}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* VÍ DỤ */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-6 relative" ref={voiceMenuRef}>
