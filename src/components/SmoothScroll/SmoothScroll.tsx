@@ -31,7 +31,7 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
 
   // Áp dụng thuật toán Lò xo (Spring Physics) để làm mượt giá trị cuộn
   const transform = useTransform(scrollY, (y) => -y);
-  const physics = { damping: 40, mass: 0.5, stiffness: 100 }; // Tùy chỉnh độ mượt tại đây
+  const physics = { damping: 90, mass: 0.1, stiffness: 800 }; // Cuộn dứt khoát, không trượt dài
   const spring = useSpring(transform, physics);
 
   // Tính toán chiều cao ảo cho màn hình gốc để trình duyệt hiển thị thanh cuộn
