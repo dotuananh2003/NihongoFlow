@@ -50,7 +50,7 @@ export const Sidebar = () => {
   return (
     <motion.aside 
       initial={false}
-      animate={{ width: isCollapsed ? 80 : 280 }}
+      animate={{ width: isCollapsed ? 80 : 240 }}
       transition={{ type: "spring", stiffness: 350, damping: 28, mass: 0.8 }}
       className="relative flex flex-col z-20 shrink-0 h-full overflow-hidden rounded-[24px]"
       style={{
