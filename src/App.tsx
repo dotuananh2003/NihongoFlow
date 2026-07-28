@@ -1,10 +1,13 @@
 import { BrowserRouter } from 'react-router-dom';
 import { AppRoutes } from './routes';
+import { SmoothScroll } from './components/SmoothScroll/SmoothScroll';
 
 function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <SmoothScroll>
+        <AppRoutes />
+      </SmoothScroll>
     </BrowserRouter>
   );
 }
