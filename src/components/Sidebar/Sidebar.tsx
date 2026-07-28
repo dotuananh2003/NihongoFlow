@@ -122,14 +122,24 @@ export const Sidebar = () => {
                   {/* Dynamic background inject based on dark mode context using Tailwind classes to help, but we need exact colors. */}
                   {isActive && (
                     <>
-                      <div className="absolute inset-0 dark:hidden" style={{ backgroundColor: activeBgLight }} />
-                      <div className="absolute inset-0 hidden dark:block" style={{ backgroundColor: activeBgDark }} />
+                      <motion.div 
+                        layoutId="sidebar-active-bg-light"
+                        className="absolute inset-0 dark:hidden rounded-[16px]" 
+                        style={{ backgroundColor: activeBgLight }} 
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
+                      <motion.div 
+                        layoutId="sidebar-active-bg-dark"
+                        className="absolute inset-0 hidden dark:block rounded-[16px]" 
+                        style={{ backgroundColor: activeBgDark }} 
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
                       <motion.div
                         layoutId="sidebar-active-indicator"
                         className="absolute left-0 top-1/2 -translate-y-1/2 w-[4px] h-[60%] rounded-r-full"
                         style={{ backgroundColor: activeColor, boxShadow: `0 0 10px ${activeColor}40` }}
                         initial={false}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     </>
                   )}
