@@ -31,7 +31,7 @@ export const Vocabulary = () => {
 
 
 
-          <div className="relative z-10 w-full flex flex-col items-center">
+          <div className="relative z-10 w-full h-full flex flex-col items-center">
             <div className="px-4 py-1.5 rounded-full bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 text-xs font-bold uppercase tracking-widest mb-6 font-jp">初級 I</div>
             <h2 className="text-5xl font-black text-rose-500 dark:text-rose-400 tracking-tight mb-2">JPD113</h2>
             <p className="text-slate-500 font-bold uppercase tracking-widest text-sm mb-4">TIẾNG NHẬT SƠ CẤP 1</p>
@@ -58,7 +58,7 @@ export const Vocabulary = () => {
               </div>
             </div>
 
-            <button disabled className="w-full mt-6 bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold py-4 rounded-2xl flex items-center justify-center gap-3 cursor-not-allowed">
+            <button disabled className="w-full mt-auto bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold py-4 rounded-2xl flex items-center justify-center gap-3 cursor-not-allowed">
               <Lock size={18} /> Đã khóa
             </button>
           </div>
@@ -76,7 +76,7 @@ export const Vocabulary = () => {
 
 
 
-          <div className="relative z-10 w-full flex flex-col items-center">
+          <div className="relative z-10 w-full h-full flex flex-col items-center">
             <div className="px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest mb-6 font-jp">初級 II</div>
             <h2 className="text-5xl font-black text-blue-600 dark:text-blue-400 tracking-tight mb-2">JPD123</h2>
             <p className="text-slate-500 font-bold uppercase tracking-widest text-sm mb-10">TIẾNG NHẬT SƠ CẤP 2</p>
@@ -99,7 +99,7 @@ export const Vocabulary = () => {
               </div>
             </div>
 
-            <button className="w-full mt-6 relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all group-hover:shadow-[0_8px_25px_rgba(37,99,235,0.4)] flex items-center justify-center">
+            <button className="w-full mt-auto relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all group-hover:shadow-[0_8px_25px_rgba(37,99,235,0.4)] flex items-center justify-center">
               <span>Bắt đầu học</span>
               <ArrowRight size={20} className="absolute right-8 group-hover:translate-x-1 transition-transform" />
             </button>
