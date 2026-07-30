@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "question": "きのう デパートへ 買い物に _________。",
+    "options": ["行きます", "行きました", "行かない", "行く"],
+    "correctAnswer": 1,
+    "explanation": "Câu này có từ chỉ thời gian trong quá khứ là 'きのう' (hôm qua). Vì vậy, động từ phải chia ở thể quá khứ. '行きました' (đã đi) là hình thức quá khứ lịch sự của '行きます'. Các đáp án khác đều ở hiện tại/tương lai."
+  },
+  {
+    "id": 2,
+    "question": "あそこに 田中さんが _________。",
+    "options": ["あります", "います", "ある", "いる"],
+    "correctAnswer": 1,
+    "explanation": "'田中さん' (anh Tanaka) là người, mang tính chất động vật có sinh mạng. Do đó, để diễn tả sự hiện hữu của người hoặc động vật, ta phải dùng động từ 'います'. 'あります' chỉ dùng cho đồ vật, sự vật không có sinh mạng."
+  },
+  {
+    "id": 3,
+    "question": "私は 毎日 7時に _________。",
+    "options": ["起きます", "起きる", "起きました", "起きません"],
+    "correctAnswer": 0,
+    "explanation": "Câu này có từ '毎日' (mỗi ngày), diễn tả một thói quen lặp đi lặp lại ở hiện tại/tương lai. Vì vậy, ta dùng động từ ở thể V-ます. '起きます' (thức dậy) là lựa chọn chính xác."
+  },
+  {
+    "id": 4,
+    "question": "机の上に 辞書 _________ あります。",
+    "options": ["が", "を", "に", "で"],
+    "correctAnswer": 0,
+    "explanation": "Cấu trúc chỉ sự tồn tại: [Nơi chốn] に [Danh từ] が あります/います. Trong câu này, '辞書' (từ điển) là chủ đề của sự tồn tại nên cần đi kèm trợ từ 'が'."
+  },
+  {
+    "id": 5,
+    "question": "日本語で 手紙を _________。",
+    "options": ["書きます", "読みます", "見ます", "聞きます"],
+    "correctAnswer": 0,
+    "explanation": "'手紙' (bức thư) đi với hành động 'viết'. '書きます' mang nghĩa là viết. Câu này có nghĩa là 'Tôi viết thư bằng tiếng Nhật'."
+  }
+]

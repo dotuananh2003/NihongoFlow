@@ -18,6 +18,8 @@ import { ActiveVocabulary } from '../pages/ActiveVocabulary/ActiveVocabulary';
 import { Speaking } from '../pages/Speaking/Speaking';
 import { Exam } from '../pages/Exam/Exam';
 import { ExamHub } from '../pages/Exam/ExamHub';
+import { PracticeConfig } from '../pages/Exam/PracticeConfig';
+import { PracticeTest } from '../pages/Exam/PracticeTest';
 import { KanaPath } from '../pages/Introduction/KanaPath';
 import { MnemonicPage } from '../pages/Introduction/MnemonicPage';
 import { TypingPage } from '../pages/Introduction/TypingPage';
@@ -47,6 +49,8 @@ export const AppRoutes = () => {
         <Route path="speaking" element={<Speaking />} />
         <Route path="exam" element={<Exam />} />
         <Route path="exam/:courseId" element={<ExamHub />} />
+        <Route path="exam/:courseId/practice" element={<PracticeConfig />} />
+        <Route path="exam/:courseId/practice/test" element={<PracticeTest />} />
       </Route>
     </Routes>
   );
