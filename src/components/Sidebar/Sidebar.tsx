@@ -25,7 +25,7 @@ const navItems = [
   { path: '/memory', label: 'Ghi nhớ', sub: 'おぼえておく', icon: Puzzle, locked: true },
   { path: '/active-vocabulary', label: 'Từ vựng chủ động', sub: '使える語彙', icon: Crown, locked: true },
   { path: '/speaking', label: 'Luyện nói', sub: 'かいわのれんしゅう', icon: Mic, locked: true },
-  { path: '/exam', label: 'Luyện thi', sub: 'しけんたいさく', icon: FileText, locked: true },
+  { path: '/exam', label: 'Luyện thi', sub: 'しけんたいさく', icon: FileText },
 ];
 
 export const Sidebar = () => {
