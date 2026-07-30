@@ -58,7 +58,7 @@ export const Vocabulary = () => {
               </div>
             </div>
 
-            <button disabled className="w-full bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold py-4 rounded-2xl flex items-center justify-center gap-3 cursor-not-allowed">
+            <button disabled className="w-full mt-6 bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold py-4 rounded-2xl flex items-center justify-center gap-3 cursor-not-allowed">
               <Lock size={18} /> Đã khóa
             </button>
           </div>
@@ -99,7 +99,7 @@ export const Vocabulary = () => {
               </div>
             </div>
 
-            <button className="w-full relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all group-hover:shadow-[0_8px_25px_rgba(37,99,235,0.4)] flex items-center justify-center">
+            <button className="w-full mt-6 relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all group-hover:shadow-[0_8px_25px_rgba(37,99,235,0.4)] flex items-center justify-center">
               <span>Bắt đầu học</span>
               <ArrowRight size={20} className="absolute right-8 group-hover:translate-x-1 transition-transform" />
             </button>
