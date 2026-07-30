@@ -94,8 +94,9 @@ export const Exam = () => {
               </div>
             </div>
 
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all group-hover:shadow-[0_8px_25px_rgba(37,99,235,0.4)] flex items-center justify-center gap-3">
-              Luyện thi ngay <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            <button className="w-full relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all group-hover:shadow-[0_8px_25px_rgba(37,99,235,0.4)] flex items-center justify-center">
+              <span>Luyện thi ngay</span>
+              <ArrowRight size={20} className="absolute right-8 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </motion.div>
