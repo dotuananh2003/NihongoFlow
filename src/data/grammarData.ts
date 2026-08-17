@@ -1,3 +1,5 @@
+import { grammarLesson7JPD123 } from './grammarDataJPD123Lesson7';
+
 export interface RelatedGrammar {
   name: string;
   meaning: string;
@@ -2023,54 +2025,7 @@ export const grammarCourses: GrammarCourse[] = [
         ]
       },
 
-      {
-        id: 'lesson-7',
-        title: 'Sự hiện diện và Đang thực hiện',
-        description: 'Diễn tả trạng thái hiện tại và hành động đang diễn ra',
-        grammarPoints: [
-          { id: 'g19', title: '〜ています（Hành động）', meaning: 'Đang làm...', type: 'Tiếp diễn', jlpt: 'N5', difficulty: 'Nâng cao', examples: [{ japanese: '今、本を読んでいます。', vietnamese: 'Bây giờ tôi đang đọc sách.' }] },
-          { id: 'g20', title: '〜ています（Trạng thái）', meaning: 'Đang (trong trạng thái)...', type: 'Trạng thái', jlpt: 'N5', difficulty: 'Nâng cao', examples: [{ japanese: '私は結婚しています。', vietnamese: 'Tôi đã kết hôn (và đang trong tình trạng hôn nhân).' }] },
-          { id: 'g21', title: '〜に〜があります/います', meaning: 'Ở... có...', type: 'Vị trí', jlpt: 'N5', difficulty: 'Trung bình', examples: [{ japanese: '部屋に机があります。', vietnamese: 'Trong phòng có cái bàn.' }] },
-          { id: 'g22', title: '〜は〜にあります/います', meaning: '... thì ở...', type: 'Vị trí', jlpt: 'N5', difficulty: 'Trung bình', examples: [{ japanese: '山田さんは会議室にいます。', vietnamese: 'Anh Yamada thì ở phòng họp.' }] },
-          { id: 'g23',
-        qa: [
-          {
-            "questionFormat": "N1 に なに が ありますか",
-            "answerFormat": "N2 や N3 (など) が あります",
-            "identifier": "なに (Cái gì)",
-            "tip": "Câu hỏi dùng để hỏi về những thứ đang có. Trả lời liệt kê tiêu biểu vài thứ bằng trợ từ や thay vì liệt kê toàn bộ bằng trợ từ と.",
-            "examples": [
-              {
-                "japanese": "かばんの中に何がありますか。\n本やペンがあります。",
-                "reading": "かばんのなかになにがありますか。\nほんやペンがあります。",
-                "romaji": "kaban no naka ni nani ga arimasu ka.\nhon ya pen ga arimasu.",
-                "vietnamese": "Trong cặp có cái gì vậy?\nCó những thứ như sách và bút."
-              },
-              {
-                "japanese": "部屋に何がありますか。\n机やベッドなどがあります。",
-                "reading": "へやになにがありますか。\nつくえやベッドなどがあります。",
-                "romaji": "heya ni nani ga arimasu ka.\ntsukue ya beddo nado ga arimasu.",
-                "vietnamese": "Trong phòng có gì vậy?\nCó những thứ như bàn và giường."
-              }
-            ]
-          },
-          {
-            "questionFormat": "N1 や N2 が ありますか",
-            "answerFormat": "はい、あります / いいえ、ありません",
-            "identifier": "〜か (Có... không)",
-            "tip": "Xác nhận xem có những vật đó tồn tại ở đó không.",
-            "examples": [
-              {
-                "japanese": "箱の中に時計や眼鏡がありますか。\nはい、あります。",
-                "reading": "はこのなかにとけいやめがねがありますか。\nはい、あります。",
-                "romaji": "hako no naka ni tokei ya megane ga arimasu ka.\nhai, arimasu.",
-                "vietnamese": "Trong hộp có những thứ như đồng hồ và mắt kính không?\nVâng, có."
-              }
-            ]
-          }
-        ], title: 'や / など', meaning: 'Và / Vân vân...', type: 'Liệt kê', jlpt: 'N5', difficulty: 'Trung bình', examples: [{ japanese: '箱の中にペンやノートなどがあります。', vietnamese: 'Trong hộp có bút và vở, v.v.' }] }
-        ]
-      }
+      grammarLesson7JPD123
     ]
   }
 ];

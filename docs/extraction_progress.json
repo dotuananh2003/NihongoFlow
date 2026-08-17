@@ -1,0 +1,19 @@
+{
+  "last_processed_index": 879,
+  "history": [
+    {
+      "date": "2026-07-30",
+      "course": "jpd123",
+      "start_index": 811,
+      "end_index": 840,
+      "total_extracted": 30
+    },
+    {
+      "date": "2026-07-30",
+      "course": "jpd123",
+      "start_index": 841,
+      "end_index": 879,
+      "total_extracted": 30
+    }
+  ]
+}
