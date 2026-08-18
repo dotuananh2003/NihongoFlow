@@ -12,11 +12,11 @@ const COURSES = [
     description: 'Lộ trình học Hán tự cơ bản dành cho người mới bắt đầu.',
     accentText: 'text-rose-600',
     accentBg: 'bg-rose-600',
-    accentSoft: 'bg-rose-50 dark:bg-rose-500/10',
-    accentBorder: 'border-rose-100 dark:border-rose-500/20',
-    accentRing: 'ring-rose-100 dark:ring-rose-500/20',
+    accentSoft: 'bg-rose-500/10 dark:bg-rose-400/10',
+    accentBorder: 'border-rose-200/60 dark:border-rose-300/20',
+    accentRing: 'ring-rose-200/60 dark:ring-rose-300/20',
     button: 'bg-rose-600 hover:bg-rose-700 shadow-rose-500/25',
-    lessonHover: 'hover:border-rose-200 dark:hover:border-rose-500/30 hover:bg-rose-50/50 dark:hover:bg-rose-500/5',
+    lessonHover: 'hover:border-rose-200/80 dark:hover:border-rose-300/30 hover:bg-rose-50/35 dark:hover:bg-rose-500/10',
     lessons: [
       { id: 1, title: 'Giới thiệu bản thân và Trường học', kanji: 10, vocab: 20 },
       { id: 2, title: 'Số đếm và Đơn vị tiền tệ', kanji: 14, vocab: 50 },
@@ -31,11 +31,11 @@ const COURSES = [
     description: 'Nâng cao vốn Hán tự và từ vựng cho giao tiếp hằng ngày.',
     accentText: 'text-blue-600',
     accentBg: 'bg-blue-600',
-    accentSoft: 'bg-blue-50 dark:bg-blue-500/10',
-    accentBorder: 'border-blue-100 dark:border-blue-500/20',
-    accentRing: 'ring-blue-100 dark:ring-blue-500/20',
+    accentSoft: 'bg-blue-500/10 dark:bg-blue-400/10',
+    accentBorder: 'border-blue-200/60 dark:border-blue-300/20',
+    accentRing: 'ring-blue-200/60 dark:ring-blue-300/20',
     button: 'bg-blue-600 hover:bg-blue-700 shadow-blue-500/25',
-    lessonHover: 'hover:border-blue-200 dark:hover:border-blue-500/30 hover:bg-blue-50/50 dark:hover:bg-blue-500/5',
+    lessonHover: 'hover:border-blue-200/80 dark:hover:border-blue-300/30 hover:bg-blue-50/35 dark:hover:bg-blue-500/10',
     lessons: [
       { id: 4, title: 'Địa điểm và Phương hướng', kanji: 10, vocab: 16 },
       { id: 5, title: 'Hành động và Nghỉ ngơi', kanji: 12, vocab: 30 },
@@ -68,6 +68,9 @@ const statStyles = [
   },
 ];
 
+const glassPanel = 'border border-white/45 bg-white/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_18px_60px_rgba(15,23,42,0.12)] backdrop-blur-2xl dark:border-white/10 dark:bg-slate-950/30';
+const glassTile = 'border border-white/55 bg-white/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_10px_32px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/35';
+
 export const Kanji = () => {
   const navigate = useNavigate();
 
@@ -87,7 +90,7 @@ export const Kanji = () => {
   };
 
   return (
-    <div className="relative min-h-full overflow-hidden bg-transparent pb-20 font-sans">
+    <div className="relative min-h-full overflow-visible bg-transparent pb-20 font-sans">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <motion.header
           initial={{ opacity: 0, y: 10 }}
@@ -96,7 +99,7 @@ export const Kanji = () => {
           className="mb-6 grid gap-5 lg:grid-cols-[1fr_1.1fr] lg:items-end"
         >
           <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-rose-100 bg-white/80 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-rose-600 shadow-sm backdrop-blur dark:border-rose-500/20 dark:bg-slate-900/70 dark:text-rose-300">
+            <div className={`mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-rose-600 dark:text-rose-300 ${glassTile}`}>
               <span className="font-jp text-sm">漢字</span>
               Hán tự
             </div>
@@ -115,7 +118,7 @@ export const Kanji = () => {
               return (
                 <div
                   key={stat.label}
-                  className="rounded-2xl border border-white/70 bg-white/70 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.08)] backdrop-blur dark:border-slate-800 dark:bg-slate-900/70"
+                  className={`rounded-2xl p-4 transition-transform hover:-translate-y-0.5 ${glassTile}`}
                 >
                   <div className="flex items-center gap-3">
                     <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${stat.className}`}>
@@ -147,7 +150,7 @@ export const Kanji = () => {
                 className="overflow-visible rounded-[2rem]"
               >
                 <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
-                  <div className={`flex flex-col justify-between gap-6 rounded-[2rem] border border-white/55 p-6 shadow-[0_16px_46px_rgba(15,23,42,0.08)] backdrop-blur ${course.accentSoft} dark:border-slate-800/70`}>
+                  <div className={`flex flex-col justify-between gap-6 rounded-[2rem] p-6 ${glassPanel} ${course.accentSoft}`}>
                     <div>
                       <p className={`mb-3 text-[10px] font-black uppercase tracking-[0.22em] ${course.accentText}`}>
                         {course.subtitle}
@@ -161,17 +164,17 @@ export const Kanji = () => {
                     </div>
 
                     <div className="grid grid-cols-3 gap-2">
-                      <div className="rounded-2xl bg-white/70 p-3 text-center shadow-sm dark:bg-slate-950/30">
+                      <div className="rounded-2xl border border-white/45 bg-white/35 p-3 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur dark:border-white/10 dark:bg-slate-950/30">
                         <p className="text-lg font-black text-slate-900 dark:text-slate-50">{course.lessons.length}</p>
                         <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Bài</p>
                       </div>
-                      <div className="rounded-2xl bg-white/70 p-3 text-center shadow-sm dark:bg-slate-950/30">
+                      <div className="rounded-2xl border border-white/45 bg-white/35 p-3 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur dark:border-white/10 dark:bg-slate-950/30">
                         <p className="text-lg font-black text-slate-900 dark:text-slate-50">
                           {course.lessons.reduce((sum, lesson) => sum + lesson.kanji, 0)}
                         </p>
                         <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Kanji</p>
                       </div>
-                      <div className="rounded-2xl bg-white/70 p-3 text-center shadow-sm dark:bg-slate-950/30">
+                      <div className="rounded-2xl border border-white/45 bg-white/35 p-3 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur dark:border-white/10 dark:bg-slate-950/30">
                         <p className="text-lg font-black text-slate-900 dark:text-slate-50">
                           {course.lessons.reduce((sum, lesson) => sum + lesson.vocab, 0)}
                         </p>
@@ -181,18 +184,18 @@ export const Kanji = () => {
 
                     <button
                       onClick={() => openLesson(course.id, 1)}
-                      className={`flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-black text-white shadow-lg transition-all hover:-translate-y-0.5 ${course.button}`}
+                      className={`flex w-full items-center justify-center gap-2 rounded-2xl border border-white/35 px-4 py-3 text-sm font-black text-white shadow-lg shadow-black/10 transition-all hover:-translate-y-0.5 ${course.button}`}
                     >
                       <BookOpen size={17} />
                       Bắt đầu học
                     </button>
                   </div>
 
-                  <div className="p-4 sm:p-6">
-                    <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="space-y-4">
+                    <div className={`flex flex-col gap-3 rounded-[1.75rem] p-4 sm:flex-row sm:items-start sm:justify-between sm:p-5 ${glassPanel}`}>
                       <div>
                         <div className="mb-2 flex items-center gap-2">
-                          <span className={`flex h-9 w-9 items-center justify-center rounded-xl ${course.accentSoft} ${course.accentText} ring-1 ${course.accentRing}`}>
+                          <span className={`flex h-9 w-9 items-center justify-center rounded-xl border border-white/50 bg-white/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur ${course.accentText} ring-1 ${course.accentRing}`}>
                             <Layers3 size={17} />
                           </span>
                           <h3 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50">
@@ -204,7 +207,7 @@ export const Kanji = () => {
                         </p>
                       </div>
 
-                      <div className={`inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] ${course.accentBorder} ${course.accentText} ${course.accentSoft}`}>
+                      <div className={`inline-flex w-fit items-center gap-2 rounded-full border bg-white/25 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur ${course.accentBorder} ${course.accentText}`}>
                         <Sparkles size={13} />
                         {course.lessons.length} lessons
                       </div>
@@ -215,7 +218,7 @@ export const Kanji = () => {
                         <button
                           key={lesson.id}
                           onClick={() => openLesson(course.id, lesson.id)}
-                          className={`group flex w-full items-center gap-4 rounded-2xl border border-white/75 bg-white/70 p-4 text-left shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-950/30 ${course.lessonHover}`}
+                          className={`group flex w-full items-center gap-4 rounded-2xl border border-white/50 bg-white/35 p-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.75),0_14px_36px_rgba(15,23,42,0.12)] dark:border-white/10 dark:bg-slate-950/35 ${course.lessonHover}`}
                         >
                           <div className={`flex w-8 shrink-0 items-center justify-center ${course.accentText}`}>
                             {lessonIndex % 2 === 0 ? (
@@ -245,7 +248,7 @@ export const Kanji = () => {
                             </div>
                           </div>
 
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-100 bg-slate-50 text-slate-400 transition-all group-hover:translate-x-0.5 group-hover:bg-white dark:border-slate-800 dark:bg-slate-900 dark:text-slate-500">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/45 bg-white/30 text-slate-500 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur transition-all group-hover:translate-x-0.5 group-hover:bg-white/45 dark:border-white/10 dark:bg-slate-950/30 dark:text-slate-400">
                             <ChevronRight size={18} />
                           </div>
                         </button>
