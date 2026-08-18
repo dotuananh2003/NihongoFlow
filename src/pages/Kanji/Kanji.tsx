@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { BookOpen, ChevronRight, Gift, GraduationCap, Layers3, Sparkles, Target } from 'lucide-react';
 
 const COURSES = [
@@ -89,12 +88,7 @@ export const Kanji = () => {
   return (
     <div className="relative min-h-full overflow-hidden bg-transparent pb-20 font-sans">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-        <motion.header
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: 'spring', stiffness: 260, damping: 24 }}
-          className="mb-6 grid gap-5 lg:grid-cols-[1fr_1.1fr] lg:items-end"
-        >
+        <header className="mb-6 grid gap-5 lg:grid-cols-[1fr_1.1fr] lg:items-end">
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-rose-100 bg-white/80 px-3 py-1.5 text-xs font-black uppercase tracking-[0.18em] text-rose-600 shadow-sm backdrop-blur dark:border-rose-500/20 dark:bg-slate-900/70 dark:text-rose-300">
               <span className="font-jp text-sm">漢字</span>
@@ -134,17 +128,14 @@ export const Kanji = () => {
               );
             })}
           </div>
-        </motion.header>
+        </header>
 
         <div className="grid gap-5">
-          {COURSES.map((course, courseIndex) => {
+          {COURSES.map((course) => {
             return (
-              <motion.section
+              <section
                 key={course.id}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 24, delay: 0.08 + courseIndex * 0.06 }}
-                className="overflow-visible rounded-[2rem]"
+                className="kanji-course-section overflow-visible rounded-[2rem]"
               >
                 <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
                   <div className={`flex flex-col justify-between gap-6 rounded-[2rem] border border-white/55 p-6 shadow-[0_16px_46px_rgba(15,23,42,0.08)] backdrop-blur ${course.accentSoft} dark:border-slate-800/70`}>
@@ -215,7 +206,7 @@ export const Kanji = () => {
                         <button
                           key={lesson.id}
                           onClick={() => openLesson(course.id, lesson.id)}
-                          className={`group flex w-full items-center gap-4 rounded-2xl border border-white/75 bg-white/70 p-4 text-left shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-950/30 ${course.lessonHover}`}
+                          className={`kanji-lesson-row group flex w-full items-center gap-4 rounded-2xl border border-white/75 bg-white/82 p-4 text-left shadow-sm transition-colors hover:shadow-md dark:border-slate-800 dark:bg-slate-950/40 ${course.lessonHover}`}
                         >
                           <div className={`flex w-8 shrink-0 items-center justify-center ${course.accentText}`}>
                             {lessonIndex % 2 === 0 ? (
@@ -253,7 +244,7 @@ export const Kanji = () => {
                     </div>
                   </div>
                 </div>
-              </motion.section>
+              </section>
             );
           })}
         </div>

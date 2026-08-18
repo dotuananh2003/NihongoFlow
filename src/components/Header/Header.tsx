@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { 
   Search, Bell, ChevronDown, User, LogOut, Target,
   UserCircle, ClipboardList, FolderCheck, Bookmark, BookOpen, History,
-  Globe, Volume2, RefreshCw, HelpCircle, MessageSquare, Flame, Camera, X
+  Globe, Volume2, RefreshCw, HelpCircle, MessageSquare, Flame, Camera, X, Crown
 } from 'lucide-react';
 
 export const Header = () => {
@@ -75,12 +75,18 @@ export const Header = () => {
       </div>
 
       {/* Right: Actions */}
-      <div className="flex items-center gap-4 md:gap-6 ml-auto">
-        
+      <div className="flex items-center gap-3 md:gap-5 ml-auto rounded-[28px] border border-white/65 dark:border-slate-700/60 bg-white/35 dark:bg-slate-950/35 px-3 py-2 shadow-[0_12px_34px_rgba(15,23,42,0.08)] backdrop-blur-xl">
 
+
+
+        {/* Upgrade */}
+        <button className="hidden sm:flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 px-4 py-3 text-sm font-black text-white shadow-lg shadow-amber-400/25 border border-white/60 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-amber-400/30 transition-all">
+          <Crown size={18} strokeWidth={2.5} />
+          Nâng Cấp
+        </button>
 
         {/* Notification */}
-        <button className="relative p-3 rounded-full bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] transition-all shadow-sm border border-slate-100 dark:border-slate-800">
+        <button className="relative p-3 rounded-full bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] transition-all shadow-sm border border-white/80 dark:border-slate-800">
           <Bell size={20} strokeWidth={2.5} />
           <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900"></span>
         </button>
@@ -90,7 +96,7 @@ export const Header = () => {
         <div className="relative" ref={profileRef}>
           <div 
             onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="flex items-center gap-3 pl-2 cursor-pointer hover:opacity-80 transition-opacity"
+            className="flex items-center gap-3 pl-1 pr-1 cursor-pointer hover:opacity-80 transition-opacity"
           >
             <div className="w-12 h-12 rounded-full border-2 border-white dark:border-slate-800 shadow-sm overflow-hidden bg-slate-200 shrink-0">
               <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />

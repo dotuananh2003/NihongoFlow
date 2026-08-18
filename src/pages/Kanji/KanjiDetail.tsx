@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ArrowLeft, Volume2, ArrowRight, List, X, Check } from 'lucide-react';
 import { toRomaji } from 'wanakana';
 import { kanjiLesson1, lesson1Vocab, type KanjiDetail as IKanjiDetail, type RadicalNode } from '../../data/kanjiData';
@@ -193,10 +192,7 @@ export const KanjiDetail = () => {
         </div>
 
         {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="flex items-center gap-3 mb-3"
-        >
+        <div className="flex items-center gap-3 mb-3">
           <div className="text-4xl font-jp font-medium text-slate-800 dark:text-slate-100">{kanjiData.char}</div>
           <div className="text-xl font-black text-slate-800 dark:text-slate-100 uppercase tracking-widest">({kanjiData.hanViet})</div>
           {kanjiId !== 'other' && (
@@ -204,35 +200,26 @@ export const KanjiDetail = () => {
               <Volume2 size={16} />
             </button>
           )}
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {kanjiData.radicalTree && kanjiId !== 'other' && (
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.05 }}
-              className="bg-white dark:bg-slate-900 rounded-[2rem] p-4 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col"
-            >
+            <div className="kanji-detail-panel bg-white dark:bg-slate-900 rounded-[2rem] p-4 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">BỘ THỦ / THÀNH PHẦN</h3>
               <div className="flex-1 flex items-center justify-center overflow-x-auto pb-4">
                 <RadicalTree node={kanjiData.radicalTree} theme={theme} />
               </div>
-            </motion.div>
+            </div>
           )}
 
           {kanjiId !== 'other' && (
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.1 }}
-              className="bg-white dark:bg-slate-900 rounded-[2rem] p-4 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col items-center"
-            >
+            <div className="kanji-detail-panel bg-white dark:bg-slate-900 rounded-[2rem] p-4 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col items-center">
               <KanjiStrokeCanvas character={kanjiData.char} totalStrokes={kanjiData.strokes} theme={theme} />
-            </motion.div>
+            </div>
           )}
 
           <div className="flex flex-col gap-3">
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.15 }}
-              className="bg-white dark:bg-slate-900 rounded-[2rem] p-4 shadow-sm border border-slate-200 dark:border-slate-800 relative"
-            >
+            <div className="kanji-detail-panel bg-white dark:bg-slate-900 rounded-[2rem] p-4 shadow-sm border border-slate-200 dark:border-slate-800 relative">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">THÔNG TIN CHI TIẾT</h3>
 
               <div className="space-y-3 text-sm">
@@ -265,27 +252,21 @@ export const KanjiDetail = () => {
                   </>
                 )}
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.2 }}
-              className={`rounded-[2rem] p-4 border flex flex-col ${theme.bgLight} ${theme.borderLight}`}
-            >
+            <div className={`kanji-detail-panel rounded-[2rem] p-4 border flex flex-col ${theme.bgLight} ${theme.borderLight}`}>
               <div className={`flex items-center gap-2 mb-1 font-bold text-xs uppercase tracking-wider ${theme.text}`}>
                 💡 Gợi ý cách nhớ
               </div>
               <p className="text-slate-700 dark:text-slate-200 text-xs font-medium leading-relaxed">
                 {kanjiData.mnemonic}
               </p>
-            </motion.div>
+            </div>
           </div>
         </div>
 
         {/* Block 6: Vocabulary containing this Kanji */}
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.25 }}
-          className="mt-4"
-        >
+        <div className="mt-4">
           <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 mb-3">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
               TỪ VỰNG CHỨA KANJI {kanjiData.char}
@@ -352,8 +333,8 @@ export const KanjiDetail = () => {
                     }
                   }
                 }}
-                className={`relative rounded-2xl p-3 border shadow-sm transition-all ${
-                  isSelectMode ? 'cursor-pointer hover:scale-[1.02] pr-9 min-w-[180px]' : 'min-w-[160px]'
+                className={`kanji-vocab-row relative rounded-2xl p-3 border shadow-sm transition-colors ${
+                  isSelectMode ? 'cursor-pointer pr-9 min-w-[180px]' : 'min-w-[160px]'
                 } ${
                   isSelectMode && selectedVocab.includes(i)
                     ? `${theme.bgLight} ${theme.borderLight}`
@@ -380,7 +361,7 @@ export const KanjiDetail = () => {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
       </div>
 

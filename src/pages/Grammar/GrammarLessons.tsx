@@ -1,6 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, BookOpenText, ChevronRight, FileText, Layers3 } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { grammarCourses } from '../../data/grammarData';
 
 const lessonAccents = [
@@ -78,12 +77,7 @@ export const GrammarLessons = () => {
 
   return (
     <div className="mx-auto min-h-[calc(100vh-96px)] max-w-[1240px] px-1 pb-16 pt-2 md:px-0 md:pt-4">
-      <motion.header
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-        className={`mb-8 overflow-hidden rounded-[28px] border border-white/80 bg-gradient-to-br ${courseTheme.headerSoft} shadow-[0_18px_48px_rgba(15,23,42,0.10)] dark:border-slate-800/80`}
-      >
+      <header className={`mb-8 overflow-hidden rounded-[28px] border border-white/80 bg-gradient-to-br ${courseTheme.headerSoft} shadow-[0_18px_48px_rgba(15,23,42,0.10)] dark:border-slate-800/80`}>
         <div className={`h-2 bg-gradient-to-r ${courseTheme.header}`} />
         <div className="flex flex-col gap-5 p-5 md:flex-row md:items-center md:justify-between md:p-6">
           <div className="flex min-w-0 items-center gap-5">
@@ -126,7 +120,7 @@ export const GrammarLessons = () => {
             </div>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-x-5 md:gap-y-4">
         {course.lessons.map((lesson, index) => {
@@ -135,16 +129,11 @@ export const GrammarLessons = () => {
           const accent = lessonAccents[index % lessonAccents.length];
 
           return (
-            <motion.button
+            <button
               key={lesson.id}
               type="button"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.99 }}
-              transition={{ type: 'spring', stiffness: 320, damping: 26, delay: index * 0.04 }}
               onClick={() => navigate(`/grammar/${course.id}/lesson/${lesson.id}`)}
-              className={`group relative flex min-h-[112px] w-full cursor-pointer overflow-hidden rounded-3xl border border-white/80 bg-white text-left shadow-[0_10px_30px_rgba(15,23,42,0.08)] transition-all duration-300 hover:shadow-[0_18px_42px_rgba(15,23,42,0.12)] dark:border-slate-800 dark:bg-slate-900 ${accent.ring}`}
+              className={`grammar-lesson-row group relative flex min-h-[112px] w-full cursor-pointer overflow-hidden rounded-3xl border border-white/80 bg-white text-left shadow-[0_10px_30px_rgba(15,23,42,0.08)] transition-colors duration-200 hover:shadow-[0_18px_42px_rgba(15,23,42,0.12)] dark:border-slate-800 dark:bg-slate-900 ${accent.ring}`}
             >
               <div className={`w-2 shrink-0 bg-gradient-to-b ${accent.strip}`} />
 
@@ -178,7 +167,7 @@ export const GrammarLessons = () => {
                   </span>
                 </div>
               </div>
-            </motion.button>
+            </button>
           );
         })}
       </div>

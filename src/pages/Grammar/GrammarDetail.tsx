@@ -1,6 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, BookOpenText, ChevronRight, Lightbulb, Pencil, Plus, Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { grammarCourses } from '../../data/grammarData';
 
 const cardAccents = [
@@ -94,12 +93,7 @@ export const GrammarDetail = () => {
           <span className="text-slate-800 dark:text-slate-200">{lesson.title}</span>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-          className="overflow-hidden rounded-[2rem] border border-white/80 bg-white/75 shadow-[0_18px_48px_rgba(15,23,42,0.10)] backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/65"
-        >
+        <div className="overflow-hidden rounded-[2rem] border border-white/80 bg-white/75 shadow-[0_18px_48px_rgba(15,23,42,0.10)] backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/65">
           <div className="h-2 bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400" />
           <div className="flex flex-col gap-5 p-5 md:flex-row md:items-center md:justify-between md:p-6">
             <div className="flex min-w-0 items-center gap-5">
@@ -141,7 +135,7 @@ export const GrammarDetail = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -150,12 +144,10 @@ export const GrammarDetail = () => {
           const accent = cardAccents[index % cardAccents.length];
 
           return (
-            <motion.div
+            <div
               key={point.id}
-              whileHover={{ y: -4, scale: 1.01 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               onClick={() => navigate(`/grammar/${course.id}/lesson/${lesson.id}/point/${point.id}`)}
-              className={`group relative flex cursor-pointer items-center gap-4 overflow-hidden rounded-[2rem] border border-slate-100 bg-gradient-to-br ${accent.wash} p-6 text-left shadow-sm transition-shadow hover:shadow-md dark:border-slate-800`}
+              className={`grammar-point-card group relative flex cursor-pointer items-center gap-4 overflow-hidden rounded-[2rem] border border-slate-100 bg-gradient-to-br ${accent.wash} p-6 text-left shadow-sm transition-colors hover:shadow-md dark:border-slate-800`}
             >
               <div className={`absolute left-0 top-0 h-full w-1.5 bg-gradient-to-b ${accent.strip}`} />
 
@@ -215,7 +207,7 @@ export const GrammarDetail = () => {
                   <Plus size={20} strokeWidth={2.6} />
                 </button>
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>

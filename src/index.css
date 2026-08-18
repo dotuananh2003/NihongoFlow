@@ -122,11 +122,62 @@
     contain-intrinsic-size: 280px;
     contain: layout paint style;
   }
+  .vocab-detail-row {
+    content-visibility: auto;
+    contain-intrinsic-size: 96px;
+    contain: layout paint style;
+  }
+  .kanji-course-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 360px;
+    contain: layout paint style;
+  }
+  .kanji-lesson-row {
+    content-visibility: auto;
+    contain-intrinsic-size: 96px;
+    contain: layout paint style;
+  }
+  .kanji-list-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 104px;
+    contain: layout paint style;
+  }
+  .kanji-vocab-row {
+    content-visibility: auto;
+    contain-intrinsic-size: 88px;
+    contain: layout paint style;
+  }
+  .kanji-detail-panel {
+    content-visibility: auto;
+    contain-intrinsic-size: 240px;
+    contain: layout paint style;
+  }
+  .grammar-lesson-row {
+    content-visibility: auto;
+    contain-intrinsic-size: 112px;
+    contain: layout paint style;
+  }
+  .grammar-point-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 116px;
+    contain: layout paint style;
+  }
+  .scroll-render-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 640px;
+    contain: layout paint style;
+  }
 }
 
 /* Native Smooth Scroll CSS */
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* Override body background on pages with full-screen background images */

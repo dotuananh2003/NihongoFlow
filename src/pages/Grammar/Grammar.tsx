@@ -1,7 +1,41 @@
-import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, ChevronRight } from 'lucide-react';
+import { ArrowRight, BookMarked, BookOpen, Sparkles } from 'lucide-react';
 import { grammarCourses } from '../../data/grammarData';
+
+const grammarCourseCards = [
+  {
+    id: 'jpd113',
+    route: '/grammar/jpd113',
+    badge: '初級 I',
+    code: 'JPD113',
+    title: 'MINNA NO NIHONGO SƠ CẤP 1',
+    kana: '文',
+    bgImage: "/images/backgrounds/jpd113-bg.png",
+    card: 'border-rose-100/80 dark:border-rose-500/20 hover:border-rose-300 dark:hover:border-rose-500/40 hover:shadow-[0_24px_52px_rgba(244,63,94,0.18)]',
+    text: 'text-rose-500 dark:text-rose-400',
+    badgeClass: 'bg-rose-100 text-rose-600 dark:bg-rose-500/15 dark:text-rose-300',
+    icon: 'bg-rose-50 text-rose-500 ring-rose-100 dark:bg-rose-500/10 dark:text-rose-300 dark:ring-rose-500/20',
+    button: 'from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-rose-500/30',
+    accent: 'from-rose-500 via-pink-400 to-amber-300',
+  },
+  {
+    id: 'jpd123',
+    route: '/grammar/jpd123',
+    badge: '初級 II',
+    code: 'JPD123',
+    title: 'N5 NÂNG CAO - NGỮ PHÁP',
+    kana: '法',
+    bgImage: "/images/backgrounds/jpd123-bg.png",
+    card: 'border-blue-100/80 dark:border-blue-500/20 hover:border-blue-300 dark:hover:border-blue-500/40 hover:shadow-[0_24px_52px_rgba(37,99,235,0.18)]',
+    text: 'text-blue-600 dark:text-blue-400',
+    badgeClass: 'bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300',
+    icon: 'bg-blue-50 text-blue-600 ring-blue-100 dark:bg-blue-500/10 dark:text-blue-300 dark:ring-blue-500/20',
+    button: 'from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 shadow-blue-500/30',
+    accent: 'from-blue-600 via-sky-400 to-cyan-300',
+  },
+];
+
+const grammarLegend = ['N', 'V', 'Aい', 'Aな', 'S'];
 
 export const Grammar = () => {
   const navigate = useNavigate();
@@ -11,110 +45,89 @@ export const Grammar = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-6 pb-4 max-w-5xl mx-auto">
-
-      {/* HEADER */}
-      <div className="mb-4 shrink-0">
-        <h1 className="text-3xl md:text-4xl font-black text-slate-800 dark:text-slate-100 flex items-baseline gap-3 tracking-tight">
-          NGỮ PHÁP <span className="text-[var(--primary)] dark:text-blue-400 text-4xl font-jp font-bold">文法</span>
+    <div className="min-h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-4 pb-4 max-w-5xl mx-auto">
+      <div className="mb-5 shrink-0 text-center">
+        <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-blue-600 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-blue-300">
+          <Sparkles size={14} /> Grammar mastery
+        </div>
+        <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-100 uppercase tracking-wider flex flex-row items-center justify-center gap-3">
+          NGỮ PHÁP <span className="font-jp text-blue-600 dark:text-blue-400">文法</span>
         </h1>
-        <p className="text-slate-500 dark:text-slate-400 font-bold tracking-widest uppercase text-xs mt-1">
-          JPD113 / JPD123 GRAMMAR MASTERY
-        </p>
+        <p className="text-slate-600 dark:text-slate-400 font-semibold mt-1 text-sm">Học ngữ pháp theo giáo trình JPD</p>
       </div>
 
-      {/* CHÚ THÍCH KÝ HIỆU */}
-      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl px-4 py-3 mb-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none shrink-0">
-        <div className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2">
-          KÝ HIỆU VIẾT TẮT TRONG CẤU TRÚC
-        </div>
-        <div className="flex flex-wrap gap-3">
-          {[
-            { label: 'N', text: 'Danh từ', jp: '名詞', color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400' },
-            { label: 'V', text: 'Động từ', jp: '動詞', color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' },
-            { label: 'A', text: 'Tính từ', jp: '形容詞', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400' },
-            { label: 'Aい', text: 'Tính từ đuôi い', jp: '', color: 'bg-orange-100 text-orange-700 dark:bg-orange-800/40 dark:text-orange-300' },
-            { label: 'Aな', text: 'Tính từ đuôi な', jp: '', color: 'bg-orange-100 text-orange-700 dark:bg-orange-800/40 dark:text-orange-300' },
-            { label: 'S', text: 'Câu', jp: '文', color: 'bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400' },
-            { label: 'Thể-TT', text: 'Thể thông thường', jp: '普通形', color: 'bg-teal-50 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400' },
-          ].map((item) => (
-            <div key={item.label} className="flex items-center gap-1.5">
-              <span className={`${item.color} text-xs font-bold px-2 py-1 rounded-full`}>{item.label}</span>
-              <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
-                {item.text}{item.jp && <span className="text-slate-400 ml-1">({item.jp})</span>}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto w-full">
+        {grammarCourseCards.map((course) => {
+          const sourceCourse = grammarCourses.find(c => c.id === course.id);
+          const lessonCount = sourceCourse?.lessons.length ?? 0;
+          const grammarCount = sourceCourse?.lessons.reduce((sum, lesson) => sum + lesson.grammarPoints.length, 0) ?? 0;
 
-      {/* COURSE CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto w-full">
-
-        {/* JPD113 CARD */}
-        <motion.div
-          whileHover={{ y: -6, scale: 1.015 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          onClick={() => handleCourseClick('jpd113')}
-          className="relative bg-[#FEF8F6] dark:bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-[0_20px_60px_rgb(0,0,0,0.06)] flex flex-col items-center text-center group cursor-pointer"
-        >
-          <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd113-bg.png')] bg-[length:100%_auto] bg-top bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
-          <div className="relative z-10 w-full flex flex-col items-center p-6">
-            <div className="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 text-xs font-bold uppercase tracking-widest mb-4 font-jp">初級 I</div>
-            <h2 className="text-4xl font-black text-rose-500 dark:text-rose-400 tracking-tight mb-1">JPD113</h2>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-6">MINNA NO NIHONGO SƠ CẤP 1</p>
-
-            <div className="flex items-center gap-6 mb-6 w-full justify-center">
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-900/20 text-rose-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <BookOpen size={20} />
-                </div>
-                <div className="text-xl font-black text-slate-800 dark:text-slate-100">
-                  {grammarCourses.find(c => c.id === 'jpd113')?.lessons.length || 0}
-                </div>
-                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">LESSONS</div>
+          return (
+            <button
+              key={course.id}
+              type="button"
+              className={`relative min-h-[300px] bg-white dark:bg-slate-900 rounded-[1.75rem] p-4 shadow-[0_16px_38px_rgba(15,23,42,0.11)] dark:shadow-[0_16px_38px_rgba(0,0,0,0.3)] overflow-hidden border flex flex-col text-left group cursor-pointer ${course.card}`}
+              onClick={() => handleCourseClick(course.id)}
+            >
+              <div
+                className="absolute inset-0 bg-[length:100%_auto] bg-top bg-no-repeat opacity-100 transition-transform duration-700 group-hover:scale-105 pointer-events-none dark:opacity-90"
+                style={{ backgroundImage: `url('${course.bgImage}')` }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-white/25 via-white/18 to-white/72 dark:from-slate-950/20 dark:via-slate-950/30 dark:to-slate-950/78 pointer-events-none" />
+              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/88 to-transparent dark:from-slate-950/90 pointer-events-none" />
+              <div className={`absolute inset-x-0 top-0 h-2 bg-gradient-to-r ${course.accent}`} />
+              <div className={`absolute -right-4 -bottom-7 font-jp text-[6.5rem] font-black ${course.text} opacity-[0.08] transition-transform duration-700 group-hover:scale-110`}>
+                {course.kana}
               </div>
-            </div>
 
-            <button className="w-full mt-6 relative bg-rose-500 hover:bg-rose-600 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(244,63,94,0.3)] transition-all flex items-center justify-center">
-              <span>Bắt đầu học</span>
-              <ChevronRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        </motion.div>
-
-        {/* JPD123 CARD */}
-        <motion.div
-          whileHover={{ y: -6, scale: 1.015 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          onClick={() => handleCourseClick('jpd123')}
-          className="relative bg-[#FBFCFD] dark:bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-[0_20px_60px_rgb(0,0,0,0.06)] flex flex-col items-center text-center group cursor-pointer"
-        >
-          <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd123-bg.png')] bg-[length:100%_auto] bg-top bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
-          <div className="relative z-10 w-full flex flex-col items-center p-6">
-            <div className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest mb-4 font-jp">初級 II</div>
-            <h2 className="text-4xl font-black text-blue-600 dark:text-blue-400 tracking-tight mb-1">JPD123</h2>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-6">N5 NÂNG CAO - NGỮ PHÁP</p>
-
-            <div className="flex items-center gap-6 mb-6 w-full justify-center">
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <BookOpen size={20} />
+              <div className="relative z-10 flex h-full flex-col">
+                <div className="flex items-start justify-between gap-3">
+                  <div className={`px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-widest font-jp ${course.badgeClass}`}>{course.badge}</div>
+                  <div className={`grid h-9 w-9 place-items-center rounded-xl ring-1 ${course.icon}`}>
+                    <BookMarked size={17} />
+                  </div>
                 </div>
-                <div className="text-xl font-black text-slate-800 dark:text-slate-100">
-                  {grammarCourses.find(c => c.id === 'jpd123')?.lessons.length || 0}
+
+                <div className="mt-6 text-center">
+                  <h2 className={`text-4xl md:text-[2.6rem] font-black tracking-tight ${course.text}`}>{course.code}</h2>
+                  <p className="mt-1.5 text-slate-600 dark:text-slate-300 font-black uppercase tracking-[0.2em] text-[11px]">{course.title}</p>
                 </div>
-                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">LESSONS</div>
+
+                <div className="my-5 grid grid-cols-2 gap-3">
+                  <div className="p-2 text-center">
+                    <div className={`mx-auto mb-1.5 flex h-8 w-8 items-center justify-center rounded-xl ring-1 ${course.icon}`}>
+                      <BookOpen size={16} />
+                    </div>
+                    <div className="text-xl font-black text-slate-900 dark:text-slate-100">{lessonCount}</div>
+                    <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Lessons</div>
+                  </div>
+                  <div className="p-2 text-center">
+                    <div className={`mx-auto mb-1.5 flex h-8 w-8 items-center justify-center rounded-xl ring-1 ${course.icon}`}>
+                      <BookMarked size={16} />
+                    </div>
+                    <div className="text-xl font-black text-slate-900 dark:text-slate-100">{grammarCount}</div>
+                    <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Mẫu</div>
+                  </div>
+                </div>
+
+                <div className="mb-4 flex flex-wrap justify-center gap-1.5">
+                  {grammarLegend.map((item) => (
+                    <span key={item} className={`rounded-full px-2 py-1 text-[10px] font-black ${course.badgeClass}`}>
+                      {item}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-auto">
+                  <div className={`relative w-full bg-gradient-to-r ${course.button} text-white font-black py-3 rounded-2xl shadow-lg transition-all flex items-center justify-center overflow-hidden`}>
+                    <span>Bắt đầu học</span>
+                    <ArrowRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
               </div>
-            </div>
-
-            <button className="w-full mt-6 relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center">
-              <span>Bắt đầu học</span>
-              <ChevronRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
             </button>
-          </div>
-        </motion.div>
-
+          );
+        })}
       </div>
     </div>
   );

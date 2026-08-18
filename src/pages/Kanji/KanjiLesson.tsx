@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ArrowLeft, LayoutGrid, List, Check, X, BookOpen, Keyboard, Sparkles } from 'lucide-react';
 import { toRomaji } from 'wanakana';
 
@@ -101,12 +100,7 @@ export const KanjiLesson = () => {
   return (
     <div className="relative min-h-full bg-transparent pb-20 font-sans">
       <div className="mx-auto max-w-[1500px] px-4 pt-6 md:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: 'spring', stiffness: 320, damping: 26 }}
-          className="mb-6 rounded-[2rem] border border-white/75 bg-white/70 p-4 shadow-[0_20px_60px_rgba(15,23,42,0.10)] backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/55 md:p-5"
-        >
+        <div className="mb-6 rounded-[2rem] border border-white/75 bg-white/70 p-4 shadow-[0_20px_60px_rgba(15,23,42,0.10)] backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/55 md:p-5">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-4">
               <button
@@ -141,7 +135,7 @@ export const KanjiLesson = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_440px]">
           <section className="min-w-0">
@@ -208,16 +202,13 @@ export const KanjiLesson = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              {kanjiList.map((kanji, idx) => {
+              {kanjiList.map((kanji) => {
                 const isSelected = selectedKanjiIds.includes(kanji.id);
 
                 return (
-                  <motion.button
+                  <button
                     key={kanji.id}
                     type="button"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ type: 'spring', stiffness: 340, damping: 28, delay: idx * 0.025 }}
                     onClick={() => {
                       if (isSelectMode) {
                         setSelectedKanjiIds(prev => prev.includes(kanji.id) ? prev.filter(id => id !== kanji.id) : [...prev, kanji.id]);
@@ -225,7 +216,7 @@ export const KanjiLesson = () => {
                         navigate(`/kanji/${courseId}/lesson/${lessonId}/${kanji.id}`);
                       }
                     }}
-                    className={`group relative flex min-h-[104px] items-center gap-4 rounded-2xl border p-4 text-left shadow-[0_10px_28px_rgba(15,23,42,0.07)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(15,23,42,0.10)] ${
+                    className={`kanji-list-card group relative flex min-h-[104px] items-center gap-4 rounded-2xl border p-4 text-left shadow-[0_10px_28px_rgba(15,23,42,0.07)] transition-colors hover:shadow-[0_14px_36px_rgba(15,23,42,0.10)] ${
                       isSelectMode && isSelected
                         ? theme.selected
                         : 'border-white/80 bg-white/82 dark:border-slate-800 dark:bg-slate-950/70'
@@ -273,16 +264,13 @@ export const KanjiLesson = () => {
                         )}
                       </div>
                     </div>
-                  </motion.button>
+                  </button>
                 );
               })}
 
               {otherVocab.length > 0 && (
-                <motion.button
+                <button
                   type="button"
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ type: 'spring', stiffness: 340, damping: 28, delay: kanjiList.length * 0.025 }}
                   onClick={() => {
                     if (isSelectMode) {
                       setSelectedKanjiIds(prev => prev.includes('other') ? prev.filter(id => id !== 'other') : [...prev, 'other']);
@@ -290,7 +278,7 @@ export const KanjiLesson = () => {
                       navigate(`/kanji/${courseId}/lesson/${lessonId}/other`);
                     }
                   }}
-                  className={`group relative flex min-h-[104px] items-center gap-4 rounded-2xl border p-4 text-left shadow-[0_10px_28px_rgba(15,23,42,0.07)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_36px_rgba(15,23,42,0.10)] ${
+                  className={`kanji-list-card group relative flex min-h-[104px] items-center gap-4 rounded-2xl border p-4 text-left shadow-[0_10px_28px_rgba(15,23,42,0.07)] transition-colors hover:shadow-[0_14px_36px_rgba(15,23,42,0.10)] ${
                     isSelectMode && selectedKanjiIds.includes('other')
                       ? theme.selected
                       : 'border-white/80 bg-white/72 dark:border-slate-800 dark:bg-slate-950/60'
@@ -323,7 +311,7 @@ export const KanjiLesson = () => {
                       </span>
                     </div>
                   </div>
-                </motion.button>
+                </button>
               )}
             </div>
           </section>
@@ -369,12 +357,9 @@ export const KanjiLesson = () => {
                 {vocabList.length === 0 ? (
                   <div className="p-8 text-center font-medium text-slate-500">Chưa có từ vựng nào.</div>
                 ) : vocabList.map((vocab, idx) => (
-                  <motion.div
+                  <div
                     key={`${vocab.kanji}-${vocab.hiragana}-${idx}`}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ type: 'spring', stiffness: 320, damping: 28, delay: idx * 0.012 }}
-                    className="rounded-2xl border border-slate-100 bg-white/78 p-4 shadow-sm transition-colors hover:bg-white dark:border-slate-800 dark:bg-slate-900/65 dark:hover:bg-slate-900"
+                    className="kanji-vocab-row rounded-2xl border border-slate-100 bg-white/78 p-4 shadow-sm transition-colors hover:bg-white dark:border-slate-800 dark:bg-slate-900/65 dark:hover:bg-slate-900"
                   >
                     <div className="mb-2 flex items-start justify-between gap-4">
                       <div className="min-w-0">
@@ -388,7 +373,7 @@ export const KanjiLesson = () => {
                         {vocab.meaning}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>

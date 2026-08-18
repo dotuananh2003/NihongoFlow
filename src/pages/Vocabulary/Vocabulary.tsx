@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ArrowRight, BookMarked, BookOpen, Sparkles } from 'lucide-react';
 
 const courseCards = [
@@ -45,27 +44,24 @@ export const Vocabulary = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-6 pb-6 max-w-5xl mx-auto">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-4 pb-4 max-w-5xl mx-auto">
 
-      <div className="mb-7 shrink-0 text-center">
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-blue-600 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-blue-300">
+      <div className="mb-5 shrink-0 text-center">
+        <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-blue-600 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-blue-300">
           <Sparkles size={14} /> JPD Vocabulary
         </div>
-        <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-slate-100 uppercase tracking-wider flex flex-row items-center justify-center gap-3">
+        <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-100 uppercase tracking-wider flex flex-row items-center justify-center gap-3">
           TỪ VỰNG <span className="font-jp text-blue-600 dark:text-blue-400">語彙</span>
         </h1>
-        <p className="text-slate-600 dark:text-slate-400 font-semibold mt-2 text-sm">Học từ vựng theo giáo trình JPD</p>
+        <p className="text-slate-600 dark:text-slate-400 font-semibold mt-1 text-sm">Học từ vựng theo giáo trình JPD</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto w-full">
         {courseCards.map((course) => (
-          <motion.button
+          <button
             key={course.id}
             type="button"
-            whileHover={{ y: -6, scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            transition={{ type: "spring", stiffness: 300, damping: 22 }}
-            className={`relative min-h-[360px] bg-white dark:bg-slate-900 rounded-[2rem] p-5 shadow-[0_22px_54px_rgba(15,23,42,0.12)] dark:shadow-[0_22px_54px_rgba(0,0,0,0.35)] overflow-hidden border flex flex-col text-left group cursor-pointer ${course.card}`}
+            className={`relative min-h-[300px] bg-white dark:bg-slate-900 rounded-[1.75rem] p-4 shadow-[0_16px_38px_rgba(15,23,42,0.11)] dark:shadow-[0_16px_38px_rgba(0,0,0,0.3)] overflow-hidden border flex flex-col text-left group cursor-pointer ${course.card}`}
             onClick={() => navigate(course.route)}
           >
             <div
@@ -75,52 +71,48 @@ export const Vocabulary = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-white/25 via-white/18 to-white/72 dark:from-slate-950/20 dark:via-slate-950/30 dark:to-slate-950/78 pointer-events-none" />
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/88 to-transparent dark:from-slate-950/90 pointer-events-none" />
             <div className={`absolute inset-x-0 top-0 h-2 bg-gradient-to-r ${course.accent}`} />
-            <div className={`absolute -right-5 -bottom-8 font-jp text-[8rem] font-black ${course.text} opacity-[0.08] transition-transform duration-700 group-hover:scale-110`}>
+            <div className={`absolute -right-4 -bottom-7 font-jp text-[6.5rem] font-black ${course.text} opacity-[0.08] transition-transform duration-700 group-hover:scale-110`}>
               {course.kana}
             </div>
 
             <div className="relative z-10 flex h-full flex-col">
-              <div className="flex items-start justify-between gap-4">
-                <div className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest font-jp ${course.badgeClass}`}>{course.badge}</div>
-                <div className={`grid h-10 w-10 place-items-center rounded-xl ring-1 ${course.icon}`}>
-                  <BookMarked size={19} />
+              <div className="flex items-start justify-between gap-3">
+                <div className={`px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-widest font-jp ${course.badgeClass}`}>{course.badge}</div>
+                <div className={`grid h-9 w-9 place-items-center rounded-xl ring-1 ${course.icon}`}>
+                  <BookMarked size={17} />
                 </div>
               </div>
 
-              <div className="mt-8 text-center">
-                <h2 className={`text-4xl md:text-5xl font-black tracking-tight ${course.text}`}>{course.code}</h2>
-                <p className="mt-2 text-slate-600 dark:text-slate-300 font-black uppercase tracking-[0.22em] text-xs">{course.title}</p>
+              <div className="mt-6 text-center">
+                <h2 className={`text-4xl md:text-[2.6rem] font-black tracking-tight ${course.text}`}>{course.code}</h2>
+                <p className="mt-1.5 text-slate-600 dark:text-slate-300 font-black uppercase tracking-[0.2em] text-[11px]">{course.title}</p>
               </div>
 
-              <div className="my-8 grid grid-cols-2 gap-3">
-                <div className="rounded-2xl bg-white/80 dark:bg-slate-950/40 p-3 text-center ring-1 ring-slate-200/70 dark:ring-slate-700/70">
-                  <div className={`mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-xl ring-1 ${course.icon}`}>
-                    <BookOpen size={18} />
+              <div className="my-5 grid grid-cols-2 gap-3">
+                <div className="p-2 text-center">
+                  <div className={`mx-auto mb-1.5 flex h-8 w-8 items-center justify-center rounded-xl ring-1 ${course.icon}`}>
+                    <BookOpen size={16} />
                   </div>
-                  <div className="text-2xl font-black text-slate-900 dark:text-slate-100">{course.lessons}</div>
+                  <div className="text-xl font-black text-slate-900 dark:text-slate-100">{course.lessons}</div>
                   <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Lessons</div>
                 </div>
-                <div className="rounded-2xl bg-white/80 dark:bg-slate-950/40 p-3 text-center ring-1 ring-slate-200/70 dark:ring-slate-700/70">
-                  <div className={`mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-xl ring-1 ${course.icon}`}>
-                    <BookMarked size={18} />
+                <div className="p-2 text-center">
+                  <div className={`mx-auto mb-1.5 flex h-8 w-8 items-center justify-center rounded-xl ring-1 ${course.icon}`}>
+                    <BookMarked size={16} />
                   </div>
-                  <div className="text-2xl font-black text-slate-900 dark:text-slate-100">{course.words}</div>
+                  <div className="text-xl font-black text-slate-900 dark:text-slate-100">{course.words}</div>
                   <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Từ vựng</div>
                 </div>
               </div>
 
               <div className="mt-auto">
-                <div className={`mb-3 flex items-center justify-between rounded-2xl px-3 py-2 text-xs font-black ring-1 ${course.soft}`}>
-                  <span>JPD Course</span>
-                  <span>{course.lessons} bài học</span>
-                </div>
-                <div className={`relative w-full bg-gradient-to-r ${course.button} text-white font-black py-3.5 rounded-2xl shadow-lg transition-all flex items-center justify-center overflow-hidden`}>
+                <div className={`relative w-full bg-gradient-to-r ${course.button} text-white font-black py-3 rounded-2xl shadow-lg transition-all flex items-center justify-center overflow-hidden`}>
                   <span>Bắt đầu học</span>
                   <ArrowRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             </div>
-          </motion.button>
+          </button>
         ))}
       </div>
     </div>

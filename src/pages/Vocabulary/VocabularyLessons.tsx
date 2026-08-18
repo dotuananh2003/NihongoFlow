@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Play, Lock, Book, Layers, Check, Keyboard, X, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Play, Lock, Layers, Check, Keyboard, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KanjiVocabTyping } from '../../components/Kanji/KanjiVocabTyping';
 import { vocabularyData, type VocabItem } from '../../data/vocabularyData';
@@ -50,8 +50,17 @@ export const VocabularyLessons = () => {
     shadow: 'shadow-rose-500/25',
   };
 
-  const getLessonIcon = () => {
-    return <Book size={24} strokeWidth={1.5} />;
+  const getLessonLogo = (lesson: VocabLesson) => {
+    return (
+      <div className="relative grid h-full w-full place-items-center overflow-hidden rounded-[1.15rem]">
+        <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} ${lesson.locked ? 'opacity-10' : 'opacity-100'}`} />
+        <div className="absolute inset-[3px] rounded-[0.95rem] bg-white/88 dark:bg-slate-950/82" />
+        <div className={`relative text-center text-[11px] font-black leading-[0.95rem] ${lesson.locked ? 'text-slate-400' : theme.color}`}>
+          <div>Từ</div>
+          <div>Vựng</div>
+        </div>
+      </div>
+    );
   };
 
   // Modern UI data
@@ -206,7 +215,7 @@ export const VocabularyLessons = () => {
               <div className={`mb-3 inline-flex rounded-full px-3 py-1 text-xs font-black tracking-widest ${theme.bgLight} ${theme.softText}`}>
                 {badgeText} · {courseName}
               </div>
-              <h1 className={`text-3xl md:text-5xl font-black ${theme.color} uppercase tracking-wider`}>
+              <h1 className={`text-2xl md:text-4xl font-black ${theme.color} uppercase tracking-wider`}>
                 {courseLabel}
               </h1>
               <p className="mt-2 text-sm font-bold text-slate-600 dark:text-slate-400">
@@ -285,15 +294,12 @@ export const VocabularyLessons = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {lessons.map((lesson, idx) => {
+          {lessons.map((lesson) => {
             const isSelected = selectedLessons.includes(lesson.id);
             return (
-              <motion.button
+              <button
                 key={lesson.id}
                 type="button"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 25, delay: idx * 0.04 }}
                 onClick={() => handleLessonCardClick(lesson.id, lesson.locked)}
                 className={`vocab-lesson-card group relative h-full text-left ${lesson.locked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
               >
@@ -318,8 +324,8 @@ export const VocabularyLessons = () => {
                   </div>
 
                   <div className="mb-5 flex min-h-[104px] items-start gap-4">
-                    <div className={`w-14 h-14 rounded-[1.25rem] ${lesson.locked ? 'bg-slate-100 text-slate-400 dark:bg-slate-800' : `${theme.bgLight} ${theme.color}`} flex items-center justify-center shrink-0 shadow-inner`}>
-                      {lesson.locked ? <Lock size={23} /> : getLessonIcon()}
+                    <div className="w-14 h-14 rounded-[1.25rem] flex items-center justify-center shrink-0">
+                      {getLessonLogo(lesson)}
                     </div>
                     <div className="min-w-0">
                       <h3 className="font-black text-slate-900 dark:text-slate-100 text-lg leading-tight min-h-[46px]">
@@ -344,7 +350,7 @@ export const VocabularyLessons = () => {
                   )}
                   </div>
                 </div>
-              </motion.button>
+              </button>
             );
           })}
         </div>

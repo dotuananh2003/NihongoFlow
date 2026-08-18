@@ -1,7 +1,6 @@
 import { useLocation, useOutlet } from 'react-router-dom';
 import { Sidebar } from '../Sidebar/Sidebar';
 import { Header } from '../Header/Header';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect } from 'react';
 
 export const Layout = () => {
@@ -123,18 +122,9 @@ export const Layout = () => {
             </>
           )}
           <div>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={location.pathname}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeInOut" }}
-                className="max-w-[1600px] mx-auto min-h-full w-full"
-              >
-                {outlet}
-              </motion.div>
-            </AnimatePresence>
+            <div className="max-w-[1600px] mx-auto min-h-full w-full">
+              {outlet}
+            </div>
           </div>
         </main>
       </div>

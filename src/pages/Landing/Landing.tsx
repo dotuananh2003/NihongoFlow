@@ -1,17 +1,9 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { ArrowRight, BookOpen, Flame, Sparkles, Target, Keyboard, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Landing = () => {
-  const { scrollY } = useScroll();
-  const heroRef = useRef<HTMLDivElement>(null);
-  
-  // Parallax for Hero Background restored
-  const yHeroBg = useTransform(scrollY, [0, 1000], [0, 300]);
-  const yHeroContent = useTransform(scrollY, [0, 1000], [0, 150]);
-  const opacityHero = useTransform(scrollY, [0, 800], [1, 0]);
-
   // For Theme Toggle simulation in Vocab section
   const [vocabTheme, setVocabTheme] = useState<'jpd113' | 'jpd123'>('jpd113');
 
@@ -51,18 +43,16 @@ export const Landing = () => {
       </nav>
 
       {/* SECTION 1: HERO */}
-      <section ref={heroRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden pt-20">
-        <motion.div 
+      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden pt-20">
+        <div 
           className="absolute inset-0 z-0"
-          style={{ y: yHeroBg, opacity: opacityHero }}
         >
           <img src="/images/hero-landing.png" alt="Japan Scenery" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/50 to-transparent dark:from-slate-950/95 dark:via-slate-950/60"></div>
-        </motion.div>
+        </div>
 
-        <motion.div 
+        <div 
           className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-          style={{ y: yHeroContent, opacity: opacityHero }}
         >
           <div className="max-w-2xl">
             <motion.div 
@@ -100,7 +90,7 @@ export const Landing = () => {
               </button>
             </motion.div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* SECTION 2: TỪ VỰNG */}
