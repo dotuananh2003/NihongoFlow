@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, BookOpen, PenTool, CheckCircle, RotateCcw, Trophy, Star, X, AlertCircle } from 'lucide-react';
@@ -204,9 +205,10 @@ export const KanaPath = () => {
       </div>
 
       {/* Modals */}
-      <AnimatePresence>
-        {activeModal && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center">
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {activeModal && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center">
             {/* STUDY MODAL */}
             {activeModal === 'study' && selectedGroup && (
               <motion.div 
@@ -326,9 +328,11 @@ export const KanaPath = () => {
                 </motion.div>
               </>
             )}
-          </div>
-        )}
-      </AnimatePresence>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 };

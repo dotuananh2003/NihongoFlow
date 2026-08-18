@@ -30,7 +30,7 @@ export const KanaGrid = ({ title, items, columns, colorClass }: KanaGridProps) =
               onClick={(e) => playAudio(e, char.r)}
             >
               <span className={`text-2xl font-jp font-medium text-slate-800 dark:text-slate-100 transition-colors ${colorClass.replace('text-', 'group-hover:text-')}`}>{char.jp}</span>
-              <span className="text-[10px] font-semibold text-slate-400 mt-0.5">{char.r}</span>
+              <span className="text-sm font-bold text-slate-500 mt-1">{char.r}</span>
               <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <Volume2 size={10} className="text-slate-300" />
               </div>

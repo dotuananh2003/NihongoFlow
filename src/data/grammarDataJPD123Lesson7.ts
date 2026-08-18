@@ -2,8 +2,8 @@ import type { GrammarLesson } from './grammarData';
 
 export const grammarLesson7JPD123: GrammarLesson = {
   id: 'lesson-7',
-  title: 'Bài 7',
-  description: 'Sự tồn tại, Yêu cầu, Cách làm và Hành động đang diễn ra',
+  title: 'Sự tồn tại, Yêu cầu, Cách làm và Hành động',
+  description: 'Diễn tả sự tồn tại, đưa ra yêu cầu lịch sự, chỉ cách làm và hành động đang diễn ra',
   grammarPoints: [
     {
       id: 'g19',

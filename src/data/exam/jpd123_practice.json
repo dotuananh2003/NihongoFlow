@@ -1,37 +1,722 @@
 [
   {
     "id": 1,
-    "question": "きのう デパートへ 買い物に _________。",
-    "options": ["行きます", "行きました", "行かない", "行く"],
-    "correctAnswer": 1,
-    "explanation": "Câu này có từ chỉ thời gian trong quá khứ là 'きのう' (hôm qua). Vì vậy, động từ phải chia ở thể quá khứ. '行きました' (đã đi) là hình thức quá khứ lịch sự của '行きます'. Các đáp án khác đều ở hiện tại/tương lai."
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? パースは　オーストラリアの [ひがし] です。",
+    "options": [
+      "東",
+      "野",
+      "京",
+      "理"
+    ],
+    "correctAnswer": 0,
+    "explanation": "ひがし (Đông) nghĩa là phía Đông. Chữ Hán tương ứng là 東."
   },
   {
     "id": 2,
-    "question": "あそこに 田中さんが _________。",
-    "options": ["あります", "います", "ある", "いる"],
-    "correctAnswer": 1,
-    "explanation": "'田中さん' (anh Tanaka) là người, mang tính chất động vật có sinh mạng. Do đó, để diễn tả sự hiện hữu của người hoặc động vật, ta phải dùng động từ 'います'. 'あります' chỉ dùng cho đồ vật, sự vật không có sinh mạng."
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? アニメの [人物] が　すきです。",
+    "options": [
+      "にんぶつ",
+      "じんもの",
+      "ひともの",
+      "じんぶつ"
+    ],
+    "correctAnswer": 3,
+    "explanation": "人物 (Nhân Vật) đọc là じんぶつ, có nghĩa là nhân vật."
   },
   {
     "id": 3,
-    "question": "私は 毎日 7時に _________。",
-    "options": ["起きます", "起きる", "起きました", "起きません"],
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? 私の　まちに [ゆうめいなおてら] が　あります。",
+    "options": [
+      "お寺",
+      "お持",
+      "お封",
+      "お寿"
+    ],
     "correctAnswer": 0,
-    "explanation": "Câu này có từ '毎日' (mỗi ngày), diễn tả một thói quen lặp đi lặp lại ở hiện tại/tương lai. Vì vậy, ta dùng động từ ở thể V-ます. '起きます' (thức dậy) là lựa chọn chính xác."
+    "explanation": "おてら (Tự) nghĩa là ngôi chùa. Chữ Hán tương ứng là お寺."
   },
   {
     "id": 4,
-    "question": "机の上に 辞書 _________ あります。",
-    "options": ["が", "を", "に", "で"],
-    "correctAnswer": 0,
-    "explanation": "Cấu trúc chỉ sự tồn tại: [Nơi chốn] に [Danh từ] が あります/います. Trong câu này, '辞書' (từ điển) là chủ đề của sự tồn tại nên cần đi kèm trợ từ 'が'."
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? きのう [来日] しました。",
+    "options": [
+      "あした",
+      "らいげつ",
+      "らいにち",
+      "らいぴ"
+    ],
+    "correctAnswer": 2,
+    "explanation": "来日 (Lai Nhật) đọc là らいにち, có nghĩa là đến Nhật Bản."
   },
   {
     "id": 5,
-    "question": "日本語で 手紙を _________。",
-    "options": ["書きます", "読みます", "見ます", "聞きます"],
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? としょかんに [男] の　ひとが　います。",
+    "options": [
+      "おしごと",
+      "おんな",
+      "おなまえ",
+      "おとこ"
+    ],
+    "correctAnswer": 3,
+    "explanation": "男 (Nam) đọc là おとこ, nghĩa là con trai/đàn ông."
+  },
+  {
+    "id": 6,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? ぎんこうの [まえ] に　スーパーが　あります。",
+    "options": [
+      "後ろ",
+      "後",
+      "前",
+      "前ろ"
+    ],
+    "correctAnswer": 2,
+    "explanation": "まえ (Tiền) nghĩa là phía trước. Chữ Hán là 前."
+  },
+  {
+    "id": 7,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? [先日] の　かんじの　よみかたは　なんですか。",
+    "options": [
+      "せんじつ",
+      "せんぴ",
+      "ぜんじつ",
+      "ぜんぴ"
+    ],
     "correctAnswer": 0,
-    "explanation": "'手紙' (bức thư) đi với hành động 'viết'. '書きます' mang nghĩa là viết. Câu này có nghĩa là 'Tôi viết thư bằng tiếng Nhật'."
+    "explanation": "先日 (Tiên Nhật) đọc là せんじつ, nghĩa là vài ngày trước."
+  },
+  {
+    "id": 8,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? 田中さんは　あおぞら [かいしゃ] で　はたらきます。",
+    "options": [
+      "会社",
+      "社会",
+      "祈会",
+      "会祈"
+    ],
+    "correctAnswer": 0,
+    "explanation": "かいしゃ (Hội Xã) nghĩa là công ty. Chữ Hán là 会社."
+  },
+  {
+    "id": 9,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? なまえを [いってください]。",
+    "options": [
+      "違ってください",
+      "行ってください",
+      "語ってください",
+      "言ってください"
+    ],
+    "correctAnswer": 3,
+    "explanation": "いってください từ động từ 言います (Nói), chuyển sang thể Te là 言ってください (Hãy nói)."
+  },
+  {
+    "id": 10,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? ゆうびんきょくの [やすみ] は　何曜日ですか。",
+    "options": [
+      "休",
+      "休み",
+      "体",
+      "体み"
+    ],
+    "correctAnswer": 1,
+    "explanation": "やすみ (Hưu) nghĩa là ngày nghỉ. Chữ Hán là 休み."
+  },
+  {
+    "id": 11,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? [らいねん] オーストラリアへ　りょこうに　行きます。",
+    "options": [
+      "来日",
+      "来年",
+      "来週",
+      "来月"
+    ],
+    "correctAnswer": 1,
+    "explanation": "らいねん (Lai Niên) nghĩa là năm sau. Chữ Hán là 来年."
+  },
+  {
+    "id": 12,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? 私は　おおさかから [きました]。",
+    "options": [
+      "間ました",
+      "行ました",
+      "読ました",
+      "来ました"
+    ],
+    "correctAnswer": 3,
+    "explanation": "きました từ động từ 来ます (Đến). Chữ Hán là 来ました."
+  },
+  {
+    "id": 13,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? [こんしゅう] ともだちと　おおさかで　パーティーを　します。",
+    "options": [
+      "今週",
+      "来週",
+      "先週",
+      "令週"
+    ],
+    "correctAnswer": 0,
+    "explanation": "こんしゅう (Kim Chu) nghĩa là tuần này. Chữ Hán là 今週."
+  },
+  {
+    "id": 14,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? ゆうびんきょくに [女] の　ひとが　います。",
+    "options": [
+      "おしごと",
+      "おとこ",
+      "おんな",
+      "おなまえ"
+    ],
+    "correctAnswer": 2,
+    "explanation": "女 (Nữ) đọc là おんな, nghĩa là con gái/phụ nữ."
+  },
+  {
+    "id": 15,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? [飲み物] で　なにが　いちばん　すきですか。",
+    "options": [
+      "のみます",
+      "のみもの",
+      "よみます",
+      "よみもの"
+    ],
+    "correctAnswer": 1,
+    "explanation": "飲み物 (Ẩm Vật) đọc là のみもの, nghĩa là đồ uống."
+  },
+  {
+    "id": 16,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? Namさんは [東京] へ　いきます。",
+    "options": [
+      "ときょ",
+      "ときょう",
+      "とうきょ",
+      "とうきょう"
+    ],
+    "correctAnswer": 3,
+    "explanation": "東京 (Đông Kinh) đọc là とうきょう, nghĩa là Tokyo. Chú ý cả 2 chữ đều có trường âm."
+  },
+  {
+    "id": 17,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? Namさんは [料理] が　じょうずです。",
+    "options": [
+      "りょり",
+      "りょうり",
+      "りゅうり",
+      "りゅり"
+    ],
+    "correctAnswer": 1,
+    "explanation": "料理 (Liệu Lý) đọc là りょうり, nghĩa là món ăn/nấu ăn. Chú ý chữ りょう có trường âm."
+  },
+  {
+    "id": 18,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? どんな [りょうり] が　すきですか。",
+    "options": [
+      "料理",
+      "料野",
+      "科理",
+      "科野"
+    ],
+    "correctAnswer": 0,
+    "explanation": "りょうり (Liệu Lý) nghĩa là món ăn/nấu ăn. Chữ Hán là 料理."
+  },
+  {
+    "id": 19,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? [毎月] バーベキューをします。",
+    "options": [
+      "まいがつ",
+      "まいづき",
+      "まいつき",
+      "めいつき"
+    ],
+    "correctAnswer": 2,
+    "explanation": "毎月 (Mỗi Nguyệt) đọc là まいつき, nghĩa là mỗi tháng. (Chú ý chữ 月 khi đi cùng 毎 đọc là つき)."
+  },
+  {
+    "id": 20,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? [前日] りょこうに行きました。",
+    "options": [
+      "ぜんにち",
+      "ぜんじつ",
+      "せんにち",
+      "せんじつ"
+    ],
+    "correctAnswer": 1,
+    "explanation": "前日 (Tiền Nhật) đọc là ぜんじつ, nghĩa là ngày hôm trước. Khác với 先日 (せんじつ) là vài ngày trước."
+  },
+  {
+    "id": 21,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? あのひとの [なまえ] は　なん　ですか。",
+    "options": [
+      "名並",
+      "前名",
+      "名前",
+      "人前"
+    ],
+    "correctAnswer": 2,
+    "explanation": "なまえ (Danh Tiền) nghĩa là tên. Chữ Hán là 名前."
+  },
+  {
+    "id": 22,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? このペンで　なまえを [かいてください]。",
+    "options": [
+      "聞いてください",
+      "会いてください",
+      "書いてください",
+      "帰いてください"
+    ],
+    "correctAnswer": 2,
+    "explanation": "かいてください từ động từ 書きます (Viết). Chữ Hán là 書いてください."
+  },
+  {
+    "id": 23,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? 食べ物で [肉] が　いちばん　すきです。",
+    "options": [
+      "ごはん",
+      "たまご",
+      "にく",
+      "やさい"
+    ],
+    "correctAnswer": 2,
+    "explanation": "肉 (Nhục) đọc là にく, nghĩa là thịt."
+  },
+  {
+    "id": 24,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? [ごご] アルバイトを　します。",
+    "options": [
+      "後午",
+      "午前",
+      "午後",
+      "前午"
+    ],
+    "correctAnswer": 2,
+    "explanation": "ごご (Ngọ Hậu) nghĩa là buổi chiều. Chữ Hán là 午後."
+  },
+  {
+    "id": 25,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? 大学の [休日] はいつですか。",
+    "options": [
+      "きゅうじつ",
+      "きゅじつ",
+      "やすみひ",
+      "やすみび"
+    ],
+    "correctAnswer": 0,
+    "explanation": "休日 (Hưu Nhật) đọc là きゅうじつ, nghĩa là ngày nghỉ. Chú ý きゅう có trường âm."
+  },
+  {
+    "id": 26,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? きょう ともだちに [会いました]。",
+    "options": [
+      "かいました",
+      "きいました",
+      "あいました",
+      "みいました"
+    ],
+    "correctAnswer": 2,
+    "explanation": "会いました từ động từ 会います (Hội), đọc là あいます, nghĩa là gặp gỡ."
+  },
+  {
+    "id": 27,
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? [午後] としょかんで　ほんを　よみます。",
+    "options": [
+      "ごぜん",
+      "まいばん",
+      "しゅうまつ",
+      "ごご"
+    ],
+    "correctAnswer": 3,
+    "explanation": "午後 (Ngọ Hậu) đọc là ごご, nghĩa là buổi chiều."
+  },
+  {
+    "id": 28,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? [にく] と　さかなと　どちらが　すきですか。",
+    "options": [
+      "回",
+      "肉",
+      "内",
+      "丙"
+    ],
+    "correctAnswer": 1,
+    "explanation": "にく (Nhục) nghĩa là thịt. Chữ Hán là 肉. Tránh nhầm với chữ Nội (内)."
+  },
+  {
+    "id": 29,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? あした　ABCかいしゃで [けんがく] します。",
+    "options": [
+      "見学",
+      "見字",
+      "貝学",
+      "貝字"
+    ],
+    "correctAnswer": 0,
+    "explanation": "けんがく (Kiến Học) nghĩa là tham quan học tập. Chữ Hán là 見学."
+  },
+  {
+    "id": 30,
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? [まいにち] おんがくを　ききます。",
+    "options": [
+      "海日",
+      "母月",
+      "毎日",
+      "海月"
+    ],
+    "correctAnswer": 2,
+    "explanation": "まいにち (Mỗi Nhật) nghĩa là mỗi ngày. Chữ Hán là 毎日. Tránh nhầm chữ Mỗi (毎) với chữ Hải (海)."
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\n毎日、パンを [たべます]。",
+    "options": [
+      "食えます",
+      "飲べます",
+      "たべます",
+      "食べます"
+    ],
+    "explanation": "たべます (Thực) có nghĩa là ăn. Chữ Hán đúng là 食べます.",
+    "id": 31,
+    "correctAnswer": 3
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\n大学に [はいります]。",
+    "options": [
+      "出ります",
+      "生ります",
+      "休ります",
+      "入ります"
+    ],
+    "explanation": "はいります (Nhập) có nghĩa là đi vào, nhập học. Chữ Hán đúng là 入ります.",
+    "id": 32,
+    "correctAnswer": 3
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\nラジオを [ききます]。",
+    "options": [
+      "間きます",
+      "開きます",
+      "聞きます",
+      "問きます"
+    ],
+    "explanation": "ききます (Văn) có nghĩa là nghe. Chữ Hán đúng là 聞きます.",
+    "id": 33,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\nいつも　６じに [おきます]。",
+    "options": [
+      "起きます",
+      "赴きます",
+      "越きます",
+      "超きます"
+    ],
+    "explanation": "おきます (Khởi) có nghĩa là thức dậy. Chữ Hán đúng là 起きます.",
+    "id": 34,
+    "correctAnswer": 0
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\nきのう、うちへ [かえりました]。",
+    "options": [
+      "行えりました",
+      "帰えりました",
+      "買えりました",
+      "帰りました"
+    ],
+    "explanation": "かえりました (Quy) có nghĩa là đã về. Chữ Hán đúng là 帰りました.",
+    "id": 35,
+    "correctAnswer": 3
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\nビールを [のみます]。",
+    "options": [
+      "食みます",
+      "館みます",
+      "飲みます",
+      "飯みます"
+    ],
+    "explanation": "のみます (Ẩm) có nghĩa là uống. Chữ Hán đúng là 飲みます.",
+    "id": 36,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\nえいがを [みます]。",
+    "options": [
+      "見ます",
+      "貝ます",
+      "買ます",
+      "員ます"
+    ],
+    "explanation": "みます (Kiến) có nghĩa là xem, nhìn. Chữ Hán đúng là 見ます.",
+    "id": 37,
+    "correctAnswer": 0
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\nあした、かいしゃを [やすみます]。",
+    "options": [
+      "体みます",
+      "本みます",
+      "休みます",
+      "木みます"
+    ],
+    "explanation": "やすみます (Hưu) có nghĩa là nghỉ ngơi, nghỉ làm. Chữ Hán đúng là 休みます.",
+    "id": 38,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\nスーパーで　何を [かいます] か。",
+    "options": [
+      "早います",
+      "買います",
+      "見います",
+      "見します"
+    ],
+    "explanation": "かいます (Mãi) có nghĩa là mua. Chữ Hán đúng là 買います.",
+    "id": 39,
+    "correctAnswer": 1
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\n[こっかい] は　何ですか。",
+    "options": [
+      "国合",
+      "玉会",
+      "国会",
+      "玉合"
+    ],
+    "explanation": "こっかい (Quốc Hội) có nghĩa là quốc hội. Chữ Hán đúng là 国会.",
+    "id": 40,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào?\n日本に [半年] います。",
+    "options": [
+      "はんとし",
+      "はんどし",
+      "ばんねん",
+      "ばんどし"
+    ],
+    "explanation": "半年 (Bán Niên) khi đứng sau chữ Bán (半) thì chữ Niên (年) sẽ được đọc là とし => はんとし, nghĩa là nửa năm.",
+    "id": 41,
+    "correctAnswer": 0
+  },
+  {
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào?\n[今日]、ともだちと　サッカーを　します。",
+    "options": [
+      "いまにち",
+      "きょにち",
+      "いまび",
+      "きょう"
+    ],
+    "explanation": "今日 (Kim Nhật) nghĩa là hôm nay, có cách đọc đặc biệt là きょう.",
+    "id": 42,
+    "correctAnswer": 3
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\n来年、よこはまへ [いきます]。",
+    "options": [
+      "会きます",
+      "行きます",
+      "書きます",
+      "話きます"
+    ],
+    "explanation": "いきます (Hành) có nghĩa là đi. Chữ Hán đúng là 行きます.",
+    "id": 43,
+    "correctAnswer": 1
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\n[こんげつ] しんじゅくへ　行きます。",
+    "options": [
+      "来月",
+      "先月",
+      "今月",
+      "令月"
+    ],
+    "explanation": "こんげつ (Kim Nguyệt) nghĩa là tháng này. Chữ Hán đúng là 今月.",
+    "id": 44,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào?\n[食べ物] で　なにが　いちばん　すきですか。",
+    "options": [
+      "たべます",
+      "たべもの",
+      "のみもの",
+      "かべもの"
+    ],
+    "explanation": "食べ物 (Thực Vật) đọc là たべもの, nghĩa là đồ ăn.",
+    "id": 45,
+    "correctAnswer": 1
+  },
+  {
+    "question": "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào?\nコンビニの [後ろ] に　こうえんが　あります。",
+    "options": [
+      "ごろ",
+      "あとろ",
+      "うしろ",
+      "まえろ"
+    ],
+    "explanation": "後ろ (Hậu) đọc là うしろ, nghĩa là đằng sau.",
+    "id": 46,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\nお [くに] は　どちらですか。",
+    "options": [
+      "肉",
+      "内",
+      "国",
+      "向"
+    ],
+    "explanation": "くに (Quốc) nghĩa là đất nước. Chữ Hán đúng là 国. Thêm お phía trước để thể hiện sự lịch sự.",
+    "id": 47,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\n毎日　日本語の　CDを [ききます]。",
+    "options": [
+      "間きます",
+      "開きます",
+      "聞きます",
+      "問きます"
+    ],
+    "explanation": "ききます (Văn) có nghĩa là nghe. Trong câu này đằng trước động từ có từ CD nên ききます mang nghĩa là nghe. Chữ Hán đúng là 聞きます.",
+    "id": 48,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\n[らいげつ] とうきょうで　おはなびが　あります。",
+    "options": [
+      "今月",
+      "令月",
+      "来月",
+      "先月"
+    ],
+    "explanation": "らいげつ (Lai Nguyệt) nghĩa là tháng sau. Chữ Hán đúng là 来月.",
+    "id": 49,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào?\nまいにち、本を [よみます]。",
+    "options": [
+      "読みます",
+      "見みます",
+      "飲みます",
+      "休みます"
+    ],
+    "explanation": "よみます (Độc) có nghĩa là đọc. Đằng trước động từ có từ 本 (sách) nên よみます ở đây mang nghĩa là đọc sách. Chữ Hán đúng là 読みます.",
+    "id": 50,
+    "correctAnswer": 0
+  },
+  {
+    "question": "Chọn trong A. B. C. D đáp án thích hợp để điền vào chỗ trống:\nA: 日本で（　　　）が　いちばん　きれいですか。\nB: 北海道（ほっかいどう）が　いちばん　きれいです。",
+    "options": [
+      "いつ",
+      "なに",
+      "どこ",
+      "だれ"
+    ],
+    "explanation": "Câu trả lời là 北海道 (Hokkaido) là một địa điểm (hòn đảo/tỉnh của Nhật) => Cần chọn từ để hỏi chỉ nơi chốn => どこ.",
+    "id": 51,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Chọn trong A. B. C. D đáp án thích hợp để điền vào chỗ trống:\nA: 先週の　週末（しゅうまつ）、（　　　）行きましたか。\nB: いいえ、どこも　行きませんでした。",
+    "options": [
+      "どこかへ",
+      "どこへ",
+      "なにか",
+      "なにを"
+    ],
+    "explanation": "Mẫu câu hỏi xác nhận có đi đâu đó không: どこかへ + Vましたか. Vì câu trả lời là phủ định hoàn toàn (どこも 行きませんでした - không đi đâu cả) nên câu hỏi là 'có đi đâu không' (どこかへ) chứ không phải 'đi đâu' (どこへ). Chọn A.",
+    "id": 52,
+    "correctAnswer": 0
+  },
+  {
+    "question": "Chọn trong A. B. C. D đáp án thích hợp để điền vào chỗ trống:\nえいごと　日本語（　　　）すきです。",
+    "options": [
+      "どちらも",
+      "どちら",
+      "どちらか",
+      "どちらが"
+    ],
+    "explanation": "Ý nghĩa câu này là 'Tôi thích cả tiếng Anh và tiếng Nhật' => Dùng どちらも (cả hai) mang ý nghĩa khẳng định.",
+    "id": 53,
+    "correctAnswer": 0
+  },
+  {
+    "question": "Chọn trong A. B. C. D đáp án thích hợp để điền vào chỗ trống:\nえいごと　日本語（　　　）むずかしいですか。",
+    "options": [
+      "どれ",
+      "何",
+      "どちら",
+      "どこ"
+    ],
+    "explanation": "Khi so sánh giữa 2 sự vật (tiếng Anh và tiếng Nhật), từ để hỏi được dùng là どちら (cái nào).",
+    "id": 54,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Chọn trong A. B. C. D đáp án thích hợp để điền vào chỗ trống:\nA: 一年で（　　　）が　いちばん　てんきが　いいですか。\nB: 10月が　いいです。",
+    "options": [
+      "いつ",
+      "なに",
+      "どこ",
+      "何時"
+    ],
+    "explanation": "Câu trả lời là mốc thời gian (10月 - tháng 10), nên câu hỏi sẽ phải dùng từ để hỏi về thời gian là いつ (khi nào) => A.",
+    "id": 55,
+    "correctAnswer": 0
+  },
+  {
+    "question": "Chọn trong A. B. C. D đáp án thích hợp để điền vào chỗ trống:\n先生（せんせい）の時計（とけい）は（　　　）時計（とけい）ですか。",
+    "options": [
+      "どう",
+      "どれ",
+      "どの",
+      "なん"
+    ],
+    "explanation": "Theo sau là một danh từ (時計) nên phải dùng どの + N để hỏi 'cái ~ nào'. Câu hỏi mang ý nghĩa 'Đồng hồ của giáo viên là cái đồng hồ nào?'",
+    "id": 56,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Chọn trong A. B. C. D đáp án thích hợp để điền vào chỗ trống:\n田中: 日本で（　　　）が　いちばん　いいですか。\nミラー: とうきょうが　いちばん　いいです。",
+    "options": [
+      "だれ",
+      "どこ",
+      "どう",
+      "なに"
+    ],
+    "explanation": "Câu trả lời là địa điểm (とうきょう - Tokyo), nên từ để hỏi thích hợp là どこ (ở đâu).",
+    "id": 57,
+    "correctAnswer": 1
+  },
+  {
+    "question": "Chọn trong A. B. C. D đáp án thích hợp để điền vào chỗ trống:\nA: 私の　本を　とってください。\nB: （　　　）ほんですか。\nA: その本です。",
+    "options": [
+      "どれの",
+      "何の",
+      "どの",
+      "どんな"
+    ],
+    "explanation": "Câu trả lời dùng từ chỉ định その + danh từ (その本 - quyển sách đó), vì vậy câu hỏi cũng cần dùng từ chỉ định đi với danh từ là どの + N (quyển sách nào).",
+    "id": 58,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Chọn trong A. B. C. D đáp án thích hợp để điền vào chỗ trống:\nえいごと　日本語と（　　　）が　むずかしいですか。",
+    "options": [
+      "どれ",
+      "何",
+      "どちら",
+      "どこ"
+    ],
+    "explanation": "Ngữ pháp so sánh 2 vật: N1 と N2 と どちらが + tính từですか？ (N1 và N2 cái nào ~ hơn?) => Chọn C.",
+    "id": 59,
+    "correctAnswer": 2
+  },
+  {
+    "question": "Chọn trong A. B. C. D đáp án thích hợp để điền vào chỗ trống:\nへやの　なかに（　　　）も　いません。",
+    "options": [
+      "どれ",
+      "なん",
+      "だれ",
+      "どこ"
+    ],
+    "explanation": "Cuối câu có động từ いません (chỉ tồn tại của người & động vật) nên từ để hỏi phải là từ chỉ người => だれ. だれも + phủ định nghĩa là không có ai.",
+    "id": 60,
+    "correctAnswer": 2
   }
 ]

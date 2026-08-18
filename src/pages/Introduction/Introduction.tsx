@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, X, ChevronRight, Volume2, Check, AlertCircle, BookOpen, RotateCcw, Clock, Keyboard, Lock } from 'lucide-react';
 
@@ -122,7 +123,7 @@ const KanaGrid = ({ title, items, columns, colorClass }: { title: string, items:
               className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-1 hover:scale-105 transition-transform duration-300 cursor-pointer group relative overflow-hidden`}
             >
               <span className={`text-2xl font-jp font-medium text-slate-800 dark:text-slate-100 transition-colors ${colorClass.replace('text-', 'group-hover:text-')}`}>{char.jp}</span>
-              <span className="text-[10px] font-semibold text-slate-400 mt-0.5">{char.r}</span>
+              <span className="text-sm font-bold text-slate-500 mt-1">{char.r}</span>
               <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <Volume2 size={10} className="text-slate-300" />
               </div>
@@ -542,9 +543,10 @@ export const Introduction = () => {
       </div>
 
       {/* MODAL SYSTEM */}
-      <AnimatePresence>
-        {activeModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-8 md:p-12">
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {activeModal && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-8 md:p-12">
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
@@ -775,7 +777,9 @@ export const Introduction = () => {
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+    )}
     </div>
   );
 };

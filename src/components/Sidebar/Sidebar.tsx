@@ -169,17 +169,12 @@ export const Sidebar = () => {
                             <span className="dark:hidden">{item.label}</span>
                             <span className="hidden dark:inline" style={isActive ? { color: activeColor } : { color: '#F8FAFC' }}>{item.label}</span>
                           </span>
-                          <div className="flex items-center gap-1.5 mt-[2px]">
-                            <span className="text-[11px] font-jp font-normal tracking-wide text-[#94A3B8] dark:text-slate-500">
-                              {item.sub}
-                            </span>
-                            {item.locked && (
-                              <div className="flex items-center gap-1 text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800/50 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase ml-1">
-                                <Lock size={10} strokeWidth={2.5} />
-                                <span>LOCKED</span>
-                              </div>
-                            )}
-                          </div>
+                          {item.locked && (
+                            <div className="flex items-center gap-1 text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800/50 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider uppercase mt-1 w-fit">
+                              <Lock size={10} strokeWidth={2.5} />
+                              <span>LOCKED</span>
+                            </div>
+                          )}
                         </motion.div>
                       )}
                     </AnimatePresence>

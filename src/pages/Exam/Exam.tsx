@@ -26,7 +26,7 @@ export const Exam = () => {
           className="relative bg-[#FEF8F6] dark:bg-slate-900 rounded-[2.5rem] p-8 overflow-hidden border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center group opacity-75 grayscale-[0.3] cursor-not-allowed"
         >
           {/* User's Background Image */}
-          <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd113-bg.jpg')] bg-[length:100%_auto] bg-center bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd113-bg.png')] bg-[length:100%_auto] bg-center bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
 
           <div className="relative z-10 w-full h-full flex flex-col items-center">
             <div className="px-4 py-1.5 rounded-full bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 text-xs font-bold uppercase tracking-widest mb-6 font-jp">初級 I</div>
@@ -69,7 +69,7 @@ export const Exam = () => {
           onClick={() => navigate('/exam/jpd123')}
         >
           {/* User's Background Image */}
-          <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd123-bg.jpg')] bg-[length:100%_auto] bg-center bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd123-bg.png')] bg-[length:100%_auto] bg-center bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
 
           <div className="relative z-10 w-full h-full flex flex-col items-center">
             <div className="px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest mb-6 font-jp">初級 II</div>

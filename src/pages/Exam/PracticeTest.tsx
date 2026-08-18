@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, XCircle, ChevronRight, AlertCircle, RefreshCw } from 'lucide-react';
+import { Book, CheckCircle2, XCircle, ArrowRight, AlertCircle, RefreshCw, X, Trophy, Flame, Star, Lightbulb, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Sử dụng dữ liệu giả lập
@@ -24,6 +24,10 @@ export const PracticeTest = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [score, setScore] = useState(0);
+  const [combo, setCombo] = useState(0);
+  const [maxCombo, setMaxCombo] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [wrongCount, setWrongCount] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
@@ -43,7 +47,14 @@ export const PracticeTest = () => {
     if (isAnswered) return;
     setSelectedOption(index);
     if (index === currentQuestion.correctAnswer) {
-      setScore(prev => prev + 1);
+      setCorrectCount(prev => prev + 1);
+      const newCombo = combo + 1;
+      setCombo(newCombo);
+      setMaxCombo(prev => Math.max(prev, newCombo));
+      setScore(prev => prev + 10 + (newCombo > 1 ? newCombo * 2 : 0));
+    } else {
+      setWrongCount(prev => prev + 1);
+      setCombo(0);
     }
   };
 
@@ -57,30 +68,41 @@ export const PracticeTest = () => {
   };
 
   if (isFinished) {
-    const percentage = Math.round((score / questions.length) * 100);
+    const accuracy = Math.round((correctCount / questions.length) * 100) || 0;
     return (
-      <div className="max-w-3xl mx-auto pt-16 pb-20 px-4 min-h-[calc(100vh-80px)] flex flex-col items-center justify-center">
+      <div className="flex items-center justify-center w-full min-h-[calc(100vh-80px)] p-4 relative z-10">
         <motion.div 
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-10 md:p-14 shadow-2xl text-center w-full border border-emerald-100 dark:border-emerald-900/30"
+          initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }}
+          className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 w-full max-w-lg overflow-hidden flex flex-col p-8 md:p-10 text-center relative"
         >
-          <div className="w-24 h-24 mx-auto rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-500 flex items-center justify-center mb-6">
-            <CheckCircle2 size={48} />
+          <div className="w-24 h-24 mx-auto bg-amber-50 dark:bg-amber-900/30 rounded-full flex items-center justify-center mb-6">
+            <Trophy size={48} className="text-amber-500" />
           </div>
-          <h2 className="text-4xl font-black text-slate-800 dark:text-slate-100 mb-4">Hoàn thành!</h2>
-          <p className="text-xl text-slate-500 dark:text-slate-400 mb-8">Bạn đã trả lời đúng {score} / {questions.length} câu hỏi.</p>
           
-          <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-4 mb-10 overflow-hidden">
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: `${percentage}%` }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="bg-emerald-500 h-full rounded-full"
-            />
+          <h2 className="text-sm font-black text-blue-500 uppercase tracking-widest mb-1">HOÀN THÀNH BÀI LUYỆN TẬP</h2>
+          <div className="text-5xl font-black text-slate-800 dark:text-slate-100 mb-2">{score}</div>
+          <p className="text-sm font-medium text-slate-500 mb-8">{accuracy >= 80 ? 'Rất tuyệt vời! 🎉' : accuracy >= 50 ? 'Khá lắm! Cố gắng thêm nhé 👍' : 'Cần ôn tập thêm về bài này 💪'}</p>
+
+          <div className="grid grid-cols-2 gap-3 mb-8">
+            <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-2xl flex flex-col items-center">
+              <span className="text-xs font-bold text-emerald-600/70 mb-1">Số câu đúng</span>
+              <span className="text-2xl font-black text-emerald-600">{correctCount}</span>
+            </div>
+            <div className="bg-rose-50 dark:bg-rose-900/20 p-4 rounded-2xl flex flex-col items-center">
+              <span className="text-xs font-bold text-rose-600/70 mb-1">Số câu sai</span>
+              <span className="text-2xl font-black text-rose-600">{wrongCount}</span>
+            </div>
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-2xl flex flex-col items-center">
+              <span className="text-xs font-bold text-blue-600/70 mb-1">Độ chính xác</span>
+              <span className="text-2xl font-black text-blue-600">{accuracy}%</span>
+            </div>
+            <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-2xl flex flex-col items-center">
+              <span className="text-xs font-bold text-amber-600/70 mb-1">Combo Max</span>
+              <span className="text-2xl font-black text-amber-600">{maxCombo}</span>
+            </div>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-4 justify-center">
+          <div className="flex gap-3">
             <button 
               onClick={() => {
                 const shuffled = [...practiceData].sort(() => 0.5 - Math.random());
@@ -89,17 +111,21 @@ export const PracticeTest = () => {
                 setCurrentIndex(0);
                 setSelectedOption(null);
                 setScore(0);
+                setCombo(0);
+                setMaxCombo(0);
+                setCorrectCount(0);
+                setWrongCount(0);
                 setIsFinished(false);
               }}
-              className="px-8 py-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-2xl font-bold transition-colors flex items-center justify-center gap-2"
+              className="flex-1 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             >
-              <RefreshCw size={20} /> Làm lại
+              <RefreshCw size={18} /> Làm lại
             </button>
             <button 
               onClick={() => navigate(`/exam/${courseId}`)}
-              className="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold transition-colors shadow-lg shadow-emerald-500/30"
+              className="flex-1 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center justify-center gap-2 shadow-lg transition-colors"
             >
-              Về trang chủ
+              Hoàn tất
             </button>
           </div>
         </motion.div>
@@ -107,126 +133,154 @@ export const PracticeTest = () => {
     );
   }
 
+  const progress = (currentIndex / questions.length) * 100;
+
   return (
-    <div className="max-w-4xl mx-auto pt-8 pb-32 px-4 relative min-h-[calc(100vh-80px)]">
-      {/* Header / Progress */}
-      <div className="flex items-center justify-between mb-8">
-        <button 
-          onClick={() => navigate(`/exam/${courseId}/practice`)}
-          className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors"
-        >
-          <ArrowLeft size={24} />
-        </button>
-        <div className="flex-1 mx-8">
-          <div className="flex justify-between text-sm font-bold text-slate-500 mb-2">
-            <span>Câu {currentIndex + 1}</span>
-            <span>{questions.length} câu</span>
+    <div className="flex flex-col w-full min-h-[calc(100vh-80px)] max-w-4xl mx-auto px-4 py-6 md:py-8 relative z-10">
+      
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4 md:mb-6">
+        <div className="flex items-center gap-3 md:gap-4">
+          <div className="px-3.5 py-1.5 rounded-full font-bold text-xs flex items-center gap-1.5 shadow-sm border bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800 shadow-[0_0_8px_rgba(59,130,246,0.3)]">
+            <Book size={16} />
+            Trắc nghiệm
           </div>
-          <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2.5 overflow-hidden">
-            <div 
-              className="bg-emerald-500 h-full transition-all duration-300 rounded-full"
-              style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-            />
+          <div className="hidden sm:flex items-center gap-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>
+            <div className="text-sm font-black text-slate-400 dark:text-slate-500 tracking-wide uppercase">Luyện tập tổng hợp JPD123</div>
           </div>
         </div>
-        <div className="w-10"></div> {/* Spacer for balance */}
+        
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => navigate(`/exam/${courseId}/practice`)}
+            className="flex items-center gap-2 text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 transition-all px-4 py-1.5 border-x border-t border-b-[3px] border-slate-200 dark:border-slate-700 hover:border-rose-200 dark:hover:border-rose-900/50 hover:border-b-rose-300 dark:hover:border-b-rose-700 rounded-full text-sm font-bold bg-white dark:bg-slate-900 hover:bg-rose-50 dark:hover:bg-rose-900/20 active:translate-y-[2px] active:border-b active:border-slate-200 dark:active:border-slate-700 shadow-sm hover:shadow-md"
+          >
+            <X size={16} strokeWidth={2.5} /> Thoát
+          </button>
+        </div>
       </div>
 
-      {/* Question Card */}
-      <motion.div 
-        key={currentQuestion.id}
-        initial={{ x: 20, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 md:p-12 shadow-[0_20px_60px_rgb(0,0,0,0.04)] dark:shadow-[0_20px_60px_rgb(0,0,0,0.2)] border border-slate-100 dark:border-slate-800 mb-8"
-      >
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-100 mb-8 leading-relaxed">
-          {currentQuestion.question}
-        </h2>
+      {/* Progress & Stats */}
+      <div className="flex items-center justify-between mb-6 md:mb-8 bg-white dark:bg-slate-900 p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+        <div className="flex-1 flex items-center gap-3 md:gap-4 text-slate-700 dark:text-slate-300 mr-4 md:mr-8">
+          <span className="min-w-[3rem] text-center text-sm md:text-base font-black shrink-0">{currentIndex + 1}/{questions.length}</span>
+          <div className="flex-1 h-3 md:h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner relative">
+            <div 
+              className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 transition-all duration-500 ease-out shadow-[0_0_12px_rgba(59,130,246,0.6)]" 
+              style={{ width: `${progress}%` }} 
+            >
+              <div className="absolute inset-0 bg-white/20 w-full h-1/3"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-4 text-sm md:text-base font-black shrink-0">
+          <div className="flex items-center gap-1.5 text-amber-500 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded-lg"><Flame size={18} /> {combo}</div>
+          <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-lg"><Star size={18} /> {score}</div>
+        </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {currentQuestion.options.map((option, index) => {
-            let optionStateClass = "bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700 dark:bg-slate-800/50 dark:hover:bg-slate-800 dark:border-slate-700 dark:text-slate-200 cursor-pointer";
+      {/* Question Area */}
+      <div className="flex-1 flex flex-col items-center w-full max-w-3xl mx-auto">
+        <motion.div 
+          key={currentQuestion.id}
+          initial={{ x: 20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-lg border border-slate-100 dark:border-slate-800 w-full p-6 md:p-10 mb-8 text-center relative overflow-hidden flex-shrink-0"
+        >
+          <div className="text-xs font-black text-slate-400 mb-4 uppercase tracking-widest">
+            CHỌN ĐÁP ÁN ĐÚNG
+          </div>
+          <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-slate-100 leading-tight">
+            {currentQuestion.question}
+          </h2>
+        </motion.div>
+
+        {/* Options */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 w-full flex-shrink-0 mb-4">
+          {currentQuestion.options.map((opt, idx) => {
+            const isSelected = selectedOption === idx;
+            const isCorrectOption = idx === currentQuestion.correctAnswer;
             
+            let btnStyle = "";
+            let icon = null;
+
             if (isAnswered) {
-              if (index === currentQuestion.correctAnswer) {
-                // Correct option always shows green
-                optionStateClass = "bg-emerald-50 border-emerald-500 text-emerald-700 dark:bg-emerald-900/30 dark:border-emerald-500 dark:text-emerald-300";
-              } else if (index === selectedOption) {
-                // Selected but wrong option shows red
-                optionStateClass = "bg-rose-50 border-rose-500 text-rose-700 dark:bg-rose-900/30 dark:border-rose-500 dark:text-rose-300";
+              if (isCorrectOption) {
+                btnStyle = "bg-emerald-50 dark:bg-emerald-900/20 border-2 border-l-[4px] border-emerald-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px] text-emerald-700 dark:text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]";
+                icon = <Check size={20} className="text-emerald-500 shrink-0" />;
+              } else if (isSelected) {
+                btnStyle = "bg-rose-50 dark:bg-rose-900/20 border-2 border-l-[4px] border-rose-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px] text-rose-700 dark:text-rose-400 opacity-90";
+                icon = <X size={20} className="text-rose-500 shrink-0" />;
               } else {
-                // Other unselected wrong options get muted
-                optionStateClass = "bg-slate-50 border-slate-200 text-slate-400 opacity-50 dark:bg-slate-800/20 dark:border-slate-800 cursor-not-allowed";
+                btnStyle = "bg-white dark:bg-slate-800 border-2 border-l-[4px] border-slate-200 dark:border-slate-700 border-b-[6px] opacity-50";
               }
+            } else {
+              btnStyle = "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 border-l-[4px] border-l-slate-300 dark:border-l-slate-600 border-b-[6px] hover:border-blue-400 hover:border-l-blue-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 active:border-b-[2px] active:translate-y-[4px] shadow-sm";
             }
 
             return (
               <button
-                key={index}
-                onClick={() => handleSelectOption(index)}
+                key={idx}
                 disabled={isAnswered}
-                className={`relative w-full text-left p-6 rounded-2xl border-2 font-medium text-lg transition-all ${optionStateClass}`}
+                onClick={() => handleSelectOption(idx)}
+                className={`group relative w-full p-4 md:p-5 rounded-xl flex items-center gap-3 transition-all duration-200 text-left overflow-hidden ${btnStyle}`}
               >
-                <div className="flex items-center justify-between">
-                  <span>{option}</span>
-                  {isAnswered && index === currentQuestion.correctAnswer && (
-                    <CheckCircle2 className="text-emerald-500" />
-                  )}
-                  {isAnswered && index === selectedOption && index !== currentQuestion.correctAnswer && (
-                    <XCircle className="text-rose-500" />
-                  )}
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm shrink-0 transition-colors ${
+                  isAnswered && isCorrectOption 
+                    ? 'bg-emerald-500 text-white' 
+                    : isAnswered && isSelected 
+                      ? 'bg-rose-500 text-white' 
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:bg-blue-100 group-hover:text-blue-600 dark:group-hover:bg-blue-900 dark:group-hover:text-blue-400'
+                }`}>
+                  {['A', 'B', 'C', 'D'][idx]}
                 </div>
+                <span className={`text-base md:text-lg font-bold flex-1`}>
+                  {opt}
+                </span>
+                {icon}
               </button>
             );
           })}
         </div>
-      </motion.div>
 
-      {/* Explanation Section */}
-      <AnimatePresence>
-        {isAnswered && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, height: 0 }}
-            animate={{ opacity: 1, y: 0, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className={`rounded-2xl p-6 border ${isCorrect ? 'bg-emerald-50 border-emerald-100 dark:bg-emerald-900/20 dark:border-emerald-900/30' : 'bg-rose-50 border-rose-100 dark:bg-rose-900/20 dark:border-rose-900/30'}`}
-          >
-            <div className="flex gap-4">
-              <div className="mt-1">
-                <AlertCircle className={isCorrect ? "text-emerald-500" : "text-rose-500"} />
+        {/* Answer Feedback */}
+        <AnimatePresence>
+          {isAnswered && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20, height: 0 }} 
+              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className={`w-full mt-4 p-5 md:p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8 border-2 border-b-[6px] overflow-hidden ${isCorrect ? 'bg-emerald-100/50 dark:bg-emerald-900/20 border-emerald-500' : 'bg-rose-100/50 dark:bg-rose-900/20 border-rose-500'}`}
+            >
+              <div className="flex-1 text-center md:text-left">
+                <div className={`flex items-center justify-center md:justify-start gap-2 text-xl md:text-2xl font-black mb-4 ${isCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                  {isCorrect ? <><CheckCircle2 size={28} /> Tuyệt vời!</> : <><XCircle size={28} /> Rất tiếc!</>}
+                </div>
+                
+                <div className={`text-sm md:text-base p-4 rounded-xl bg-white/60 dark:bg-black/20 ${isCorrect ? 'text-emerald-900 dark:text-emerald-100' : 'text-rose-900 dark:text-rose-100'}`}>
+                  <span className="font-bold flex items-center gap-1.5 mb-2"><Lightbulb size={16} /> Giải thích: </span>
+                  <div className="leading-relaxed font-bold text-[15px] md:text-base">
+                    {currentQuestion.explanation}
+                  </div>
+                </div>
               </div>
-              <div>
-                <h3 className={`font-bold text-lg mb-2 ${isCorrect ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400'}`}>
-                  {isCorrect ? 'Tuyệt vời! Đáp án chính xác.' : 'Rất tiếc! Đáp án chưa đúng.'}
-                </h3>
-                <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {currentQuestion.explanation}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Next Button Footer */}
-      <AnimatePresence>
-        {isAnswered && (
-          <motion.div 
-            initial={{ y: 100 }}
-            animate={{ y: 0 }}
-            className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 flex justify-center z-50"
-          >
-            <div className="w-full max-w-4xl flex justify-end">
-              <button
-                onClick={handleNext}
-                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-colors shadow-lg shadow-blue-500/30 flex items-center gap-2"
+              
+              <button 
+                onClick={handleNext} 
+                className={`w-full md:w-auto px-8 py-4 rounded-xl text-white font-black text-lg flex items-center justify-center gap-2 transition-all active:translate-y-[4px] active:border-b-[2px] border-b-[6px] shadow-sm ${
+                  isCorrect 
+                    ? 'bg-emerald-500 hover:bg-emerald-400 border-emerald-600 dark:border-emerald-700' 
+                    : 'bg-rose-500 hover:bg-rose-400 border-rose-600 dark:border-rose-700'
+                }`}
               >
-                {currentIndex < questions.length - 1 ? 'Câu tiếp theo' : 'Xem kết quả'} <ChevronRight size={20} />
+                {currentIndex < questions.length - 1 ? 'TIẾP TỤC' : 'KẾT QUẢ'} <ArrowRight size={20} />
               </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
