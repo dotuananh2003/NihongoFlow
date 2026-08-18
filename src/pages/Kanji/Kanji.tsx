@@ -88,9 +88,6 @@ export const Kanji = () => {
 
   return (
     <div className="relative min-h-full overflow-hidden bg-transparent pb-20 font-sans">
-      <div className="absolute inset-0 -z-20 bg-[url('/images/backgrounds/kanji-bg.jpg')] bg-cover bg-center opacity-35 dark:opacity-20" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/90 via-white/80 to-slate-50/95 dark:from-slate-950/90 dark:via-slate-950/80 dark:to-slate-950" />
-
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <motion.header
           initial={{ opacity: 0, y: 10 }}
@@ -118,7 +115,7 @@ export const Kanji = () => {
               return (
                 <div
                   key={stat.label}
-                  className="rounded-2xl border border-white/80 bg-white/90 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.08)] backdrop-blur dark:border-slate-800 dark:bg-slate-900/80"
+                  className="rounded-2xl border border-white/70 bg-white/70 p-4 shadow-[0_12px_30px_rgba(15,23,42,0.08)] backdrop-blur dark:border-slate-800 dark:bg-slate-900/70"
                 >
                   <div className="flex items-center gap-3">
                     <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${stat.className}`}>
@@ -147,12 +144,10 @@ export const Kanji = () => {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 24, delay: 0.08 + courseIndex * 0.06 }}
-                className="overflow-hidden rounded-[2rem] border border-white/80 bg-white/90 shadow-[0_22px_70px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/90"
+                className="overflow-visible rounded-[2rem]"
               >
-                <div className={`h-1.5 ${course.accentBg}`} />
-
-                <div className="grid lg:grid-cols-[280px_1fr]">
-                  <div className={`flex flex-col justify-between gap-6 border-b border-slate-100 p-6 dark:border-slate-800 lg:border-b-0 lg:border-r ${course.accentSoft}`}>
+                <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
+                  <div className={`flex flex-col justify-between gap-6 rounded-[2rem] border border-white/55 p-6 shadow-[0_16px_46px_rgba(15,23,42,0.08)] backdrop-blur ${course.accentSoft} dark:border-slate-800/70`}>
                     <div>
                       <p className={`mb-3 text-[10px] font-black uppercase tracking-[0.22em] ${course.accentText}`}>
                         {course.subtitle}
@@ -220,13 +215,13 @@ export const Kanji = () => {
                         <button
                           key={lesson.id}
                           onClick={() => openLesson(course.id, lesson.id)}
-                          className={`group flex w-full items-center gap-4 rounded-2xl border border-slate-100 bg-white/80 p-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-950/30 ${course.lessonHover}`}
+                          className={`group flex w-full items-center gap-4 rounded-2xl border border-white/75 bg-white/70 p-4 text-left shadow-sm backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-950/30 ${course.lessonHover}`}
                         >
-                          <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border ${course.accentBorder} ${course.accentSoft} ${course.accentText}`}>
+                          <div className={`flex w-8 shrink-0 items-center justify-center ${course.accentText}`}>
                             {lessonIndex % 2 === 0 ? (
                               <span className="font-jp text-2xl font-black">漢</span>
                             ) : (
-                              <BookOpen size={22} />
+                              <BookOpen size={21} />
                             )}
                           </div>
 
