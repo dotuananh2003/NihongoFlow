@@ -17,7 +17,7 @@ export const Vocabulary = () => {
       </div>
 
       {/* CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto w-full">
 
         {/* JPD113 Card (LOCKED) */}
         <motion.div
