@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Book, CheckCircle2, XCircle, ArrowRight, AlertCircle, RefreshCw, X, Trophy, Flame, Star, Lightbulb, Check } from 'lucide-react';
+import { Book, CheckCircle2, XCircle, ArrowRight, RefreshCw, X, Trophy, Flame, Star, Lightbulb, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Sử dụng dữ liệu giả lập

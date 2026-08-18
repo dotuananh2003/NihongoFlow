@@ -1,6 +1,8 @@
 import { grammarCourses } from '../src/data/grammarData';
+import type { GrammarExample } from '../src/data/grammarData';
 import { vocabularyData, extraVocab } from '../src/data/vocabularyData';
 import { generateBlanks } from '../src/utils/questionUtils';
+import type { BlankTarget } from '../src/utils/questionUtils';
 import assert from 'node:assert';
 
 const PARTICLES = ['は', 'が', 'を', 'に', 'で', 'へ', 'と', 'や', 'か', 'も'];
@@ -10,7 +12,7 @@ let successCount = 0;
 let failCount = 0;
 
 // Collect 100 examples randomly
-const allExamples: any[] = [];
+const allExamples: GrammarExample[] = [];
 for (const course of grammarCourses) {
   for (const lesson of course.lessons) {
     for (const gp of lesson.grammarPoints) {
@@ -30,7 +32,7 @@ const testCases = allExamples.slice(0, 100);
 for (let i = 0; i < testCases.length; i++) {
   const ex = testCases[i];
   
-  const candidates = [];
+  const candidates: BlankTarget[] = [];
   
   // Build candidates exactly like in GrammarExercise.tsx
   vocabList.forEach(v => {
@@ -56,7 +58,7 @@ for (let i = 0; i < testCases.length; i++) {
       continue;
     }
 
-    const { questionText, correctAnswer, selectedTargets } = result;
+    const { questionText, selectedTargets } = result;
 
     // 1. Check no duplicate words
     // If original sentence was A, and we replace B with C, it shouldn't produce B.

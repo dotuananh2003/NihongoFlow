@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, X, Trophy, Flame, Star, Check, ArrowRight, RotateCcw, PenTool, Type, HelpCircle, Lightbulb, Keyboard, CheckCircle2, XCircle, BookOpen } from 'lucide-react';
 import { toHiragana, toKatakana, toRomaji } from 'wanakana';
-import type { GrammarExample, GrammarPoint } from '../../data/grammarData';
+import type { GrammarExample, GrammarPoint, GrammarSortBlock } from '../../data/grammarData';
 import type { VocabItem } from '../../data/vocabularyData';
 import { vocabularyData, extraVocab } from '../../data/vocabularyData';
 import { generateBlanks } from '../../utils/questionUtils';
@@ -28,6 +28,7 @@ interface Question {
   options?: string[]; // Only for Type 1 & 2
   hint?: string;
   readingWithBlanks?: string;
+  sortBlocks?: GrammarSortBlock[];
 }
 
 // Helper to shuffle array
@@ -77,7 +78,7 @@ const normalizeForTyping = (str: string): string => {
 
 export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, vocabList, lessonName, onClose }) => {
   const [screen, setScreen] = useState<ScreenState>('setup');
-  const [selectedTypes, setSelectedTypes] = useState<ExerciseType[]>(['type1', 'type2', 'type3', 'type4']);
+  const [selectedTypes, setSelectedTypes] = useState<ExerciseType[]>(['type1', 'type2', 'type3']);
   const [questionCount, setQuestionCount] = useState<number>(Math.min(10, grammarPoint.examples.length));
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isVocabOpen, setIsVocabOpen] = useState(false);
@@ -113,7 +114,6 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   // Typing state
   const [textInput, setTextInput] = useState('');
   const [imeMode, setImeMode] = useState<'hira' | 'kata'>('hira');
-  const [isVietnameseTyping, setIsVietnameseTyping] = useState(false);
 
   // Dynamic Vocab Filtering
   const currentVocabs = React.useMemo(() => {
@@ -172,8 +172,8 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   }, [questions, currentIdx, vocabList]);
   
   const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedSortBlocks, setSelectedSortBlocks] = useState<{ id: string; text: string }[]>([]);
-  const [availableSortBlocks, setAvailableSortBlocks] = useState<{ id: string; text: string }[]>([]);
+  const [selectedSortBlocks, setSelectedSortBlocks] = useState<GrammarSortBlock[]>([]);
+  const [availableSortBlocks, setAvailableSortBlocks] = useState<GrammarSortBlock[]>([]);
   const [isCurrentAnswerCorrect, setIsCurrentAnswerCorrect] = useState(false);
 
   // Focus input automatically for Type 3
@@ -182,6 +182,18 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
       inputRef.current?.focus();
     }
   }, [currentIdx, screen, isAnswered, questions]);
+
+  useEffect(() => {
+    const currentQuestion = questions[currentIdx];
+    if (screen === 'playing' && currentQuestion?.type === 'type4') {
+      setSelectedSortBlocks([]);
+      setAvailableSortBlocks(shuffle((currentQuestion.sortBlocks ?? []).map(block => ({ ...block }))));
+      return;
+    }
+
+    setSelectedSortBlocks([]);
+    setAvailableSortBlocks([]);
+  }, [currentIdx, questions, screen]);
 
   const toggleType = (type: ExerciseType) => {
     setSelectedTypes(prev => {
@@ -270,7 +282,6 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
         
         const options = [blankResult.correctAnswer];
         let attempts = 0;
-        const distractorPool = [...vocabList.map(v => v.kanji || v.hiragana), ...PARTICLES];
         
         while (options.length < 4 && attempts < 30) {
           attempts++;
@@ -461,138 +472,223 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
   };
 
   // --- RENDERERS ---
-  const renderSetup = () => (
-    <div className="flex flex-col items-center justify-center w-full min-h-full p-4 relative z-10">
-      <div className="w-full max-w-4xl flex mb-4">
-        <button onClick={onClose} className="flex items-center gap-2 text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 font-bold text-sm transition-colors">
-          <ChevronLeft size={20} /> Quay lại
-        </button>
-      </div>
-      
-      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 w-full max-w-4xl flex flex-col md:flex-row">
-        {/* Left Side */}
-        <div className="w-full md:w-2/3 p-6 flex flex-col gap-6">
-          <div>
-            <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-3 uppercase tracking-wider">1. CHỌN DẠNG BÀI TẬP</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <button onClick={() => toggleType('type1')} className={`relative p-3 rounded-2xl border-2 text-left transition-all ${selectedTypes.includes('type1') ? `border-blue-500 bg-blue-50 dark:bg-blue-900/20` : 'border-slate-200 dark:border-slate-700 hover:border-blue-300'}`}>
-                {selectedTypes.includes('type1') && <div className="absolute -top-2 -right-2 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center text-white"><Check size={12} /></div>}
-                <div className="flex items-center justify-center mb-2 text-blue-500 bg-white dark:bg-slate-800 w-10 h-10 rounded-full shadow-sm"><HelpCircle size={20} /></div>
-                <div className="font-bold text-blue-600 dark:text-blue-400 mb-1 text-sm">Trắc nghiệm</div>
-                <div className="text-[10px] text-slate-500 leading-tight">Chọn nghĩa đúng<br/>(ABCD)</div>
-              </button>
-              
-              <button onClick={() => toggleType('type2')} className={`relative p-3 rounded-2xl border-2 text-left transition-all ${selectedTypes.includes('type2') ? `border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20` : 'border-slate-200 dark:border-slate-700 hover:border-emerald-300'}`}>
-                {selectedTypes.includes('type2') && <div className="absolute -top-2 -right-2 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center text-white"><Check size={12} /></div>}
-                <div className="flex items-center justify-center mb-2 text-emerald-500 bg-white dark:bg-slate-800 w-10 h-10 rounded-full shadow-sm"><Type size={20} /></div>
-                <div className="font-bold text-emerald-600 dark:text-emerald-400 mb-1 text-sm">Đục lỗ</div>
-                <div className="text-[10px] text-slate-500 leading-tight">Điền trợ từ/từ khóa<br/>vào chỗ trống</div>
-              </button>
+  const renderSetup = () => {
+    const exerciseCards = [
+      {
+        type: 'type1' as ExerciseType,
+        title: 'Trắc nghiệm',
+        desc: 'Chọn nghĩa đúng',
+        note: 'ABCD',
+        icon: <HelpCircle size={20} />,
+        active: 'border-blue-500 bg-blue-50 text-blue-700 shadow-[0_12px_28px_rgba(37,99,235,0.16)] dark:bg-blue-950/30 dark:text-blue-300',
+        idle: 'border-blue-100 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-blue-700',
+        iconClass: 'bg-blue-600 text-white',
+        checkClass: 'bg-blue-500',
+      },
+      {
+        type: 'type2' as ExerciseType,
+        title: 'Đục lỗ',
+        desc: 'Điền phần còn thiếu',
+        note: 'Từ khóa',
+        icon: <Type size={20} />,
+        active: 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-[0_12px_28px_rgba(5,150,105,0.16)] dark:bg-emerald-950/30 dark:text-emerald-300',
+        idle: 'border-emerald-100 bg-white text-slate-700 hover:border-emerald-300 hover:bg-emerald-50/60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-emerald-700',
+        iconClass: 'bg-emerald-600 text-white',
+        checkClass: 'bg-emerald-500',
+      },
+      {
+        type: 'type3' as ExerciseType,
+        title: 'Tự luận',
+        desc: 'Gõ câu trả lời',
+        note: 'Bàn phím',
+        icon: <PenTool size={20} />,
+        active: 'border-fuchsia-500 bg-fuchsia-50 text-fuchsia-700 shadow-[0_12px_28px_rgba(192,38,211,0.16)] dark:bg-fuchsia-950/30 dark:text-fuchsia-300',
+        idle: 'border-fuchsia-100 bg-white text-slate-700 hover:border-fuchsia-300 hover:bg-fuchsia-50/60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-fuchsia-700',
+        iconClass: 'bg-fuchsia-600 text-white',
+        checkClass: 'bg-fuchsia-500',
+      },
+    ];
 
-              <button onClick={() => toggleType('type3')} className={`relative p-3 rounded-2xl border-2 text-left transition-all ${selectedTypes.includes('type3') ? `border-purple-500 bg-purple-50 dark:bg-purple-900/20` : 'border-slate-200 dark:border-slate-700 hover:border-purple-300'}`}>
-                {selectedTypes.includes('type3') && <div className="absolute -top-2 -right-2 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center text-white"><Check size={12} /></div>}
-                <div className="flex items-center justify-center mb-2 text-purple-500 bg-white dark:bg-slate-800 w-10 h-10 rounded-full shadow-sm"><PenTool size={20} /></div>
-                <div className="font-bold text-purple-600 dark:text-purple-400 mb-1 text-sm">Tự luận</div>
-                <div className="text-[10px] text-slate-500 leading-tight">Gõ dịch câu<br/>bằng phím</div>
-              </button>
-            </div>
-          </div>
+    const selectedVisibleCount = exerciseCards.filter(card => selectedTypes.includes(card.type)).length;
 
-          <div>
-            <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-3 uppercase tracking-wider">2. SỐ LƯỢNG CÂU HỎI</h3>
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className={`w-full p-3.5 pr-4 flex items-center justify-between rounded-xl border-2 transition-all ${
-                  isDropdownOpen
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 shadow-[0_0_0_4px_rgba(59,130,246,0.1)]'
-                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600 shadow-sm'
-                } font-bold outline-none`}
-              >
-                <span>{questionCount} câu {questionCount === grammarPoint.examples.length ? '(Tối đa số ví dụ)' : ''}</span>
-                <motion.div animate={{ rotate: isDropdownOpen ? 180 : 0 }} className="text-slate-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                </motion.div>
-              </button>
-
-              <AnimatePresence>
-                {isDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                    transition={{ duration: 0.15, ease: "easeOut" }}
-                    className="absolute top-[calc(100%+8px)] left-0 right-0 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden z-50 origin-top"
-                  >
-                    <div className="max-h-64 overflow-y-auto py-1">
-                      {Array.from(new Set([...[5, 10, 20, 40, 50, 60, 70, 80, 90, 100], grammarPoint.examples.length]))
-                        .sort((a, b) => a - b)
-                        .map(num => {
-                          const isDisabled = num > grammarPoint.examples.length;
-                          const isSelected = num === questionCount;
-                          return (
-                            <button
-                              key={num}
-                              disabled={isDisabled}
-                              onClick={() => {
-                                setQuestionCount(num);
-                                setIsDropdownOpen(false);
-                              }}
-                              className={`w-full text-left px-4 py-3 text-sm font-bold transition-all flex items-center justify-between ${
-                                isDisabled
-                                  ? 'opacity-40 cursor-not-allowed bg-slate-50 dark:bg-slate-900/50 text-slate-400'
-                                  : isSelected
-                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                                    : 'hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-200'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2">
-                                <span className="w-16">{num} câu</span>
-                                {isSelected && <Check size={16} className="text-blue-500" />}
-                              </div>
-                              {num === grammarPoint.examples.length && (
-                                <span className={`text-[10px] px-2 py-0.5 rounded-md ${isDisabled ? 'bg-slate-200 text-slate-500 dark:bg-slate-700' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200/50'}`}>
-                                  Mức tối đa
-                                </span>
-                              )}
-                            </button>
-                          );
-                        })}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-          
-          <button onClick={generateQuestions} className={`w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold text-base shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 mt-auto`}>
-            <Trophy size={18} /> BẮT ĐẦU LUYỆN TẬP
+    return (
+      <div className="flex flex-col items-center justify-center w-full min-h-full p-4 relative z-10">
+        <div className="w-full max-w-4xl flex mb-4">
+          <button onClick={onClose} className="group flex items-center gap-2 text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 font-bold text-sm transition-colors">
+            <span className="grid h-7 w-7 place-items-center rounded-full border border-slate-200 bg-white shadow-sm transition-all group-hover:border-blue-200 group-hover:bg-blue-50 dark:border-slate-700 dark:bg-slate-900 dark:group-hover:bg-blue-950/30">
+              <ChevronLeft size={17} />
+            </span>
+            Quay lại
           </button>
         </div>
-
-        {/* Right Side */}
-        <div className="w-full md:w-1/3 bg-slate-50 dark:bg-slate-800/50 p-6 flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-100 dark:border-slate-800 relative overflow-hidden rounded-b-[23px] md:rounded-none md:rounded-r-[23px]">
-          {/* Deco */}
-          <div className="absolute -right-10 -bottom-10 text-[120px] opacity-5 pointer-events-none font-jp font-black">{grammarPoint.icon || '文'}</div>
-          
-          <div className="relative z-10">
-            <h2 className="text-lg font-black text-slate-800 dark:text-slate-100 leading-tight mb-4">BÀI TẬP NGỮ PHÁP</h2>
-            
-            <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm mb-4">
-              <div className="text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Cấu trúc đang học</div>
-              <div className="text-xl font-black text-blue-600 dark:text-blue-400 font-jp mb-1">{grammarPoint.title}</div>
-              <div className="text-xs font-medium text-slate-600 dark:text-slate-300">{grammarPoint.meaning}</div>
+        
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 w-full max-w-4xl flex flex-col md:flex-row overflow-hidden">
+          <div className="w-full md:w-2/3 p-6 flex flex-col gap-6">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <div className="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em]">Thiết lập</div>
+                <h3 className="text-base font-black text-slate-900 dark:text-slate-100">Chọn dạng bài tập</h3>
+              </div>
+              <div className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-black text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                {selectedVisibleCount}/3
+              </div>
             </div>
 
-            <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed bg-blue-50/50 dark:bg-blue-900/20 p-3 rounded-xl border border-blue-100/50 dark:border-blue-900/30">
-              <span className="font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5 mb-1"><Lightbulb size={14}/> Gợi ý:</span>
-              Hệ thống sẽ lấy các câu ví dụ từ cấu trúc này và từ vựng của <b>{lessonName}</b> để tạo câu hỏi động.
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {exerciseCards.map(card => {
+                const isSelected = selectedTypes.includes(card.type);
+                return (
+                  <button
+                    key={card.type}
+                    onClick={() => toggleType(card.type)}
+                    className={`relative p-3 rounded-2xl border-2 text-left transition-all overflow-hidden ${isSelected ? card.active : card.idle}`}
+                  >
+                    <div className="absolute left-0 top-0 h-full w-1 bg-current opacity-80" />
+                    {isSelected && (
+                      <div className={`absolute -top-2 -right-2 w-5 h-5 ${card.checkClass} rounded-full flex items-center justify-center text-white shadow-md`}>
+                        <Check size={12} />
+                      </div>
+                    )}
+                    <div className="flex items-center gap-3">
+                      <div className={`flex items-center justify-center shrink-0 ${card.iconClass} w-10 h-10 rounded-xl shadow-sm`}>
+                        {card.icon}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-black mb-0.5 text-sm">{card.title}</div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">{card.desc}</div>
+                      </div>
+                    </div>
+                    <div className="mt-3 inline-flex rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-black text-slate-500 ring-1 ring-slate-200 dark:bg-slate-950/40 dark:text-slate-300 dark:ring-slate-700">
+                      {card.note}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-xs font-black text-slate-800 dark:text-slate-200 uppercase tracking-wider">Số lượng câu hỏi</h3>
+                <span className="text-[10px] font-bold text-slate-400">{grammarPoint.examples.length} ví dụ</span>
+              </div>
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className={`w-full p-3.5 pr-4 flex items-center justify-between rounded-xl border-2 transition-all ${
+                    isDropdownOpen
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 shadow-[0_0_0_4px_rgba(59,130,246,0.1)]'
+                      : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600 shadow-sm'
+                  } font-bold outline-none`}
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="grid h-8 w-8 place-items-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-950/40 dark:text-amber-300">
+                      <Keyboard size={16} />
+                    </span>
+                    {questionCount} câu {questionCount === grammarPoint.examples.length ? '(Tối đa số ví dụ)' : ''}
+                  </span>
+                  <motion.div animate={{ rotate: isDropdownOpen ? 180 : 0 }} className="text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                  </motion.div>
+                </button>
+
+                <AnimatePresence>
+                  {isDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                      transition={{ duration: 0.15, ease: "easeOut" }}
+                      className="absolute top-[calc(100%+8px)] left-0 right-0 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden z-50 origin-top"
+                    >
+                      <div className="max-h-64 overflow-y-auto py-1">
+                        {Array.from(new Set([...[5, 10, 20, 40, 50, 60, 70, 80, 90, 100], grammarPoint.examples.length]))
+                          .sort((a, b) => a - b)
+                          .map(num => {
+                            const isDisabled = num > grammarPoint.examples.length;
+                            const isSelected = num === questionCount;
+                            return (
+                              <button
+                                key={num}
+                                disabled={isDisabled}
+                                onClick={() => {
+                                  setQuestionCount(num);
+                                  setIsDropdownOpen(false);
+                                }}
+                                className={`w-full text-left px-4 py-3 text-sm font-bold transition-all flex items-center justify-between ${
+                                  isDisabled
+                                    ? 'opacity-40 cursor-not-allowed bg-slate-50 dark:bg-slate-900/50 text-slate-400'
+                                    : isSelected
+                                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                                      : 'hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-200'
+                                }`}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span className="w-16">{num} câu</span>
+                                  {isSelected && <Check size={16} className="text-blue-500" />}
+                                </div>
+                                {num === grammarPoint.examples.length && (
+                                  <span className={`text-[10px] px-2 py-0.5 rounded-md ${isDisabled ? 'bg-slate-200 text-slate-500 dark:bg-slate-700' : 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200/50'}`}>
+                                    Mức tối đa
+                                  </span>
+                                )}
+                              </button>
+                            );
+                          })}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+            
+            <button onClick={generateQuestions} className="w-full py-3.5 bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500 hover:from-blue-700 hover:via-cyan-600 hover:to-emerald-600 text-white rounded-2xl font-black text-base shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 mt-auto">
+              <Trophy size={18} /> BẮT ĐẦU LUYỆN TẬP
+            </button>
+          </div>
+
+          <div className="w-full md:w-1/3 bg-slate-50 dark:bg-slate-800/50 p-6 flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-100 dark:border-slate-800 relative overflow-hidden rounded-b-[23px] md:rounded-none md:rounded-r-[23px]">
+            <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-blue-500 via-emerald-400 to-amber-400" />
+            <div className="absolute -right-10 -bottom-10 text-[120px] opacity-5 pointer-events-none font-jp font-black">{grammarPoint.icon || '文'}</div>
+            
+            <div className="relative z-10 space-y-4">
+              <div>
+                <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-blue-700 dark:bg-blue-950/40 dark:text-blue-300">
+                  <BookOpen size={12} /> Grammar drill
+                </div>
+                <h2 className="mt-3 text-lg font-black text-slate-800 dark:text-slate-100 leading-tight">BÀI TẬP NGỮ PHÁP</h2>
+              </div>
+              
+              <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm">
+                <div className="text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider">Cấu trúc đang học</div>
+                <div className="text-xl font-black text-blue-600 dark:text-blue-400 font-jp mb-1">{grammarPoint.title}</div>
+                <div className="text-xs font-semibold text-slate-600 dark:text-slate-300">{grammarPoint.meaning}</div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                <div className="rounded-xl bg-white p-2 text-center ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-700">
+                  <div className="text-[10px] font-bold text-slate-400">JLPT</div>
+                  <div className="text-sm font-black text-blue-600 dark:text-blue-300">{grammarPoint.jlpt}</div>
+                </div>
+                <div className="rounded-xl bg-white p-2 text-center ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-700">
+                  <div className="text-[10px] font-bold text-slate-400">Mức</div>
+                  <div className="text-sm font-black text-emerald-600 dark:text-emerald-300">{grammarPoint.difficulty}</div>
+                </div>
+                <div className="rounded-xl bg-white p-2 text-center ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-700">
+                  <div className="text-[10px] font-bold text-slate-400">Mẫu</div>
+                  <div className="text-sm font-black text-amber-600 dark:text-amber-300">{grammarPoint.examples.length}</div>
+                </div>
+              </div>
+
+              <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed bg-white/80 dark:bg-slate-900/70 p-3 rounded-xl border border-blue-100/70 dark:border-slate-700">
+                <span className="font-black text-blue-600 dark:text-blue-400 flex items-center gap-1.5 mb-1"><Lightbulb size={14}/> Gợi ý:</span>
+                Dùng ví dụ của cấu trúc này và từ vựng của <b>{lessonName}</b> để tạo câu hỏi luyện tập.
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderPlaying = () => {
     const q = questions[currentIdx];
@@ -767,7 +863,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
                     if (isAnswered || selectedSortBlocks.length !== q.sortBlocks?.length) return;
                     setIsAnswered(true);
                     const userAnswer = selectedSortBlocks.map(b => b.text).join('');
-                    const normalizeNumber = (str) => str.replace(/[０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0));
+                    const normalizeNumber = (str: string) => str.replace(/[０-９]/g, (s: string) => String.fromCharCode(s.charCodeAt(0) - 0xfee0));
                     const isCorrect = normalizeNumber(userAnswer) === normalizeNumber(q.correctAnswer);
                     setIsCurrentAnswerCorrect(isCorrect);
                     if (isCorrect) {

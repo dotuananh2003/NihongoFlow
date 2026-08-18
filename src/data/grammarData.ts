@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { grammarLesson7JPD123 } from './grammarDataJPD123Lesson7';
 
 export interface RelatedGrammar {
@@ -11,6 +12,12 @@ export interface GrammarExample {
   reading?: string;
   romaji?: string;
   vietnamese: string;
+  sortBlocks?: GrammarSortBlock[];
+}
+
+export interface GrammarSortBlock {
+  id: string;
+  text: string;
 }
 
 export interface QASection {
@@ -34,7 +41,7 @@ export interface GrammarPoint {
   iconBg?: string;
   iconColor?: string;
   barColor?: string;
-  structure?: React.ReactNode | string;
+  structure?: ReactNode | string;
   structureDetails?: string;
   explanationTitle?: string;
   explanationDetails?: string;
@@ -956,70 +963,6 @@ export const grammarCourses: GrammarCourse[] = [
           },
           {
             id: 'g28',
-        qa: [
-          {
-            "questionFormat": "なん で 行きますか",
-            "answerFormat": "N(Phương tiện) で 行きます",
-            "identifier": "なんで (Bằng gì)",
-            "tip": "Hỏi về phương tiện di chuyển thuần túy.",
-            "examples": [
-              {
-                "japanese": "何で会社へ行きますか。\n電車で行きます。",
-                "reading": "なんでかいしゃへいきますか。\nでんしゃでいきます。",
-                "romaji": "nan de kaisha he ikimasu ka.\ndensha de ikimasu.",
-                "vietnamese": "Bạn đi đến công ty bằng gì?\nTôi đi bằng tàu điện."
-              },
-              {
-                "japanese": "毎日バスで学校へ行きますか。\nはい、そうです。",
-                "reading": "まいにちバスでがっこうへいきますか。\nはい、そうです。",
-                "romaji": "mainichi basu de gakkou he ikimasu ka.\nhai, sou desu.",
-                "vietnamese": "Mỗi ngày bạn đi học bằng xe buýt phải không?\nVâng, đúng vậy."
-              }
-            ]
-          },
-          {
-            "questionFormat": "どこ へ 行きますか",
-            "answerFormat": "N(Địa điểm) へ 行きます",
-            "identifier": "どこ (Đi đâu)",
-            "tip": "Hỏi về địa điểm đến.",
-            "examples": [
-              {
-                "japanese": "明日、どこへ行きますか。\n京都へ行きます。",
-                "reading": "あした、どこへいきますか。\nきょうとへいきます。",
-                "romaji": "ashita, doko he ikimasu ka.\nkyouto he ikimasu.",
-                "vietnamese": "Ngày mai bạn đi đâu vậy?\nTôi đi Kyoto."
-              }
-            ]
-          },
-          {
-            "questionFormat": "だれ と 行きますか",
-            "answerFormat": "N(Người) と 行きます",
-            "identifier": "だれと (Với ai)",
-            "tip": "Hỏi về người đồng hành.",
-            "examples": [
-              {
-                "japanese": "誰と映画を見に行きますか。\n友達と行きます。",
-                "reading": "だれとえいがをみにいきますか。\nともだちといきます。",
-                "romaji": "dare to eiga o mi ni ikimasu ka.\ntomodachi to ikimasu.",
-                "vietnamese": "Bạn đi xem phim với ai vậy?\nTôi đi với bạn."
-              }
-            ]
-          },
-          {
-            "questionFormat": "いつ 行きますか",
-            "answerFormat": "N(Thời gian) に 行きます",
-            "identifier": "いつ (Khi nào)",
-            "tip": "Hỏi về thời điểm thực hiện hành động di chuyển.",
-            "examples": [
-              {
-                "japanese": "いつ日本へ行きますか。\n来年の3月に行きます。",
-                "reading": "いつにほんへいきますか。\nらいねんの3がつにいきます。",
-                "romaji": "itsu nihon he ikimasu ka.\nrainen no sangatsu ni ikimasu.",
-                "vietnamese": "Khi nào bạn đi Nhật?\nTôi sẽ đi vào tháng 3 năm sau."
-              }
-            ]
-          }
-        ],
         qa: [
           {
             "questionFormat": "どこ へ 行きますか",

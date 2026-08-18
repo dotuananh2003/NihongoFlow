@@ -123,3 +123,8 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Override body background on pages with full-screen background images */
+body.bg-image-page {
+  background-color: transparent !important;
+}

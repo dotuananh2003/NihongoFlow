@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, ArrowRight, FileText, Lock, Target } from 'lucide-react';
+import { ArrowRight, FileText, Lock, Target } from 'lucide-react';
 
 export const Exam = () => {
   const navigate = useNavigate();
