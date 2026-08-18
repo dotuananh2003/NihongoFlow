@@ -1,102 +1,127 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, ArrowRight, BookMarked } from 'lucide-react';
+import { ArrowRight, BookMarked, BookOpen, Sparkles } from 'lucide-react';
+
+const courseCards = [
+  {
+    id: 'jpd113',
+    route: '/vocabulary/jpd113',
+    badge: '初級 I',
+    code: 'JPD113',
+    title: 'TIẾNG NHẬT SƠ CẤP 1',
+    lessons: 10,
+    words: 334,
+    kana: '語',
+    bgImage: "/images/backgrounds/jpd113-bg.png",
+    card: 'border-rose-100/80 dark:border-rose-500/20 hover:border-rose-300 dark:hover:border-rose-500/40 hover:shadow-[0_24px_52px_rgba(244,63,94,0.18)]',
+    text: 'text-rose-500 dark:text-rose-400',
+    badgeClass: 'bg-rose-100 text-rose-600 dark:bg-rose-500/15 dark:text-rose-300',
+    icon: 'bg-rose-50 text-rose-500 ring-rose-100 dark:bg-rose-500/10 dark:text-rose-300 dark:ring-rose-500/20',
+    button: 'from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-rose-500/30',
+    accent: 'from-rose-500 via-pink-400 to-amber-300',
+    soft: 'bg-rose-50/80 text-rose-600 ring-rose-100 dark:bg-rose-500/10 dark:text-rose-300 dark:ring-rose-500/20',
+  },
+  {
+    id: 'jpd123',
+    route: '/vocabulary/jpd123',
+    badge: '初級 II',
+    code: 'JPD123',
+    title: 'TIẾNG NHẬT SƠ CẤP 2',
+    lessons: 12,
+    words: 251,
+    kana: '彙',
+    bgImage: "/images/backgrounds/jpd123-bg.png",
+    card: 'border-blue-100/80 dark:border-blue-500/20 hover:border-blue-300 dark:hover:border-blue-500/40 hover:shadow-[0_24px_52px_rgba(37,99,235,0.18)]',
+    text: 'text-blue-600 dark:text-blue-400',
+    badgeClass: 'bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300',
+    icon: 'bg-blue-50 text-blue-600 ring-blue-100 dark:bg-blue-500/10 dark:text-blue-300 dark:ring-blue-500/20',
+    button: 'from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 shadow-blue-500/30',
+    accent: 'from-blue-600 via-sky-400 to-cyan-300',
+    soft: 'bg-blue-50/80 text-blue-600 ring-blue-100 dark:bg-blue-500/10 dark:text-blue-300 dark:ring-blue-500/20',
+  },
+];
 
 export const Vocabulary = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-6 pb-4 max-w-5xl mx-auto">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-6 pb-6 max-w-5xl mx-auto">
 
-      {/* HEADER */}
-      <div className="mb-6 shrink-0 text-center">
-        <h1 className="text-3xl md:text-4xl font-black text-slate-800 dark:text-slate-100 uppercase tracking-wider flex flex-row items-center justify-center gap-3">
-          TỪ VỰNG <span className="text-blue-600 dark:text-blue-400 font-jp text-4xl">語彙</span>
+      <div className="mb-7 shrink-0 text-center">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-blue-600 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-blue-300">
+          <Sparkles size={14} /> JPD Vocabulary
+        </div>
+        <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-slate-100 uppercase tracking-wider flex flex-row items-center justify-center gap-3">
+          TỪ VỰNG <span className="font-jp text-blue-600 dark:text-blue-400">語彙</span>
         </h1>
-        <p className="text-slate-500 font-medium mt-1 text-sm">Học từ vựng theo giáo trình JPD</p>
+        <p className="text-slate-600 dark:text-slate-400 font-semibold mt-2 text-sm">Học từ vựng theo giáo trình JPD</p>
       </div>
 
-      {/* CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto w-full">
-
-        {/* JPD113 Card */}
-        <motion.div
-          whileHover={{ y: -6, scale: 1.015 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="relative bg-[#FEF8F6] dark:bg-slate-900 rounded-[2rem] p-6 shadow-[0_20px_60px_rgb(0,0,0,0.06)] dark:shadow-[0_20px_60px_rgb(0,0,0,0.3)] overflow-hidden border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center group cursor-pointer"
-          onClick={() => navigate('/vocabulary/jpd113')}
-        >
-          <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd113-bg.png')] bg-[length:100%_auto] bg-top bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
-
-          <div className="relative z-10 w-full h-full flex flex-col items-center">
-            <div className="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 text-xs font-bold uppercase tracking-widest mb-4 font-jp">初級 I</div>
-            <h2 className="text-4xl font-black text-rose-500 dark:text-rose-400 tracking-tight mb-1">JPD113</h2>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-8">TIẾNG NHẬT SƠ CẤP 1</p>
-
-            <div className="flex items-center gap-6 mb-6 w-full justify-center">
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-900/20 text-rose-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <BookOpen size={20} />
-                </div>
-                <div className="text-xl font-black text-slate-800 dark:text-slate-100">10</div>
-                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">LESSONS</div>
-              </div>
-              <div className="w-px h-12 bg-slate-100 dark:bg-slate-800" />
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-900/20 text-rose-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <BookMarked size={20} />
-                </div>
-                <div className="text-xl font-black text-slate-800 dark:text-slate-100">334</div>
-                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">TỪ VỰNG</div>
-              </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full">
+        {courseCards.map((course) => (
+          <motion.button
+            key={course.id}
+            type="button"
+            whileHover={{ y: -6, scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ type: "spring", stiffness: 300, damping: 22 }}
+            className={`relative min-h-[360px] bg-white dark:bg-slate-900 rounded-[2rem] p-5 shadow-[0_22px_54px_rgba(15,23,42,0.12)] dark:shadow-[0_22px_54px_rgba(0,0,0,0.35)] overflow-hidden border flex flex-col text-left group cursor-pointer ${course.card}`}
+            onClick={() => navigate(course.route)}
+          >
+            <div
+              className="absolute inset-0 bg-[length:100%_auto] bg-top bg-no-repeat opacity-100 transition-transform duration-700 group-hover:scale-105 pointer-events-none dark:opacity-90"
+              style={{ backgroundImage: `url('${course.bgImage}')` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-white/25 via-white/18 to-white/72 dark:from-slate-950/20 dark:via-slate-950/30 dark:to-slate-950/78 pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/88 to-transparent dark:from-slate-950/90 pointer-events-none" />
+            <div className={`absolute inset-x-0 top-0 h-2 bg-gradient-to-r ${course.accent}`} />
+            <div className={`absolute -right-5 -bottom-8 font-jp text-[8rem] font-black ${course.text} opacity-[0.08] transition-transform duration-700 group-hover:scale-110`}>
+              {course.kana}
             </div>
 
-            <button className="w-full mt-6 relative bg-rose-500 hover:bg-rose-600 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(244,63,94,0.3)] transition-all flex items-center justify-center">
-              <span>Bắt đầu học</span>
-              <ArrowRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        </motion.div>
-
-        {/* JPD123 Card */}
-        <motion.div
-          whileHover={{ y: -6, scale: 1.015 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="relative bg-[#FBFCFD] dark:bg-slate-900 rounded-[2rem] p-6 shadow-[0_20px_60px_rgb(0,0,0,0.06)] dark:shadow-[0_20px_60px_rgb(0,0,0,0.3)] overflow-hidden border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center group cursor-pointer"
-          onClick={() => navigate('/vocabulary/jpd123')}
-        >
-          <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd123-bg.png')] bg-[length:100%_auto] bg-top bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
-
-          <div className="relative z-10 w-full h-full flex flex-col items-center">
-            <div className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest mb-4 font-jp">初級 II</div>
-            <h2 className="text-4xl font-black text-blue-600 dark:text-blue-400 tracking-tight mb-1">JPD123</h2>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-8">TIẾNG NHẬT SƠ CẤP 2</p>
-
-            <div className="flex items-center gap-6 mb-6 w-full justify-center">
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <BookOpen size={20} />
+            <div className="relative z-10 flex h-full flex-col">
+              <div className="flex items-start justify-between gap-4">
+                <div className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest font-jp ${course.badgeClass}`}>{course.badge}</div>
+                <div className={`grid h-10 w-10 place-items-center rounded-xl ring-1 ${course.icon}`}>
+                  <BookMarked size={19} />
                 </div>
-                <div className="text-xl font-black text-slate-800 dark:text-slate-100">12</div>
-                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">LESSONS</div>
               </div>
-              <div className="w-px h-12 bg-slate-100 dark:bg-slate-800" />
-              <div className="flex flex-col items-center gap-1">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <BookMarked size={20} />
+
+              <div className="mt-8 text-center">
+                <h2 className={`text-4xl md:text-5xl font-black tracking-tight ${course.text}`}>{course.code}</h2>
+                <p className="mt-2 text-slate-600 dark:text-slate-300 font-black uppercase tracking-[0.22em] text-xs">{course.title}</p>
+              </div>
+
+              <div className="my-8 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl bg-white/80 dark:bg-slate-950/40 p-3 text-center ring-1 ring-slate-200/70 dark:ring-slate-700/70">
+                  <div className={`mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-xl ring-1 ${course.icon}`}>
+                    <BookOpen size={18} />
+                  </div>
+                  <div className="text-2xl font-black text-slate-900 dark:text-slate-100">{course.lessons}</div>
+                  <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Lessons</div>
                 </div>
-                <div className="text-xl font-black text-slate-800 dark:text-slate-100">251</div>
-                <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">TỪ VỰNG</div>
+                <div className="rounded-2xl bg-white/80 dark:bg-slate-950/40 p-3 text-center ring-1 ring-slate-200/70 dark:ring-slate-700/70">
+                  <div className={`mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-xl ring-1 ${course.icon}`}>
+                    <BookMarked size={18} />
+                  </div>
+                  <div className="text-2xl font-black text-slate-900 dark:text-slate-100">{course.words}</div>
+                  <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Từ vựng</div>
+                </div>
+              </div>
+
+              <div className="mt-auto">
+                <div className={`mb-3 flex items-center justify-between rounded-2xl px-3 py-2 text-xs font-black ring-1 ${course.soft}`}>
+                  <span>JPD Course</span>
+                  <span>{course.lessons} bài học</span>
+                </div>
+                <div className={`relative w-full bg-gradient-to-r ${course.button} text-white font-black py-3.5 rounded-2xl shadow-lg transition-all flex items-center justify-center overflow-hidden`}>
+                  <span>Bắt đầu học</span>
+                  <ArrowRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
+                </div>
               </div>
             </div>
-
-            <button className="w-full mt-6 relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center">
-              <span>Bắt đầu học</span>
-              <ArrowRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        </motion.div>
-
+          </motion.button>
+        ))}
       </div>
     </div>
   );
