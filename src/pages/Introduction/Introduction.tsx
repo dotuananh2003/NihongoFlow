@@ -396,6 +396,195 @@ const KanaQuiz = ({
   );
 };
 
+const KanaStarterLanding = ({ navigate }: { navigate: (path: string) => void }) => {
+  const hiraganaPreview = [
+    ['あ', 'a'],
+    ['い', 'i'],
+    ['う', 'u'],
+    ['え', 'e'],
+    ['お', 'o'],
+  ];
+
+  const katakanaPreview = [
+    ['ア', 'a'],
+    ['イ', 'i'],
+    ['ウ', 'u'],
+    ['エ', 'e'],
+    ['オ', 'o'],
+  ];
+
+  return (
+    <div className="relative z-10 mx-auto max-w-5xl px-4 pt-5">
+      <section className="mb-5 overflow-hidden rounded-[1.6rem] border border-white/75 bg-white/58 p-4 shadow-[0_16px_46px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-700/70 dark:bg-slate-950/58">
+        <div className="grid items-center gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="min-w-0">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/86 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.16em] text-blue-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/80 dark:text-blue-300">
+              <Sparkles size={13} /> Kana Starter
+            </div>
+            <h2 className="flex flex-wrap items-center gap-3 text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100 md:text-4xl">
+              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-rose-500 via-blue-500 to-emerald-400 font-jp text-2xl text-white shadow-lg shadow-blue-500/20">
+                あ
+              </span>
+              Bảng chữ cái tiếng Nhật
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm font-semibold leading-relaxed text-slate-600 dark:text-slate-400">
+              Bắt đầu với Hiragana và Katakana qua lộ trình ngắn, có bảng chữ, nhóm âm và bài gõ phản xạ.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2.5">
+            {[
+              ['92', 'kana'],
+              ['4', 'nhóm âm'],
+              ['2', 'bảng chữ'],
+            ].map(([value, label]) => (
+                <div key={label} className="rounded-[1.15rem] border border-white/80 bg-white/72 px-3 py-4 text-center shadow-sm dark:border-slate-700/70 dark:bg-slate-900/64">
+                  <div className="text-xl font-black text-slate-900 dark:text-white">{value}</div>
+                  <div className="mt-1 text-[9px] font-black uppercase tracking-[0.16em] text-slate-400">{label}</div>
+                </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="grid grid-cols-1 gap-5 px-2 md:grid-cols-2">
+        <button
+          onClick={() => navigate('/introduction/hiragana')}
+          className="group relative min-h-[310px] overflow-hidden rounded-[1.6rem] border border-rose-100 bg-white p-5 text-left shadow-[0_18px_42px_rgba(244,63,94,0.10)] transition-all hover:-translate-y-1 hover:border-rose-300 hover:shadow-[0_22px_52px_rgba(244,63,94,0.16)] dark:border-slate-800 dark:bg-slate-900"
+        >
+          <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-400 to-amber-300" />
+          <div className="absolute -right-14 -top-14 h-44 w-44 rounded-full bg-rose-100/80 blur-2xl dark:bg-rose-500/10" />
+          <div className="absolute -bottom-10 right-4 font-jp text-[7rem] font-black leading-none text-rose-100/55 dark:text-rose-900/20">あ</div>
+
+          <div className="relative z-10 flex h-full flex-col">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <span className="inline-flex rounded-full bg-rose-50 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-rose-600 ring-1 ring-rose-100 dark:bg-rose-950/30 dark:text-rose-300 dark:ring-rose-900/40">
+                  First Script
+                </span>
+                <h3 className="mt-4 text-3xl font-black text-slate-900 dark:text-white">Hiragana</h3>
+                <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">Bảng chữ mềm dùng cho âm thuần Nhật.</p>
+              </div>
+              <div className="grid h-16 w-16 shrink-0 place-items-center rounded-[1.25rem] bg-rose-50 font-jp text-4xl font-black text-rose-500 shadow-inner ring-1 ring-rose-100 transition-transform group-hover:scale-105 dark:bg-rose-500/10 dark:ring-rose-900/40">
+                あ
+              </div>
+            </div>
+
+            <div className="mt-5 grid grid-cols-5 gap-2">
+              {hiraganaPreview.map(([kana, romaji]) => (
+                <div key={kana} className="rounded-xl bg-rose-50/80 py-2 text-center ring-1 ring-rose-100 dark:bg-rose-950/20 dark:ring-rose-900/30">
+                  <div className="font-jp text-xl font-black text-rose-500">{kana}</div>
+                  <div className="mt-0.5 text-[9px] font-black uppercase text-rose-300">{romaji}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-auto grid grid-cols-[1fr_auto] items-center gap-3 pt-5">
+              <div className="rounded-xl bg-rose-50/80 px-3.5 py-2.5 ring-1 ring-rose-100 dark:bg-rose-950/20 dark:ring-rose-900/30">
+                <div className="text-[10px] font-black uppercase tracking-[0.18em] text-rose-400">46 chữ</div>
+                <div className="mt-1 text-xs font-black text-slate-700 dark:text-slate-200">A I U · KA SA · YA RA</div>
+              </div>
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-rose-500 text-white shadow-lg shadow-rose-500/25 transition-transform group-hover:translate-x-1">
+                <ChevronRight size={21} />
+              </span>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => navigate('/introduction/katakana')}
+          className="group relative min-h-[310px] overflow-hidden rounded-[1.6rem] border border-blue-100 bg-white p-5 text-left shadow-[0_18px_42px_rgba(37,99,235,0.10)] transition-all hover:-translate-y-1 hover:border-blue-300 hover:shadow-[0_22px_52px_rgba(37,99,235,0.16)] dark:border-slate-800 dark:bg-slate-900"
+        >
+          <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-blue-600 via-sky-400 to-cyan-300" />
+          <div className="absolute -right-14 -top-14 h-44 w-44 rounded-full bg-blue-100/80 blur-2xl dark:bg-blue-500/10" />
+          <div className="absolute -bottom-10 right-4 font-jp text-[7rem] font-black leading-none text-blue-100/60 dark:text-blue-900/20">ア</div>
+
+          <div className="relative z-10 flex h-full flex-col">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <span className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/30 dark:text-blue-300 dark:ring-blue-900/40">
+                  Second Script
+                </span>
+                <h3 className="mt-4 text-3xl font-black text-slate-900 dark:text-white">Katakana</h3>
+                <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">Bảng chữ góc cạnh cho từ ngoại lai.</p>
+              </div>
+              <div className="grid h-16 w-16 shrink-0 place-items-center rounded-[1.25rem] bg-blue-50 font-jp text-4xl font-black text-blue-600 shadow-inner ring-1 ring-blue-100 transition-transform group-hover:scale-105 dark:bg-blue-500/10 dark:ring-blue-900/40">
+                ア
+              </div>
+            </div>
+
+            <div className="mt-5 grid grid-cols-5 gap-2">
+              {katakanaPreview.map(([kana, romaji]) => (
+                <div key={kana} className="rounded-xl bg-blue-50/80 py-2 text-center ring-1 ring-blue-100 dark:bg-blue-950/20 dark:ring-blue-900/30">
+                  <div className="font-jp text-xl font-black text-blue-600">{kana}</div>
+                  <div className="mt-0.5 text-[9px] font-black uppercase text-blue-300">{romaji}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-auto grid grid-cols-[1fr_auto] items-center gap-3 pt-5">
+              <div className="rounded-xl bg-blue-50/80 px-3.5 py-2.5 ring-1 ring-blue-100 dark:bg-blue-950/20 dark:ring-blue-900/30">
+                <div className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-400">46 chữ</div>
+                <div className="mt-1 text-xs font-black text-slate-700 dark:text-slate-200">A I U · KA SA · YA RA</div>
+              </div>
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-600 text-white shadow-lg shadow-blue-600/25 transition-transform group-hover:translate-x-1">
+                <ChevronRight size={21} />
+              </span>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <div className="mt-5 grid grid-cols-1 gap-5 px-2 md:grid-cols-2">
+        <button
+          disabled
+          className="relative min-h-[108px] cursor-not-allowed overflow-hidden rounded-[1.4rem] border border-amber-100/90 bg-white/76 p-4 text-left opacity-80 shadow-[0_14px_34px_rgba(15,23,42,0.07)] dark:border-slate-800 dark:bg-slate-900/78"
+        >
+          <div className="absolute inset-y-0 left-0 w-2 bg-gradient-to-b from-amber-300 via-orange-300 to-rose-300" />
+          <div className="absolute -right-5 -bottom-10 font-jp text-8xl font-black text-amber-100 dark:text-amber-900/20">記</div>
+          <div className="relative z-10 flex items-center gap-5">
+            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-amber-50 text-amber-500 shadow-inner ring-1 ring-amber-100 dark:bg-amber-500/10 dark:ring-amber-900/40">
+              <BookOpen size={27} />
+            </div>
+            <div className="min-w-0">
+              <div className="mb-1 flex flex-wrap items-center gap-2">
+                <h3 className="text-lg font-black uppercase tracking-[0.12em] text-slate-800 dark:text-slate-100">Học nhớ mẹo</h3>
+                <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-amber-600 ring-1 ring-amber-100 dark:bg-slate-800 dark:text-amber-300 dark:ring-amber-900/40">
+                  <Lock size={11} strokeWidth={2.5} />
+                  Locked
+                </span>
+              </div>
+              <p className="text-xs font-semibold leading-relaxed text-slate-500 dark:text-slate-400">Gợi nhớ mặt chữ bằng hình ảnh, nét viết và liên tưởng nhanh.</p>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => navigate('/introduction/typing')}
+          className="group relative min-h-[108px] overflow-hidden rounded-[1.4rem] border border-emerald-100 bg-white/76 p-4 text-left shadow-[0_14px_34px_rgba(16,185,129,0.09)] transition-all hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-[0_18px_42px_rgba(16,185,129,0.14)] dark:border-slate-800 dark:bg-slate-900/78"
+        >
+          <div className="absolute inset-y-0 left-0 w-2 bg-gradient-to-b from-emerald-400 to-cyan-400" />
+          <div className="absolute -right-4 -bottom-10 font-jp text-8xl font-black text-emerald-100 dark:text-emerald-900/20">打</div>
+          <div className="relative z-10 flex items-center gap-5">
+            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-emerald-50 text-emerald-500 shadow-inner ring-1 ring-emerald-100 transition-transform group-hover:scale-105 dark:bg-emerald-500/10 dark:ring-emerald-900/40">
+              <Keyboard size={27} />
+            </div>
+            <div className="min-w-0">
+              <div className="mb-1 flex flex-wrap items-center gap-2">
+                <h3 className="text-lg font-black uppercase tracking-[0.12em] text-slate-900 dark:text-white">Typing</h3>
+                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-emerald-600 ring-1 ring-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-300 dark:ring-emerald-900/40">
+                  Ready
+                </span>
+              </div>
+              <p className="text-xs font-semibold leading-relaxed text-slate-500 dark:text-slate-400">Gõ lại kana theo âm đọc để luyện phản xạ nhận diện.</p>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  );
+};
+
 import { useNavigate } from 'react-router-dom';
 
 export const Introduction = () => {
@@ -468,7 +657,9 @@ export const Introduction = () => {
     <div className="space-y-6 pb-12 relative min-h-full">
       <div className="absolute top-0 right-0 left-0 h-64 pointer-events-none opacity-70 z-0 bg-gradient-to-b from-blue-50 via-rose-50/70 to-transparent dark:from-slate-900 dark:via-slate-900/70 dark:to-transparent" />
 
-      <div className="relative z-10 max-w-5xl mx-auto pt-8">
+      <KanaStarterLanding navigate={navigate} />
+
+      <div className="hidden">
         <div className="mb-10 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/80 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-blue-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/80 dark:text-blue-300">
             <Sparkles size={14} /> Kana starter

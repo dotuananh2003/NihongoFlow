@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, ChevronRight, Gift, GraduationCap, Layers3, Sparkles, Target } from 'lucide-react';
+import { BookOpen, ChevronRight, Gift, GraduationCap, Sparkles, Target } from 'lucide-react';
 
 const COURSES = [
   {
@@ -66,6 +66,14 @@ const statStyles = [
     className: 'bg-violet-50 text-violet-600 dark:bg-violet-500/10 dark:text-violet-300',
   },
 ];
+
+const KanjiWordmark = ({ accentText, accentSoft, accentRing }: { accentText: string; accentSoft: string; accentRing: string }) => (
+  <div className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${accentSoft} ring-1 ${accentRing} shadow-sm`}>
+    <span className={`text-[11px] font-black leading-none tracking-tight ${accentText}`}>
+      Kanji
+    </span>
+  </div>
+);
 
 export const Kanji = () => {
   const navigate = useNavigate();
@@ -183,9 +191,7 @@ export const Kanji = () => {
                     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div>
                         <div className="mb-2 flex items-center gap-2">
-                          <span className={`flex h-9 w-9 items-center justify-center rounded-xl ${course.accentSoft} ${course.accentText} ring-1 ${course.accentRing}`}>
-                            <Layers3 size={17} />
-                          </span>
+                          <KanjiWordmark accentText={course.accentText} accentSoft={course.accentSoft} accentRing={course.accentRing} />
                           <h3 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50">
                             {course.code} - {course.title}
                           </h3>
@@ -202,19 +208,13 @@ export const Kanji = () => {
                     </div>
 
                     <div className="grid gap-3">
-                      {course.lessons.map((lesson, lessonIndex) => (
+                      {course.lessons.map((lesson) => (
                         <button
                           key={lesson.id}
                           onClick={() => openLesson(course.id, lesson.id)}
                           className={`kanji-lesson-row group flex w-full items-center gap-4 rounded-2xl border border-white/75 bg-white/82 p-4 text-left shadow-sm transition-colors hover:shadow-md dark:border-slate-800 dark:bg-slate-950/40 ${course.lessonHover}`}
                         >
-                          <div className={`flex w-8 shrink-0 items-center justify-center ${course.accentText}`}>
-                            {lessonIndex % 2 === 0 ? (
-                              <span className="font-jp text-2xl font-black">漢</span>
-                            ) : (
-                              <BookOpen size={21} />
-                            )}
-                          </div>
+                          <KanjiWordmark accentText={course.accentText} accentSoft={course.accentSoft} accentRing={course.accentRing} />
 
                           <div className="min-w-0 flex-1">
                             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">
