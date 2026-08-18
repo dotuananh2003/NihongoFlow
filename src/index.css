@@ -117,6 +117,11 @@
     background: #1E293B;
     border-color: #334155;
   }
+  .vocab-lesson-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 280px;
+    contain: layout paint style;
+  }
 }
 
 /* Native Smooth Scroll CSS */

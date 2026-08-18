@@ -10,7 +10,6 @@ interface VocabLesson {
   title: string;
   desc: string;
   total: number;
-  learned: number;
   locked: boolean;
 }
 
@@ -30,12 +29,12 @@ export const VocabularyLessons = () => {
     border: 'border-blue-200 dark:border-blue-900/50',
     btn: 'bg-blue-600 hover:bg-blue-700',
     gradient: 'from-blue-600 via-sky-500 to-cyan-400',
-    selected: 'border-blue-500 shadow-[0_16px_34px_rgba(37,99,235,0.18)]',
+    selected: 'border-blue-500 shadow-[0_8px_18px_rgba(37,99,235,0.14)]',
     selectedPill: 'bg-blue-500 border-blue-500 text-white',
     selectedSoft: 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300',
     controlActive: 'bg-blue-50 border-blue-200 text-blue-600 dark:bg-blue-900/30 dark:border-blue-800/50 dark:text-blue-300',
     hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-700',
-    shadow: 'shadow-blue-500/30 hover:shadow-blue-500/50',
+    shadow: 'shadow-blue-500/25',
   } : {
     color: 'text-rose-500 dark:text-rose-400',
     softText: 'text-rose-500 dark:text-rose-300',
@@ -43,41 +42,40 @@ export const VocabularyLessons = () => {
     border: 'border-rose-200 dark:border-rose-900/50',
     btn: 'bg-rose-500 hover:bg-rose-600',
     gradient: 'from-rose-500 via-pink-500 to-amber-400',
-    selected: 'border-rose-500 shadow-[0_16px_34px_rgba(244,63,94,0.18)]',
+    selected: 'border-rose-500 shadow-[0_8px_18px_rgba(244,63,94,0.14)]',
     selectedPill: 'bg-rose-500 border-rose-500 text-white',
     selectedSoft: 'bg-rose-50 text-rose-600 dark:bg-rose-900/30 dark:text-rose-300',
     controlActive: 'bg-rose-50 border-rose-200 text-rose-600 dark:bg-rose-900/30 dark:border-rose-800/50 dark:text-rose-300',
     hoverBorder: 'hover:border-rose-300 dark:hover:border-rose-700',
-    shadow: 'shadow-rose-500/30 hover:shadow-rose-500/50',
+    shadow: 'shadow-rose-500/25',
   };
 
   const getLessonIcon = () => {
     return <Book size={24} strokeWidth={1.5} />;
   };
 
-  // Modern UI data with progress
+  // Modern UI data
   const lessons: VocabLesson[] = isJpd123 ? [
-    { id: '4-1', title: 'Phương hướng và phương tiện', desc: 'Học về các phương hướng và phương tiện giao thông', total: 20, learned: 12, locked: false },
-    { id: '4-2', title: 'Địa điểm và tính từ', desc: 'Học về các địa điểm và tính từ miêu tả', total: 18, learned: 0, locked: false },
-    { id: '4-3', title: 'Thời tiết và vị giác', desc: 'Học về thời tiết và các vị của thức ăn', total: 16, learned: 0, locked: false },
-    { id: '5-1', title: 'Thời gian và hoạt động', desc: 'Học về các mốc thời gian và hoạt động hàng ngày', total: 25, learned: 0, locked: false },
-    { id: '5-2', title: 'Thời tiết và cảm xúc', desc: 'Học về thời tiết và các tính từ chỉ cảm giác, trạng thái', total: 20, learned: 0, locked: false },
-    { id: '5-3', title: 'Sở thích', desc: 'Học về các sở thích và hoạt động giải trí', total: 14, learned: 0, locked: false },
-    { id: '6-1', title: 'Kế hoạch và sự kiện', desc: 'Học về kế hoạch, sự kiện và cách đếm vật mỏng', total: 24, learned: 0, locked: false },
-    { id: '6-2', title: 'Ăn uống và giải trí', desc: 'Học về đồ ăn, thức uống và các hoạt động giải trí', total: 23, learned: 0, locked: false },
-    { id: '6-3', title: 'Ẩm thực Nhật', desc: 'Học về các món ăn đặc trưng của Nhật Bản', total: 8, learned: 0, locked: false },
-    { id: '7-1', title: 'Vị trí và địa điểm', desc: 'Học về các từ chỉ vị trí và địa điểm công cộng', total: 20, learned: 0, locked: false },
-    { id: '7-2', title: 'Đồ dùng và hành động', desc: 'Học về các vật dụng trong nhà và các động từ liên quan', total: 20, learned: 0, locked: false },
-    { id: '7-3', title: 'Hoạt động thường ngày', desc: 'Học về các hoạt động giải trí và sinh hoạt hàng ngày', total: 20, learned: 0, locked: false },
+    { id: '4-1', title: 'Phương hướng và phương tiện', desc: 'Học về các phương hướng và phương tiện giao thông', total: 20, locked: false },
+    { id: '4-2', title: 'Địa điểm và tính từ', desc: 'Học về các địa điểm và tính từ miêu tả', total: 18, locked: false },
+    { id: '4-3', title: 'Thời tiết và vị giác', desc: 'Học về thời tiết và các vị của thức ăn', total: 16, locked: false },
+    { id: '5-1', title: 'Thời gian và hoạt động', desc: 'Học về các mốc thời gian và hoạt động hàng ngày', total: 25, locked: false },
+    { id: '5-2', title: 'Thời tiết và cảm xúc', desc: 'Học về thời tiết và các tính từ chỉ cảm giác, trạng thái', total: 20, locked: false },
+    { id: '5-3', title: 'Sở thích', desc: 'Học về các sở thích và hoạt động giải trí', total: 14, locked: false },
+    { id: '6-1', title: 'Kế hoạch và sự kiện', desc: 'Học về kế hoạch, sự kiện và cách đếm vật mỏng', total: 24, locked: false },
+    { id: '6-2', title: 'Ăn uống và giải trí', desc: 'Học về đồ ăn, thức uống và các hoạt động giải trí', total: 23, locked: false },
+    { id: '6-3', title: 'Ẩm thực Nhật', desc: 'Học về các món ăn đặc trưng của Nhật Bản', total: 8, locked: false },
+    { id: '7-1', title: 'Vị trí và địa điểm', desc: 'Học về các từ chỉ vị trí và địa điểm công cộng', total: 20, locked: false },
+    { id: '7-2', title: 'Đồ dùng và hành động', desc: 'Học về các vật dụng trong nhà và các động từ liên quan', total: 20, locked: false },
+    { id: '7-3', title: 'Hoạt động thường ngày', desc: 'Học về các hoạt động giải trí và sinh hoạt hàng ngày', total: 20, locked: false },
   ] : [
-    { id: '1-1', title: 'Chào hỏi cơ bản', desc: 'Học các câu chào hỏi và mẫu giao tiếp nhập môn', total: 15, learned: 5, locked: false },
-    { id: '1-2', title: 'Số đếm và tuổi', desc: 'Làm quen số đếm, tuổi và cách hỏi thông tin cơ bản', total: 20, learned: 0, locked: true },
-    { id: '1-3', title: 'Quốc tịch và nghề', desc: 'Từ vựng về quốc gia, quốc tịch và nghề nghiệp', total: 18, learned: 0, locked: true },
+    { id: '1-1', title: 'Chào hỏi cơ bản', desc: 'Học các câu chào hỏi và mẫu giao tiếp nhập môn', total: 15, locked: false },
+    { id: '1-2', title: 'Số đếm và tuổi', desc: 'Làm quen số đếm, tuổi và cách hỏi thông tin cơ bản', total: 20, locked: true },
+    { id: '1-3', title: 'Quốc tịch và nghề', desc: 'Từ vựng về quốc gia, quốc tịch và nghề nghiệp', total: 18, locked: true },
   ];
 
   const unlockedLessons = lessons.filter(l => !l.locked);
   const totalWords = lessons.reduce((sum, lesson) => sum + lesson.total, 0);
-  const learnedWords = lessons.reduce((sum, lesson) => sum + lesson.learned, 0);
   const courseLabel = isJpd123 ? 'JPD123 VOCABULARY' : 'JPD113 VOCABULARY';
   const courseName = isJpd123 ? 'Tiếng Nhật sơ cấp 2' : 'Tiếng Nhật sơ cấp 1';
   const badgeText = isJpd123 ? '初級 II' : '初級 I';
@@ -181,7 +179,7 @@ export const VocabularyLessons = () => {
         <div className="mb-6 flex items-center justify-between gap-3">
           <button 
             onClick={() => navigate('/vocabulary')}
-            className={`inline-flex items-center gap-2 rounded-full bg-white/75 px-3 py-2 text-sm font-black ${theme.color} shadow-sm ring-1 ring-white/80 backdrop-blur-md transition-all hover:bg-white dark:bg-slate-900/70 dark:ring-slate-700`}
+            className={`inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-2 text-sm font-black ${theme.color} shadow-sm ring-1 ring-white/80 transition-colors hover:bg-white dark:bg-slate-900/90 dark:ring-slate-700`}
           >
             <ArrowLeft size={16} /> Quay lại
           </button>
@@ -194,14 +192,14 @@ export const VocabularyLessons = () => {
                 setIsDropdownOpen(false);
               }
             }}
-            className={`inline-flex items-center gap-2 rounded-2xl border px-4 py-2 text-sm font-black shadow-sm backdrop-blur-md transition-all ${isMixMode ? theme.controlActive : 'bg-white/75 dark:bg-slate-900/70 border-white/80 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-white'}`}
+            className={`inline-flex items-center gap-2 rounded-2xl border px-4 py-2 text-sm font-black shadow-sm transition-colors ${isMixMode ? theme.controlActive : 'bg-white/90 dark:bg-slate-900/90 border-white/80 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-white'}`}
           >
             {isMixMode ? <X size={16} /> : <Layers size={16} />} 
             {isMixMode ? 'Hủy trộn' : 'Trộn bài'}
           </button>
         </div>
 
-        <div className="mb-8 overflow-hidden rounded-[2rem] border border-white/70 bg-white/72 p-5 shadow-[0_20px_60px_rgba(15,23,42,0.10)] backdrop-blur-md dark:border-slate-700 dark:bg-slate-950/70">
+        <div className="mb-8 overflow-hidden rounded-[2rem] border border-white/70 bg-white/92 p-5 shadow-[0_10px_28px_rgba(15,23,42,0.08)] dark:border-slate-700 dark:bg-slate-950/90">
           <div className={`mb-5 h-1.5 rounded-full bg-gradient-to-r ${theme.gradient}`} />
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>
@@ -216,7 +214,7 @@ export const VocabularyLessons = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 sm:min-w-[340px]">
+            <div className="grid grid-cols-2 gap-2 sm:min-w-[260px]">
               <div className="rounded-2xl bg-white/85 p-3 text-center shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900/70 dark:ring-slate-700">
                 <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Bài mở</div>
                 <div className="text-2xl font-black text-slate-900 dark:text-slate-100">{unlockedLessons.length}</div>
@@ -224,10 +222,6 @@ export const VocabularyLessons = () => {
               <div className="rounded-2xl bg-white/85 p-3 text-center shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900/70 dark:ring-slate-700">
                 <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Từ vựng</div>
                 <div className="text-2xl font-black text-slate-900 dark:text-slate-100">{totalWords}</div>
-              </div>
-              <div className="rounded-2xl bg-white/85 p-3 text-center shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900/70 dark:ring-slate-700">
-                <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">Đã học</div>
-                <div className={`text-2xl font-black ${theme.color}`}>{learnedWords}</div>
               </div>
             </div>
           </div>
@@ -293,19 +287,17 @@ export const VocabularyLessons = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {lessons.map((lesson, idx) => {
             const isSelected = selectedLessons.includes(lesson.id);
-            const progress = lesson.total > 0 ? Math.round((lesson.learned / lesson.total) * 100) : 0;
             return (
               <motion.button
                 key={lesson.id}
                 type="button"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                whileHover={!lesson.locked ? { y: -4 } : undefined}
                 transition={{ type: 'spring', stiffness: 300, damping: 25, delay: idx * 0.04 }}
                 onClick={() => handleLessonCardClick(lesson.id, lesson.locked)}
-                className={`group relative h-full text-left ${lesson.locked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                className={`vocab-lesson-card group relative h-full text-left ${lesson.locked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
               >
-                <div className={`relative flex h-full min-h-[344px] flex-col overflow-hidden rounded-[1.75rem] border-2 bg-white/88 p-5 shadow-[0_12px_32px_rgba(15,23,42,0.08)] backdrop-blur-md transition-all duration-300 dark:bg-slate-900/88 dark:shadow-[0_12px_32px_rgba(0,0,0,0.28)] ${lesson.locked ? 'border-white/70 opacity-75 grayscale-[0.25] dark:border-slate-800' : isSelected ? theme.selected : `${theme.hoverBorder} border-white/80 dark:border-slate-800`} ${!isSelected && lesson.learned > 0 ? theme.border : ''}`}>
+                <div className={`relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-[1.75rem] border-2 bg-white/94 p-5 shadow-[0_8px_20px_rgba(15,23,42,0.07)] transition-colors duration-200 dark:bg-slate-900/94 dark:shadow-[0_8px_20px_rgba(0,0,0,0.22)] ${lesson.locked ? 'border-white/70 opacity-75 grayscale-[0.25] dark:border-slate-800' : isSelected ? theme.selected : `${theme.hoverBorder} border-white/80 dark:border-slate-800`}`}>
                   <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${theme.gradient} ${lesson.locked ? 'opacity-25' : 'opacity-100'}`} />
                   
                   {isMixMode && !lesson.locked && (
@@ -339,19 +331,9 @@ export const VocabularyLessons = () => {
                     </div>
                   </div>
 
-                  <div className="mb-5 rounded-2xl bg-slate-50/90 p-3 ring-1 ring-slate-200/70 dark:bg-slate-950/40 dark:ring-slate-800">
-                    <div className="mb-2 flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
-                      <span>Tiến độ</span>
-                      <span>{lesson.learned}/{lesson.total}</span>
-                    </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-slate-200/80 dark:bg-slate-800">
-                      <div className={`h-full rounded-full bg-gradient-to-r ${theme.gradient}`} style={{ width: `${progress}%` }} />
-                    </div>
-                  </div>
-
                   <div className="mt-auto">
                   {!isMixMode && (
-                    <div className={`w-full py-3 rounded-2xl font-black flex items-center justify-center gap-2 transition-all ${lesson.locked ? 'bg-slate-100 text-slate-400 dark:bg-slate-800' : `bg-gradient-to-r ${theme.gradient} text-white shadow-lg ${theme.shadow}`}`}>
+                    <div className={`w-full py-3 rounded-2xl font-black flex items-center justify-center gap-2 transition-colors ${lesson.locked ? 'bg-slate-100 text-slate-400 dark:bg-slate-800' : `bg-gradient-to-r ${theme.gradient} text-white shadow-md ${theme.shadow}`}`}>
                       Học ngay {lesson.locked ? <Lock size={16} /> : <Play size={16} fill="currentColor" />}
                     </div>
                   )}
@@ -377,7 +359,7 @@ export const VocabularyLessons = () => {
           exit={{ y: 100, opacity: 0 }}
           className="fixed bottom-0 left-0 right-0 z-40 p-4 md:p-6 flex justify-center pointer-events-none"
         >
-          <div className="bg-white/90 dark:bg-slate-900/90 border border-white/80 dark:border-slate-700 shadow-[0_20px_40px_rgba(15,23,42,0.22)] rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 w-full max-w-3xl pointer-events-auto backdrop-blur-md">
+          <div className="bg-white/95 dark:bg-slate-900/95 border border-white/80 dark:border-slate-700 shadow-[0_12px_28px_rgba(15,23,42,0.18)] rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 w-full max-w-3xl pointer-events-auto">
             <div className="flex items-center gap-3 pl-2">
               <div className={`w-12 h-12 rounded-xl ${theme.bgLight} ${theme.color} flex items-center justify-center shrink-0`}>
                 <Layers size={24} />
