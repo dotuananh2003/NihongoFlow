@@ -11,7 +11,7 @@ export const Grammar = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-6 pb-4 max-w-5xl mx-auto overflow-hidden">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-6 pb-4 max-w-5xl mx-auto">
 
       {/* HEADER */}
       <div className="mb-4 shrink-0">
@@ -49,17 +49,17 @@ export const Grammar = () => {
       </div>
 
       {/* COURSE CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 min-h-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto w-full">
 
         {/* JPD113 CARD */}
         <motion.div
           whileHover={{ y: -6, scale: 1.015 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
           onClick={() => handleCourseClick('jpd113')}
-          className="relative bg-[#FEF8F6] dark:bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-[0_20px_60px_rgb(0,0,0,0.06)] flex flex-col items-center text-center group cursor-pointer h-full"
+          className="relative bg-[#FEF8F6] dark:bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-[0_20px_60px_rgb(0,0,0,0.06)] flex flex-col items-center text-center group cursor-pointer"
         >
           <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd113-bg.png')] bg-[length:100%_auto] bg-top bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
-          <div className="relative z-10 w-full flex flex-col items-center p-6 h-full">
+          <div className="relative z-10 w-full flex flex-col items-center p-6">
             <div className="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 text-xs font-bold uppercase tracking-widest mb-4 font-jp">初級 I</div>
             <h2 className="text-4xl font-black text-rose-500 dark:text-rose-400 tracking-tight mb-1">JPD113</h2>
             <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-6">MINNA NO NIHONGO SƠ CẤP 1</p>
@@ -76,7 +76,7 @@ export const Grammar = () => {
               </div>
             </div>
 
-            <button className="w-full mt-auto relative bg-rose-500 hover:bg-rose-600 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(244,63,94,0.3)] transition-all flex items-center justify-center">
+            <button className="w-full mt-6 relative bg-rose-500 hover:bg-rose-600 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(244,63,94,0.3)] transition-all flex items-center justify-center">
               <span>Bắt đầu học</span>
               <ChevronRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
             </button>
@@ -88,10 +88,10 @@ export const Grammar = () => {
           whileHover={{ y: -6, scale: 1.015 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
           onClick={() => handleCourseClick('jpd123')}
-          className="relative bg-[#FBFCFD] dark:bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-[0_20px_60px_rgb(0,0,0,0.06)] flex flex-col items-center text-center group cursor-pointer h-full"
+          className="relative bg-[#FBFCFD] dark:bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-[0_20px_60px_rgb(0,0,0,0.06)] flex flex-col items-center text-center group cursor-pointer"
         >
           <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd123-bg.png')] bg-[length:100%_auto] bg-top bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
-          <div className="relative z-10 w-full flex flex-col items-center p-6 h-full">
+          <div className="relative z-10 w-full flex flex-col items-center p-6">
             <div className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest mb-4 font-jp">初級 II</div>
             <h2 className="text-4xl font-black text-blue-600 dark:text-blue-400 tracking-tight mb-1">JPD123</h2>
             <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-6">N5 NÂNG CAO - NGỮ PHÁP</p>
@@ -108,7 +108,7 @@ export const Grammar = () => {
               </div>
             </div>
 
-            <button className="w-full mt-auto relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center">
+            <button className="w-full mt-6 relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center">
               <span>Bắt đầu học</span>
               <ChevronRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
             </button>
