@@ -6,7 +6,7 @@ export const Vocabulary = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-6 pb-4 max-w-5xl mx-auto overflow-hidden">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-6 pb-4 max-w-5xl mx-auto">
 
       {/* HEADER */}
       <div className="mb-6 shrink-0 text-center">
@@ -17,11 +17,11 @@ export const Vocabulary = () => {
       </div>
 
       {/* CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 min-h-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         {/* JPD113 Card (LOCKED) */}
         <motion.div
-          className="relative bg-[#FEF8F6] dark:bg-slate-900 rounded-[2rem] p-6 overflow-hidden border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center group opacity-75 grayscale-[0.3] cursor-not-allowed h-full"
+          className="relative bg-[#FEF8F6] dark:bg-slate-900 rounded-[2rem] p-6 overflow-hidden border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center group opacity-75 grayscale-[0.3] cursor-not-allowed"
         >
           <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd113-bg.png')] bg-[length:100%_auto] bg-top bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
 
@@ -52,7 +52,7 @@ export const Vocabulary = () => {
               </div>
             </div>
 
-            <button disabled className="w-full mt-auto bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold py-3.5 rounded-2xl flex items-center justify-center gap-2 cursor-not-allowed">
+            <button disabled className="w-full mt-6 bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold py-3.5 rounded-2xl flex items-center justify-center gap-2 cursor-not-allowed">
               <Lock size={16} /> Đã khóa
             </button>
           </div>
@@ -62,7 +62,7 @@ export const Vocabulary = () => {
         <motion.div
           whileHover={{ y: -6, scale: 1.015 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="relative bg-[#FBFCFD] dark:bg-slate-900 rounded-[2rem] p-6 shadow-[0_20px_60px_rgb(0,0,0,0.06)] dark:shadow-[0_20px_60px_rgb(0,0,0,0.3)] overflow-hidden border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center group cursor-pointer h-full"
+          className="relative bg-[#FBFCFD] dark:bg-slate-900 rounded-[2rem] p-6 shadow-[0_20px_60px_rgb(0,0,0,0.06)] dark:shadow-[0_20px_60px_rgb(0,0,0,0.3)] overflow-hidden border border-slate-100 dark:border-slate-800 flex flex-col items-center text-center group cursor-pointer"
           onClick={() => navigate('/vocabulary/jpd123')}
         >
           <div className="absolute inset-0 bg-[url('/images/backgrounds/jpd123-bg.png')] bg-[length:100%_auto] bg-top bg-no-repeat opacity-100 dark:opacity-90 transition-transform duration-700 group-hover:scale-105 pointer-events-none"></div>
@@ -90,7 +90,7 @@ export const Vocabulary = () => {
               </div>
             </div>
 
-            <button className="w-full mt-auto relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center">
+            <button className="w-full mt-6 relative bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center">
               <span>Bắt đầu học</span>
               <ArrowRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
             </button>
