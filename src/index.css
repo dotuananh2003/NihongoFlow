@@ -129,12 +129,12 @@
   }
   .kanji-course-section {
     content-visibility: auto;
-    contain-intrinsic-size: 360px;
+    contain-intrinsic-size: 430px;
     contain: layout paint style;
   }
   .kanji-lesson-row {
     content-visibility: auto;
-    contain-intrinsic-size: 96px;
+    contain-intrinsic-size: 172px;
     contain: layout paint style;
   }
   .kanji-list-card {

@@ -45,7 +45,7 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({ vocabList, o
 
   useEffect(() => {
     if ((status === 'correct' || status === 'wrong') && feedbackRef.current) {
-      feedbackRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      feedbackRef.current.scrollIntoView({ block: 'nearest' });
     }
   }, [status]);
 
