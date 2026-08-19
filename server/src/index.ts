@@ -37,8 +37,6 @@ app.use((error: unknown, _req: express.Request, res: express.Response, _next: ex
   });
 });
 
-await ensureAuthSchema();
-
 app.listen(env.port, () => {
   console.log(`Auth API listening on http://localhost:${env.port}`);
 });
