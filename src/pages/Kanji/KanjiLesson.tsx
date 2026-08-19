@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, LayoutGrid, List, Check, X, BookOpen, Keyboard, Sparkles } from 'lucide-react';
+import { ArrowLeft, LayoutGrid, List, Check, X, BookOpen, Keyboard, Sparkles, BookMarked, GraduationCap, Hash } from 'lucide-react';
 import { toRomaji } from 'wanakana';
 
 import { kanjiLesson1, lesson1Vocab, type VocabExample } from '../../data/kanjiData';
@@ -58,6 +58,7 @@ export const KanjiLesson = () => {
     textDark: isJPD123 ? 'text-blue-600' : 'text-rose-600',
     textHover: isJPD123 ? 'group-hover:text-blue-500' : 'group-hover:text-rose-500',
     accentBg: isJPD123 ? 'bg-blue-500' : 'bg-rose-500',
+    accentGradient: isJPD123 ? 'from-blue-600 via-sky-400 to-cyan-300' : 'from-rose-600 via-pink-400 to-amber-300',
     accentSoft: isJPD123 ? 'bg-blue-50/90 dark:bg-blue-500/10' : 'bg-rose-50/90 dark:bg-rose-500/10',
     border: isJPD123 ? 'border-blue-200/80 dark:border-blue-500/25' : 'border-rose-200/80 dark:border-rose-500/25',
     ring: isJPD123 ? 'ring-blue-100 dark:ring-blue-500/20' : 'ring-rose-100 dark:ring-rose-500/20',
@@ -91,21 +92,23 @@ export const KanjiLesson = () => {
   }
 
   const totalSelectableItems = kanjiList.length + (otherVocab.length > 0 ? 1 : 0);
-  const actionButton = 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl border border-white/80 bg-white/85 px-4 py-2.5 text-xs font-black text-slate-600 shadow-[0_8px_24px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_28px_rgba(15,23,42,0.12)] dark:border-slate-700 dark:bg-slate-900/85 dark:text-slate-300 dark:hover:bg-slate-800';
+  const actionButton = 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl border border-white/80 bg-white/85 px-4 py-2.5 text-xs font-black text-slate-600 shadow-sm transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-900/85 dark:text-slate-300 dark:hover:bg-slate-800';
   const activeActionButton = isJPD123
     ? '!border-transparent !bg-blue-500 !text-white shadow-lg shadow-blue-500/25 hover:!bg-blue-600'
     : '!border-transparent !bg-rose-500 !text-white shadow-lg shadow-rose-500/25 hover:!bg-rose-600';
   const disabledActionButton = 'cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 shadow-none hover:translate-y-0 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-600';
 
   return (
-    <div className="relative min-h-full bg-transparent pb-20 font-sans">
+    <div className="relative min-h-full scroll-smooth bg-transparent pb-20 font-sans">
       <div className="mx-auto max-w-[1500px] px-4 pt-6 md:px-8">
-        <div className="mb-6 rounded-[2rem] border border-white/75 bg-white/70 p-4 shadow-[0_20px_60px_rgba(15,23,42,0.10)] backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/55 md:p-5">
+        <div className="kanji-lesson-panel relative mb-6 overflow-hidden rounded-[2rem] border border-white/75 bg-white/86 p-4 shadow-[0_14px_38px_rgba(15,23,42,0.08)] dark:border-slate-800 dark:bg-slate-950/70 md:p-5">
+          <div className={`absolute inset-x-8 top-0 h-1.5 rounded-b-full bg-gradient-to-r ${theme.accentGradient}`} />
+          <div className="absolute -right-20 -top-28 h-52 w-52 rounded-full bg-white/60 blur-3xl" />
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => navigate('/kanji')}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/80 bg-white/90 text-slate-500 shadow-sm transition-all hover:-translate-x-0.5 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-white"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/80 bg-white/90 text-slate-500 shadow-sm transition-all hover:-translate-x-0.5 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-white"
               >
                 <ArrowLeft size={20} />
               </button>
@@ -121,15 +124,24 @@ export const KanjiLesson = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-2 sm:min-w-[360px]">
-              <div className="rounded-2xl border border-white/75 bg-white/80 p-3 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+              <div className="rounded-2xl border border-white/75 bg-white/78 p-3 text-center shadow-sm ring-1 ring-slate-100/70 dark:border-slate-800 dark:bg-slate-900/70 dark:ring-slate-800">
+                <div className="mx-auto mb-1 grid h-7 w-7 place-items-center rounded-xl bg-rose-50 text-rose-500">
+                  <Hash size={14} />
+                </div>
                 <p className="text-xl font-black text-slate-900 dark:text-slate-50">{kanjiList.length}</p>
                 <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Kanji</p>
               </div>
-              <div className="rounded-2xl border border-white/75 bg-white/80 p-3 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+              <div className="rounded-2xl border border-white/75 bg-white/78 p-3 text-center shadow-sm ring-1 ring-slate-100/70 dark:border-slate-800 dark:bg-slate-900/70 dark:ring-slate-800">
+                <div className="mx-auto mb-1 grid h-7 w-7 place-items-center rounded-xl bg-blue-50 text-blue-500">
+                  <BookMarked size={14} />
+                </div>
                 <p className="text-xl font-black text-slate-900 dark:text-slate-50">{vocabList.length}</p>
                 <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Từ vựng</p>
               </div>
-              <div className="rounded-2xl border border-white/75 bg-white/80 p-3 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+              <div className="rounded-2xl border border-white/75 bg-white/78 p-3 text-center shadow-sm ring-1 ring-slate-100/70 dark:border-slate-800 dark:bg-slate-900/70 dark:ring-slate-800">
+                <div className="mx-auto mb-1 grid h-7 w-7 place-items-center rounded-xl bg-emerald-50 text-emerald-500">
+                  <Check size={14} />
+                </div>
                 <p className="text-xl font-black text-slate-900 dark:text-slate-50">{selectedKanjiIds.length}</p>
                 <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Đã chọn</p>
               </div>
@@ -137,11 +149,12 @@ export const KanjiLesson = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_440px]">
-          <section className="min-w-0">
-            <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_440px]">
+          <section className="kanji-lesson-panel min-w-0 overflow-hidden rounded-[2rem] border border-white/70 bg-white/72 p-4 shadow-[0_12px_34px_rgba(15,23,42,0.05)] dark:border-slate-800 dark:bg-slate-950/58">
+            <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div>
-                <p className={`mb-1 text-[11px] font-black uppercase tracking-[0.22em] ${theme.textDark}`}>
+                <p className={`mb-1 inline-flex items-center gap-2 rounded-full bg-white/72 px-3 py-1 text-[11px] font-black uppercase tracking-[0.22em] ${theme.textDark} ring-1 ${theme.ring}`}>
+                  <GraduationCap size={13} />
                   Kanji Core
                 </p>
                 <h2 className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xl font-black tracking-tight text-slate-900 dark:text-slate-50">
@@ -216,12 +229,13 @@ export const KanjiLesson = () => {
                         navigate(`/kanji/${courseId}/lesson/${lessonId}/${kanji.id}`);
                       }
                     }}
-                    className={`kanji-list-card group relative flex min-h-[104px] items-center gap-4 rounded-2xl border p-4 text-left shadow-[0_10px_28px_rgba(15,23,42,0.07)] transition-colors hover:shadow-[0_14px_36px_rgba(15,23,42,0.10)] ${
+                    className={`kanji-list-card kanji-steady-row group relative flex min-h-[104px] items-center gap-4 overflow-hidden rounded-2xl border p-4 text-left shadow-sm transition-colors hover:bg-white/90 ${
                       isSelectMode && isSelected
                         ? theme.selected
-                        : 'border-white/80 bg-white/82 dark:border-slate-800 dark:bg-slate-950/70'
+                        : 'border-white/80 bg-white/78 dark:border-slate-800 dark:bg-slate-950/70'
                     }`}
                   >
+                    <div className={`absolute inset-y-4 left-0 w-1 rounded-r-full bg-gradient-to-b ${theme.accentGradient} opacity-0 transition-opacity group-hover:opacity-100 ${isSelected ? 'opacity-100' : ''}`} />
                     {isSelectMode && (
                       <div className={`absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
                         isSelected
@@ -232,7 +246,7 @@ export const KanjiLesson = () => {
                       </div>
                     )}
 
-                    <div className={`w-16 shrink-0 text-center font-jp text-5xl font-medium leading-none text-slate-900 transition-colors dark:text-slate-50 ${theme.textHover}`}>
+                    <div className={`grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-slate-50/90 text-center font-jp text-5xl font-medium leading-none text-slate-900 ring-1 ring-slate-100 transition-colors dark:bg-slate-900 dark:text-slate-50 dark:ring-slate-800 ${theme.textHover}`}>
                       {kanji.char}
                     </div>
 
@@ -246,7 +260,7 @@ export const KanjiLesson = () => {
                             {kanji.meaning}
                           </p>
                         </div>
-                        <span className="shrink-0 rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-black text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                        <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[9px] font-black ${theme.accentSoft} ${theme.textDark} ${theme.border}`}>
                           {kanji.vocab?.length || 0} từ
                         </span>
                       </div>
@@ -278,12 +292,13 @@ export const KanjiLesson = () => {
                       navigate(`/kanji/${courseId}/lesson/${lessonId}/other`);
                     }
                   }}
-                  className={`kanji-list-card group relative flex min-h-[104px] items-center gap-4 rounded-2xl border p-4 text-left shadow-[0_10px_28px_rgba(15,23,42,0.07)] transition-colors hover:shadow-[0_14px_36px_rgba(15,23,42,0.10)] ${
+                  className={`kanji-list-card kanji-steady-row group relative flex min-h-[104px] items-center gap-4 overflow-hidden rounded-2xl border p-4 text-left shadow-sm transition-colors hover:bg-white/90 ${
                     isSelectMode && selectedKanjiIds.includes('other')
                       ? theme.selected
                       : 'border-white/80 bg-white/72 dark:border-slate-800 dark:bg-slate-950/60'
                   }`}
                 >
+                  <div className={`absolute inset-y-4 left-0 w-1 rounded-r-full bg-gradient-to-b ${theme.accentGradient} opacity-0 transition-opacity group-hover:opacity-100 ${selectedKanjiIds.includes('other') ? 'opacity-100' : ''}`} />
                   {isSelectMode && (
                     <div className={`absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
                       selectedKanjiIds.includes('other')
@@ -293,7 +308,7 @@ export const KanjiLesson = () => {
                       {selectedKanjiIds.includes('other') && <Check size={12} strokeWidth={3} />}
                     </div>
                   )}
-                  <div className={`w-16 shrink-0 text-center text-4xl font-black text-slate-400 transition-colors ${theme.textHover}`}>
+                  <div className={`grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-slate-50/90 text-center text-4xl font-black text-slate-400 ring-1 ring-slate-100 transition-colors dark:bg-slate-900 dark:ring-slate-800 ${theme.textHover}`}>
                     …
                   </div>
                   <div className={`min-w-0 flex-1 ${isSelectMode ? 'pr-6' : ''}`}>
@@ -306,7 +321,7 @@ export const KanjiLesson = () => {
                           Không chứa Kanji trọng tâm
                         </p>
                       </div>
-                      <span className="shrink-0 rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-black text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                      <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[9px] font-black ${theme.accentSoft} ${theme.textDark} ${theme.border}`}>
                         {otherVocab.length} từ
                       </span>
                     </div>
@@ -317,9 +332,10 @@ export const KanjiLesson = () => {
           </section>
 
           <aside className="w-full xl:sticky xl:top-24 xl:self-start">
-            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between xl:flex-col xl:items-start">
+            <div className="kanji-lesson-panel mb-4 flex flex-col gap-3 rounded-[2rem] border border-white/70 bg-white/74 p-4 shadow-[0_10px_30px_rgba(15,23,42,0.05)] sm:flex-row sm:items-end sm:justify-between xl:flex-col xl:items-start dark:border-slate-800 dark:bg-slate-950/58">
               <div>
-                <p className={`mb-1 text-[11px] font-black uppercase tracking-[0.22em] ${theme.textDark}`}>
+                <p className={`mb-1 inline-flex items-center gap-2 rounded-full bg-white/72 px-3 py-1 text-[11px] font-black uppercase tracking-[0.22em] ${theme.textDark} ring-1 ${theme.ring}`}>
+                  <BookMarked size={13} />
                   Vocabulary
                 </p>
                 <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-slate-50">
@@ -340,10 +356,11 @@ export const KanjiLesson = () => {
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-[2rem] border border-white/80 bg-white/82 shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/75">
-              <div className={`flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800 ${theme.accentSoft}`}>
+            <div className="kanji-lesson-panel overflow-hidden rounded-[2rem] border border-white/80 bg-white/84 shadow-[0_14px_40px_rgba(15,23,42,0.08)] dark:border-slate-800 dark:bg-slate-950/75">
+              <div className={`relative flex items-center justify-between overflow-hidden border-b border-slate-100 px-5 py-4 dark:border-slate-800 ${theme.accentSoft}`}>
+                <div className={`absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b ${theme.accentGradient}`} />
                 <div className="flex items-center gap-3">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-2xl ${theme.accentBg} text-white shadow-lg ${theme.shadow}`}>
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-full ${theme.accentBg} text-white shadow-lg ${theme.shadow}`}>
                     <List size={18} />
                   </div>
                   <div>
@@ -353,23 +370,32 @@ export const KanjiLesson = () => {
                 </div>
               </div>
 
-              <div className="max-h-[68vh] space-y-2 overflow-y-auto p-3">
+              <div className="kanji-lesson-scroll max-h-[68vh] space-y-2 overflow-y-auto p-3">
                 {vocabList.length === 0 ? (
                   <div className="p-8 text-center font-medium text-slate-500">Chưa có từ vựng nào.</div>
                 ) : vocabList.map((vocab, idx) => (
                   <div
                     key={`${vocab.kanji}-${vocab.hiragana}-${idx}`}
-                    className="kanji-vocab-row rounded-2xl border border-slate-100 bg-white/78 p-4 shadow-sm transition-colors hover:bg-white dark:border-slate-800 dark:bg-slate-900/65 dark:hover:bg-slate-900"
+                    className="kanji-vocab-row kanji-steady-row rounded-2xl border border-slate-100 bg-white/80 p-4 shadow-sm ring-1 ring-white/65 transition-colors hover:bg-white/90 dark:border-slate-800 dark:bg-slate-900/65 dark:ring-slate-800 dark:hover:bg-slate-900"
                   >
-                    <div className="mb-2 flex items-start justify-between gap-4">
-                      <div className="min-w-0">
-                        <p className="truncate font-jp text-2xl font-black text-slate-900 dark:text-slate-50">{vocab.kanji}</p>
-                        <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">{vocab.hiragana}</p>
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center text-slate-900 dark:text-slate-50">
+                        <span className={`font-jp font-black leading-tight ${vocab.kanji.length > 2 ? 'text-base' : 'text-xl'}`}>
+                          {vocab.kanji}
+                        </span>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-black text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                            {String(idx + 1).padStart(2, '0')}
+                          </span>
+                          <p className="truncate text-sm font-semibold text-slate-500 dark:text-slate-400">{vocab.hiragana}</p>
+                        </div>
                         <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
                           {toRomaji(vocab.hiragana)}
                         </p>
                       </div>
-                      <p className="max-w-[48%] text-right text-sm font-bold text-slate-600 dark:text-slate-300">
+                      <p className="max-w-[48%] rounded-2xl bg-slate-50/80 px-3 py-2 text-right text-sm font-bold text-slate-600 dark:bg-slate-800/70 dark:text-slate-300">
                         {vocab.meaning}
                       </p>
                     </div>

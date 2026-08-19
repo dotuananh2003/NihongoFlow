@@ -241,9 +241,8 @@ export const KanjiDetail = () => {
                   )}
                 </div>
 
-                <div className="relative grid place-items-center overflow-hidden rounded-[1.1rem] bg-white/78 py-4 shadow-inner ring-1 ring-white/80 dark:bg-slate-950/30 dark:ring-slate-800">
-                  <div className={`absolute inset-x-5 top-3 h-1 rounded-full bg-gradient-to-r ${theme.gradient} opacity-70`} />
-                  <div className="font-jp text-6xl font-black leading-none text-slate-900 dark:text-slate-50">
+                <div className="relative grid min-h-[148px] place-items-center rounded-[1.1rem] bg-white/78 px-3 pb-4 pt-5 shadow-inner ring-1 ring-white/80 dark:bg-slate-950/30 dark:ring-slate-800">
+                  <div className="font-jp text-[4.5rem] font-black leading-[1.08] text-slate-900 dark:text-slate-50">
                     {kanjiData.char}
                   </div>
                   <div className="mt-2 text-base font-black uppercase tracking-[0.16em] text-slate-900 dark:text-slate-100">
@@ -263,8 +262,8 @@ export const KanjiDetail = () => {
                     <div className="text-base font-black text-slate-900 dark:text-white">{kanjiData.vocab.length}</div>
                     <div className="text-[8px] font-black uppercase tracking-wider text-slate-400">từ</div>
                   </div>
-                  <div className="rounded-xl bg-white/74 p-2 text-center shadow-sm dark:bg-slate-950/30">
-                    <div className={`text-base font-black uppercase ${theme.text}`}>{courseId}</div>
+                  <div className="min-w-0 overflow-hidden rounded-xl bg-white/74 p-2 text-center shadow-sm dark:bg-slate-950/30">
+                    <div className={`whitespace-nowrap text-[13px] font-black uppercase leading-5 ${theme.text}`}>{courseId}</div>
                     <div className="text-[8px] font-black uppercase tracking-wider text-slate-400">jlpt</div>
                   </div>
                 </div>

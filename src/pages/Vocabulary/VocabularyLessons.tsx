@@ -1,9 +1,10 @@
-import { useState, useMemo } from 'react';
+﻿import { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Play, Lock, Layers, Check, Keyboard, X, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Play, Lock, Layers, Check, Keyboard, X, ChevronDown, Crown, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KanjiVocabTyping } from '../../components/Kanji/KanjiVocabTyping';
 import { vocabularyData, type VocabItem } from '../../data/vocabularyData';
+import { paymentApi } from '../../lib/paymentApi';
 
 interface VocabLesson {
   id: string;
@@ -20,8 +21,13 @@ export const VocabularyLessons = () => {
   const [isMixMode, setIsMixMode] = useState(false);
   const [selectedLessons, setSelectedLessons] = useState<string[]>([]);
   const [isTypingMode, setIsTypingMode] = useState(false);
+  const [unlockedPremiumLessons, setUnlockedPremiumLessons] = useState<string[]>([]);
 
   const isJpd123 = courseId?.toLowerCase() === 'jpd123';
+  const normalizedCourseId = courseId?.toLowerCase() ?? '';
+  const unlockedPremiumLessonSet = useMemo(() => new Set(unlockedPremiumLessons), [unlockedPremiumLessons]);
+  const hasPremiumLesson = (lessonId: string) =>
+    unlockedPremiumLessonSet.has(`vocabulary:${normalizedCourseId}:lesson:${lessonId}`);
   const theme = isJpd123 ? {
     color: 'text-blue-600 dark:text-blue-400',
     softText: 'text-blue-500 dark:text-blue-300',
@@ -74,9 +80,9 @@ export const VocabularyLessons = () => {
     { id: '6-1', title: 'Kế hoạch và sự kiện', desc: 'Học về kế hoạch, sự kiện và cách đếm vật mỏng', total: 24, locked: false },
     { id: '6-2', title: 'Ăn uống và giải trí', desc: 'Học về đồ ăn, thức uống và các hoạt động giải trí', total: 23, locked: false },
     { id: '6-3', title: 'Ẩm thực Nhật', desc: 'Học về các món ăn đặc trưng của Nhật Bản', total: 8, locked: false },
-    { id: '7-1', title: 'Vị trí và địa điểm', desc: 'Học về các từ chỉ vị trí và địa điểm công cộng', total: 20, locked: false },
-    { id: '7-2', title: 'Đồ dùng và hành động', desc: 'Học về các vật dụng trong nhà và các động từ liên quan', total: 20, locked: false },
-    { id: '7-3', title: 'Hoạt động thường ngày', desc: 'Học về các hoạt động giải trí và sinh hoạt hàng ngày', total: 20, locked: false },
+    { id: '7-1', title: 'Vị trí và địa điểm', desc: 'Học về các từ chỉ vị trí và địa điểm công cộng', total: 20, locked: !hasPremiumLesson('7-1') },
+    { id: '7-2', title: 'Đồ dùng và hành động', desc: 'Học về các vật dụng trong nhà và các động từ liên quan', total: 20, locked: !hasPremiumLesson('7-2') },
+    { id: '7-3', title: 'Hoạt động thường ngày', desc: 'Học về các hoạt động giải trí và sinh hoạt hàng ngày', total: 20, locked: !hasPremiumLesson('7-3') },
   ] : [
     { id: '1-1', title: 'Chào hỏi cơ bản', desc: 'Học các câu chào hỏi và mẫu giao tiếp nhập môn', total: 15, locked: false },
     { id: '1-2', title: 'Số đếm và tuổi', desc: 'Làm quen số đếm, tuổi và cách hỏi thông tin cơ bản', total: 20, locked: true },
@@ -99,6 +105,33 @@ export const VocabularyLessons = () => {
       navigate(`/vocabulary/${courseId}/lesson/${lessonId}`);
     }
   };
+
+  const openUpgradeModal = () => {
+    window.dispatchEvent(new CustomEvent('jp-forus:open-upgrade'));
+  };
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadEntitlements = async () => {
+      try {
+        const entitlements = await paymentApi.getEntitlements();
+        if (mounted) {
+          setUnlockedPremiumLessons(entitlements.unlockedLessons);
+        }
+      } catch {
+        if (mounted) {
+          setUnlockedPremiumLessons([]);
+        }
+      }
+    };
+
+    void loadEntitlements();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const startMixTyping = () => {
     if (selectedLessons.length === 0) return;
@@ -297,11 +330,18 @@ export const VocabularyLessons = () => {
           {lessons.map((lesson) => {
             const isSelected = selectedLessons.includes(lesson.id);
             return (
-              <button
+              <article
                 key={lesson.id}
-                type="button"
                 onClick={() => handleLessonCardClick(lesson.id, lesson.locked)}
-                className={`vocab-lesson-card group relative h-full text-left ${lesson.locked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                onKeyDown={(event) => {
+                  if (!lesson.locked && (event.key === 'Enter' || event.key === ' ')) {
+                    event.preventDefault();
+                    handleLessonCardClick(lesson.id, lesson.locked);
+                  }
+                }}
+                role={lesson.locked ? undefined : 'button'}
+                tabIndex={lesson.locked ? -1 : 0}
+                className={`vocab-lesson-card group relative h-full text-left outline-none ${lesson.locked ? 'cursor-default' : 'cursor-pointer focus-visible:ring-4 focus-visible:ring-blue-500/20'}`}
               >
                 <div className={`relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-[1.75rem] border-2 bg-white/94 p-5 shadow-[0_8px_20px_rgba(15,23,42,0.07)] transition-colors duration-200 dark:bg-slate-900/94 dark:shadow-[0_8px_20px_rgba(0,0,0,0.22)] ${lesson.locked ? 'border-white/70 opacity-75 grayscale-[0.25] dark:border-slate-800' : isSelected ? theme.selected : `${theme.hoverBorder} border-white/80 dark:border-slate-800`}`}>
                   <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${theme.gradient} ${lesson.locked ? 'opacity-25' : 'opacity-100'}`} />
@@ -349,8 +389,42 @@ export const VocabularyLessons = () => {
                     </div>
                   )}
                   </div>
+
+                  {lesson.locked && (
+                    <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/78 px-5 backdrop-blur-[6px] dark:bg-slate-950/72">
+                      <div className={`absolute left-5 top-5 rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-widest ${theme.bgLight} ${theme.softText} shadow-sm ring-1 ring-white/80 dark:ring-slate-700`}>
+                        Lesson {lesson.id}
+                      </div>
+                      <div className="w-full rounded-[1.5rem] border border-white/80 bg-white/88 p-4 text-center shadow-[0_18px_40px_rgba(37,99,235,0.16)] dark:border-slate-700 dark:bg-slate-900/88">
+                        <div className={`mx-auto mb-3 grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br ${theme.gradient} text-white shadow-lg ${theme.shadow}`}>
+                          <Crown size={23} strokeWidth={2.4} />
+                        </div>
+                        <div className="mb-1 flex items-center justify-center gap-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">
+                          <Sparkles size={13} />
+                          Premium Lesson
+                        </div>
+                        <p className="mx-auto max-w-[240px] text-base font-black leading-snug text-slate-900 dark:text-slate-50">
+                          Hãy mua gói để tiếp tục học bài này
+                        </p>
+                        <p className="mt-2 text-xs font-semibold leading-relaxed text-slate-500 dark:text-slate-400">
+                          Mở khóa lesson {lesson.id} cùng toàn bộ nội dung JPD123.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            openUpgradeModal();
+                          }}
+                          className={`mt-4 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r ${theme.gradient} px-4 py-3 text-sm font-black text-white shadow-lg ${theme.shadow} transition hover:-translate-y-0.5 hover:shadow-xl`}
+                        >
+                          <Lock size={16} />
+                          Mở khóa
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </button>
+              </article>
             );
           })}
         </div>
@@ -402,3 +476,5 @@ export const VocabularyLessons = () => {
     </>
   );
 };
+
+

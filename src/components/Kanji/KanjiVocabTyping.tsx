@@ -357,61 +357,79 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({
       </div>
 
       <div className="relative flex h-full flex-col items-center px-4 py-4 md:px-8">
-        <header className="mx-auto grid w-full max-w-[980px] items-center gap-3 rounded-full border border-white/85 bg-white/82 px-4 py-3 shadow-[0_18px_46px_rgba(15,23,42,0.10)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/80 md:grid-cols-[1.4fr_auto_auto_auto_auto]">
-          <div className="min-w-0">
-            <div className="mb-1.5 flex items-center gap-3">
-              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-slate-400">Tiến độ</span>
-              <span className="text-lg font-black text-slate-900 dark:text-white">
-                {currentIndex + 1}<span className="text-sm text-slate-400"> / {vocabList.length}</span>
-              </span>
-              <span className={`rounded-full border px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.14em] ${theme.progressSoft}`}>
-                {accuracy}% đúng
-              </span>
-            </div>
-            <div className="h-2 overflow-hidden rounded-full bg-slate-200/80 dark:bg-slate-800">
-              <div className={`h-full rounded-full bg-gradient-to-r ${theme.accentGradient}`} style={{ width: `${progressPercent}%` }} />
-            </div>
-          </div>
-
-          {[
-            [Star, 'Điểm', score, 'text-blue-600'],
-            [Flame, 'Combo', `${combo}/${maxCombo}`, 'text-rose-600'],
-            [Timer, 'Thời gian', formatTime(elapsedSeconds), 'text-slate-800 dark:text-slate-100'],
-          ].map(([Icon, label, value, className]) => {
-            const StatIcon = Icon as typeof Star;
-            return (
-              <div key={label as string} className="hidden min-w-[86px] border-l border-slate-200/80 pl-4 md:block dark:border-slate-800">
-                <div className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.16em] text-slate-400">
-                  <StatIcon size={14} className={className as string} />
-                  {label as string}
+        <header className="mx-auto w-full max-w-[1040px] rounded-[2rem] border border-white/85 bg-white/76 p-2.5 shadow-[0_22px_58px_rgba(15,23,42,0.11)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/80">
+          <div className="grid items-center gap-2 md:grid-cols-[1.35fr_auto]">
+            <div className="grid items-center gap-2 sm:grid-cols-[minmax(220px,1fr)_auto]">
+              <div className="relative overflow-hidden rounded-[1.5rem] border border-white/80 bg-white/68 px-4 py-3 ring-1 ring-slate-100/70 dark:border-slate-800 dark:bg-slate-900/62 dark:ring-slate-800">
+                <div className={`absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b ${theme.accentGradient}`} />
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <div className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Tiến độ</div>
+                    <div className="mt-1 flex items-end gap-2">
+                      <span className="text-2xl font-black leading-none text-slate-950 dark:text-white">{currentIndex + 1}</span>
+                      <span className="pb-0.5 text-sm font-black text-slate-400">/ {vocabList.length}</span>
+                    </div>
+                  </div>
+                  <span className={`shrink-0 rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] ${theme.progressSoft}`}>
+                    {accuracy}% đúng
+                  </span>
                 </div>
-                <div className={`mt-0.5 text-xl font-black leading-none ${className as string}`}>{value as string | number}</div>
+                <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-200/80 dark:bg-slate-800">
+                  <div className={`h-full rounded-full bg-gradient-to-r ${theme.accentGradient} shadow-[0_0_18px_rgba(37,99,235,0.24)]`} style={{ width: `${progressPercent}%` }} />
+                </div>
               </div>
-            );
-          })}
 
-          <button
-            onClick={onClose}
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-rose-600 px-6 text-sm font-black text-white shadow-[0_12px_26px_rgba(225,29,72,0.25)] transition-transform hover:-translate-y-0.5 active:translate-y-0"
-          >
-            <X size={18} strokeWidth={2.8} /> Thoát
-          </button>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  [Star, 'Điểm', score, 'bg-blue-50 text-blue-600 ring-blue-100'],
+                  [Flame, 'Combo', `${combo}/${maxCombo}`, 'bg-rose-50 text-rose-600 ring-rose-100'],
+                  [Timer, 'Thời gian', formatTime(elapsedSeconds), 'bg-slate-50 text-slate-800 ring-slate-100 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700'],
+                ].map(([Icon, label, value, className]) => {
+                  const StatIcon = Icon as typeof Star;
+                  return (
+                    <div key={label as string} className="min-w-[92px] rounded-[1.35rem] border border-white/80 bg-white/58 px-3 py-2.5 ring-1 ring-slate-100/70 dark:border-slate-800 dark:bg-slate-900/58 dark:ring-slate-800">
+                      <div className="flex items-center gap-2">
+                        <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-2xl ring-1 ${className as string}`}>
+                          <StatIcon size={16} strokeWidth={2.6} />
+                        </span>
+                        <div className="min-w-0">
+                          <div className="truncate text-[9px] font-black uppercase tracking-[0.16em] text-slate-400">{label as string}</div>
+                          <div className="mt-0.5 text-xl font-black leading-none text-slate-950 dark:text-white">{value as string | number}</div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="group inline-flex h-[68px] items-center justify-center gap-3 rounded-full bg-rose-600 px-7 text-base font-black text-white shadow-[0_16px_32px_rgba(225,29,72,0.28)] outline-none transition-transform hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-4 focus-visible:ring-rose-100"
+            >
+              <span className="grid h-9 w-9 place-items-center rounded-2xl bg-white/16 ring-1 ring-white/24 transition-transform group-hover:rotate-90">
+                <X size={18} strokeWidth={3} />
+              </span>
+              Thoát
+            </button>
+          </div>
         </header>
 
-        <main className="flex w-full flex-1 flex-col items-center justify-center gap-4 py-4">
-          <section className="relative w-full max-w-[840px] overflow-hidden rounded-[2.25rem] border border-white/85 bg-white/78 px-6 py-10 text-center shadow-[0_26px_70px_rgba(15,23,42,0.10)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/78">
+        <main className="flex w-full flex-1 flex-col items-center justify-center gap-3 pb-24 pt-2">
+          <section className="relative w-full max-w-[840px] overflow-hidden rounded-[2.25rem] border border-white/85 bg-white/78 px-6 py-7 text-center shadow-[0_20px_54px_rgba(15,23,42,0.09)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/78">
             <div className={`absolute inset-x-24 top-0 h-1.5 rounded-b-full bg-gradient-to-r ${theme.accentGradient}`} />
             <div className={`absolute -right-10 -top-16 font-jp text-[11rem] font-black leading-none ${theme.accentText} opacity-[0.04]`}>
               {mode === 'vocab' ? '語' : currentVocab?.kanji}
             </div>
-            <div className={`mx-auto mb-6 inline-flex items-center gap-2 rounded-full border bg-white/70 px-4 py-2 text-[10px] font-black uppercase tracking-[0.26em] ${theme.accentText} ${theme.accentBorder}`}>
+            <div className={`mx-auto mb-4 inline-flex items-center gap-2 rounded-full border bg-white/70 px-4 py-2 text-[10px] font-black uppercase tracking-[0.26em] ${theme.accentText} ${theme.accentBorder}`}>
               <Keyboard size={14} />
               {promptLabel}
             </div>
             <div className={`relative mx-auto max-w-2xl font-black leading-tight text-slate-900 dark:text-slate-50 ${mode === 'vocab' ? 'text-4xl md:text-5xl' : 'font-jp text-6xl md:text-7xl'}`}>
               {mode === 'vocab' ? currentVocab?.meaning : currentVocab?.kanji}
             </div>
-            <button className={`mx-auto mt-7 grid h-13 w-13 place-items-center rounded-full border bg-white/82 shadow-[0_12px_28px_rgba(15,23,42,0.08)] ${theme.accentText} ${theme.accentBorder} dark:bg-slate-900`}>
+            <button className={`mx-auto mt-5 grid h-13 w-13 place-items-center rounded-full border bg-white/82 shadow-[0_12px_28px_rgba(15,23,42,0.08)] ${theme.accentText} ${theme.accentBorder} dark:bg-slate-900`}>
               <Volume2 size={22} />
             </button>
           </section>
@@ -437,7 +455,7 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({
               />
             </div>
 
-            <div ref={feedbackRef} className="mt-3 min-h-[62px]">
+            <div ref={feedbackRef} className="mt-2 min-h-[58px]">
               {status === null && (
                 <div className="flex items-center justify-center gap-2 text-sm font-semibold text-slate-500">
                   <Lightbulb size={15} className="text-amber-500" />
@@ -446,64 +464,86 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({
               )}
 
               {status === 'correct' && (
-                <div className="mx-auto flex max-w-[680px] items-center justify-between gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/90 px-4 py-3 text-emerald-700 shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <span className="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-500 text-white">
-                      <Check size={20} strokeWidth={3} />
+                <div className="mx-auto grid max-w-[820px] items-center gap-3 overflow-hidden rounded-[1.6rem] border border-emerald-200/80 bg-white/78 p-2 text-emerald-700 shadow-[0_14px_34px_rgba(16,185,129,0.12)] backdrop-blur-xl md:grid-cols-[1fr_auto]">
+                  <div className="flex min-h-[72px] items-center gap-3 rounded-[1.25rem] bg-emerald-50/92 px-4">
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-emerald-500 text-white shadow-[0_12px_24px_rgba(16,185,129,0.24)]">
+                      <Check size={22} strokeWidth={3} />
                     </span>
-                    <div>
-                      <div className="text-sm font-black">Chính xác</div>
-                      <div className="text-xs font-semibold opacity-75">Bạn đã gõ đúng từ này.</div>
+                    <div className="min-w-0 text-left">
+                      <div className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">Kết quả</div>
+                      <div className="mt-0.5 text-base font-black">Chính xác</div>
+                      <div className="text-xs font-semibold opacity-75">Câu trả lời đã khớp với đáp án.</div>
                     </div>
                   </div>
-                  <AnswerPreview vocab={currentVocab} hint={getRomajiHint(currentVocab)} />
+                  <div className="rounded-[1.25rem] border border-white/80 bg-white/92 px-4 py-3 shadow-sm ring-1 ring-emerald-100/80">
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <div className="text-[10px] font-black uppercase tracking-[0.18em] text-emerald-500">{getRomajiHint(currentVocab)}</div>
+                        <div className="font-jp text-3xl font-black leading-none text-slate-900">{currentVocab?.hiragana}</div>
+                      </div>
+                      <div className="h-11 w-px bg-emerald-100" />
+                      <div className="max-w-[180px] truncate text-sm font-black text-slate-800">{currentVocab?.meaning}</div>
+                    </div>
+                  </div>
                 </div>
               )}
 
               {status === 'wrong' && (
-                <div className="mx-auto flex max-w-[680px] items-center justify-between gap-3 rounded-2xl border border-rose-100 bg-rose-50/90 px-4 py-3 text-rose-700 shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <span className="grid h-10 w-10 place-items-center rounded-2xl bg-rose-500 text-white">
-                      <X size={20} strokeWidth={3} />
+                <div className="mx-auto grid max-w-[820px] items-center gap-3 overflow-hidden rounded-[1.6rem] border border-rose-200/80 bg-white/78 p-2 text-rose-700 shadow-[0_14px_34px_rgba(244,63,94,0.12)] backdrop-blur-xl md:grid-cols-[1fr_auto]">
+                  <div className="flex min-h-[72px] items-center gap-3 rounded-[1.25rem] bg-rose-50/92 px-4">
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-rose-500 text-white shadow-[0_12px_24px_rgba(244,63,94,0.24)]">
+                      <X size={22} strokeWidth={3} />
                     </span>
-                    <div>
-                      <div className="text-sm font-black">Chưa chính xác</div>
-                      <div className="text-xs font-semibold opacity-75">Xem đáp án rồi tiếp tục.</div>
+                    <div className="min-w-0 text-left">
+                      <div className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60">Cần sửa</div>
+                      <div className="mt-0.5 text-base font-black">Chưa chính xác</div>
+                      <div className="text-xs font-semibold opacity-75">Đáp án đúng nằm ở thẻ bên phải.</div>
                     </div>
                   </div>
-                  <AnswerPreview vocab={currentVocab} hint={getRomajiHint(currentVocab)} />
+                  <div className="rounded-[1.25rem] border border-white/80 bg-white/92 px-4 py-3 shadow-sm ring-1 ring-rose-100/80">
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <div className="text-[10px] font-black uppercase tracking-[0.18em] text-rose-500">{getRomajiHint(currentVocab)}</div>
+                        <div className="font-jp text-3xl font-black leading-none text-slate-900">{currentVocab?.hiragana}</div>
+                      </div>
+                      <div className="h-11 w-px bg-rose-100" />
+                      <div className="max-w-[180px] truncate text-sm font-black text-slate-800">{currentVocab?.meaning}</div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
 
-            <div className="mt-2 flex items-center gap-4">
+            <div className="mt-1 flex items-center gap-4">
               <div className="h-px flex-1 bg-slate-200/80 dark:bg-slate-800" />
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Bảng chữ hỗ trợ</span>
               <div className="h-px flex-1 bg-slate-200/80 dark:bg-slate-800" />
             </div>
 
-            <div className="mx-auto mt-5 grid max-w-[560px] grid-cols-2 gap-3">
+            <div className="mx-auto mt-4 grid max-w-[560px] grid-cols-2 gap-3">
               <button
+                type="button"
                 onClick={() => {
                   setImeMode('hira');
                   inputRef.current?.focus();
                 }}
-                className={`flex h-16 items-center justify-center gap-3 rounded-2xl border-2 text-sm font-black shadow-sm transition-all ${
+                className={`flex h-16 items-center justify-center gap-3 overflow-hidden rounded-2xl border-2 text-sm font-black shadow-sm outline-none transition-all focus-visible:ring-4 ${theme.accentRing} ${
                   imeMode === 'hira'
-                    ? `border-transparent bg-gradient-to-r ${theme.accentGradient} text-white shadow-blue-500/20`
+                    ? `border-white/80 ${theme.accentBg} text-white shadow-[0_12px_28px_rgba(37,99,235,0.18)]`
                     : 'border-white/80 bg-white/76 text-slate-600 hover:bg-white dark:border-slate-800 dark:bg-slate-950/72 dark:text-slate-300'
                 }`}
               >
                 <span className="font-jp text-xl">あ</span> Hiragana
               </button>
               <button
+                type="button"
                 onClick={() => {
                   setImeMode('kata');
                   inputRef.current?.focus();
                 }}
-                className={`flex h-16 items-center justify-center gap-3 rounded-2xl border-2 text-sm font-black shadow-sm transition-all ${
+                className={`flex h-16 items-center justify-center gap-3 overflow-hidden rounded-2xl border-2 text-sm font-black shadow-sm outline-none transition-all focus-visible:ring-4 ${theme.accentRing} ${
                   imeMode === 'kata'
-                    ? `border-transparent bg-gradient-to-r ${theme.accentGradient} text-white shadow-blue-500/20`
+                    ? `border-white/80 ${theme.accentBg} text-white shadow-[0_12px_28px_rgba(37,99,235,0.18)]`
                     : 'border-white/80 bg-white/76 text-slate-600 hover:bg-white dark:border-slate-800 dark:bg-slate-950/72 dark:text-slate-300'
                 }`}
               >
@@ -511,7 +551,7 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({
               </button>
             </div>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-slate-400">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-slate-400">
               <span className="rounded-lg border border-slate-200 bg-white/72 px-2 py-1 text-[10px] font-black">Enter</span>
               <span>Xác nhận / Tiếp tục</span>
               <span className="rounded-lg border border-slate-200 bg-white/72 px-2 py-1 text-[10px] font-black">Tab</span>
@@ -519,26 +559,47 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({
             </div>
           </div>
 
-          <button
-            onClick={skipQuestion}
-            className={`inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full bg-gradient-to-r ${theme.accentGradient} px-8 text-base font-black text-white shadow-[0_14px_34px_rgba(37,99,235,0.22)] transition-transform hover:-translate-y-0.5 active:translate-y-0`}
-          >
-            {status !== null ? 'Tiếp tục' : 'Bỏ qua'} <ChevronRight size={19} strokeWidth={3} />
-          </button>
         </main>
+
+        <footer className="absolute inset-x-4 bottom-4 mx-auto w-[min(100%,1060px)] rounded-full border border-white/85 bg-white/78 p-2 shadow-[0_20px_54px_rgba(15,23,42,0.14)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/80">
+          <div className={`absolute inset-x-12 -top-px h-1 rounded-b-full bg-gradient-to-r ${theme.accentGradient}`} />
+          <div className="grid items-center gap-2 md:grid-cols-[1fr_auto]">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {[
+                [Check, 'Đúng', correctCount, 'bg-emerald-50 text-emerald-600 ring-emerald-100'],
+                [X, 'Sai', wrongCount, 'bg-rose-50 text-rose-600 ring-rose-100'],
+                [Target, 'Độ chính xác', `${accuracy}%`, 'bg-blue-50 text-blue-600 ring-blue-100'],
+                [Trophy, 'Combo cao nhất', maxCombo, 'bg-violet-50 text-violet-600 ring-violet-100'],
+              ].map(([Icon, label, value, className]) => {
+                const MetricIcon = Icon as typeof Check;
+
+                return (
+                  <div key={label as string} className="group flex min-h-[58px] items-center gap-3 rounded-full bg-white/58 px-3 ring-1 ring-white/80 transition-colors hover:bg-white/80 dark:bg-slate-900/56 dark:ring-slate-800">
+                    <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full ring-1 ${className as string}`}>
+                      <MetricIcon size={18} strokeWidth={2.8} />
+                    </span>
+                    <div className="min-w-0">
+                      <div className="truncate text-[9px] font-black uppercase tracking-[0.18em] text-slate-400">{label as string}</div>
+                      <div className="text-xl font-black leading-none text-slate-900 dark:text-white">{value as string | number}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={skipQuestion}
+              className={`group inline-flex min-h-[58px] items-center justify-center gap-3 rounded-full bg-gradient-to-r ${theme.accentGradient} px-7 text-base font-black text-white shadow-[0_14px_34px_rgba(37,99,235,0.24)] transition-transform hover:-translate-y-0.5 active:translate-y-0`}
+            >
+              {status !== null ? 'Tiếp tục' : 'Bỏ qua'}
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-white/18 ring-1 ring-white/24 transition-transform group-hover:translate-x-0.5">
+                <ChevronRight size={18} strokeWidth={3} />
+              </span>
+            </button>
+          </div>
+        </footer>
       </div>
     </div>,
     document.body
   );
 };
-
-const AnswerPreview = ({ vocab, hint }: { vocab?: VocabExample; hint: string }) => (
-  <div className="flex items-center gap-3 rounded-2xl bg-white/72 px-3 py-2 text-slate-800 shadow-sm ring-1 ring-white/80 dark:bg-slate-950/45 dark:text-slate-100 dark:ring-slate-800">
-    <div className="text-right">
-      <div className="text-xs font-black uppercase tracking-[0.14em] text-slate-400">{hint}</div>
-      <div className="font-jp text-2xl font-black">{vocab?.hiragana}</div>
-    </div>
-    <div className="h-10 w-px bg-slate-200 dark:bg-slate-800" />
-    <div className="max-w-[150px] truncate text-sm font-black">{vocab?.meaning}</div>
-  </div>
-);

@@ -10,9 +10,10 @@ export const Layout = () => {
   const isVocabPage = location.pathname.startsWith('/vocabulary/') && location.pathname !== '/vocabulary';
   const isVocabIndexPage = location.pathname === '/vocabulary';
   const isGrammarIndexPage = location.pathname === '/grammar';
+  const isExamIndexPage = location.pathname === '/exam';
   const isKanjiPage = location.pathname.startsWith('/kanji');
-  const isTransparentHeader = isVocabPage || isKanjiPage || isVocabIndexPage || isGrammarIndexPage;
-  const isBgPage = isVocabIndexPage || isGrammarIndexPage;
+  const isTransparentHeader = isVocabPage || isKanjiPage || isVocabIndexPage || isGrammarIndexPage || isExamIndexPage;
+  const isBgPage = isVocabIndexPage || isGrammarIndexPage || isExamIndexPage;
 
   useEffect(() => {
     if (isBgPage) {
@@ -63,21 +64,21 @@ export const Layout = () => {
           {isKanjiPage && (
             <>
               {/* Lớp nền gốc của Kanji (z-[-20]) */}
-              <div className="fixed inset-0 z-[-20] pointer-events-none">
+              <div className="kanji-bg-plane fixed inset-0 z-[-20] pointer-events-none">
                 <img 
                   src="/images/backgrounds/kanji-bg.jpg"
                   alt="Kanji Background"
-                  className="w-full h-full object-cover object-center"
+                  className="kanji-bg-raster w-full h-full object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-white/40 dark:bg-slate-950/60"></div>
               </div>
 
               {/* Mask Header */}
-              <div className="fixed top-0 left-0 w-full h-[76px] md:h-[92px] bg-[var(--background)] dark:bg-slate-950 overflow-hidden z-[15] pointer-events-none">
+              <div className="kanji-bg-plane fixed top-0 left-0 w-full h-[76px] md:h-[92px] bg-[var(--background)] dark:bg-slate-950 overflow-hidden z-[15] pointer-events-none">
                 <img 
                   src="/images/backgrounds/kanji-bg.jpg"
                   alt=""
-                  className="absolute top-0 left-0 w-screen h-screen object-cover object-center"
+                  className="kanji-bg-raster absolute top-0 left-0 w-screen h-screen object-cover object-center"
                 />
                 <div className="absolute top-0 left-0 w-screen h-screen bg-white/40 dark:bg-slate-950/60"></div>
               </div>
@@ -118,6 +119,27 @@ export const Layout = () => {
                   alt=""
                   className="absolute top-0 left-0 w-screen h-screen object-cover object-center"
                 />
+              </div>
+            </>
+          )}
+
+          {isExamIndexPage && (
+            <>
+              <div className="fixed inset-0 z-[-20] pointer-events-none">
+                <img
+                  src="/images/backgrounds/grammar-page-bg.png"
+                  alt="Exam Background"
+                  className="w-full h-full object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-white/18 dark:bg-slate-950/45" />
+              </div>
+              <div className="fixed top-0 left-0 w-full h-[76px] md:h-[92px] bg-[var(--background)] dark:bg-slate-950 overflow-hidden z-[15] pointer-events-none">
+                <img
+                  src="/images/backgrounds/grammar-page-bg.png"
+                  alt=""
+                  className="absolute top-0 left-0 w-screen h-screen object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-white/18 dark:bg-slate-950/45" />
               </div>
             </>
           )}

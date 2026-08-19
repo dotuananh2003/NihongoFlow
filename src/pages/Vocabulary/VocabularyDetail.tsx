@@ -214,7 +214,6 @@ export const VocabularyDetail = () => {
             <div className="flex flex-col gap-3 mb-10">
               {vocabList.map((item) => {
                 const isSelected = selectedWordIds.includes(item.id);
-                const displayMark = item.kanji.slice(0, 1);
                 return (
                   <div
                     key={item.id}
@@ -234,13 +233,8 @@ export const VocabularyDetail = () => {
                         {String(item.id).padStart(2, '0')}
                       </span>
 
-                      <div className="grid grid-cols-1 md:grid-cols-[190px_170px_minmax(0,1fr)] items-center gap-3 md:gap-6 flex-1 min-w-0">
+                      <div className="grid grid-cols-1 md:grid-cols-[150px_170px_minmax(0,1fr)] items-center gap-3 md:gap-6 flex-1 min-w-0">
                         <div className="flex items-center gap-3 min-w-0">
-                          <div className={`w-14 h-14 rounded-2xl ${theme.bgAccentLight} flex items-center justify-center shrink-0 border border-white/80 dark:border-slate-800`}>
-                            <span className={`text-2xl md:text-3xl font-jp font-black ${theme.textAccent} whitespace-nowrap`}>
-                              {displayMark}
-                            </span>
-                          </div>
                           <div className="min-w-0">
                             <span className="block text-xl md:text-2xl font-jp font-black text-slate-900 dark:text-slate-50 truncate">
                               {item.kanji}

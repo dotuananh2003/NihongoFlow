@@ -1,25 +1,226 @@
-import { useState, useEffect, useRef } from 'react';
-import { 
-  Search, Bell, ChevronDown, User, LogOut, Target,
-  UserCircle, ClipboardList, FolderCheck, Bookmark, BookOpen, History,
-  Globe, Volume2, RefreshCw, HelpCircle, MessageSquare, Flame, Camera, X, Crown
+import { useEffect, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
+import { createPortal } from 'react-dom';
+import { useNavigate } from 'react-router-dom';
+import {
+  Bell,
+  BookOpen,
+  Bookmark,
+  Camera,
+  ChevronDown,
+  CheckCircle2,
+  ClipboardList,
+  Crown,
+  CreditCard,
+  Flame,
+  FolderCheck,
+  Gem,
+  Globe,
+  HelpCircle,
+  History,
+  LogOut,
+  MessageSquare,
+  RefreshCw,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  Target,
+  User,
+  UserCircle,
+  Volume2,
+  X,
+  Zap,
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { paymentApi, type PlanId } from '../../lib/paymentApi';
+
+type ProfileData = {
+  name: string;
+  email: string;
+  level: string;
+  goal: string;
+  bio: string;
+};
+
+type MenuItemProps = {
+  icon: ReactNode;
+  title: string;
+  subtitle: string;
+  accent: string;
+  onClick?: () => void;
+};
+
+type PricingPlan = {
+  id: PlanId;
+  name: string;
+  label: string;
+  price: string;
+  period: string;
+  tone: 'blue' | 'indigo' | 'rose';
+  icon: ReactNode;
+  features: string[];
+  featured?: boolean;
+  oldPrice?: string;
+};
+
+const menuGroups = [
+  {
+    title: 'Tài khoản',
+    items: [
+      { icon: <UserCircle size={18} />, title: 'Hồ sơ cá nhân', subtitle: 'プロフィール', accent: 'blue' },
+      { icon: <ClipboardList size={18} />, title: 'Mục tiêu học tập', subtitle: '学習目標', accent: 'emerald' },
+      { icon: <FolderCheck size={18} />, title: 'Tiến độ học tập', subtitle: '学習の進捗', accent: 'cyan' },
+    ],
+  },
+  {
+    title: 'Học tập',
+    items: [
+      { icon: <Target size={18} />, title: 'JLPT mục tiêu', subtitle: 'JLPT目標', accent: 'rose' },
+      { icon: <Bookmark size={18} />, title: 'Kana & Kanji đã lưu', subtitle: '保存したかな・漢字', accent: 'amber' },
+      { icon: <BookOpen size={18} />, title: 'Từ vựng ghi nhớ', subtitle: '単語帳', accent: 'indigo' },
+      { icon: <History size={18} />, title: 'Lịch sử làm bài', subtitle: '解いた問題の履歴', accent: 'violet' },
+    ],
+  },
+  {
+    title: 'Tùy chỉnh',
+    items: [
+      { icon: <Globe size={18} />, title: 'Ngôn ngữ hiển thị', subtitle: '表示言語', accent: 'sky' },
+      { icon: <Volume2 size={18} />, title: 'Âm thanh & phát âm', subtitle: '音声と発音', accent: 'fuchsia' },
+      { icon: <Bell size={18} />, title: 'Thông báo', subtitle: '通知設定', accent: 'orange' },
+    ],
+  },
+  {
+    title: 'Hệ thống',
+    items: [
+      { icon: <RefreshCw size={18} />, title: 'Đồng bộ dữ liệu', subtitle: 'データの同期', accent: 'teal' },
+      { icon: <HelpCircle size={18} />, title: 'Trợ giúp', subtitle: 'ヘルプセンター', accent: 'slate' },
+      { icon: <MessageSquare size={18} />, title: 'Phản hồi', subtitle: 'フィードバックを送る', accent: 'pink' },
+    ],
+  },
+] as const;
+
+const accentClasses: Record<string, string> = {
+  amber: 'bg-amber-50 text-amber-500 group-hover:bg-amber-100',
+  blue: 'bg-blue-50 text-blue-500 group-hover:bg-blue-100',
+  cyan: 'bg-cyan-50 text-cyan-500 group-hover:bg-cyan-100',
+  emerald: 'bg-emerald-50 text-emerald-500 group-hover:bg-emerald-100',
+  fuchsia: 'bg-fuchsia-50 text-fuchsia-500 group-hover:bg-fuchsia-100',
+  indigo: 'bg-indigo-50 text-indigo-500 group-hover:bg-indigo-100',
+  orange: 'bg-orange-50 text-orange-500 group-hover:bg-orange-100',
+  pink: 'bg-pink-50 text-pink-500 group-hover:bg-pink-100',
+  rose: 'bg-rose-50 text-rose-500 group-hover:bg-rose-100',
+  sky: 'bg-sky-50 text-sky-500 group-hover:bg-sky-100',
+  slate: 'bg-slate-50 text-slate-500 group-hover:bg-slate-100',
+  teal: 'bg-teal-50 text-teal-500 group-hover:bg-teal-100',
+  violet: 'bg-violet-50 text-violet-500 group-hover:bg-violet-100',
+};
+
+const pricingPlans: PricingPlan[] = [
+  {
+    id: 'jpd113',
+    name: 'JPD113',
+    label: 'Sơ cấp I',
+    price: '40.000đ',
+    period: '/ 6 tháng',
+    tone: 'rose',
+    icon: <Zap size={24} />,
+    features: ['Kanji JPD113', 'Từ vựng JPD113', 'Ngữ pháp JPD113', 'Luyện thi sơ cấp', 'Luyện nói cơ bản'],
+  },
+  {
+    id: 'combo',
+    name: 'Combo Master',
+    label: 'Khuyên dùng',
+    price: '70.000đ',
+    period: '/ 6 tháng',
+    oldPrice: '80.000đ',
+    tone: 'blue',
+    icon: <Crown size={26} />,
+    features: ['Toàn bộ JPD113', 'Toàn bộ JPD123', 'Luyện thi cả 2 khóa', 'Luyện nói cả 2 khóa', 'Tiết kiệm 10.000đ'],
+    featured: true,
+  },
+  {
+    id: 'jpd123',
+    name: 'JPD123',
+    label: 'Sơ cấp II',
+    price: '40.000đ',
+    period: '/ 6 tháng',
+    tone: 'indigo',
+    icon: <BookOpen size={24} />,
+    features: ['Kanji JPD123', 'Từ vựng JPD123', 'Ngữ pháp JPD123', 'Luyện thi N5 nâng cao', 'Lộ trình 6 tháng'],
+  },
+];
+
+const planToneClasses: Record<string, { icon: string; ring: string; button: string; badge: string }> = {
+  blue: {
+    icon: 'bg-blue-600 text-white shadow-blue-500/30',
+    ring: 'border-blue-300 ring-4 ring-blue-100/80 shadow-blue-500/16',
+    button: 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-blue-500/25 hover:shadow-blue-500/35',
+    badge: 'bg-blue-600 text-white',
+  },
+  indigo: {
+    icon: 'bg-indigo-50 text-indigo-500 shadow-indigo-500/10',
+    ring: 'border-white/80 shadow-slate-900/8',
+    button: 'bg-white text-indigo-600 border border-indigo-100 hover:bg-indigo-50',
+    badge: 'bg-indigo-50 text-indigo-600',
+  },
+  rose: {
+    icon: 'bg-rose-50 text-rose-500 shadow-rose-500/10',
+    ring: 'border-white/80 shadow-slate-900/8',
+    button: 'bg-white text-rose-600 border border-rose-100 hover:bg-rose-50',
+    badge: 'bg-rose-50 text-rose-600',
+  },
+};
+
+const MenuItem = ({ icon, title, subtitle, accent, onClick }: MenuItemProps) => (
+  <button
+    onClick={onClick}
+    className="group flex w-full items-center gap-3 rounded-2xl border border-transparent px-3 py-2 text-left transition-all duration-200 hover:border-slate-100 hover:bg-white hover:shadow-sm"
+  >
+    <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-2xl transition-colors ${accentClasses[accent] ?? accentClasses.blue}`}>
+      {icon}
+    </span>
+    <span className="min-w-0">
+      <span className="block truncate text-[13px] font-black leading-tight text-slate-800">{title}</span>
+      <span className="mt-0.5 block truncate text-[10px] font-bold leading-tight text-slate-400">{subtitle}</span>
+    </span>
+  </button>
+);
 
 export const Header = () => {
-
-
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [profileData, setProfileData] = useState({
-    name: 'Mizuuuo',
+  const [isUpgradeOpen, setIsUpgradeOpen] = useState(false);
+  const [creatingPlanId, setCreatingPlanId] = useState<PlanId | null>(null);
+  const [checkoutError, setCheckoutError] = useState('');
+  const [profileData, setProfileData] = useState<ProfileData>({
+    name: 'Học viên',
     email: 'student@jp-forus.com',
     level: 'N4',
     goal: 'N3',
-    bio: 'Người học tiếng Nhật'
+    bio: 'Người học tiếng Nhật',
   });
-  const [avatarImage, setAvatarImage] = useState('https://api.dicebear.com/7.x/notionists/svg?seed=Mizuuuo&backgroundColor=f8d7da');
+  const [avatarImage, setAvatarImage] = useState('https://api.dicebear.com/7.x/notionists/svg?seed=jp-forus&backgroundColor=f8d7da');
   const profileRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    setProfileData((current) => ({
+      ...current,
+      name: user.fullName ?? user.email,
+      email: user.email,
+      bio: user.provider === 'google' ? 'Đăng nhập bằng Google' : 'Người học tiếng Nhật',
+    }));
+
+    if (user.avatarUrl) {
+      setAvatarImage(user.avatarUrl);
+    }
+  }, [user]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -27,42 +228,55 @@ export const Header = () => {
         setIsProfileOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatarImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => setAvatarImage(reader.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setIsProfileOpen(false);
+    navigate('/login', { replace: true });
+  };
+
+  const handleStartCheckout = async (planId: PlanId) => {
+    setCreatingPlanId(planId);
+    setCheckoutError('');
+
+    try {
+      const response = await paymentApi.createOrder(planId);
+      setIsUpgradeOpen(false);
+      navigate(`/checkout/${response.order.orderCode}`);
+    } catch (error) {
+      setCheckoutError(error instanceof Error ? error.message : 'Không thể tạo đơn thanh toán.');
+    } finally {
+      setCreatingPlanId(null);
     }
   };
 
-  const MenuItem = ({ icon, title, subtitle, onClick }: { icon: React.ReactNode, title: string, subtitle: string, onClick?: () => void }) => (
-    <button 
-      onClick={onClick}
-      className="w-full flex items-center gap-4 px-3 py-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-left group"
-    >
-      <div className="text-slate-400 group-hover:text-[var(--primary)] transition-colors shrink-0">
-        {icon}
-      </div>
-      <div>
-        <p className="text-[13px] font-bold text-slate-700 dark:text-slate-200 group-hover:text-[var(--primary)] transition-colors leading-tight">{title}</p>
-        <p className="text-[10px] font-medium text-slate-400 mt-0.5">{subtitle}</p>
-      </div>
-    </button>
-  );
+  useEffect(() => {
+    const openUpgradeModal = () => {
+      setIsProfileOpen(false);
+      setIsUpgradeOpen(true);
+    };
 
-
+    window.addEventListener('jp-forus:open-upgrade', openUpgradeModal);
+    return () => window.removeEventListener('jp-forus:open-upgrade', openUpgradeModal);
+  }, []);
 
   return (
     <header className="h-20 flex items-center justify-between px-8 bg-transparent z-10 w-full shrink-0">
-      
-      {/* Left: Search Bar */}
       <div className="flex-1 max-w-md relative group">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[var(--primary)] transition-colors">
           <Search size={18} strokeWidth={2.5} />
@@ -74,225 +288,182 @@ export const Header = () => {
         />
       </div>
 
-      {/* Right: Actions */}
       <div className="flex items-center gap-3 md:gap-5 ml-auto rounded-[28px] border border-white/65 dark:border-slate-700/60 bg-white/35 dark:bg-slate-950/35 px-3 py-2 shadow-[0_12px_34px_rgba(15,23,42,0.08)] backdrop-blur-xl">
-
-
-
-        {/* Upgrade */}
-        <button className="hidden sm:flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 px-4 py-3 text-sm font-black text-white shadow-lg shadow-amber-400/25 border border-white/60 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-amber-400/30 transition-all">
+        <button
+          onClick={() => setIsUpgradeOpen(true)}
+          className="hidden sm:flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 px-4 py-3 text-sm font-black text-white shadow-lg shadow-amber-400/25 border border-white/60 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-amber-400/30 transition-all"
+        >
           <Crown size={18} strokeWidth={2.5} />
           Nâng Cấp
         </button>
 
-        {/* Notification */}
         <button className="relative p-3 rounded-full bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] transition-all shadow-sm border border-white/80 dark:border-slate-800">
           <Bell size={20} strokeWidth={2.5} />
-          <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+          <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900" />
         </button>
 
-
-        {/* Profile */}
         <div className="relative" ref={profileRef}>
-          <div 
-            onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="flex items-center gap-3 pl-1 pr-1 cursor-pointer hover:opacity-80 transition-opacity"
+          <button
+            onClick={() => setIsProfileOpen((value) => !value)}
+            className="flex items-center gap-3 rounded-full py-1 pl-1 pr-2 hover:bg-white/45 transition-all"
           >
-            <div className="w-12 h-12 rounded-full border-2 border-white dark:border-slate-800 shadow-sm overflow-hidden bg-slate-200 shrink-0">
+            <span className="w-12 h-12 rounded-full border-2 border-white dark:border-slate-800 shadow-sm overflow-hidden bg-slate-200 shrink-0">
               <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
-            </div>
-            <div className="hidden sm:flex flex-col">
-              <p className="text-sm font-black font-jp text-slate-800 dark:text-slate-100">こんにちは！</p>
-              <p className="text-[11px] font-semibold text-slate-500">Học vui vẻ nhé!</p>
-            </div>
-            <ChevronDown size={16} className={`text-slate-400 hidden sm:block ml-1 transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
-          </div>
+            </span>
+            <span className="hidden sm:flex flex-col text-left">
+              <span className="text-sm font-black font-jp text-slate-800 dark:text-slate-100">こんにちは!</span>
+              <span className="text-[11px] font-semibold text-slate-500">Học vui vẻ nhé!</span>
+            </span>
+            <ChevronDown size={16} className={`text-slate-400 hidden sm:block transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
+          </button>
 
-          {/* Mega Dropdown Menu */}
           {isProfileOpen && (
-            <div className="absolute right-0 mt-3 w-[600px] bg-white dark:bg-slate-900 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-slate-100 dark:border-slate-800 p-6 z-50 animate-in fade-in slide-in-from-top-2 origin-top-right">
-              {/* Header */}
-              <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl mb-6">
-                <div className="flex items-center gap-4">
-                  <div 
-                    className="relative group cursor-pointer shrink-0" 
-                    onClick={() => fileInputRef.current?.click()}
-                    title="Click để đổi Avatar"
-                  >
-                    <div className="w-16 h-16 rounded-full border-2 border-white dark:border-slate-700 shadow-sm overflow-hidden bg-slate-200">
-                      <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
-                    </div>
-                    {/* Hover overlay for changing avatar */}
-                    <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Camera size={20} className="text-white" />
-                    </div>
-                    <input 
-                      type="file" 
-                      ref={fileInputRef} 
-                      onChange={handleFileChange} 
-                      accept="image/*" 
-                      className="hidden" 
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-black text-slate-800 dark:text-slate-100">{profileData.name}</h3>
-                    <p className="text-sm font-medium text-slate-500 mb-2">{profileData.bio}</p>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-100 dark:bg-rose-500/20 text-rose-500 rounded-full text-xs font-bold">
-                      <Flame size={14} className="fill-rose-500" /> 23 ngày liên tiếp
-                    </div>
-                  </div>
-                </div>
-                <button className="flex items-center gap-2 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 transition-colors shadow-sm">
-                  <User size={16} /> Xem hồ sơ
-                </button>
-              </div>
+            <div className="absolute right-0 mt-4 w-[680px] max-h-[calc(100vh-112px)] overflow-y-auto overscroll-contain rounded-[30px] border border-white/75 bg-white/92 p-4 shadow-[0_28px_80px_rgba(15,23,42,0.18)] backdrop-blur-2xl z-50 animate-in fade-in slide-in-from-top-2 origin-top-right [scrollbar-width:thin] [scrollbar-color:rgba(148,163,184,0.55)_transparent]">
+              <div className="relative overflow-hidden rounded-[26px] border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-rose-50 p-4">
+                <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-blue-300/20 blur-2xl" />
+                <div className="absolute -bottom-10 left-32 h-24 w-24 rounded-full bg-rose-300/25 blur-2xl" />
+                <div className="relative flex items-center justify-between gap-5">
+                  <div className="flex min-w-0 items-center gap-4">
+                    <button
+                      className="relative group shrink-0"
+                      onClick={() => fileInputRef.current?.click()}
+                      title="Đổi avatar"
+                    >
+                      <span className="block h-[74px] w-[74px] overflow-hidden rounded-[26px] border-4 border-white bg-slate-100 shadow-lg">
+                        <img src={avatarImage} alt="Avatar" className="h-full w-full object-cover" />
+                      </span>
+                      <span className="absolute inset-0 grid place-items-center rounded-[26px] bg-slate-950/45 text-white opacity-0 transition-opacity group-hover:opacity-100">
+                        <Camera size={20} />
+                      </span>
+                      <input ref={fileInputRef} onChange={handleFileChange} type="file" accept="image/*" className="hidden" />
+                    </button>
 
-              {/* Grid 2 Columns */}
-              <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-                {/* Column 1 */}
-                <div className="space-y-6">
-                  {/* Tài khoản */}
-                  <div>
-                    <h4 className="text-[13px] font-black text-slate-800 dark:text-slate-100 mb-3 px-2">Tài khoản</h4>
-                    <div className="space-y-1">
-                      <MenuItem 
-                        icon={<UserCircle size={20} />} 
-                        title="Hồ sơ cá nhân" 
-                        subtitle="プロフィール" 
-                        onClick={() => {
-                          setIsProfileOpen(false);
-                          setIsProfileModalOpen(true);
-                        }}
-                      />
-                      <MenuItem icon={<ClipboardList size={20} />} title="Mục tiêu học tập" subtitle="学習目標" />
-                      <MenuItem icon={<FolderCheck size={20} />} title="Tiến độ học tập" subtitle="学習の進捗" />
+                    <div className="min-w-0">
+                      <div className="mb-2 flex flex-wrap items-center gap-2">
+                        <h3 className="truncate text-xl font-black text-slate-900">{profileData.name}</h3>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-blue-600 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white">
+                          <ShieldCheck size={12} />
+                          {profileData.level}
+                        </span>
+                      </div>
+                      <p className="truncate text-sm font-bold text-slate-500">{profileData.email}</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3 py-1.5 text-xs font-black text-rose-500">
+                          <Flame size={14} className="fill-rose-500" />
+                          23 ngày liên tiếp
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1.5 text-xs font-black text-emerald-600">
+                          <Sparkles size={14} />
+                          Mục tiêu {profileData.goal}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  {/* Học tập */}
-                  <div>
-                    <h4 className="text-[13px] font-black text-slate-800 dark:text-slate-100 mb-3 px-2">Học tập</h4>
-                    <div className="space-y-1">
-                      <MenuItem icon={<Target size={20} />} title="JLPT mục tiêu" subtitle="JLPT目標" />
-                      <MenuItem icon={<Bookmark size={20} />} title="Kana & Kanji đã lưu" subtitle="保存したかな・漢字" />
-                      <MenuItem icon={<BookOpen size={20} />} title="Từ vựng ghi nhớ" subtitle="単語帳" />
-                      <MenuItem icon={<History size={20} />} title="Lịch sử làm bài" subtitle="解いた問題の履歴" />
-                    </div>
-                  </div>
-                </div>
 
-                {/* Column 2 */}
-                <div className="space-y-6">
-                  {/* Tùy chỉnh */}
-                  <div>
-                    <h4 className="text-[13px] font-black text-slate-800 dark:text-slate-100 mb-3 px-2">Tùy chỉnh</h4>
-                    <div className="space-y-1">
-
-                      <MenuItem icon={<Globe size={20} />} title="Ngôn ngữ hiển thị" subtitle="表示言語" />
-                      <MenuItem icon={<Volume2 size={20} />} title="Âm thanh & phát âm" subtitle="音声と発音" />
-                      <MenuItem icon={<Bell size={20} />} title="Thông báo" subtitle="通知設定" />
-                    </div>
-                  </div>
-                  {/* Hệ thống */}
-                  <div>
-                    <h4 className="text-[13px] font-black text-slate-800 dark:text-slate-100 mb-3 px-2">Hệ thống</h4>
-                    <div className="space-y-1">
-                      <MenuItem icon={<RefreshCw size={20} />} title="Đồng bộ dữ liệu" subtitle="データの同期" />
-                      <MenuItem icon={<HelpCircle size={20} />} title="Trợ giúp" subtitle="ヘルプセンター" />
-                      <MenuItem icon={<MessageSquare size={20} />} title="Phản hồi" subtitle="フィードバックを送る" />
-                    </div>
+                  <div className="flex shrink-0 flex-col gap-2">
+                    <button
+                      onClick={() => {
+                        setIsProfileOpen(false);
+                        setIsProfileModalOpen(true);
+                      }}
+                      className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white bg-white/90 px-4 py-3 text-sm font-black text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    >
+                      <User size={17} />
+                      Xem hồ sơ
+                    </button>
+                    <button
+                      onClick={handleLogout}
+                      className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white shadow-lg shadow-slate-900/20 transition hover:-translate-y-0.5 hover:bg-rose-500 hover:shadow-rose-500/25"
+                    >
+                      <LogOut size={17} />
+                      Đăng xuất
+                    </button>
                   </div>
                 </div>
               </div>
 
-              {/* Footer */}
-              <div className="mt-8 pt-4">
-                <button className="w-full py-3.5 flex items-center justify-center gap-2 border border-rose-200 dark:border-rose-900/50 text-rose-500 rounded-xl font-bold hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors">
-                  <LogOut size={18} /> Đăng xuất
-                </button>
+              <div className="mt-3 grid grid-cols-2 gap-3 pb-1">
+                {menuGroups.map((group) => (
+                  <section key={group.title} className="rounded-[24px] border border-slate-100 bg-slate-50/70 p-2.5">
+                    <h4 className="mb-2 px-2 text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">{group.title}</h4>
+                    <div className="space-y-1">
+                      {group.items.map((item) => (
+                        <MenuItem
+                          key={item.title}
+                          {...item}
+                          onClick={item.title === 'Hồ sơ cá nhân' ? () => {
+                            setIsProfileOpen(false);
+                            setIsProfileModalOpen(true);
+                          } : undefined}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                ))}
               </div>
             </div>
           )}
         </div>
-
       </div>
 
-      {/* Profile Settings Modal */}
       {isProfileModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setIsProfileModalOpen(false)}></div>
+          <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setIsProfileModalOpen(false)} />
           <div className="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-            {/* Modal Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
               <h2 className="text-lg font-black text-slate-800 dark:text-slate-100">Hồ sơ cá nhân</h2>
-              <button 
+              <button
                 onClick={() => setIsProfileModalOpen(false)}
                 className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition-colors"
               >
                 <X size={20} />
               </button>
             </div>
-            
-            {/* Modal Body */}
+
             <div className="p-6 space-y-6">
-              {/* Avatar Section */}
               <div className="flex flex-col items-center">
-                <div 
-                  className="relative group cursor-pointer" 
+                <button
+                  className="relative group"
                   onClick={() => fileInputRef.current?.click()}
-                  title="Click để đổi Avatar"
+                  title="Đổi avatar"
                 >
-                  <div className="w-24 h-24 rounded-full border-4 border-white dark:border-slate-800 shadow-lg overflow-hidden bg-slate-200">
+                  <span className="block w-24 h-24 rounded-full border-4 border-white dark:border-slate-800 shadow-lg overflow-hidden bg-slate-200">
                     <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  </span>
+                  <span className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <Camera size={24} className="text-white" />
-                  </div>
-                </div>
+                  </span>
+                </button>
                 <p className="text-xs text-slate-500 mt-2 font-medium">Click vào ảnh để thay đổi</p>
               </div>
 
-              {/* Form Fields */}
               <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">Tên hiển thị</label>
-                  <input 
-                    type="text" 
+                <label className="block">
+                  <span className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">Tên hiển thị</span>
+                  <input
+                    type="text"
                     value={profileData.name}
-                    onChange={e => setProfileData({...profileData, name: e.target.value})}
+                    onChange={(event) => setProfileData({ ...profileData, name: event.target.value })}
                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:ring-2 focus:ring-[var(--primary)] outline-none transition-all dark:text-slate-100"
                   />
-                </div>
-                
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">Email (Không thể đổi)</label>
-                  <input 
-                    type="email" 
+                </label>
+
+                <label className="block">
+                  <span className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">Email</span>
+                  <input
+                    type="email"
                     value={profileData.email}
                     disabled
                     className="w-full px-4 py-3 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-500 cursor-not-allowed outline-none"
                   />
-                </div>
+                </label>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">Trình độ hiện tại</label>
-                    <select 
+                  <label className="block">
+                    <span className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">Trình độ hiện tại</span>
+                    <select
                       value={profileData.level}
-                      onChange={e => setProfileData({...profileData, level: e.target.value})}
-                      className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:ring-2 focus:ring-[var(--primary)] outline-none transition-all dark:text-slate-100 appearance-none"
-                    >
-                      <option value="N5">N5 (Mới học)</option>
-                      <option value="N4">N4</option>
-                      <option value="N3">N3</option>
-                      <option value="N2">N2</option>
-                      <option value="N1">N1</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">Mục tiêu JLPT</label>
-                    <select 
-                      value={profileData.goal}
-                      onChange={e => setProfileData({...profileData, goal: e.target.value})}
+                      onChange={(event) => setProfileData({ ...profileData, level: event.target.value })}
                       className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:ring-2 focus:ring-[var(--primary)] outline-none transition-all dark:text-slate-100 appearance-none"
                     >
                       <option value="N5">N5</option>
@@ -301,30 +472,43 @@ export const Header = () => {
                       <option value="N2">N2</option>
                       <option value="N1">N1</option>
                     </select>
-                  </div>
+                  </label>
+                  <label className="block">
+                    <span className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">Mục tiêu JLPT</span>
+                    <select
+                      value={profileData.goal}
+                      onChange={(event) => setProfileData({ ...profileData, goal: event.target.value })}
+                      className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:ring-2 focus:ring-[var(--primary)] outline-none transition-all dark:text-slate-100 appearance-none"
+                    >
+                      <option value="N5">N5</option>
+                      <option value="N4">N4</option>
+                      <option value="N3">N3</option>
+                      <option value="N2">N2</option>
+                      <option value="N1">N1</option>
+                    </select>
+                  </label>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">Giới thiệu ngắn</label>
-                  <textarea 
+                <label className="block">
+                  <span className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wider">Giới thiệu ngắn</span>
+                  <textarea
                     rows={2}
                     value={profileData.bio}
-                    onChange={e => setProfileData({...profileData, bio: e.target.value})}
+                    onChange={(event) => setProfileData({ ...profileData, bio: event.target.value })}
                     className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:ring-2 focus:ring-[var(--primary)] outline-none transition-all resize-none dark:text-slate-100"
                     placeholder="Viết một vài dòng về mục tiêu học tiếng Nhật của bạn..."
                   />
-                </div>
+                </label>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex gap-3 pt-4">
-                <button 
+                <button
                   onClick={() => setIsProfileModalOpen(false)}
                   className="flex-1 py-3 rounded-xl font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                 >
                   Hủy bỏ
                 </button>
-                <button 
+                <button
                   onClick={() => setIsProfileModalOpen(false)}
                   className="flex-1 py-3 rounded-xl font-bold text-white bg-rose-500 hover:bg-rose-600 transition-colors shadow-lg shadow-rose-500/30"
                 >
@@ -335,6 +519,120 @@ export const Header = () => {
           </div>
         </div>
       )}
+
+      {isUpgradeOpen && createPortal((
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto px-4 py-5">
+          <button
+            aria-label="Đóng bảng nâng cấp"
+            className="absolute inset-0 cursor-default bg-slate-950/42 backdrop-blur-md"
+            onClick={() => setIsUpgradeOpen(false)}
+          />
+
+          <div className="relative w-full max-w-[980px]">
+            <div className="relative max-h-[calc(100vh-40px)] overflow-y-auto rounded-[28px] border border-white/80 bg-white/90 p-4 shadow-[0_24px_70px_rgba(15,23,42,0.24)] backdrop-blur-2xl md:p-5">
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(59,130,246,0.08)_1px,transparent_1px),linear-gradient(rgba(59,130,246,0.08)_1px,transparent_1px)] bg-[size:36px_36px]" />
+
+              <div className="relative flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                <div>
+                  <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/86 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.22em] text-blue-600 shadow-sm">
+                    <Gem size={15} />
+                    JP Forus Premium
+                  </div>
+                  <h2 className="text-3xl font-black leading-tight tracking-normal text-slate-950 md:text-4xl">
+                    Mở khóa lộ trình học trọn vẹn
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
+                    Chọn gói phù hợp để mở toàn bộ Kanji, từ vựng, ngữ pháp, luyện thi và các bài luyện nói theo khóa.
+                  </p>
+                  {checkoutError && (
+                    <p className="mt-3 rounded-2xl border border-rose-100 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-500">
+                      {checkoutError}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => setIsUpgradeOpen(false)}
+                  className="absolute right-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-slate-200 bg-white/90 text-slate-500 shadow-sm transition hover:bg-slate-950 hover:text-white md:relative"
+                  aria-label="Đóng"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="relative mt-5 grid gap-3 lg:grid-cols-3">
+                {pricingPlans.map((plan) => {
+                  const tone = planToneClasses[plan.tone];
+
+                  return (
+                    <article
+                      key={plan.id}
+                      className={`relative flex min-h-[380px] flex-col overflow-hidden rounded-[24px] border bg-white/88 p-4 shadow-lg backdrop-blur-xl transition-all hover:-translate-y-1 hover:shadow-xl ${tone.ring} ${plan.featured ? 'lg:-mt-2 lg:min-h-[410px]' : ''}`}
+                    >
+                      {plan.featured && (
+                        <div className="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-white shadow-lg shadow-blue-500/25">
+                          Tiết kiệm 10.000đ
+                        </div>
+                      )}
+
+                      <div className={`${plan.featured ? 'pt-10' : ''}`}>
+                        <div className={`flex items-start justify-between gap-4 ${plan.featured ? 'pt-1' : ''}`}>
+                          <div className={`grid h-12 w-12 place-items-center rounded-2xl shadow-lg ${tone.icon}`}>
+                            {plan.icon}
+                          </div>
+                          <span className={`rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] ${tone.badge} ${plan.featured ? 'mt-3' : ''}`}>
+                            {plan.label}
+                          </span>
+                        </div>
+
+                        <h3 className="mt-4 text-xl font-black text-slate-950">{plan.name}</h3>
+                        <div className="mt-3 flex items-end gap-1.5">
+                          {plan.oldPrice && <span className="pb-1 text-xs font-black text-slate-300 line-through">{plan.oldPrice}</span>}
+                          <span className="text-3xl font-black tracking-tight text-blue-600">{plan.price}</span>
+                          <span className="pb-1 text-xs font-bold text-slate-400">{plan.period}</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-5 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
+                      <ul className="mt-5 space-y-2.5">
+                        {plan.features.map((feature) => (
+                          <li key={feature} className="flex items-center gap-2.5 text-xs font-bold text-slate-600">
+                            <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-blue-50 text-blue-600">
+                              <CheckCircle2 size={14} />
+                            </span>
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="mt-auto pt-5">
+                        <button
+                          type="button"
+                          onClick={() => handleStartCheckout(plan.id)}
+                          disabled={creatingPlanId === plan.id}
+                          className={`flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black transition hover:-translate-y-0.5 ${tone.button}`}
+                        >
+                          <CreditCard size={18} />
+                          {creatingPlanId === plan.id ? 'Đang tạo đơn...' : 'Mua gói này'}
+                        </button>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+
+              <div className="relative mt-4 flex flex-col gap-3 rounded-[22px] border border-white/80 bg-white/72 p-3.5 text-xs font-semibold text-slate-500 shadow-sm md:flex-row md:items-center md:justify-between">
+                <span>Thanh toán chuyển khoản hoặc ví điện tử sẽ được nối ở bước tích hợp cổng thanh toán.</span>
+                <span className="inline-flex items-center gap-2 font-black text-blue-600">
+                  <ShieldCheck size={17} />
+                  Mở khóa tự động sau khi xác nhận
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ), document.body)}
     </header>
   );
 };

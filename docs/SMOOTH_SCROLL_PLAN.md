@@ -46,3 +46,64 @@ Sử dụng thuộc tính `layoutId` để liên kết các component tĩnh. Khi
 ### 2. Thuật toán Lò xo (Spring Physics)
 - Áp dụng cấu hình lò xo: `transition={{ type: "spring", stiffness: 400, damping: 30 }}` cho cả khối màu nền và vạch đánh dấu.
 - Điều này tạo ra gia tốc trượt cực nhanh khi mới click, nhưng sẽ hãm đà êm ái khi tiếp cận tab đích, mô phỏng hoàn hảo chuyển động tự nhiên.
+
+---
+
+# Tuyệt Kĩ Làm Mượt Trang Nhiều Card
+
+Áp dụng khi một trang vẫn còn cảm giác cứng, giật hoặc khựng dù đã dùng native `scroll-behavior`. Mục tiêu là giảm chi phí repaint/layout trong lúc cuộn, không giả lập cuộn bằng Javascript.
+
+## Nguyên tắc
+- Không thêm thư viện smooth-scroll và không lắng nghe `scroll` bằng JS nếu không thật sự cần.
+- Ưu tiên làm nhẹ bề mặt đang cuộn: giảm blur, shadow lớn, animation hover và các hiệu ứng cần repaint liên tục.
+- Dùng containment cho panel lớn và vùng scroll để trình duyệt cô lập phạm vi vẽ lại.
+- Chỉ dùng `content-visibility: auto` cho item có chiều cao ổn định. Nếu item nhỏ bị khựng khi xuất hiện, chuyển sang row ổn định bằng `content-visibility: visible`.
+
+## CSS Utility Khuyến Nghị
+
+```css
+.smooth-panel {
+  contain: paint style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.smooth-scroll-area {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
+  contain: paint style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.steady-scroll-row {
+  content-visibility: visible;
+  contain: paint style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.fixed-bg-plane {
+  contain: paint;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+```
+
+## Checklist Khi Trang Còn Giật
+- Bỏ hoặc giảm `backdrop-blur` trên panel lặp lại, nhất là panel nằm trên ảnh nền lớn.
+- Giảm `box-shadow` lớn trong danh sách; tránh `hover:shadow-[...]` trên nhiều card.
+- Tránh `transition-all`; dùng `transition-colors` hoặc transition đúng thuộc tính cần đổi.
+- Với list dài, thêm `overscroll-behavior: contain` và `scrollbar-gutter: stable` cho vùng `overflow-y-auto`.
+- Với ảnh nền `fixed`, thêm containment/GPU hint cho wrapper và ảnh.
+- Nếu đang có scroll lồng nhau, chỉ giữ vùng scroll nội bộ khi thật cần; nếu không, để trang chính cuộn tự nhiên.
+- Kiểm tra `contain-intrinsic-size` có gần đúng chiều cao thật của item không. Sai quá nhiều có thể gây nhảy/khựng.
+
+## Ví Dụ Đã Áp Dụng
+- `src/index.css`: thêm các utility như `kanji-lesson-panel`, `kanji-lesson-scroll`, `kanji-steady-row`, `kanji-bg-plane`, `kanji-bg-raster`.
+- `src/pages/Kanji/KanjiLesson.tsx`: gắn utility vào panel/list, giảm shadow hover và bỏ blur runtime.
+- `src/components/Layout/Layout.tsx`: gắn utility cho lớp ảnh nền Kanji cố định.

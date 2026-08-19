@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# JP Forus
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite app for Japanese learning.
 
-Currently, two official plugins are available:
+## Chạy frontend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Frontend chạy mặc định ở `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Tạo database bằng SSMS
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Mở SQL Server Management Studio.
+2. Kết nối SQL Server local hoặc server bạn đang dùng.
+3. Mở file `database/001_create_auth.sql`.
+4. Chạy toàn bộ script. Script sẽ tạo database `JpForus` và các bảng:
+   `Users`, `ExternalLogins`, `RefreshTokens`, `PasswordResetTokens`, `LoginAudits`.
+
+## Cấu hình đăng nhập / đăng ký
+
+Tạo file `.env` từ `.env.example`, sau đó sửa các biến cho đúng máy:
+
+```env
+PORT=4000
+CLIENT_URL=http://localhost:5173
+
+SQL_SERVER=localhost
+SQL_PORT=1433
+SQL_DATABASE=JpForus
+SQL_USER=
+SQL_PASSWORD=
+SQL_ENCRYPT=false
+SQL_TRUST_SERVER_CERTIFICATE=true
+
+JWT_ACCESS_SECRET=replace-with-a-long-random-access-secret
+JWT_REFRESH_SECRET=replace-with-a-long-random-refresh-secret
+GOOGLE_CLIENT_ID=your-google-oauth-client-id.apps.googleusercontent.com
+VITE_GOOGLE_CLIENT_ID=your-google-oauth-client-id.apps.googleusercontent.com
 ```
+
+Khuyến nghị tạo SQL Login riêng cho app rồi điền `SQL_USER` và `SQL_PASSWORD`. SSMS vẫn dùng để quản lý database bình thường; nếu muốn Windows Authentication tích hợp trực tiếp cho Node thì cần bổ sung driver riêng như `msnodesqlv8`.
+
+## Chạy Auth API
+
+```bash
+npm run dev:api
+```
+
+API chạy ở `http://localhost:4000`, frontend đã proxy `/api` sang port này trong `vite.config.ts`.
+
+## Google Login
+
+Tạo OAuth Client ID tại Google Cloud Console, thêm origin `http://localhost:5173`, rồi đặt cùng client id cho:
+
+```env
+GOOGLE_CLIENT_ID=...
+VITE_GOOGLE_CLIENT_ID=...
+```
+
+Luồng hiện có: đăng ký email/password, đăng nhập email/password, đăng nhập Google, refresh token qua HTTP-only cookie, đăng xuất, quên mật khẩu và reset mật khẩu.
