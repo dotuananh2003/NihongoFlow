@@ -515,20 +515,27 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({
             </section>
           </div>
 
-          <footer className="grid gap-3 rounded-[1.75rem] border border-white/75 bg-white/80 p-3 shadow-[0_16px_44px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/76 lg:grid-cols-[1fr_auto]">
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-              <StatTile icon={Check} label="Đúng" value={correctCount} className="bg-emerald-50 text-emerald-600 border-emerald-100" />
-              <StatTile icon={X} label="Sai" value={wrongCount} className="bg-rose-50 text-rose-600 border-rose-100" />
-              <StatTile icon={Target} label="Độ chính xác" value={`${accuracy}%`} className="bg-blue-50 text-blue-600 border-blue-100" />
-              <StatTile icon={Trophy} label="Combo cao nhất" value={maxCombo} className="bg-violet-50 text-violet-600 border-violet-100" />
-            </div>
+          <footer className="relative overflow-hidden rounded-[2rem] border border-white/80 bg-white/74 p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.10)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/76">
+            <div className={`absolute inset-x-6 top-0 h-1.5 rounded-b-full bg-gradient-to-r ${theme.accentGradient}`} />
+            <div className="absolute -left-16 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-white/70 blur-2xl" />
+            <div className="relative grid items-center gap-2 lg:grid-cols-[1fr_auto]">
+              <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+                <StatTile icon={Check} label="Đúng" value={correctCount} subLabel="đã qua" tone="emerald" />
+                <StatTile icon={X} label="Sai" value={wrongCount} subLabel="cần ôn" tone="rose" />
+                <StatTile icon={Target} label="Chính xác" value={`${accuracy}%`} subLabel="hiện tại" tone="blue" />
+                <StatTile icon={Trophy} label="Combo" value={maxCombo} subLabel="cao nhất" tone="violet" />
+              </div>
 
-            <button
-              onClick={skipQuestion}
-              className={`inline-flex min-h-[58px] items-center justify-center gap-2 rounded-2xl px-6 text-base font-black text-white shadow-lg ${theme.accentBg}`}
-            >
-              {status !== null ? 'Tiếp tục' : 'Bỏ qua'} <ChevronRight size={19} />
-            </button>
+              <button
+                onClick={skipQuestion}
+                className={`group inline-flex min-h-[62px] items-center justify-center gap-4 rounded-[1.55rem] bg-gradient-to-r ${theme.accentGradient} px-6 text-base font-black text-white shadow-[0_16px_36px_rgba(37,99,235,0.24)] transition-transform hover:-translate-y-0.5 active:translate-y-0`}
+              >
+                <span>{status !== null ? 'Tiếp tục' : 'Bỏ qua'}</span>
+                <span className="grid h-9 w-9 place-items-center rounded-2xl bg-white/18 ring-1 ring-white/25 transition-transform group-hover:translate-x-0.5">
+                  <ChevronRight size={19} strokeWidth={3} />
+                </span>
+              </button>
+            </div>
           </footer>
         </main>
       </div>
@@ -548,24 +555,61 @@ const AnswerPreview = ({ vocab, hint }: { vocab?: VocabExample; hint: string }) 
   </div>
 );
 
+const statTone = {
+  emerald: {
+    shell: 'border-emerald-100/80 from-emerald-50/95 to-white text-emerald-600',
+    icon: 'bg-emerald-500 text-white shadow-emerald-500/25',
+    rail: 'from-emerald-500 to-teal-400',
+  },
+  rose: {
+    shell: 'border-rose-100/80 from-rose-50/95 to-white text-rose-600',
+    icon: 'bg-rose-500 text-white shadow-rose-500/25',
+    rail: 'from-rose-500 to-pink-400',
+  },
+  blue: {
+    shell: 'border-blue-100/80 from-blue-50/95 to-white text-blue-600',
+    icon: 'bg-blue-600 text-white shadow-blue-500/25',
+    rail: 'from-blue-600 to-cyan-400',
+  },
+  violet: {
+    shell: 'border-violet-100/80 from-violet-50/95 to-white text-violet-600',
+    icon: 'bg-violet-500 text-white shadow-violet-500/25',
+    rail: 'from-violet-500 to-fuchsia-400',
+  },
+};
+
+type StatTone = keyof typeof statTone;
+
 const StatTile = ({
   icon: Icon,
   label,
   value,
-  className,
+  subLabel,
+  tone,
 }: {
   icon: React.ComponentType<{ size?: number; strokeWidth?: number }>;
   label: string;
   value: number | string;
-  className: string;
-}) => (
-  <div className={`flex items-center gap-3 rounded-2xl border px-3 py-2.5 ${className}`}>
-    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/70">
-      <Icon size={18} strokeWidth={2.6} />
-    </span>
-    <div className="min-w-0">
-      <div className="truncate text-[9px] font-black uppercase tracking-[0.16em] opacity-70">{label}</div>
-      <div className="text-xl font-black leading-none">{value}</div>
+  subLabel: string;
+  tone: StatTone;
+}) => {
+  const colors = statTone[tone];
+
+  return (
+    <div className={`relative overflow-hidden rounded-[1.35rem] border bg-gradient-to-br px-3 py-2.5 ${colors.shell}`}>
+      <div className={`absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r ${colors.rail}`} />
+      <div className="flex items-center gap-3">
+        <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl shadow-lg ${colors.icon}`}>
+          <Icon size={19} strokeWidth={2.8} />
+        </span>
+        <div className="min-w-0">
+          <div className="truncate text-[9px] font-black uppercase tracking-[0.18em] opacity-70">{label}</div>
+          <div className="mt-0.5 flex items-end gap-1">
+            <span className="text-2xl font-black leading-none">{value}</span>
+            <span className="pb-0.5 text-[10px] font-black uppercase tracking-[0.12em] opacity-55">{subLabel}</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
