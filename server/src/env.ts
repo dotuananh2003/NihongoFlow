@@ -3,8 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const required = [
-  'SQL_SERVER',
-  'SQL_DATABASE',
+  'DATABASE_URL',
   'JWT_ACCESS_SECRET',
   'JWT_REFRESH_SECRET',
 ] as const;
@@ -19,15 +18,7 @@ export const env = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
   port: Number(process.env.PORT ?? 4000),
   clientUrl: process.env.CLIENT_URL ?? 'http://localhost:5173',
-  sql: {
-    server: process.env.SQL_SERVER as string,
-    database: process.env.SQL_DATABASE as string,
-    user: process.env.SQL_USER,
-    password: process.env.SQL_PASSWORD,
-    port: Number(process.env.SQL_PORT ?? 1433),
-    encrypt: process.env.SQL_ENCRYPT !== 'false',
-    trustServerCertificate: process.env.SQL_TRUST_SERVER_CERTIFICATE !== 'false',
-  },
+  dbUrl: process.env.DATABASE_URL as string,
   jwt: {
     accessSecret: process.env.JWT_ACCESS_SECRET as string,
     refreshSecret: process.env.JWT_REFRESH_SECRET as string,

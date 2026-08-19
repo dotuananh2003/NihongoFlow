@@ -1,35 +1,17 @@
-import sql from 'mssql';
+import { Pool } from 'pg';
 import { env } from './env.js';
 
-const config: sql.config = {
-  server: env.sql.server,
-  database: env.sql.database,
-  port: env.sql.port,
-  connectionTimeout: 30000,
-  requestTimeout: 30000,
-  options: {
-    encrypt: env.sql.encrypt,
-    trustServerCertificate: env.sql.trustServerCertificate,
-    connectTimeout: 30000,
-  },
-  pool: {
-    max: 10,
-    min: 0,
-    idleTimeoutMillis: 30000,
-  },
-};
-
-if (env.sql.user && env.sql.password) {
-  config.user = env.sql.user;
-  config.password = env.sql.password;
-}
-
-let pool: sql.ConnectionPool | null = null;
+let pool: Pool | null = null;
 
 export const getPool = async () => {
-  if (pool?.connected) return pool;
-  pool = await sql.connect(config);
+  if (pool) return pool;
+  
+  pool = new Pool({
+    connectionString: env.dbUrl,
+    ssl: env.nodeEnv === 'production' ? { rejectUnauthorized: false } : undefined,
+  });
+
   return pool;
 };
 
-export { sql };
+// Remove export of sql since pg doesn't use it the same way. We'll handle queries in repositories.

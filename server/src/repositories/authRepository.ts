@@ -1,46 +1,48 @@
-import type { ConnectionPool } from 'mssql';
-import { getPool, sql } from '../db.js';
+import { getPool } from '../db.js';
 import type { AuthProvider, DbUser } from '../types.js';
 
-const getUserColumns = async (pool: ConnectionPool) => {
-  const result = await pool.request().query<{ name: string }>(`
-    SELECT name
-    FROM sys.columns
-    WHERE object_id = OBJECT_ID(N'dbo.Users')
+let cachedUserColumns: Set<string> | null = null;
+const getUserColumns = async () => {
+  if (cachedUserColumns) return cachedUserColumns;
+  const pool = await getPool();
+  const result = await pool.query<{ column_name: string }>(`
+    SELECT column_name
+    FROM information_schema.columns
+    WHERE table_name = 'Users' OR table_name = 'users'
   `);
-
-  return new Set(result.recordset.map(column => column.name));
+  cachedUserColumns = new Set(result.rows.map(row => row.column_name));
+  return cachedUserColumns;
 };
 
 const buildUserSelect = (columns: Set<string>) => [
-  'Id',
-  'Email',
-  columns.has('PasswordHash') ? 'PasswordHash' : 'CAST(NULL AS NVARCHAR(MAX)) AS PasswordHash',
-  columns.has('FullName') ? 'FullName' : 'CAST(NULL AS NVARCHAR(255)) AS FullName',
-  columns.has('AvatarUrl') ? 'AvatarUrl' : 'CAST(NULL AS NVARCHAR(MAX)) AS AvatarUrl',
-  columns.has('Provider') ? 'Provider' : "CAST(N'local' AS NVARCHAR(50)) AS Provider",
-  columns.has('EmailVerified') ? 'EmailVerified' : 'CAST(0 AS BIT) AS EmailVerified',
-  columns.has('IsActive') ? 'IsActive' : 'CAST(1 AS BIT) AS IsActive',
+  '"Id" as "Id"',
+  '"Email" as "Email"',
+  columns.has('PasswordHash') ? '"PasswordHash" as "PasswordHash"' : 'NULL as "PasswordHash"',
+  columns.has('FullName') ? '"FullName" as "FullName"' : 'NULL as "FullName"',
+  columns.has('AvatarUrl') ? '"AvatarUrl" as "AvatarUrl"' : 'NULL as "AvatarUrl"',
+  columns.has('Provider') ? '"Provider" as "Provider"' : "'local' as \"Provider\"",
+  columns.has('EmailVerified') ? '"EmailVerified" as "EmailVerified"' : 'false as "EmailVerified"',
+  columns.has('IsActive') ? '"IsActive" as "IsActive"' : 'true as "IsActive"',
 ].join(', ');
 
 export const findUserByEmail = async (email: string) => {
   const pool = await getPool();
-  const columns = await getUserColumns(pool);
-  const result = await pool.request()
-    .input('email', sql.NVarChar(255), email.toLowerCase())
-    .query<DbUser>(`SELECT ${buildUserSelect(columns)} FROM dbo.Users WHERE Email = @email`);
-
-  return result.recordset[0] ?? null;
+  const columns = await getUserColumns();
+  const result = await pool.query(
+    `SELECT ${buildUserSelect(columns)} FROM "Users" WHERE "Email" = $1`,
+    [email.toLowerCase()]
+  );
+  return (result.rows[0] as DbUser) ?? null;
 };
 
 export const findUserById = async (id: string) => {
   const pool = await getPool();
-  const columns = await getUserColumns(pool);
-  const result = await pool.request()
-    .input('id', sql.UniqueIdentifier, id)
-    .query<DbUser>(`SELECT ${buildUserSelect(columns)} FROM dbo.Users WHERE Id = @id`);
-
-  return result.recordset[0] ?? null;
+  const columns = await getUserColumns();
+  const result = await pool.query(
+    `SELECT ${buildUserSelect(columns)} FROM "Users" WHERE "Id" = $1`,
+    [id]
+  );
+  return (result.rows[0] as DbUser) ?? null;
 };
 
 export const createUser = async (input: {
@@ -52,64 +54,54 @@ export const createUser = async (input: {
   emailVerified: boolean;
 }) => {
   const pool = await getPool();
-  const columns = await getUserColumns(pool);
-  const insertColumns = ['Email'];
-  const valueNames = ['@email'];
-  const request = pool.request()
-    .input('email', sql.NVarChar(255), input.email.toLowerCase());
-
+  const columns = await getUserColumns();
+  const insertColumns = ['"Email"'];
+  const values: any[] = [input.email.toLowerCase()];
+  const placeholders = ['$1'];
+  
+  let pIndex = 2;
   if (columns.has('PasswordHash')) {
-    insertColumns.push('PasswordHash');
-    valueNames.push('@passwordHash');
-    request.input('passwordHash', sql.NVarChar(sql.MAX), input.passwordHash);
+    insertColumns.push('"PasswordHash"');
+    values.push(input.passwordHash);
+    placeholders.push(`$${pIndex++}`);
   }
   if (columns.has('FullName')) {
-    insertColumns.push('FullName');
-    valueNames.push('@fullName');
-    request.input('fullName', sql.NVarChar(255), input.fullName);
+    insertColumns.push('"FullName"');
+    values.push(input.fullName);
+    placeholders.push(`$${pIndex++}`);
   }
   if (columns.has('AvatarUrl')) {
-    insertColumns.push('AvatarUrl');
-    valueNames.push('@avatarUrl');
-    request.input('avatarUrl', sql.NVarChar(sql.MAX), input.avatarUrl);
+    insertColumns.push('"AvatarUrl"');
+    values.push(input.avatarUrl);
+    placeholders.push(`$${pIndex++}`);
   }
   if (columns.has('Provider')) {
-    insertColumns.push('Provider');
-    valueNames.push('@provider');
-    request.input('provider', sql.NVarChar(50), input.provider);
+    insertColumns.push('"Provider"');
+    values.push(input.provider);
+    placeholders.push(`$${pIndex++}`);
   }
   if (columns.has('EmailVerified')) {
-    insertColumns.push('EmailVerified');
-    valueNames.push('@emailVerified');
-    request.input('emailVerified', sql.Bit, input.emailVerified);
+    insertColumns.push('"EmailVerified"');
+    values.push(input.emailVerified);
+    placeholders.push(`$${pIndex++}`);
   }
 
-  await request.query(`
-    INSERT INTO dbo.Users (${insertColumns.join(', ')})
-    VALUES (${valueNames.join(', ')})
-  `);
+  await pool.query(
+    `INSERT INTO "Users" (${insertColumns.join(', ')}) VALUES (${placeholders.join(', ')})`,
+    values
+  );
 
   const user = await findUserByEmail(input.email);
-  if (!user) {
-    throw new Error('Cannot load created user');
-  }
-
+  if (!user) throw new Error('Cannot load created user');
   return user;
 };
 
 export const touchLastLogin = async (userId: string) => {
   const pool = await getPool();
-  await pool.request()
-    .input('userId', sql.UniqueIdentifier, userId)
-    .query(`
-      IF COL_LENGTH(N'dbo.Users', N'LastLoginAt') IS NOT NULL
-      BEGIN
-        EXEC sp_executesql
-          N'UPDATE dbo.Users SET LastLoginAt = SYSUTCDATETIME() WHERE Id = @userId',
-          N'@userId UNIQUEIDENTIFIER',
-          @userId = @userId
-      END
-    `);
+  await pool.query(
+    `UPDATE "Users" SET "LastLoginAt" = CURRENT_TIMESTAMP WHERE "Id" = $1`,
+    [userId]
+  );
 };
 
 export const upsertExternalLogin = async (input: {
@@ -119,21 +111,11 @@ export const upsertExternalLogin = async (input: {
   email: string;
 }) => {
   const pool = await getPool();
-  await pool.request()
-    .input('userId', sql.UniqueIdentifier, input.userId)
-    .input('provider', sql.NVarChar(50), input.provider)
-    .input('providerUserId', sql.NVarChar(255), input.providerUserId)
-    .input('email', sql.NVarChar(255), input.email.toLowerCase())
-    .query(`
-      IF NOT EXISTS (
-        SELECT 1 FROM dbo.ExternalLogins
-        WHERE Provider = @provider AND ProviderUserId = @providerUserId
-      )
-      BEGIN
-        INSERT INTO dbo.ExternalLogins (UserId, Provider, ProviderUserId, Email)
-        VALUES (@userId, @provider, @providerUserId, @email)
-      END
-    `);
+  await pool.query(`
+    INSERT INTO "ExternalLogins" ("UserId", "Provider", "ProviderUserId", "Email")
+    VALUES ($1, $2, $3, $4)
+    ON CONFLICT ("Provider", "ProviderUserId") DO NOTHING
+  `, [input.userId, input.provider, input.providerUserId, input.email.toLowerCase()]);
 };
 
 export const saveRefreshToken = async (input: {
@@ -142,41 +124,33 @@ export const saveRefreshToken = async (input: {
   expiresAt: Date;
 }) => {
   const pool = await getPool();
-  await pool.request()
-    .input('userId', sql.UniqueIdentifier, input.userId)
-    .input('tokenHash', sql.NVarChar(sql.MAX), input.tokenHash)
-    .input('expiresAt', sql.DateTime2, input.expiresAt)
-    .query(`
-      INSERT INTO dbo.RefreshTokens (UserId, TokenHash, ExpiresAt)
-      VALUES (@userId, @tokenHash, @expiresAt)
-    `);
+  await pool.query(`
+    INSERT INTO "RefreshTokens" ("UserId", "TokenHash", "ExpiresAt")
+    VALUES ($1, $2, $3)
+  `, [input.userId, input.tokenHash, input.expiresAt]);
 };
 
 export const findActiveRefreshToken = async (tokenHash: string) => {
   const pool = await getPool();
-  const result = await pool.request()
-    .input('tokenHash', sql.NVarChar(sql.MAX), tokenHash)
-    .query<{ Id: string; UserId: string; ExpiresAt: Date }>(`
-      SELECT TOP 1 Id, UserId, ExpiresAt
-      FROM dbo.RefreshTokens
-      WHERE TokenHash = @tokenHash
-        AND RevokedAt IS NULL
-        AND ExpiresAt > SYSUTCDATETIME()
-      ORDER BY CreatedAt DESC
-    `);
-
-  return result.recordset[0] ?? null;
+  const result = await pool.query<{ Id: string; UserId: string; ExpiresAt: Date }>(`
+    SELECT "Id", "UserId", "ExpiresAt"
+    FROM "RefreshTokens"
+    WHERE "TokenHash" = $1
+      AND "RevokedAt" IS NULL
+      AND "ExpiresAt" > CURRENT_TIMESTAMP
+    ORDER BY "CreatedAt" DESC
+    LIMIT 1
+  `, [tokenHash]);
+  return result.rows[0] ?? null;
 };
 
 export const revokeRefreshToken = async (tokenHash: string) => {
   const pool = await getPool();
-  await pool.request()
-    .input('tokenHash', sql.NVarChar(sql.MAX), tokenHash)
-    .query(`
-      UPDATE dbo.RefreshTokens
-      SET RevokedAt = SYSUTCDATETIME()
-      WHERE TokenHash = @tokenHash AND RevokedAt IS NULL
-    `);
+  await pool.query(`
+    UPDATE "RefreshTokens"
+    SET "RevokedAt" = CURRENT_TIMESTAMP
+    WHERE "TokenHash" = $1 AND "RevokedAt" IS NULL
+  `, [tokenHash]);
 };
 
 export const savePasswordResetToken = async (input: {
@@ -185,82 +159,54 @@ export const savePasswordResetToken = async (input: {
   expiresAt: Date;
 }) => {
   const pool = await getPool();
-  await pool.request()
-    .input('userId', sql.UniqueIdentifier, input.userId)
-    .input('tokenHash', sql.NVarChar(sql.MAX), input.tokenHash)
-    .input('expiresAt', sql.DateTime2, input.expiresAt)
-    .query(`
-      INSERT INTO dbo.PasswordResetTokens (UserId, TokenHash, ExpiresAt)
-      VALUES (@userId, @tokenHash, @expiresAt)
-    `);
+  await pool.query(`
+    INSERT INTO "PasswordResetTokens" ("UserId", "TokenHash", "ExpiresAt")
+    VALUES ($1, $2, $3)
+  `, [input.userId, input.tokenHash, input.expiresAt]);
 };
 
 export const usePasswordResetToken = async (tokenHash: string, passwordHash: string) => {
   const pool = await getPool();
-  const transaction = new sql.Transaction(pool);
-  await transaction.begin();
-
+  const client = await pool.connect();
   try {
-    const request = new sql.Request(transaction);
-    const tokenResult = await request
-      .input('tokenHash', sql.NVarChar(sql.MAX), tokenHash)
-      .query<{ Id: string; UserId: string }>(`
-        SELECT TOP 1 Id, UserId
-        FROM dbo.PasswordResetTokens
-        WHERE TokenHash = @tokenHash
-          AND UsedAt IS NULL
-          AND ExpiresAt > SYSUTCDATETIME()
-        ORDER BY CreatedAt DESC
-      `);
+    await client.query('BEGIN');
+    
+    const tokenResult = await client.query<{ Id: string; UserId: string }>(`
+      SELECT "Id", "UserId"
+      FROM "PasswordResetTokens"
+      WHERE "TokenHash" = $1
+        AND "UsedAt" IS NULL
+        AND "ExpiresAt" > CURRENT_TIMESTAMP
+      ORDER BY "CreatedAt" DESC
+      LIMIT 1
+    `, [tokenHash]);
 
-    const resetToken = tokenResult.recordset[0];
+    const resetToken = tokenResult.rows[0];
     if (!resetToken) {
-      await transaction.rollback();
+      await client.query('ROLLBACK');
       return false;
     }
 
-    await new sql.Request(transaction)
-      .input('userId', sql.UniqueIdentifier, resetToken.UserId)
-      .input('passwordHash', sql.NVarChar(sql.MAX), passwordHash)
-      .query(`
-        IF COL_LENGTH(N'dbo.Users', N'PasswordHash') IS NOT NULL
-        BEGIN
-          IF COL_LENGTH(N'dbo.Users', N'UpdatedAt') IS NOT NULL AND COL_LENGTH(N'dbo.Users', N'Provider') IS NOT NULL
-          BEGIN
-            EXEC sp_executesql
-              N'UPDATE dbo.Users SET PasswordHash = @passwordHash, Provider = CASE WHEN Provider = ''google'' THEN Provider ELSE ''local'' END, UpdatedAt = SYSUTCDATETIME() WHERE Id = @userId',
-              N'@userId UNIQUEIDENTIFIER, @passwordHash NVARCHAR(MAX)',
-              @userId = @userId,
-              @passwordHash = @passwordHash
-          END
-          ELSE IF COL_LENGTH(N'dbo.Users', N'UpdatedAt') IS NOT NULL
-          BEGIN
-            EXEC sp_executesql
-              N'UPDATE dbo.Users SET PasswordHash = @passwordHash, UpdatedAt = SYSUTCDATETIME() WHERE Id = @userId',
-              N'@userId UNIQUEIDENTIFIER, @passwordHash NVARCHAR(MAX)',
-              @userId = @userId,
-              @passwordHash = @passwordHash
-          END
-          ELSE
-          BEGIN
-            EXEC sp_executesql
-              N'UPDATE dbo.Users SET PasswordHash = @passwordHash WHERE Id = @userId',
-              N'@userId UNIQUEIDENTIFIER, @passwordHash NVARCHAR(MAX)',
-              @userId = @userId,
-              @passwordHash = @passwordHash
-          END
-        END
-      `);
+    await client.query(`
+      UPDATE "Users" 
+      SET "PasswordHash" = $1, 
+          "Provider" = CASE WHEN "Provider" = 'google' THEN "Provider" ELSE 'local' END, 
+          "UpdatedAt" = CURRENT_TIMESTAMP 
+      WHERE "Id" = $2
+    `, [passwordHash, resetToken.UserId]);
 
-    await new sql.Request(transaction)
-      .input('id', sql.UniqueIdentifier, resetToken.Id)
-      .query('UPDATE dbo.PasswordResetTokens SET UsedAt = SYSUTCDATETIME() WHERE Id = @id');
+    await client.query(
+      `UPDATE "PasswordResetTokens" SET "UsedAt" = CURRENT_TIMESTAMP WHERE "Id" = $1`,
+      [resetToken.Id]
+    );
 
-    await transaction.commit();
+    await client.query('COMMIT');
     return true;
   } catch (error) {
-    await transaction.rollback();
+    await client.query('ROLLBACK');
     throw error;
+  } finally {
+    client.release();
   }
 };
 
@@ -273,15 +219,8 @@ export const recordLoginAudit = async (input: {
   userAgent: string | null;
 }) => {
   const pool = await getPool();
-  await pool.request()
-    .input('userId', sql.UniqueIdentifier, input.userId)
-    .input('email', sql.NVarChar(255), input.email?.toLowerCase() ?? null)
-    .input('provider', sql.NVarChar(50), input.provider)
-    .input('success', sql.Bit, input.success)
-    .input('ipAddress', sql.NVarChar(100), input.ipAddress)
-    .input('userAgent', sql.NVarChar(sql.MAX), input.userAgent)
-    .query(`
-      INSERT INTO dbo.LoginAudits (UserId, Email, Provider, Success, IpAddress, UserAgent)
-      VALUES (@userId, @email, @provider, @success, @ipAddress, @userAgent)
-    `);
+  await pool.query(`
+    INSERT INTO "LoginAudits" ("UserId", "Email", "Provider", "Success", "IpAddress", "UserAgent")
+    VALUES ($1, $2, $3, $4, $5, $6)
+  `, [input.userId, input.email?.toLowerCase() ?? null, input.provider, input.success, input.ipAddress, input.userAgent]);
 };
