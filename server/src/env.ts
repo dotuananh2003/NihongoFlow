@@ -7,7 +7,6 @@ const required = [
   'SQL_DATABASE',
   'JWT_ACCESS_SECRET',
   'JWT_REFRESH_SECRET',
-  'GOOGLE_CLIENT_ID',
 ] as const;
 
 for (const key of required) {
@@ -35,7 +34,7 @@ export const env = {
     accessTtl: process.env.JWT_ACCESS_TTL ?? '15m',
     refreshDays: Number(process.env.JWT_REFRESH_DAYS ?? 30),
   },
-  googleClientId: process.env.GOOGLE_CLIENT_ID as string,
+  googleClientId: process.env.GOOGLE_CLIENT_ID ?? '',
   payment: {
     bankBin: process.env.PAYMENT_BANK_BIN ?? '',
     accountNumber: process.env.PAYMENT_ACCOUNT_NUMBER ?? '',
