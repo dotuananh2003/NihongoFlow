@@ -12,7 +12,7 @@ export const KanjiStrokeCanvas = ({ character, totalStrokes, theme }: KanjiStrok
   const containerRef = useRef<HTMLDivElement>(null);
   const writerContainerRef = useRef<HTMLDivElement>(null);
   const writerRef = useRef<HanziWriter | null>(null);
-  
+
   const [currentStroke, setCurrentStroke] = useState(0);
   const [mode, setMode] = useState<'play' | 'guided' | 'practice'>('play');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -20,21 +20,19 @@ export const KanjiStrokeCanvas = ({ character, totalStrokes, theme }: KanjiStrok
   useEffect(() => {
     if (!writerContainerRef.current) return;
 
-    // Cleanup before creating a new one (fixes React 18 StrictMode double mount)
     writerContainerRef.current.innerHTML = '';
 
-    // Initialize HanziWriter
     const writer = HanziWriter.create(writerContainerRef.current, character, {
-      width: 260,
-      height: 260,
-      padding: 10,
+      width: 218,
+      height: 218,
+      padding: 8,
       strokeAnimationSpeed: 1,
-      strokeHighlightSpeed: 0.4, // Slower hint animation
+      strokeHighlightSpeed: 0.4,
       delayBetweenStrokes: 200,
-      strokeColor: '#1e293b', // slate-800
-      outlineColor: '#f1f5f9', // slate-100 (grid/outline)
-      drawingColor: '#10b981', // emerald-500 for correct drawing
-      highlightColor: theme?.highlightHex || '#f43f5e', // dynamic for hints
+      strokeColor: '#1e293b',
+      outlineColor: '#f1f5f9',
+      drawingColor: '#10b981',
+      highlightColor: theme?.highlightHex || '#f43f5e',
       showOutline: true,
       showCharacter: true,
       delayBetweenLoops: 1000,
@@ -58,7 +56,6 @@ export const KanjiStrokeCanvas = ({ character, totalStrokes, theme }: KanjiStrok
     writerRef.current = writer;
 
     return () => {
-      // Cleanup DOM
       if (writerContainerRef.current) {
         writerContainerRef.current.innerHTML = '';
       }
@@ -73,9 +70,8 @@ export const KanjiStrokeCanvas = ({ character, totalStrokes, theme }: KanjiStrok
     writerRef.current.showCharacter();
     writerRef.current.animateCharacter({
       onComplete: () => {
-        // Automatically switch to guided mode after playing once so they can practice
         handleGuided();
-      }
+      },
     });
   };
 
@@ -84,13 +80,11 @@ export const KanjiStrokeCanvas = ({ character, totalStrokes, theme }: KanjiStrok
     setMode('guided');
     setIsSuccess(false);
     setCurrentStroke(0);
-    
-    // Setup quiz mode (guided)
+
     writerRef.current.quiz({
-      showHintAfterMisses: 1, // Show hint immediately after 1 mistake/touch
+      showHintAfterMisses: 1,
       onCorrectStroke: (strokeData) => {
         setCurrentStroke(strokeData.strokeNum + 1);
-        // Automatically show hint for the next stroke after a short delay
         if (strokeData.strokeNum + 1 < totalStrokes) {
           setTimeout(() => {
             writerRef.current?.highlightStroke(strokeData.strokeNum + 1);
@@ -99,10 +93,9 @@ export const KanjiStrokeCanvas = ({ character, totalStrokes, theme }: KanjiStrok
       },
       onComplete: () => {
         setIsSuccess(true);
-      }
+      },
     });
 
-    // Manually trigger the hint for the very first stroke
     setTimeout(() => {
       writerRef.current?.highlightStroke(0);
     }, 500);
@@ -113,124 +106,119 @@ export const KanjiStrokeCanvas = ({ character, totalStrokes, theme }: KanjiStrok
     setMode('practice');
     setIsSuccess(false);
     setCurrentStroke(0);
-    
-    // Setup quiz mode (practice)
+
     writerRef.current.quiz({
-      showHintAfterMisses: 4, // Harder mode, fewer hints
+      showHintAfterMisses: 4,
       onCorrectStroke: (strokeData) => {
         setCurrentStroke(strokeData.strokeNum + 1);
       },
       onComplete: () => {
         setIsSuccess(true);
-      }
+      },
     });
   };
 
   const handleUndo = () => {
-    // In quiz mode, HanziWriter doesn't have an explicit Undo method.
-    // We usually just let the user redraw if they fail, or restart the quiz.
     if (mode === 'guided') handleGuided();
     else if (mode === 'practice') handlePractice();
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center w-full">
-      <div className="flex justify-between items-center w-full mb-3">
-        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">THỨ TỰ NÉT</h3>
+    <div className="flex w-full flex-1 flex-col items-center">
+      <div className="mb-2 flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
-           {mode === 'guided' && (
-             <span className={`font-bold px-2 py-0.5 rounded flex items-center gap-1 text-[10px] ${theme ? theme.bgLight + ' ' + theme.text : 'text-rose-500 bg-rose-50'}`}>
-               <Lightbulb size={12} /> Có chỉ dẫn
-             </span>
-           )}
-           {mode === 'practice' && (
-             <span className="text-emerald-500 font-bold bg-emerald-50 px-2 py-0.5 rounded flex items-center gap-1 text-[10px]">
-               <PenTool size={12} /> Tự do
-             </span>
-           )}
-           <span className={`text-sm font-bold ${theme ? theme.text : 'text-rose-500'}`}>
-             {mode !== 'play' ? `${currentStroke}/${totalStrokes}` : `${totalStrokes}/${totalStrokes}`}
-           </span>
+          <span className={`grid h-8 w-8 place-items-center rounded-xl border bg-white shadow-sm ${theme ? `${theme.borderLight} ${theme.text}` : 'border-rose-100 text-rose-500'}`}>
+            <PenTool size={15} />
+          </span>
+          <h3 className="text-[11px] font-black uppercase tracking-[0.16em] text-slate-500">Stroke Lab</h3>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {mode === 'guided' && (
+            <span className={`flex items-center gap-1 rounded-lg px-2 py-0.5 text-[10px] font-black ${theme ? `${theme.bgLight} ${theme.text}` : 'bg-rose-50 text-rose-500'}`}>
+              <Lightbulb size={12} /> Guided
+            </span>
+          )}
+          {mode === 'practice' && (
+            <span className="flex items-center gap-1 rounded-lg bg-emerald-50 px-2 py-0.5 text-[10px] font-black text-emerald-600">
+              <PenTool size={12} /> Free
+            </span>
+          )}
+          <span className={`rounded-lg bg-slate-50 px-2 py-1 text-xs font-black dark:bg-slate-950/45 ${theme ? theme.text : 'text-rose-500'}`}>
+            {mode !== 'play' ? `${currentStroke}/${totalStrokes}` : `${totalStrokes}/${totalStrokes}`}
+          </span>
         </div>
       </div>
-      
-      {/* Canvas Area */}
-      <div className="relative w-full flex-1 flex flex-col items-center justify-center min-h-[160px] mb-3">
 
-        {/* The SVG Container */}
-        <div 
-          ref={containerRef} 
-          className="relative w-[260px] h-[260px] border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900/50 flex items-center justify-center"
+      <div className="relative mb-2 flex min-h-[140px] w-full flex-1 flex-col items-center justify-center">
+        <div
+          ref={containerRef}
+          className="relative flex h-[218px] w-[218px] items-center justify-center overflow-hidden rounded-[1.25rem] border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-white shadow-inner dark:border-slate-800 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
         >
-          {/* Grid lines for kanji canvas */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none z-0">
-            <div className="absolute top-0 bottom-0 left-1/2 w-px bg-slate-400"></div>
-            <div className="absolute left-0 right-0 top-1/2 h-px bg-slate-400"></div>
-            <div className="absolute top-0 bottom-0 left-0 right-0">
-               {/* Diagonals could be added here if desired */}
-            </div>
+          <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${theme?.gradient || 'from-rose-600 via-pink-400 to-amber-300'}`} />
+          <div className="pointer-events-none absolute inset-5 z-0 flex items-center justify-center opacity-20">
+            <div className="absolute bottom-0 top-0 left-1/2 w-px bg-slate-300" />
+            <div className="absolute left-0 right-0 top-1/2 h-px bg-slate-300" />
+            <div className="absolute inset-0 rounded-2xl border border-dashed border-slate-300" />
           </div>
 
-          {/* Dedicated container for HanziWriter SVG */}
-          <div ref={writerContainerRef} className="relative z-10 w-full h-full flex items-center justify-center pointer-events-none [&>svg]:pointer-events-auto"></div>
+          <div ref={writerContainerRef} className="relative z-10 flex h-full w-full items-center justify-center pointer-events-none [&>svg]:pointer-events-auto" />
 
-          {/* Success Overlay */}
           {isSuccess && (
-            <div className="absolute inset-0 z-20 bg-emerald-50 rounded-2xl border-2 border-emerald-500 flex flex-col items-center justify-center animate-in fade-in zoom-in duration-300">
-              <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mb-1 text-emerald-500 shadow-sm">
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-[1.25rem] border border-emerald-300 bg-emerald-50/95">
+              <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-emerald-500 shadow-sm">
                 <Check size={20} strokeWidth={3} />
               </div>
-              <h4 className="text-emerald-600 font-bold text-sm mb-0.5">Đỉnh nha</h4>
-              <p className="text-slate-500 text-[10px] font-medium leading-tight">Có năng khiếu đấy :))</p>
+              <h4 className="text-sm font-black text-emerald-600">Hoàn thành</h4>
+              <p className="text-[10px] font-semibold text-slate-500">Nét viết đã khớp</p>
             </div>
           )}
         </div>
 
-        {/* Extra Practice Tools */}
         {(mode === 'practice' || mode === 'guided') && (
-          <div className="flex gap-4 mt-3 animate-in fade-in slide-in-from-bottom-2">
-            <button onClick={handleUndo} className="flex items-center gap-1 text-xs font-bold text-slate-500 hover:text-slate-700">
-              <Undo2 size={14} /> Clear / Xóa nét
+          <div className="mt-2 flex gap-4">
+            <button onClick={handleUndo} className="flex items-center gap-1 text-xs font-black text-slate-500 transition-colors hover:text-slate-700">
+              <Undo2 size={14} /> Clear
             </button>
-            <button onClick={mode === 'guided' ? handleGuided : handlePractice} className={`flex items-center gap-1 text-xs font-bold ${theme ? theme.text + ' ' + theme.textHoverBright : 'text-rose-500 hover:text-rose-600'}`}>
-              <Eraser size={14} /> Chơi lại
+            <button onClick={mode === 'guided' ? handleGuided : handlePractice} className={`flex items-center gap-1 text-xs font-black ${theme ? `${theme.text} ${theme.textHoverBright}` : 'text-rose-500 hover:text-rose-600'}`}>
+              <Eraser size={14} /> Replay
             </button>
           </div>
         )}
       </div>
 
-      {/* Main Buttons */}
-      <div className="flex justify-between gap-2 w-full">
-         <button 
-           onClick={handlePlay}
-           className={`flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg border-2 font-bold text-xs transition-colors shadow-sm ${theme ? theme.borderLight + ' ' + theme.text + ' ' + theme.hoverBgLightSoft : 'border-rose-100 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10'}`}
-         >
-           <Play size={14} fill="currentColor" /> Phát
-         </button>
-         
-         <button 
-           onClick={handleGuided}
-           className={`flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg border-2 font-bold text-xs transition-colors shadow-sm ${
-             mode === 'guided' 
-               ? (theme ? theme.bgLight + ' ' + theme.borderText : 'bg-rose-50 border-rose-200 text-rose-600') 
-               : 'bg-white border-slate-100 text-slate-600 hover:bg-slate-50'
-           }`}
-         >
-           <Lightbulb size={14} /> Có chỉ dẫn
-         </button>
-         
-         <button 
-           onClick={handlePractice}
-           className={`flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg border-2 font-bold text-xs transition-colors shadow-sm ${
-             mode === 'practice'
-               ? 'bg-emerald-50 border-emerald-200 text-emerald-600'
-               : 'bg-white border-slate-100 text-slate-600 hover:bg-slate-50'
-           }`}
-         >
-           <PenTool size={14} /> Tự do
-         </button>
-      </div>
+      <div className="grid w-full grid-cols-3 gap-2 rounded-2xl bg-slate-50/80 p-1.5 ring-1 ring-slate-100 dark:bg-slate-950/35 dark:ring-slate-800">
+        <button
+          onClick={handlePlay}
+          className={`flex items-center justify-center gap-1 rounded-xl py-1.5 text-xs font-black transition-colors ${
+            mode === 'play' ? 'bg-white text-slate-800 shadow-sm dark:bg-slate-900 dark:text-slate-100' : theme ? `${theme.text} ${theme.hoverBgLightSoft}` : 'text-rose-500 hover:bg-rose-50'
+          }`}
+        >
+          <Play size={14} fill="currentColor" /> Play
+        </button>
 
+        <button
+          onClick={handleGuided}
+          className={`flex items-center justify-center gap-1 rounded-xl py-1.5 text-xs font-black transition-colors ${
+            mode === 'guided'
+              ? theme ? `${theme.bgLight} ${theme.borderText} shadow-sm` : 'bg-rose-50 text-rose-600 shadow-sm'
+              : 'text-slate-600 hover:bg-white dark:text-slate-300 dark:hover:bg-slate-900'
+          }`}
+        >
+          <Lightbulb size={14} /> Guide
+        </button>
+
+        <button
+          onClick={handlePractice}
+          className={`flex items-center justify-center gap-1 rounded-xl py-1.5 text-xs font-black transition-colors ${
+            mode === 'practice'
+              ? 'bg-emerald-50 text-emerald-600 shadow-sm'
+              : 'text-slate-600 hover:bg-white dark:text-slate-300 dark:hover:bg-slate-900'
+          }`}
+        >
+          <PenTool size={14} /> Draw
+        </button>
+      </div>
     </div>
   );
 };
