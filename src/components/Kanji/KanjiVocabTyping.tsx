@@ -340,203 +340,191 @@ export const KanjiVocabTyping: React.FC<KanjiVocabTypingProps> = ({
 
   const accuracy = currentIndex > 0 ? Math.round((correctCount / currentIndex) * 100) : 100;
   const progressPercent = ((currentIndex + 1) / vocabList.length) * 100;
-  const promptLabel = mode === 'vocab' ? 'Nghĩa tiếng Việt' : 'Kanji prompt';
+  const promptLabel = mode === 'vocab' ? 'Nghĩa tiếng Việt' : 'Kanji';
+  const statusTone =
+    status === 'correct'
+      ? 'border-emerald-300 bg-emerald-50/92 text-emerald-700 shadow-emerald-500/10'
+      : status === 'wrong'
+        ? 'border-rose-300 bg-rose-50/92 text-rose-700 shadow-rose-500/10'
+        : 'border-blue-300 bg-white/92 text-slate-900 shadow-blue-500/12';
 
   return createPortal(
     <div className="fixed inset-0 z-[9999] overflow-hidden bg-slate-50 font-sans dark:bg-slate-950">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[url('/images/backgrounds/typing-bg.jpg')] bg-cover bg-center bg-no-repeat opacity-90 dark:opacity-50" />
-        <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/58 to-blue-50/70 dark:from-slate-950/86 dark:via-slate-950/72 dark:to-slate-900/82" />
+        <div className="absolute inset-0 bg-[url('/images/backgrounds/typing-bg.jpg')] bg-cover bg-center bg-no-repeat opacity-88 dark:opacity-42" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_24%,rgba(255,255,255,0.96),rgba(255,255,255,0.64)_42%,rgba(219,234,254,0.46)_100%)] dark:bg-[radial-gradient(circle_at_50%_22%,rgba(15,23,42,0.72),rgba(15,23,42,0.9)_62%,rgba(2,6,23,0.96)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-sky-100/70 via-white/35 to-transparent dark:from-slate-950" />
       </div>
 
-      <div className="relative flex h-full flex-col px-4 py-4 md:px-8">
-        <header className="mx-auto grid w-full max-w-6xl grid-cols-[1fr_auto] items-center gap-3 rounded-[1.75rem] border border-white/75 bg-white/76 p-3 shadow-[0_16px_44px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/76 lg:grid-cols-[1fr_auto_1fr]">
+      <div className="relative flex h-full flex-col items-center px-4 py-4 md:px-8">
+        <header className="mx-auto grid w-full max-w-[980px] items-center gap-3 rounded-full border border-white/85 bg-white/82 px-4 py-3 shadow-[0_18px_46px_rgba(15,23,42,0.10)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/80 md:grid-cols-[1.4fr_auto_auto_auto_auto]">
           <div className="min-w-0">
-            <div className="mb-2 flex items-center justify-between gap-3">
-              <span className={`rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${theme.progressSoft}`}>
-                {currentIndex + 1} / {vocabList.length}
+            <div className="mb-1.5 flex items-center gap-3">
+              <span className="text-[9px] font-black uppercase tracking-[0.18em] text-slate-400">Tiến độ</span>
+              <span className="text-lg font-black text-slate-900 dark:text-white">
+                {currentIndex + 1}<span className="text-sm text-slate-400"> / {vocabList.length}</span>
               </span>
-              <span className="hidden text-[10px] font-black uppercase tracking-[0.18em] text-slate-400 sm:block">Practice route</span>
+              <span className={`rounded-full border px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.14em] ${theme.progressSoft}`}>
+                {accuracy}% đúng
+              </span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-slate-200/80 dark:bg-slate-800">
-              <div className={`h-full rounded-full ${theme.progressFill}`} style={{ width: `${progressPercent}%` }} />
+              <div className={`h-full rounded-full bg-gradient-to-r ${theme.accentGradient}`} style={{ width: `${progressPercent}%` }} />
             </div>
           </div>
 
-          <div className="hidden items-center gap-2 lg:flex">
-            {[
-              [Star, 'Điểm', score, 'text-blue-600 bg-blue-50'],
-              [Flame, 'Combo', combo, 'text-rose-600 bg-rose-50'],
-              [Timer, 'Thời gian', formatTime(elapsedSeconds), 'text-slate-700 bg-slate-50'],
-            ].map(([Icon, label, value, className]) => {
-              const StatIcon = Icon as typeof Star;
-              return (
-                <div key={label as string} className="flex min-w-[104px] items-center gap-2 rounded-2xl bg-white/78 px-3 py-2 ring-1 ring-slate-100 dark:bg-slate-900/72 dark:ring-slate-800">
-                  <span className={`grid h-8 w-8 place-items-center rounded-xl ${className as string}`}>
-                    <StatIcon size={16} />
-                  </span>
-                  <div>
-                    <div className="text-[9px] font-black uppercase tracking-[0.16em] text-slate-400">{label as string}</div>
-                    <div className="text-base font-black text-slate-900 dark:text-slate-50">{value as string | number}</div>
-                  </div>
+          {[
+            [Star, 'Điểm', score, 'text-blue-600'],
+            [Flame, 'Combo', `${combo}/${maxCombo}`, 'text-rose-600'],
+            [Timer, 'Thời gian', formatTime(elapsedSeconds), 'text-slate-800 dark:text-slate-100'],
+          ].map(([Icon, label, value, className]) => {
+            const StatIcon = Icon as typeof Star;
+            return (
+              <div key={label as string} className="hidden min-w-[86px] border-l border-slate-200/80 pl-4 md:block dark:border-slate-800">
+                <div className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[0.16em] text-slate-400">
+                  <StatIcon size={14} className={className as string} />
+                  {label as string}
                 </div>
-              );
-            })}
-          </div>
+                <div className={`mt-0.5 text-xl font-black leading-none ${className as string}`}>{value as string | number}</div>
+              </div>
+            );
+          })}
 
-          <div className="flex justify-end">
-            <button
-              onClick={onClose}
-              className="inline-flex h-11 items-center gap-2 rounded-2xl bg-slate-900 px-4 text-sm font-black text-white shadow-lg transition-colors hover:bg-slate-800 dark:bg-white dark:text-slate-950"
-            >
-              <X size={17} strokeWidth={2.6} /> Thoát
-            </button>
-          </div>
+          <button
+            onClick={onClose}
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-rose-600 px-6 text-sm font-black text-white shadow-[0_12px_26px_rgba(225,29,72,0.25)] transition-transform hover:-translate-y-0.5 active:translate-y-0"
+          >
+            <X size={18} strokeWidth={2.8} /> Thoát
+          </button>
         </header>
 
-        <main className="mx-auto grid w-full max-w-6xl flex-1 grid-rows-[1fr_auto] gap-4 py-4">
-          <div className="grid min-h-0 gap-4 lg:grid-cols-[1fr_0.92fr]">
-            <section className="relative flex min-h-[300px] flex-col justify-center overflow-hidden rounded-[2rem] border border-white/75 bg-white/72 p-5 text-center shadow-[0_18px_52px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/72">
-              <div className={`absolute inset-x-0 top-0 h-2 bg-gradient-to-r ${theme.accentGradient}`} />
-              <div className={`absolute -right-16 -top-20 font-jp text-[12rem] font-black leading-none ${theme.accentText} opacity-5`}>
-                {mode === 'vocab' ? '語' : currentVocab?.kanji}
-              </div>
+        <main className="flex w-full flex-1 flex-col items-center justify-center gap-4 py-4">
+          <section className="relative w-full max-w-[840px] overflow-hidden rounded-[2.25rem] border border-white/85 bg-white/78 px-6 py-10 text-center shadow-[0_26px_70px_rgba(15,23,42,0.10)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/78">
+            <div className={`absolute inset-x-24 top-0 h-1.5 rounded-b-full bg-gradient-to-r ${theme.accentGradient}`} />
+            <div className={`absolute -right-10 -top-16 font-jp text-[11rem] font-black leading-none ${theme.accentText} opacity-[0.04]`}>
+              {mode === 'vocab' ? '語' : currentVocab?.kanji}
+            </div>
+            <div className={`mx-auto mb-6 inline-flex items-center gap-2 rounded-full border bg-white/70 px-4 py-2 text-[10px] font-black uppercase tracking-[0.26em] ${theme.accentText} ${theme.accentBorder}`}>
+              <Keyboard size={14} />
+              {promptLabel}
+            </div>
+            <div className={`relative mx-auto max-w-2xl font-black leading-tight text-slate-900 dark:text-slate-50 ${mode === 'vocab' ? 'text-4xl md:text-5xl' : 'font-jp text-6xl md:text-7xl'}`}>
+              {mode === 'vocab' ? currentVocab?.meaning : currentVocab?.kanji}
+            </div>
+            <button className={`mx-auto mt-7 grid h-13 w-13 place-items-center rounded-full border bg-white/82 shadow-[0_12px_28px_rgba(15,23,42,0.08)] ${theme.accentText} ${theme.accentBorder} dark:bg-slate-900`}>
+              <Volume2 size={22} />
+            </button>
+          </section>
 
-              <div className="relative z-10">
-                <div className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full bg-slate-50 px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-slate-400 ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
-                  <Keyboard size={14} />
-                  {promptLabel}
-                </div>
-                <div className={`mx-auto max-w-xl font-black leading-tight text-slate-900 dark:text-slate-50 ${mode === 'vocab' ? 'text-4xl md:text-5xl' : 'font-jp text-6xl md:text-7xl'}`}>
-                  {mode === 'vocab' ? currentVocab?.meaning : currentVocab?.kanji}
-                </div>
-                <button className={`mx-auto mt-5 grid h-12 w-12 place-items-center rounded-2xl border bg-white shadow-sm ${theme.accentText} ${theme.accentBorder} dark:bg-slate-900`}>
-                  <Volume2 size={22} />
-                </button>
-              </div>
-            </section>
+          <div className="w-full max-w-[840px]">
+            <div className={`relative rounded-[1.25rem] border-2 shadow-[0_18px_42px_rgba(15,23,42,0.10)] ring-4 ring-white/60 backdrop-blur-xl transition-colors dark:bg-slate-950/80 ${statusTone}`}>
+              <span className={`absolute left-8 top-1/2 h-6 w-1 -translate-y-1/2 rounded-full bg-gradient-to-b ${theme.accentGradient}`} />
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+                readOnly={status !== null}
+                placeholder="Nhập romaji..."
+                className={`w-full bg-transparent px-14 py-5 font-jp text-2xl font-black outline-none placeholder:text-slate-300 dark:placeholder:text-slate-600 ${
+                  status === 'correct'
+                    ? 'text-emerald-600'
+                    : status === 'wrong'
+                      ? 'text-rose-600'
+                      : 'text-slate-900 dark:text-slate-100'
+                }`}
+              />
+            </div>
 
-            <section className="flex min-h-[300px] flex-col overflow-hidden rounded-[2rem] border border-white/75 bg-white/78 p-5 shadow-[0_18px_52px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/76">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <div>
-                  <div className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Câu trả lời</div>
-                  <div className="mt-1 text-sm font-black text-slate-700 dark:text-slate-200">Nhập romaji hoặc kana</div>
+            <div ref={feedbackRef} className="mt-3 min-h-[62px]">
+              {status === null && (
+                <div className="flex items-center justify-center gap-2 text-sm font-semibold text-slate-500">
+                  <Lightbulb size={15} className="text-amber-500" />
+                  Gõ romaji để hệ thống tự đổi sang kana.
                 </div>
-                <div className="grid grid-cols-2 gap-1 rounded-2xl bg-slate-50 p-1 ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
-                  <button
-                    onClick={() => {
-                      setImeMode('hira');
-                      inputRef.current?.focus();
-                    }}
-                    className={`rounded-xl px-3 py-2 text-xs font-black transition-colors ${imeMode === 'hira' ? `${theme.tabActive} shadow-lg` : theme.tabIdle}`}
-                  >
-                    <span className="font-jp text-base">あ</span> Hira
-                  </button>
-                  <button
-                    onClick={() => {
-                      setImeMode('kata');
-                      inputRef.current?.focus();
-                    }}
-                    className={`rounded-xl px-3 py-2 text-xs font-black transition-colors ${imeMode === 'kata' ? `${theme.tabActive} shadow-lg` : theme.tabIdle}`}
-                  >
-                    <span className="font-jp text-base">ア</span> Kata
-                  </button>
-                </div>
-              </div>
+              )}
 
-              <div className={`relative rounded-[1.4rem] border-2 bg-white shadow-inner ring-4 ring-transparent transition-colors dark:bg-slate-900 ${
-                status === 'correct'
-                  ? 'border-emerald-400 ring-emerald-100'
-                  : status === 'wrong'
-                    ? 'border-rose-400 ring-rose-100'
-                    : `border-slate-200 ${theme.inputBorder}`
-              }`}>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={handleInputChange}
-                  onKeyDown={handleKeyDown}
-                  readOnly={status !== null}
-                  placeholder="Nhập romaji..."
-                  className={`w-full bg-transparent px-5 py-5 font-jp text-2xl font-black outline-none placeholder:text-slate-300 dark:placeholder:text-slate-600 ${
-                    status === 'correct'
-                      ? 'text-emerald-600'
-                      : status === 'wrong'
-                        ? 'text-rose-600'
-                        : 'text-slate-900 dark:text-slate-100'
-                  }`}
-                />
-              </div>
-
-              <div ref={feedbackRef} className="mt-4 min-h-[112px]">
-                {status === null && (
-                  <div className="flex h-full items-center gap-3 rounded-[1.4rem] border border-slate-100 bg-slate-50/80 p-4 text-slate-500 dark:border-slate-800 dark:bg-slate-900/50">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-amber-50 text-amber-500 ring-1 ring-amber-100">
-                      <Lightbulb size={18} />
+              {status === 'correct' && (
+                <div className="mx-auto flex max-w-[680px] items-center justify-between gap-3 rounded-2xl border border-emerald-100 bg-emerald-50/90 px-4 py-3 text-emerald-700 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-500 text-white">
+                      <Check size={20} strokeWidth={3} />
                     </span>
                     <div>
-                      <div className="text-sm font-black text-slate-700 dark:text-slate-200">Gõ bằng romaji</div>
-                      <div className="mt-1 text-xs font-semibold">Enter để kiểm tra, Tab để đổi bảng chữ.</div>
+                      <div className="text-sm font-black">Chính xác</div>
+                      <div className="text-xs font-semibold opacity-75">Bạn đã gõ đúng từ này.</div>
                     </div>
                   </div>
-                )}
+                  <AnswerPreview vocab={currentVocab} hint={getRomajiHint(currentVocab)} />
+                </div>
+              )}
 
-                {status === 'correct' && (
-                  <div className="grid gap-3 rounded-[1.4rem] border border-emerald-100 bg-emerald-50/92 p-4 text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/30 md:grid-cols-[1fr_auto]">
-                    <div className="flex items-center gap-3">
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-emerald-500 text-white">
-                        <Check size={20} strokeWidth={3} />
-                      </span>
-                      <div>
-                        <div className="text-base font-black">Chính xác</div>
-                        <div className="text-xs font-semibold opacity-80">Bạn đã gõ đúng từ này.</div>
-                      </div>
+              {status === 'wrong' && (
+                <div className="mx-auto flex max-w-[680px] items-center justify-between gap-3 rounded-2xl border border-rose-100 bg-rose-50/90 px-4 py-3 text-rose-700 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-10 w-10 place-items-center rounded-2xl bg-rose-500 text-white">
+                      <X size={20} strokeWidth={3} />
+                    </span>
+                    <div>
+                      <div className="text-sm font-black">Chưa chính xác</div>
+                      <div className="text-xs font-semibold opacity-75">Xem đáp án rồi tiếp tục.</div>
                     </div>
-                    <AnswerPreview vocab={currentVocab} hint={getRomajiHint(currentVocab)} />
                   </div>
-                )}
+                  <AnswerPreview vocab={currentVocab} hint={getRomajiHint(currentVocab)} />
+                </div>
+              )}
+            </div>
 
-                {status === 'wrong' && (
-                  <div className="grid gap-3 rounded-[1.4rem] border border-rose-100 bg-rose-50/92 p-4 text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/30 md:grid-cols-[1fr_auto]">
-                    <div className="flex items-center gap-3">
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-rose-500 text-white">
-                        <X size={20} strokeWidth={3} />
-                      </span>
-                      <div>
-                        <div className="text-base font-black">Chưa chính xác</div>
-                        <div className="text-xs font-semibold opacity-80">Xem đáp án rồi tiếp tục.</div>
-                      </div>
-                    </div>
-                    <AnswerPreview vocab={currentVocab} hint={getRomajiHint(currentVocab)} />
-                  </div>
-                )}
-              </div>
-            </section>
-          </div>
+            <div className="mt-2 flex items-center gap-4">
+              <div className="h-px flex-1 bg-slate-200/80 dark:bg-slate-800" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Bảng chữ hỗ trợ</span>
+              <div className="h-px flex-1 bg-slate-200/80 dark:bg-slate-800" />
+            </div>
 
-          <footer className="relative overflow-hidden rounded-[2rem] border border-white/80 bg-white/74 p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.10)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/76">
-            <div className={`absolute inset-x-6 top-0 h-1.5 rounded-b-full bg-gradient-to-r ${theme.accentGradient}`} />
-            <div className="absolute -left-16 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-white/70 blur-2xl" />
-            <div className="relative grid items-center gap-2 lg:grid-cols-[1fr_auto]">
-              <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
-                <StatTile icon={Check} label="Đúng" value={correctCount} subLabel="đã qua" tone="emerald" />
-                <StatTile icon={X} label="Sai" value={wrongCount} subLabel="cần ôn" tone="rose" />
-                <StatTile icon={Target} label="Chính xác" value={`${accuracy}%`} subLabel="hiện tại" tone="blue" />
-                <StatTile icon={Trophy} label="Combo" value={maxCombo} subLabel="cao nhất" tone="violet" />
-              </div>
-
+            <div className="mx-auto mt-5 grid max-w-[560px] grid-cols-2 gap-3">
               <button
-                onClick={skipQuestion}
-                className={`group inline-flex min-h-[62px] items-center justify-center gap-4 rounded-[1.55rem] bg-gradient-to-r ${theme.accentGradient} px-6 text-base font-black text-white shadow-[0_16px_36px_rgba(37,99,235,0.24)] transition-transform hover:-translate-y-0.5 active:translate-y-0`}
+                onClick={() => {
+                  setImeMode('hira');
+                  inputRef.current?.focus();
+                }}
+                className={`flex h-16 items-center justify-center gap-3 rounded-2xl border-2 text-sm font-black shadow-sm transition-all ${
+                  imeMode === 'hira'
+                    ? `border-transparent bg-gradient-to-r ${theme.accentGradient} text-white shadow-blue-500/20`
+                    : 'border-white/80 bg-white/76 text-slate-600 hover:bg-white dark:border-slate-800 dark:bg-slate-950/72 dark:text-slate-300'
+                }`}
               >
-                <span>{status !== null ? 'Tiếp tục' : 'Bỏ qua'}</span>
-                <span className="grid h-9 w-9 place-items-center rounded-2xl bg-white/18 ring-1 ring-white/25 transition-transform group-hover:translate-x-0.5">
-                  <ChevronRight size={19} strokeWidth={3} />
-                </span>
+                <span className="font-jp text-xl">あ</span> Hiragana
+              </button>
+              <button
+                onClick={() => {
+                  setImeMode('kata');
+                  inputRef.current?.focus();
+                }}
+                className={`flex h-16 items-center justify-center gap-3 rounded-2xl border-2 text-sm font-black shadow-sm transition-all ${
+                  imeMode === 'kata'
+                    ? `border-transparent bg-gradient-to-r ${theme.accentGradient} text-white shadow-blue-500/20`
+                    : 'border-white/80 bg-white/76 text-slate-600 hover:bg-white dark:border-slate-800 dark:bg-slate-950/72 dark:text-slate-300'
+                }`}
+              >
+                <span className="font-jp text-xl">ア</span> Katakana
               </button>
             </div>
-          </footer>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-slate-400">
+              <span className="rounded-lg border border-slate-200 bg-white/72 px-2 py-1 text-[10px] font-black">Enter</span>
+              <span>Xác nhận / Tiếp tục</span>
+              <span className="rounded-lg border border-slate-200 bg-white/72 px-2 py-1 text-[10px] font-black">Tab</span>
+              <span>Đổi bảng chữ</span>
+            </div>
+          </div>
+
+          <button
+            onClick={skipQuestion}
+            className={`inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full bg-gradient-to-r ${theme.accentGradient} px-8 text-base font-black text-white shadow-[0_14px_34px_rgba(37,99,235,0.22)] transition-transform hover:-translate-y-0.5 active:translate-y-0`}
+          >
+            {status !== null ? 'Tiếp tục' : 'Bỏ qua'} <ChevronRight size={19} strokeWidth={3} />
+          </button>
         </main>
       </div>
     </div>,
@@ -554,62 +542,3 @@ const AnswerPreview = ({ vocab, hint }: { vocab?: VocabExample; hint: string }) 
     <div className="max-w-[150px] truncate text-sm font-black">{vocab?.meaning}</div>
   </div>
 );
-
-const statTone = {
-  emerald: {
-    shell: 'border-emerald-100/80 from-emerald-50/95 to-white text-emerald-600',
-    icon: 'bg-emerald-500 text-white shadow-emerald-500/25',
-    rail: 'from-emerald-500 to-teal-400',
-  },
-  rose: {
-    shell: 'border-rose-100/80 from-rose-50/95 to-white text-rose-600',
-    icon: 'bg-rose-500 text-white shadow-rose-500/25',
-    rail: 'from-rose-500 to-pink-400',
-  },
-  blue: {
-    shell: 'border-blue-100/80 from-blue-50/95 to-white text-blue-600',
-    icon: 'bg-blue-600 text-white shadow-blue-500/25',
-    rail: 'from-blue-600 to-cyan-400',
-  },
-  violet: {
-    shell: 'border-violet-100/80 from-violet-50/95 to-white text-violet-600',
-    icon: 'bg-violet-500 text-white shadow-violet-500/25',
-    rail: 'from-violet-500 to-fuchsia-400',
-  },
-};
-
-type StatTone = keyof typeof statTone;
-
-const StatTile = ({
-  icon: Icon,
-  label,
-  value,
-  subLabel,
-  tone,
-}: {
-  icon: React.ComponentType<{ size?: number; strokeWidth?: number }>;
-  label: string;
-  value: number | string;
-  subLabel: string;
-  tone: StatTone;
-}) => {
-  const colors = statTone[tone];
-
-  return (
-    <div className={`relative overflow-hidden rounded-[1.35rem] border bg-gradient-to-br px-3 py-2.5 ${colors.shell}`}>
-      <div className={`absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r ${colors.rail}`} />
-      <div className="flex items-center gap-3">
-        <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl shadow-lg ${colors.icon}`}>
-          <Icon size={19} strokeWidth={2.8} />
-        </span>
-        <div className="min-w-0">
-          <div className="truncate text-[9px] font-black uppercase tracking-[0.18em] opacity-70">{label}</div>
-          <div className="mt-0.5 flex items-end gap-1">
-            <span className="text-2xl font-black leading-none">{value}</span>
-            <span className="pb-0.5 text-[10px] font-black uppercase tracking-[0.12em] opacity-55">{subLabel}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
