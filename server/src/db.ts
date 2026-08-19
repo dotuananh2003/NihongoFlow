@@ -5,9 +5,12 @@ const config: sql.config = {
   server: env.sql.server,
   database: env.sql.database,
   port: env.sql.port,
+  connectionTimeout: 30000,
+  requestTimeout: 30000,
   options: {
     encrypt: env.sql.encrypt,
     trustServerCertificate: env.sql.trustServerCertificate,
+    connectTimeout: 30000,
   },
   pool: {
     max: 10,
