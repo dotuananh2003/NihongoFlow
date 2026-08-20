@@ -43,7 +43,7 @@ const plans: PaymentPlan[] = [
     name: 'JPD113',
     label: 'Sơ cấp I',
     amount: 40000,
-    durationMonths: 6,
+    durationMonths: 2,
     features: ['Kanji JPD113', 'Từ vựng JPD113', 'Ngữ pháp JPD113', 'Luyện thi JPD113', 'Luyện nói cơ bản'],
   },
   {
@@ -52,7 +52,7 @@ const plans: PaymentPlan[] = [
     label: 'Khuyên dùng',
     amount: 70000,
     oldAmount: 80000,
-    durationMonths: 6,
+    durationMonths: 2,
     featured: true,
     features: ['Toàn bộ JPD113', 'Toàn bộ JPD123', 'Luyện thi 2 khóa', 'Luyện nói 2 khóa', 'Tiết kiệm 10.000đ'],
   },
@@ -61,7 +61,7 @@ const plans: PaymentPlan[] = [
     name: 'JPD123',
     label: 'Sơ cấp II',
     amount: 40000,
-    durationMonths: 6,
+    durationMonths: 2,
     features: ['Kanji JPD123', 'Từ vựng JPD123', 'Ngữ pháp JPD123', 'Luyện thi JPD123', 'Lộ trình 6 tháng'],
   },
 ];
