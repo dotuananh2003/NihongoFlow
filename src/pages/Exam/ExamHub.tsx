@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, BookOpenCheck, Timer, ArrowRight, X, FileText } from 'lucide-react';
+import { ArrowLeft, BookOpenCheck, Timer, ArrowRight, X, FileText, Sparkles } from 'lucide-react';
 
 export const ExamHub = () => {
   const navigate = useNavigate();
   const { courseId } = useParams();
   const [isMockModalOpen, setIsMockModalOpen] = useState(false);
 
-  // Hiển thị tên khóa học dựa trên ID (giả lập đơn giản)
   const courseTitle = courseId?.toUpperCase() || 'KHÓA HỌC';
 
   const mockExams = [
@@ -19,91 +18,113 @@ export const ExamHub = () => {
     'JPD123 - SU26 - RE',
   ];
 
+  const modes = [
+    {
+      id: 'practice',
+      badge: 'CHẾ ĐỘ TỰ DO',
+      code: 'LUYỆN TẬP',
+      title: 'KHÔNG GIỚI HẠN THỜI GIAN',
+      kana: '練',
+      description: 'Ôn luyện từng bài một cách chậm rãi. Có giải thích chi tiết ngay sau mỗi câu.',
+      card: 'border-emerald-100/80 dark:border-emerald-500/20 hover:border-emerald-300 dark:hover:border-emerald-500/40 hover:shadow-[0_24px_52px_rgba(16,185,129,0.18)]',
+      text: 'text-emerald-500 dark:text-emerald-400',
+      badgeClass: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300',
+      icon: 'bg-emerald-50 text-emerald-600 ring-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-300 dark:ring-emerald-500/20',
+      button: 'from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 shadow-emerald-500/30',
+      accent: 'from-emerald-500 via-teal-400 to-green-300',
+      Icon: BookOpenCheck,
+      buttonText: 'Vào luyện tập',
+      action: () => navigate(`/exam/${courseId}/practice`)
+    },
+    {
+      id: 'mock',
+      badge: 'CHẾ ĐỘ NGHIÊM NGẶT',
+      code: 'THI THỬ',
+      title: 'ÁP LỰC THỜI GIAN THỰC',
+      kana: '試',
+      description: 'Trải nghiệm bài thi chuẩn JLPT với giới hạn thời gian nghiêm ngặt. Có báo điểm.',
+      card: 'border-rose-100/80 dark:border-rose-500/20 hover:border-rose-300 dark:hover:border-rose-500/40 hover:shadow-[0_24px_52px_rgba(244,63,94,0.18)]',
+      text: 'text-rose-500 dark:text-rose-400',
+      badgeClass: 'bg-rose-100 text-rose-600 dark:bg-rose-500/15 dark:text-rose-300',
+      icon: 'bg-rose-50 text-rose-500 ring-rose-100 dark:bg-rose-500/10 dark:text-rose-300 dark:ring-rose-500/20',
+      button: 'from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-rose-500/30',
+      accent: 'from-rose-500 via-pink-400 to-amber-300',
+      Icon: Timer,
+      buttonText: 'Bắt đầu làm bài',
+      action: () => setIsMockModalOpen(true)
+    },
+  ];
+
   return (
-    <div className="max-w-[1400px] mx-auto pt-8 pb-20 px-4 relative min-h-[calc(100vh-80px)]">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col px-4 md:px-8 pt-4 pb-4 max-w-5xl mx-auto relative">
       {/* Background aesthetics */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-300/10 rounded-full blur-[100px] pointer-events-none -z-10" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-rose-300/10 rounded-full blur-[100px] pointer-events-none -z-10" />
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none -z-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, slate-400 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
 
       {/* Header */}
       <button 
         onClick={() => navigate('/exam')}
-        className="group flex items-center gap-2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors mb-8"
+        className="group flex items-center gap-2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors mb-6 self-start"
       >
-        <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
-          <ArrowLeft size={18} />
+        <div className="w-8 h-8 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm border border-slate-100 dark:border-slate-700">
+          <ArrowLeft size={16} />
         </div>
-        <span className="font-medium">Quay lại danh sách</span>
+        <span className="font-semibold text-sm">Quay lại danh sách</span>
       </button>
 
-      <div className="mb-12 text-center">
-        <div className="px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-widest inline-block mb-4">
-          LUYỆN THI JLPT
+      <div className="mb-8 shrink-0 text-center">
+        <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-indigo-600 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-indigo-300">
+          <Sparkles size={14} /> {courseTitle} JLPT EXAM
         </div>
-        <h1 className="text-4xl md:text-5xl font-black text-slate-800 dark:text-slate-100 tracking-tight mb-3">
-          {courseTitle}
+        <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-100 uppercase tracking-wider flex flex-row items-center justify-center gap-3">
+          LUYỆN THI <span className="font-jp text-indigo-600 dark:text-indigo-400">試験</span>
         </h1>
-        <p className="text-slate-500 font-medium">Chọn chế độ học phù hợp với mục tiêu của bạn</p>
+        <p className="text-slate-600 dark:text-slate-400 font-semibold mt-2 text-sm">Chọn chế độ học phù hợp với mục tiêu của bạn</p>
       </div>
 
-      {/* Main Options */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-        
-        {/* Practice Mode */}
-        <motion.div
-          whileHover={{ y: -6, scale: 1.02 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="relative bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50 overflow-hidden border border-emerald-100 dark:border-emerald-900/30 flex flex-col items-center text-center group cursor-pointer"
-          onClick={() => navigate(`/exam/${courseId}/practice`)}
-        >
-          {/* Subtle decoration */}
-          <div className="absolute -top-24 -right-24 w-48 h-48 bg-emerald-50 dark:bg-emerald-900/20 rounded-full blur-3xl transition-transform duration-700 group-hover:scale-125"></div>
-          
-          <div className="relative z-10 w-full h-full flex flex-col items-center">
-            <div className="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-5 group-hover:rotate-12 transition-transform duration-300 shadow-sm">
-              <BookOpenCheck size={32} strokeWidth={2} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto w-full">
+        {modes.map((mode) => (
+          <button
+            key={mode.id}
+            type="button"
+            className={`relative min-h-[300px] bg-white dark:bg-slate-900 rounded-[1.75rem] p-4 shadow-[0_16px_38px_rgba(15,23,42,0.11)] dark:shadow-[0_16px_38px_rgba(0,0,0,0.3)] overflow-hidden border flex flex-col text-left group cursor-pointer ${mode.card}`}
+            onClick={mode.action}
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-white/25 via-white/18 to-white/72 dark:from-slate-950/20 dark:via-slate-950/30 dark:to-slate-950/78 pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/88 to-transparent dark:from-slate-950/90 pointer-events-none" />
+            <div className={`absolute inset-x-0 top-0 h-2 bg-gradient-to-r ${mode.accent}`} />
+            <div className={`absolute -right-4 -bottom-7 font-jp text-[6.5rem] font-black ${mode.text} opacity-[0.08] transition-transform duration-700 group-hover:scale-110`}>
+              {mode.kana}
             </div>
-            
-            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Luyện tập</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-[260px] leading-relaxed">
-              Ôn luyện từng bài một cách chậm rãi. Có giải thích chi tiết ngay sau mỗi câu, không giới hạn thời gian.
-            </p>
-            
-            <button className="w-full mt-auto relative bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white dark:bg-emerald-900/20 dark:hover:bg-emerald-600 dark:text-emerald-400 dark:hover:text-white font-semibold py-3 rounded-xl text-sm transition-all duration-300 flex items-center justify-center border border-emerald-200 dark:border-emerald-800 hover:border-transparent">
-              <span>Vào luyện tập</span>
-              <ArrowRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform opacity-0 group-hover:opacity-100" />
-            </button>
-          </div>
-        </motion.div>
 
-        {/* Mock Exam Mode */}
-        <motion.div
-          whileHover={{ y: -6, scale: 1.02 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="relative bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50 overflow-hidden border border-rose-100 dark:border-rose-900/30 flex flex-col items-center text-center group cursor-pointer"
-          onClick={() => setIsMockModalOpen(true)}
-        >
-          {/* Subtle decoration */}
-          <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-rose-50 dark:bg-rose-900/20 rounded-full blur-3xl transition-transform duration-700 group-hover:scale-125"></div>
-          
-          <div className="relative z-10 w-full h-full flex flex-col items-center">
-            <div className="w-16 h-16 rounded-2xl bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-5 group-hover:-rotate-12 transition-transform duration-300 shadow-sm">
-              <Timer size={32} strokeWidth={2} />
+            <div className="relative z-10 flex h-full flex-col">
+              <div className="flex items-start justify-between gap-3">
+                <div className={`px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-widest font-jp ${mode.badgeClass}`}>{mode.badge}</div>
+                <div className={`grid h-9 w-9 place-items-center rounded-xl ring-1 ${mode.icon}`}>
+                  <mode.Icon size={17} />
+                </div>
+              </div>
+
+              <div className="mt-8 text-center">
+                <h2 className={`text-4xl md:text-[2.6rem] font-black tracking-tight ${mode.text}`}>{mode.code}</h2>
+                <p className="mt-2 text-slate-600 dark:text-slate-300 font-black uppercase tracking-[0.15em] text-[10px] sm:text-[11px]">{mode.title}</p>
+              </div>
+
+              <div className="my-6 flex-grow flex items-center justify-center text-center">
+                <p className="text-[13px] md:text-[14px] font-medium text-slate-600 dark:text-slate-400 px-4 leading-relaxed">
+                  {mode.description}
+                </p>
+              </div>
+
+              <div className="mt-auto">
+                <div className={`relative w-full bg-gradient-to-r ${mode.button} text-white font-black py-3.5 rounded-2xl shadow-lg transition-all flex items-center justify-center overflow-hidden`}>
+                  <span>{mode.buttonText}</span>
+                  <ArrowRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
             </div>
-            
-            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Thi thực chiến</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-[260px] leading-relaxed">
-              Trải nghiệm bài thi chuẩn JLPT với giới hạn thời gian nghiêm ngặt. Tổng kết và báo điểm sau khi hoàn thành.
-            </p>
-            
-            <button className="w-full mt-auto relative bg-rose-600 hover:bg-rose-700 text-white font-semibold text-sm py-3 rounded-xl shadow-md transition-all group-hover:shadow-lg flex items-center justify-center">
-              <span>Bắt đầu làm bài</span>
-              <ArrowRight size={18} className="absolute right-6 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        </motion.div>
-
+          </button>
+        ))}
       </div>
 
       {/* Mock Exam Selection Modal */}
