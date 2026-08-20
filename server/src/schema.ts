@@ -75,9 +75,9 @@ export const ensureAuthSchema = async () => {
 
     INSERT INTO "SubscriptionPlans" ("Id", "Name", "Amount", "DurationMonths")
     VALUES
-        ('jpd113', 'JPD113', 40000, 6),
-        ('jpd123', 'JPD123', 40000, 6),
-        ('combo', 'Combo Master', 70000, 6)
+        ('jpd113', 'JPD113', 40000, 2),
+        ('jpd123', 'JPD123', 40000, 2),
+        ('combo', 'Combo Master', 70000, 2)
     ON CONFLICT ("Id") DO UPDATE SET
         "Name" = EXCLUDED."Name",
         "Amount" = EXCLUDED."Amount",
