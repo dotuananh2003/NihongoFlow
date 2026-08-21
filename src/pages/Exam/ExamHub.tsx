@@ -398,36 +398,42 @@ export const ExamHub = () => {
                   </button>
                 ))}
 
-                {/* Upcoming Notification Card */}
-                <div className="flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/50 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20">
+                {/* Upcoming Notification Card (Matches exact structure and height of exam cards) */}
+                <div className="flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20">
                   <div>
+                    {/* Top Header Row */}
                     <div className="flex items-center justify-between gap-2 mb-3.5">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-rose-100/80 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-rose-600 dark:bg-rose-950/60 dark:text-rose-300">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-rose-100/80 px-2.5 py-1 text-[10px] font-black text-rose-600 dark:bg-rose-950/60 dark:text-rose-300">
                         <Sparkles size={11} />
                         Mở rộng
                       </span>
-                      <span className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2 py-1 text-[10px] font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-600 dark:bg-slate-700/60 dark:text-slate-300">
                         Định kỳ
                       </span>
                     </div>
 
+                    {/* Middle Row: 3D Icon + Info */}
                     <div className="flex items-start gap-3">
                       <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-amber-400 to-rose-500 text-white shadow-sm">
                         <ShieldCheck size={20} />
                       </div>
                       <div>
-                        <h5 className="text-[14px] font-black text-rose-600 dark:text-rose-400 leading-snug">
-                          Kho đề thi tổng hợp
-                        </h5>
-                        <p className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
-                          Các bộ đề mới sẽ được bổ sung định kỳ theo từng học kỳ để bạn luyện tập phong phú.
-                        </p>
+                        <h4 className="text-[15px] font-black text-rose-600 dark:text-rose-400 tracking-tight leading-snug">
+                          Kho đề mở rộng
+                        </h4>
+                        <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 mt-0.5 inline-block">
+                          Đang cập nhật thêm đề mới
+                        </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-rose-200/60 dark:border-rose-900/40 flex items-center justify-center text-xs font-bold text-slate-400">
-                    Đang chuẩn bị thêm đề mới...
+                  {/* Bottom Row: Matching Button Height */}
+                  <div className="mt-4 pt-3 border-t border-dashed border-rose-200/80 dark:border-rose-900/40">
+                    <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-100/50 py-2.5 px-3 text-xs font-black text-rose-600/80 dark:bg-rose-950/40 dark:text-rose-400">
+                      <Sparkles size={13} />
+                      <span>Sắp ra mắt thêm</span>
+                    </div>
                   </div>
                 </div>
               </div>
