@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { JPD123_SP26_C1FE, type MockQuestion } from '../../data/mockExams/JPD123_SP26_C1FE';
 import { JPD123_SP26_C2FE } from '../../data/mockExams/JPD123_SP26_C2FE';
+import { JPD123_SP26_RE } from '../../data/mockExams/JPD123_SP26_RE';
 
 export const MockExamSession = () => {
   const { courseId, examId } = useParams();
@@ -31,6 +32,7 @@ export const MockExamSession = () => {
   const mockExamsMap: Record<string, MockQuestion[]> = {
     'JPD123 - SP26 - C1FE': JPD123_SP26_C1FE,
     'JPD123 - SP26 - C2FE': JPD123_SP26_C2FE,
+    'JPD123 - SP26 - RE': JPD123_SP26_RE,
   };
 
   const examData: MockQuestion[] = mockExamsMap[decodedExamName] || JPD123_SP26_C1FE;
