@@ -332,40 +332,17 @@ export const ExamHub = () => {
                         navigate(`/exam/${courseId}/mock/${encodeURIComponent(exam.name)}`);
                       }
                     }}
-                    className={`group relative flex flex-col justify-between rounded-2xl p-4 sm:p-5 text-left transition-all duration-200 ${
+                    className={`group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-all duration-200 ${
                       exam.locked
                         ? 'border border-slate-200/70 bg-slate-50/60 opacity-60 cursor-not-allowed grayscale-[0.3] dark:border-slate-800 dark:bg-slate-900/40'
-                        : 'border border-slate-100 bg-white/95 shadow-sm hover:-translate-y-1 hover:border-rose-300 hover:shadow-[0_16px_36px_rgba(244,63,94,0.13)] dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-700/60'
+                        : 'border border-slate-100 bg-white shadow-sm hover:-translate-y-1 hover:border-rose-300 hover:shadow-[0_16px_36px_rgba(244,63,94,0.13)] dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-700/60'
                     }`}
                   >
-                    {/* Top Row: Icon + Time Badge */}
                     <div>
-                      <div className="flex items-center justify-between gap-2">
-                        <div
-                          className={`grid h-11 w-11 place-items-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${
-                            exam.locked
-                              ? 'bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-500'
-                              : 'bg-gradient-to-br from-rose-500 via-pink-500 to-orange-400 text-white shadow-md shadow-rose-500/25 ring-2 ring-rose-100 dark:ring-rose-950/50'
-                          }`}
-                        >
-                          <FileText size={20} />
-                        </div>
-
-                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 dark:bg-slate-700/60 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                          <Clock size={11} />
-                          {exam.time}
-                        </span>
-                      </div>
-
-                      {/* Exam Title */}
-                      <h4 className="mt-3 text-[15px] font-black text-slate-900 dark:text-white tracking-tight group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
-                        {exam.name}
-                      </h4>
-
-                      {/* Exam Type Tag */}
-                      <div className="mt-1.5 flex items-center gap-2">
+                      {/* Top Header Row: Type Badge + Time Badge */}
+                      <div className="flex items-center justify-between gap-2 mb-3.5">
                         <span
-                          className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-black ${
+                          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-black ${
                             exam.type.includes('Final')
                               ? 'bg-blue-50 text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/60 dark:text-blue-300 dark:ring-blue-900/40'
                               : 'bg-amber-50 text-amber-600 ring-1 ring-amber-100 dark:bg-amber-950/60 dark:text-amber-300 dark:ring-amber-900/40'
@@ -374,45 +351,84 @@ export const ExamHub = () => {
                           <Layers3 size={11} />
                           {exam.type}
                         </span>
-                        <span className="text-[10px] font-bold text-slate-400">• 30 câu hỏi</span>
+
+                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-600 dark:bg-slate-700/60 dark:text-slate-300">
+                          <Clock size={11} />
+                          {exam.time}
+                        </span>
+                      </div>
+
+                      {/* Middle Row: 3D Icon + Exam Title */}
+                      <div className="flex items-start gap-3">
+                        <div
+                          className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${
+                            exam.locked
+                              ? 'bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-500'
+                              : 'bg-gradient-to-br from-rose-500 via-pink-500 to-orange-400 text-white shadow-md shadow-rose-500/25 ring-2 ring-rose-100 dark:ring-rose-950/50'
+                          }`}
+                        >
+                          <FileText size={20} />
+                        </div>
+
+                        <div>
+                          <h4 className="text-[15px] font-black text-slate-900 dark:text-white tracking-tight group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors leading-snug">
+                            {exam.name}
+                          </h4>
+                          <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 mt-0.5 inline-block">
+                            30 câu hỏi trắc nghiệm
+                          </span>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Bottom Row: Status / CTA */}
-                    <div className="mt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/60 pt-3">
+                    {/* Bottom Row: Full-width Interactive CTA */}
+                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60">
                       {exam.locked ? (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-black text-slate-400">
+                        <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-100 py-2.5 px-3 text-xs font-black text-slate-400 dark:bg-slate-800/80 dark:text-slate-500">
                           <Lock size={13} />
-                          Đang cập nhật
-                        </span>
+                          <span>Đang cập nhật đề thi</span>
+                        </div>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/60 px-3 py-1 text-xs font-black text-rose-600 dark:text-rose-300 transition-all group-hover:bg-rose-500 group-hover:text-white shadow-sm">
-                          Vào làm bài
-                          <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
-                        </span>
+                        <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-50 py-2.5 px-4 text-xs font-black text-rose-600 transition-all duration-200 group-hover:bg-gradient-to-r group-hover:from-rose-500 group-hover:via-pink-500 group-hover:to-orange-500 group-hover:text-white group-hover:shadow-md dark:bg-rose-950/50 dark:text-rose-300 dark:group-hover:text-white">
+                          <span>Bắt đầu làm bài</span>
+                          <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+                        </div>
                       )}
                     </div>
                   </button>
                 ))}
 
                 {/* Upcoming Notification Card */}
-                <div className="flex flex-col justify-between rounded-2xl border border-dashed border-rose-200 bg-rose-50/50 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20">
-                  <div className="flex items-center gap-3">
-                    <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-amber-400 to-rose-500 text-white shadow-sm">
-                      <ShieldCheck size={20} />
-                    </div>
-                    <div>
-                      <h5 className="text-xs font-black uppercase tracking-wider text-rose-600 dark:text-rose-400">
-                        Kho đề mở rộng
-                      </h5>
-                      <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
-                        Liên tục cập nhật
+                <div className="flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/50 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20">
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-3.5">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-rose-100/80 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-rose-600 dark:bg-rose-950/60 dark:text-rose-300">
+                        <Sparkles size={11} />
+                        Mở rộng
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2 py-1 text-[10px] font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+                        Định kỳ
                       </span>
                     </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-amber-400 to-rose-500 text-white shadow-sm">
+                        <ShieldCheck size={20} />
+                      </div>
+                      <div>
+                        <h5 className="text-[14px] font-black text-rose-600 dark:text-rose-400 leading-snug">
+                          Kho đề thi tổng hợp
+                        </h5>
+                        <p className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
+                          Các bộ đề mới sẽ được bổ sung định kỳ theo từng học kỳ để bạn luyện tập phong phú.
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="mt-3 text-xs font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Các bộ đề thi mới sẽ được bổ sung định kỳ theo từng học kỳ để bạn luyện tập phong phú và sát đề thi thực tế nhất.
-                  </p>
+
+                  <div className="mt-4 pt-3 border-t border-rose-200/60 dark:border-rose-900/40 flex items-center justify-center text-xs font-bold text-slate-400">
+                    Đang chuẩn bị thêm đề mới...
+                  </div>
                 </div>
               </div>
             </motion.div>
