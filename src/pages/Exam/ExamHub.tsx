@@ -286,10 +286,10 @@ export const ExamHub = () => {
             onClick={() => setIsMockModalOpen(false)}
           >
             <motion.div
-              initial={{ scale: 0.96, opacity: 0, y: 20 }}
+              initial={{ scale: 0.92, opacity: 0, y: 24 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.96, opacity: 0, y: 20 }}
-              transition={{ ease: [0.23, 1, 0.32, 1], duration: 0.4 }}
+              exit={{ scale: 0.96, opacity: 0, y: 16 }}
+              transition={{ ease: [0.23, 1, 0.32, 1], duration: 0.5 }}
               onClick={(event) => event.stopPropagation()}
               className="smooth-panel relative w-full max-w-4xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/95 p-6 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(15,23,42,0.22)] dark:border-slate-800 dark:bg-slate-900/95"
             >
@@ -324,9 +324,27 @@ export const ExamHub = () => {
               </div>
 
               {/* Exam Cards Grid */}
-              <div className="relative z-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 max-h-[60vh] overflow-y-auto p-2.5 custom-scrollbar smooth-scroll-area">
+              <motion.div 
+                className="relative z-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 max-h-[60vh] overflow-y-auto p-2.5 custom-scrollbar smooth-scroll-area"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.08,
+                      delayChildren: 0.15
+                    }
+                  }
+                }}
+              >
                 {mockExams.map((exam) => (
-                  <button
+                  <motion.button
+                    variants={{
+                      hidden: { opacity: 0, y: 16, scale: 0.96 },
+                      visible: { opacity: 1, y: 0, scale: 1, transition: { ease: [0.23, 1, 0.32, 1], duration: 0.5 } }
+                    }}
                     key={exam.name}
                     type="button"
                     disabled={exam.locked}
@@ -399,11 +417,17 @@ export const ExamHub = () => {
                         </div>
                       )}
                     </div>
-                  </button>
+                  </motion.button>
                 ))}
 
                 {/* Upcoming Notification Card (Matches exact structure and height of exam cards) */}
-                <div className="smooth-panel steady-scroll-row flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20">
+                <motion.div 
+                  variants={{
+                    hidden: { opacity: 0, y: 16, scale: 0.96 },
+                    visible: { opacity: 1, y: 0, scale: 1, transition: { ease: [0.23, 1, 0.32, 1], duration: 0.5 } }
+                  }}
+                  className="smooth-panel steady-scroll-row flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20"
+                >
                   <div>
                     {/* Top Header Row */}
                     <div className="flex items-center justify-between gap-2 mb-3.5">
@@ -439,8 +463,8 @@ export const ExamHub = () => {
                       <span>Sắp ra mắt thêm</span>
                     </div>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}
