@@ -174,86 +174,84 @@ export const ExamHub = () => {
         </p>
       </section>
 
-      {/* Redesigned 2 Mode Cards */}
-      <section className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
+      {/* Redesigned 2 Mode Cards (Compact & Elegant) */}
+      <section className="mx-auto grid w-full max-w-3xl grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2">
         {modes.map((mode, index) => {
           const EyebrowIcon = mode.eyebrowIcon;
           return (
             <motion.div
               key={mode.id}
-              initial={{ opacity: 0, y: 22 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.35 }}
+              transition={{ delay: index * 0.08, duration: 0.3 }}
               onClick={mode.action}
-              className={`group relative flex min-h-[420px] cursor-pointer flex-col justify-between overflow-hidden rounded-[2.25rem] border bg-gradient-to-br ${mode.theme.soft} ${mode.theme.border} p-6 sm:p-8 shadow-[0_20px_50px_rgba(15,23,42,0.08)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_65px_rgba(15,23,42,0.15)]`}
+              className={`group relative flex min-h-[350px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border bg-gradient-to-br ${mode.theme.soft} ${mode.theme.border} p-5 sm:p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(15,23,42,0.12)]`}
             >
               {/* Top Accent Rail */}
-              <div className={`absolute inset-x-0 top-0 h-2 bg-gradient-to-r ${mode.theme.rail}`} />
+              <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${mode.theme.rail}`} />
               
               {/* Ambient Glow */}
-              <div className={`pointer-events-none absolute -right-16 -top-16 h-60 w-60 rounded-full ${mode.theme.glow} blur-3xl transition-transform duration-700 group-hover:scale-125`} />
+              <div className={`pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full ${mode.theme.glow} blur-2xl transition-transform duration-700 group-hover:scale-125`} />
               
               {/* Kanji Background Watermark */}
-              <div className={`pointer-events-none absolute -bottom-8 right-2 select-none font-jp text-[9rem] font-black leading-none ${mode.theme.text} opacity-[0.06] transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110`}>
+              <div className={`pointer-events-none absolute -bottom-6 right-1 select-none font-jp text-[7rem] font-black leading-none ${mode.theme.text} opacity-[0.05] transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110`}>
                 {mode.kana}
               </div>
 
               {/* Card Header & Content */}
               <div className="relative z-10">
                 {/* Badges + Icon Box */}
-                <div className="flex items-start justify-between gap-3 mb-6">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] shadow-sm backdrop-blur-sm ${mode.theme.badge}`}>
-                        <EyebrowIcon size={12} />
-                        {mode.eyebrow}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 shadow-sm ring-1 ring-slate-200/70 backdrop-blur dark:bg-slate-950/40 dark:text-slate-300 dark:ring-slate-700">
-                        <Gauge size={12} />
-                        {mode.label}
-                      </span>
-                    </div>
+                <div className="flex items-start justify-between gap-2.5 mb-3.5">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[9.5px] font-black uppercase tracking-[0.12em] shadow-sm backdrop-blur-sm ${mode.theme.badge}`}>
+                      <EyebrowIcon size={11} />
+                      {mode.eyebrow}
+                    </span>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2 py-0.5 text-[8.5px] font-black uppercase tracking-[0.12em] text-slate-500 shadow-sm ring-1 ring-slate-200/70 backdrop-blur dark:bg-slate-950/40 dark:text-slate-300 dark:ring-slate-700">
+                      <Gauge size={11} />
+                      {mode.label}
+                    </span>
                   </div>
 
-                  <div className={`grid h-14 w-14 place-items-center rounded-2xl transition-transform duration-300 group-hover:scale-105 ${mode.theme.iconBox}`}>
-                    <mode.Icon size={26} strokeWidth={2.2} />
+                  <div className={`grid h-11 w-11 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-105 ${mode.theme.iconBox}`}>
+                    <mode.Icon size={20} strokeWidth={2.2} />
                   </div>
                 </div>
 
                 {/* Title & Subtitle */}
                 <div>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <h2 className={`text-3xl sm:text-4xl font-black uppercase tracking-tight ${mode.theme.text}`}>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className={`text-2xl sm:text-[1.75rem] font-black uppercase tracking-tight ${mode.theme.text}`}>
                       {mode.title}
                     </h2>
-                    <span className="rounded-xl bg-white/85 dark:bg-slate-800/80 px-2.5 py-1 font-jp text-xs font-black text-slate-500 dark:text-slate-400 shadow-sm ring-1 ring-slate-200/60 dark:ring-slate-700">
+                    <span className="rounded-lg bg-white/85 dark:bg-slate-800/80 px-2 py-0.5 font-jp text-[11px] font-black text-slate-500 dark:text-slate-400 shadow-sm ring-1 ring-slate-200/60 dark:ring-slate-700">
                       {mode.japanese}
                     </span>
                   </div>
-                  <p className="mt-2 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                  <p className="mt-1 text-[10px] font-black uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
                     {mode.subtitle}
                   </p>
                 </div>
 
                 {/* Description */}
-                <p className="mt-4 text-[13px] sm:text-sm font-semibold leading-relaxed text-slate-600 dark:text-slate-300">
+                <p className="mt-2.5 text-xs sm:text-[13px] font-semibold leading-relaxed text-slate-600 dark:text-slate-300">
                   {mode.description}
                 </p>
 
                 {/* 3 Interactive Feature Highlight Boxes */}
-                <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-2.5">
+                <div className="mt-4 grid grid-cols-3 gap-1.5 sm:gap-2">
                   {mode.stats.map((stat) => {
                     const StatIcon = stat.icon;
                     return (
                       <div
                         key={stat.label}
-                        className={`flex flex-col items-center justify-center rounded-2xl border ${mode.theme.statBorder} ${mode.theme.statBg} p-2.5 text-center shadow-sm backdrop-blur-sm transition-all group-hover:border-blue-200 dark:group-hover:border-slate-700`}
+                        className={`flex flex-col items-center justify-center rounded-xl border ${mode.theme.statBorder} ${mode.theme.statBg} p-2 text-center shadow-sm backdrop-blur-sm transition-all group-hover:border-blue-200 dark:group-hover:border-slate-700`}
                       >
-                        <StatIcon size={16} className={`mb-1 ${mode.theme.text}`} />
-                        <span className="text-[10px] sm:text-[11px] font-black text-slate-800 dark:text-slate-100 leading-tight">
+                        <StatIcon size={14} className={`mb-0.5 ${mode.theme.text}`} />
+                        <span className="text-[9.5px] sm:text-[10px] font-black text-slate-800 dark:text-slate-100 leading-tight">
                           {stat.label}
                         </span>
-                        <span className="mt-0.5 text-[8.5px] font-bold text-slate-400 dark:text-slate-500">
+                        <span className="mt-0.5 text-[8px] font-bold text-slate-400 dark:text-slate-500">
                           {stat.desc}
                         </span>
                       </div>
@@ -263,10 +261,10 @@ export const ExamHub = () => {
               </div>
 
               {/* Action Button */}
-              <div className="relative z-10 mt-6 pt-2">
-                <div className={`relative flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r py-3.5 px-5 text-sm sm:text-base font-black text-white transition-all duration-300 group-hover:shadow-2xl ${mode.theme.button}`}>
+              <div className="relative z-10 mt-4 pt-1">
+                <div className={`relative flex w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r py-3 px-4 text-xs sm:text-sm font-black text-white transition-all duration-300 group-hover:shadow-lg ${mode.theme.button}`}>
                   <span>{mode.buttonText}</span>
-                  <ArrowRight size={18} className="absolute right-5 transition-transform duration-300 group-hover:translate-x-1.5" />
+                  <ArrowRight size={16} className="absolute right-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </div>
               </div>
             </motion.div>
