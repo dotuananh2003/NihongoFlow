@@ -138,21 +138,21 @@ export const ExamHub = () => {
   ];
 
   return (
-    <div className="relative mx-auto min-h-[calc(100vh-64px)] max-w-6xl overflow-hidden px-4 py-5 md:px-8">
+    <div className="smooth-scroll-area relative mx-auto min-h-[calc(100vh-64px)] max-w-6xl overflow-hidden px-4 py-5 md:px-8">
       {/* Background aesthetics */}
       <div
-        className="pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
+        className="fixed-bg-plane pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
         style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
       />
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/90 to-rose-50/90 dark:from-slate-950/95 dark:via-slate-950/92 dark:to-indigo-950/90" />
-      <div className="pointer-events-none absolute left-1/2 top-8 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl dark:bg-cyan-900/20" />
-      <div className="pointer-events-none absolute right-10 top-20 -z-10 h-60 w-60 rounded-full bg-rose-200/25 blur-3xl dark:bg-rose-900/15" />
+      <div className="fixed-bg-plane pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/95 to-rose-50/90 dark:from-slate-950/98 dark:via-slate-950/95 dark:to-indigo-950/90" />
+      <div className="fixed-bg-plane pointer-events-none absolute left-1/2 top-8 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl dark:bg-cyan-900/20" />
+      <div className="fixed-bg-plane pointer-events-none absolute right-10 top-20 -z-10 h-60 w-60 rounded-full bg-rose-200/25 blur-3xl dark:bg-rose-900/15" />
 
       {/* Back button */}
       <button
         type="button"
         onClick={() => navigate('/exam')}
-        className="group mb-5 inline-flex items-center gap-3 rounded-full border border-white/80 bg-white/70 py-2 pl-2 pr-4 text-sm font-extrabold text-slate-600 shadow-sm backdrop-blur-md transition-all hover:-translate-y-0.5 hover:text-blue-600 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+        className="group mb-5 inline-flex items-center gap-3 rounded-full border border-white/90 bg-white/95 py-2 pl-2 pr-4 text-sm font-extrabold text-slate-600 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:text-blue-600 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-300"
       >
         <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-slate-600 shadow-sm ring-1 ring-slate-100 transition-transform group-hover:-translate-x-0.5 dark:bg-slate-800 dark:text-slate-200 dark:ring-slate-700">
           <ArrowLeft size={18} />
@@ -162,7 +162,7 @@ export const ExamHub = () => {
 
       {/* Hero title */}
       <section className="mx-auto mb-8 max-w-3xl text-center">
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/75 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-blue-600 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-blue-300">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/90 bg-white/95 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-blue-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/95 dark:text-blue-300">
           <Sparkles size={14} />
           {courseTitle} JLPT Exam System
         </div>
@@ -174,7 +174,7 @@ export const ExamHub = () => {
         </p>
       </section>
 
-      {/* Redesigned 2 Mode Cards (Compact & Elegant) */}
+      {/* Redesigned 2 Mode Cards (Compact & Elegant - 90fps Optimized) */}
       <section className="mx-auto grid w-full max-w-3xl grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2">
         {modes.map((mode, index) => {
           const EyebrowIcon = mode.eyebrowIcon;
@@ -185,7 +185,7 @@ export const ExamHub = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.08, duration: 0.3 }}
               onClick={mode.action}
-              className={`group relative flex min-h-[350px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border bg-gradient-to-br ${mode.theme.soft} ${mode.theme.border} p-5 sm:p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(15,23,42,0.12)]`}
+              className={`smooth-panel steady-scroll-row group relative flex min-h-[350px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border bg-gradient-to-br ${mode.theme.soft} ${mode.theme.border} p-5 sm:p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(15,23,42,0.12)]`}
             >
               {/* Top Accent Rail */}
               <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${mode.theme.rail}`} />
@@ -203,11 +203,11 @@ export const ExamHub = () => {
                 {/* Badges + Icon Box */}
                 <div className="flex items-start justify-between gap-2.5 mb-3.5">
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[9.5px] font-black uppercase tracking-[0.12em] shadow-sm backdrop-blur-sm ${mode.theme.badge}`}>
+                    <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[9.5px] font-black uppercase tracking-[0.12em] shadow-sm ${mode.theme.badge}`}>
                       <EyebrowIcon size={11} />
                       {mode.eyebrow}
                     </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2 py-0.5 text-[8.5px] font-black uppercase tracking-[0.12em] text-slate-500 shadow-sm ring-1 ring-slate-200/70 backdrop-blur dark:bg-slate-950/40 dark:text-slate-300 dark:ring-slate-700">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-0.5 text-[8.5px] font-black uppercase tracking-[0.12em] text-slate-500 shadow-sm ring-1 ring-slate-200/70 dark:bg-slate-900/90 dark:text-slate-300 dark:ring-slate-700">
                       <Gauge size={11} />
                       {mode.label}
                     </span>
@@ -224,7 +224,7 @@ export const ExamHub = () => {
                     <h2 className={`text-2xl sm:text-[1.75rem] font-black uppercase tracking-tight ${mode.theme.text}`}>
                       {mode.title}
                     </h2>
-                    <span className="rounded-lg bg-white/85 dark:bg-slate-800/80 px-2 py-0.5 font-jp text-[11px] font-black text-slate-500 dark:text-slate-400 shadow-sm ring-1 ring-slate-200/60 dark:ring-slate-700">
+                    <span className="rounded-lg bg-white/95 dark:bg-slate-800/95 px-2 py-0.5 font-jp text-[11px] font-black text-slate-500 dark:text-slate-400 shadow-sm ring-1 ring-slate-200/60 dark:ring-slate-700">
                       {mode.japanese}
                     </span>
                   </div>
@@ -245,7 +245,7 @@ export const ExamHub = () => {
                     return (
                       <div
                         key={stat.label}
-                        className={`flex flex-col items-center justify-center rounded-xl border ${mode.theme.statBorder} ${mode.theme.statBg} p-2 text-center shadow-sm backdrop-blur-sm transition-all group-hover:border-blue-200 dark:group-hover:border-slate-700`}
+                        className={`flex flex-col items-center justify-center rounded-xl border ${mode.theme.statBorder} ${mode.theme.statBg} p-2 text-center shadow-sm transition-colors group-hover:border-blue-200 dark:group-hover:border-slate-700`}
                       >
                         <StatIcon size={14} className={`mb-0.5 ${mode.theme.text}`} />
                         <span className="text-[9.5px] sm:text-[10px] font-black text-slate-800 dark:text-slate-100 leading-tight">
@@ -262,7 +262,7 @@ export const ExamHub = () => {
 
               {/* Action Button */}
               <div className="relative z-10 mt-4 pt-1">
-                <div className={`relative flex w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r py-3 px-4 text-xs sm:text-sm font-black text-white transition-all duration-300 group-hover:shadow-lg ${mode.theme.button}`}>
+                <div className={`relative flex w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r py-3 px-4 text-xs sm:text-sm font-black text-white transition-shadow duration-300 group-hover:shadow-lg ${mode.theme.button}`}>
                   <span>{mode.buttonText}</span>
                   <ArrowRight size={16} className="absolute right-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </div>
