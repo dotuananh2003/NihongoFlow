@@ -23,6 +23,7 @@ import { JPD123_SP26_C1FE, type MockQuestion } from '../../data/mockExams/JPD123
 import { JPD123_SP26_C2FE } from '../../data/mockExams/JPD123_SP26_C2FE';
 import { JPD123_SP26_RE } from '../../data/mockExams/JPD123_SP26_RE';
 import { JPD123_SU26_FE } from '../../data/mockExams/JPD123_SU26_FE';
+import { JPD123_SU26_RE } from '../../data/mockExams/JPD123_SU26_RE';
 
 export const MockExamSession = () => {
   const { courseId, examId } = useParams();
@@ -35,6 +36,7 @@ export const MockExamSession = () => {
     'JPD123 - SP26 - C2FE': JPD123_SP26_C2FE,
     'JPD123 - SP26 - RE': JPD123_SP26_RE,
     'JPD123 - SU26 - FE': JPD123_SU26_FE,
+    'JPD123 - SU26 - RE': JPD123_SU26_RE,
   };
 
   const examData: MockQuestion[] = mockExamsMap[decodedExamName] || JPD123_SP26_C1FE;
