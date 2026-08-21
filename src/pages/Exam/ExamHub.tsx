@@ -45,7 +45,6 @@ type ExamMode = {
   action: () => void;
   theme: {
     text: string;
-    textGradient: string;
     soft: string;
     border: string;
     button: string;
@@ -94,7 +93,6 @@ export const ExamHub = () => {
       action: () => navigate(`/exam/${courseId}/practice`),
       theme: {
         text: 'text-blue-600 dark:text-blue-400',
-        textGradient: 'from-blue-600 via-indigo-600 to-cyan-500',
         soft: 'from-blue-50/90 via-white/95 to-indigo-50/70 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/30',
         border: 'border-blue-100/90 hover:border-blue-300 dark:border-slate-800 dark:hover:border-blue-700/60',
         button: 'from-blue-600 via-indigo-600 to-cyan-500 shadow-[0_14px_30px_rgba(37,99,235,0.28)] hover:shadow-[0_20px_42px_rgba(37,99,235,0.38)]',
@@ -126,7 +124,6 @@ export const ExamHub = () => {
       action: () => setIsMockModalOpen(true),
       theme: {
         text: 'text-rose-500 dark:text-rose-400',
-        textGradient: 'from-rose-500 via-pink-500 to-orange-500',
         soft: 'from-rose-50/90 via-white/95 to-orange-50/70 dark:from-slate-900 dark:via-slate-900 dark:to-rose-950/30',
         border: 'border-rose-100/90 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-700/60',
         button: 'from-rose-500 via-pink-500 to-orange-500 shadow-[0_14px_30px_rgba(244,63,94,0.28)] hover:shadow-[0_20px_42px_rgba(244,63,94,0.38)]',
@@ -225,15 +222,15 @@ export const ExamHub = () => {
 
                 {/* Title & Subtitle */}
                 <div>
-                  <div className="flex items-baseline gap-2.5">
-                    <h2 className={`text-3xl sm:text-4xl font-black uppercase tracking-tight bg-gradient-to-r ${mode.theme.textGradient} bg-clip-text text-transparent`}>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h2 className={`text-3xl sm:text-4xl font-black uppercase tracking-tight ${mode.theme.text}`}>
                       {mode.title}
                     </h2>
-                    <span className="font-jp text-sm font-black text-slate-400 dark:text-slate-500 tracking-wider">
+                    <span className="rounded-xl bg-white/85 dark:bg-slate-800/80 px-2.5 py-1 font-jp text-xs font-black text-slate-500 dark:text-slate-400 shadow-sm ring-1 ring-slate-200/60 dark:ring-slate-700">
                       {mode.japanese}
                     </span>
                   </div>
-                  <p className="mt-1 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                  <p className="mt-2 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                     {mode.subtitle}
                   </p>
                 </div>
