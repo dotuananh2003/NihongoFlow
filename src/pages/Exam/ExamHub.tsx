@@ -138,8 +138,8 @@ export const ExamHub = () => {
   ];
 
   return (
-    <div className="relative mx-auto min-h-[calc(100vh-64px)] max-w-6xl overflow-hidden px-4 py-5 md:px-8">
-      {/* Background aesthetics */}
+    <div className="relative flex min-h-[calc(100vh-64px)] w-full flex-col overflow-hidden">
+      {/* Background aesthetics (Full width) */}
       <div
         className="fixed-bg-plane pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
         style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
@@ -148,17 +148,19 @@ export const ExamHub = () => {
       <div className="fixed-bg-plane pointer-events-none absolute left-1/2 top-8 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl dark:bg-cyan-900/20" />
       <div className="fixed-bg-plane pointer-events-none absolute right-10 top-20 -z-10 h-60 w-60 rounded-full bg-rose-200/25 blur-3xl dark:bg-rose-900/15" />
 
-      {/* Back button */}
-      <button
-        type="button"
-        onClick={() => navigate('/exam')}
-        className="group mb-5 inline-flex items-center gap-3 rounded-full border border-white/90 bg-white/95 py-2 pl-2 pr-4 text-sm font-extrabold text-slate-600 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:text-blue-600 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-300"
-      >
-        <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-slate-600 shadow-sm ring-1 ring-slate-100 transition-transform group-hover:-translate-x-0.5 dark:bg-slate-800 dark:text-slate-200 dark:ring-slate-700">
-          <ArrowLeft size={18} />
-        </span>
-        Quay lại danh sách
-      </button>
+      {/* Main Content Wrapper */}
+      <div className="mx-auto w-full max-w-6xl px-4 py-5 md:px-8">
+        {/* Back button */}
+        <button
+          type="button"
+          onClick={() => navigate('/exam')}
+          className="group mb-5 inline-flex items-center gap-3 rounded-full border border-white/90 bg-white/95 py-2 pl-2 pr-4 text-sm font-extrabold text-slate-600 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:text-blue-600 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-300"
+        >
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-slate-600 shadow-sm ring-1 ring-slate-100 transition-transform group-hover:-translate-x-0.5 dark:bg-slate-800 dark:text-slate-200 dark:ring-slate-700">
+            <ArrowLeft size={18} />
+          </span>
+          Quay lại danh sách
+        </button>
 
       {/* Hero title */}
       <section className="mx-auto mb-8 max-w-3xl text-center">
@@ -442,6 +444,7 @@ export const ExamHub = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 };
