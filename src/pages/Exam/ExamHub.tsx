@@ -321,7 +321,7 @@ export const ExamHub = () => {
               </div>
 
               {/* Exam Cards Grid */}
-              <div className="relative z-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 max-h-[58vh] overflow-y-auto px-1.5 pt-2.5 pb-3 custom-scrollbar">
+              <div className="relative z-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 max-h-[60vh] overflow-y-auto p-2.5 custom-scrollbar">
                 {mockExams.map((exam) => (
                   <button
                     key={exam.name}
@@ -335,7 +335,7 @@ export const ExamHub = () => {
                     className={`group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-all duration-200 ${
                       exam.locked
                         ? 'border border-slate-200/70 bg-slate-50/60 opacity-60 cursor-not-allowed grayscale-[0.3] dark:border-slate-800 dark:bg-slate-900/40'
-                        : 'border border-slate-100 bg-white shadow-sm hover:-translate-y-1 hover:border-rose-300 hover:shadow-[0_16px_36px_rgba(244,63,94,0.13)] dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-700/60'
+                        : 'border border-slate-200/80 bg-white shadow-sm hover:border-rose-400 hover:shadow-[0_12px_28px_rgba(244,63,94,0.15)] hover:ring-2 hover:ring-rose-200/80 dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-600 dark:hover:ring-rose-900/50'
                     }`}
                   >
                     <div>
