@@ -321,7 +321,7 @@ export const ExamHub = () => {
               </div>
 
               {/* Exam Cards Grid */}
-              <div className="relative z-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 max-h-[58vh] overflow-y-auto pr-1 custom-scrollbar">
+              <div className="relative z-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 max-h-[58vh] overflow-y-auto px-1.5 pt-2.5 pb-3 custom-scrollbar">
                 {mockExams.map((exam) => (
                   <button
                     key={exam.name}
