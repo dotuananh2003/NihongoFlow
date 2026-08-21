@@ -281,15 +281,15 @@ export const ExamHub = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.16 }}
+            transition={{ duration: 0.2 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4"
             onClick={() => setIsMockModalOpen(false)}
           >
             <motion.div
-              initial={{ scale: 0.94, opacity: 0, y: 16 }}
+              initial={{ scale: 0.96, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.94, opacity: 0, y: 16 }}
-              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+              exit={{ scale: 0.96, opacity: 0, y: 20 }}
+              transition={{ ease: [0.23, 1, 0.32, 1], duration: 0.4 }}
               onClick={(event) => event.stopPropagation()}
               className="smooth-panel relative w-full max-w-4xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/95 p-6 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(15,23,42,0.22)] dark:border-slate-800 dark:bg-slate-900/95"
             >
@@ -335,7 +335,7 @@ export const ExamHub = () => {
                         navigate(`/exam/${courseId}/mock/${encodeURIComponent(exam.name)}`);
                       }
                     }}
-                    className={`steady-scroll-row group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-colors duration-150 ${
+                    className={`smooth-panel steady-scroll-row group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-colors duration-150 ${
                       exam.locked
                         ? 'border border-slate-200/70 bg-slate-50/60 opacity-60 cursor-not-allowed grayscale-[0.3] dark:border-slate-800 dark:bg-slate-900/40'
                         : 'border border-slate-200/80 bg-white shadow-sm hover:border-rose-400 hover:shadow-[0_12px_28px_rgba(244,63,94,0.15)] hover:ring-2 hover:ring-rose-200/80 dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-600 dark:hover:ring-rose-900/50'
@@ -392,9 +392,10 @@ export const ExamHub = () => {
                           <span>Đang cập nhật đề thi</span>
                         </div>
                       ) : (
-                        <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-50 py-2.5 px-4 text-xs font-black text-rose-600 transition-colors duration-150 group-hover:bg-gradient-to-r group-hover:from-rose-500 group-hover:via-pink-500 group-hover:to-orange-500 group-hover:text-white group-hover:shadow-md dark:bg-rose-950/50 dark:text-rose-300 dark:group-hover:text-white">
-                          <span>Bắt đầu làm bài</span>
-                          <ArrowRight size={14} className="transition-transform duration-150 group-hover:translate-x-1" />
+                        <div className="relative overflow-hidden flex w-full items-center justify-center gap-2 rounded-xl bg-rose-50 py-2.5 px-4 text-xs font-black text-rose-600 transition-colors duration-150 group-hover:text-white group-hover:shadow-md dark:bg-rose-950/50 dark:text-rose-300 dark:group-hover:text-white">
+                          <div className="absolute inset-0 bg-gradient-to-r from-rose-500 via-pink-500 to-orange-500 opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
+                          <span className="relative z-10">Bắt đầu làm bài</span>
+                          <ArrowRight size={14} className="relative z-10 transition-transform duration-150 group-hover:translate-x-1" />
                         </div>
                       )}
                     </div>
@@ -402,7 +403,7 @@ export const ExamHub = () => {
                 ))}
 
                 {/* Upcoming Notification Card (Matches exact structure and height of exam cards) */}
-                <div className="steady-scroll-row flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20">
+                <div className="smooth-panel steady-scroll-row flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20">
                   <div>
                     {/* Top Header Row */}
                     <div className="flex items-center justify-between gap-2 mb-3.5">
