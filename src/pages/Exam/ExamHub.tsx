@@ -138,7 +138,7 @@ export const ExamHub = () => {
   ];
 
   return (
-    <div className="smooth-scroll-area relative mx-auto min-h-[calc(100vh-64px)] max-w-6xl overflow-hidden px-4 py-5 md:px-8">
+    <div className="relative mx-auto min-h-[calc(100vh-64px)] max-w-6xl overflow-hidden px-4 py-5 md:px-8">
       {/* Background aesthetics */}
       <div
         className="fixed-bg-plane pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
