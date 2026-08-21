@@ -20,13 +20,20 @@ import {
   Maximize,
 } from 'lucide-react';
 import { JPD123_SP26_C1FE, type MockQuestion } from '../../data/mockExams/JPD123_SP26_C1FE';
+import { JPD123_SP26_C2FE } from '../../data/mockExams/JPD123_SP26_C2FE';
 
 export const MockExamSession = () => {
   const { courseId, examId } = useParams();
   const navigate = useNavigate();
 
-  const examData: MockQuestion[] = JPD123_SP26_C1FE;
   const decodedExamName = examId ? decodeURIComponent(examId).toUpperCase() : 'JPD123 - MOCK TEST';
+
+  const mockExamsMap: Record<string, MockQuestion[]> = {
+    'JPD123 - SP26 - C1FE': JPD123_SP26_C1FE,
+    'JPD123 - SP26 - C2FE': JPD123_SP26_C2FE,
+  };
+
+  const examData: MockQuestion[] = mockExamsMap[decodedExamName] || JPD123_SP26_C1FE;
 
   const [hasStarted, setHasStarted] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -188,7 +195,7 @@ export const MockExamSession = () => {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-slate-50 text-slate-900">
+    <div className="relative h-screen overflow-hidden bg-slate-50 text-slate-900 flex flex-col">
       <div
         className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-45"
         style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
@@ -200,7 +207,7 @@ export const MockExamSession = () => {
         試験
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col px-4 py-4 sm:px-6 lg:px-8">
         <header className="mb-5 overflow-hidden rounded-[2rem] border border-white/80 bg-white/78 shadow-[0_18px_50px_rgba(15,23,42,0.1)] backdrop-blur-xl">
           <div className="h-1.5 bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-500" />
           <div className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center lg:justify-between">
@@ -270,16 +277,16 @@ export const MockExamSession = () => {
           </div>
         </header>
 
-        <main className="flex flex-1 flex-col gap-5">
+        <main className="flex min-h-0 flex-1 flex-col gap-4">
           <section className="rounded-[2rem] border border-white/80 bg-white/74 p-3 shadow-[0_18px_48px_rgba(15,23,42,0.1)] backdrop-blur-xl">
             <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
                 <div>
-                  <div className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-500">Question map</div>
-                  <h2 className="text-lg font-black text-slate-900">Danh sách câu</h2>
+                  <div className="text-[9px] font-black uppercase tracking-[0.18em] text-blue-500">Question map</div>
+                  <h2 className="text-base font-black text-slate-900 leading-none mt-0.5">Danh sách câu</h2>
                 </div>
                 {/* Legend inline */}
-                <div className="flex flex-wrap gap-3 text-[11px] font-bold text-slate-500 ml-4 border-l pl-4 border-slate-200">
+                <div className="flex flex-wrap gap-2.5 text-[10px] font-bold text-slate-500 ml-3 border-l pl-3 border-slate-200">
                   {isSubmitted ? (
                     <>
                       <div className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />Đúng</div>
@@ -318,7 +325,7 @@ export const MockExamSession = () => {
                   key={question.id}
                   type="button"
                   onClick={() => setCurrentQuestionIndex(index)}
-                  className={`grid h-8 w-8 place-items-center rounded-xl border text-xs font-black shadow-sm transition-all ${getQuestionButtonStyle(question, index)}`}
+                  className={`grid h-7 w-7 place-items-center rounded-lg border text-[11px] font-black shadow-sm transition-all ${getQuestionButtonStyle(question, index)}`}
                 >
                   {index + 1}
                 </button>
@@ -326,22 +333,22 @@ export const MockExamSession = () => {
             </div>
           </section>
 
-          <section className="grid min-h-0 gap-5 xl:grid-cols-2">
+          <section className="grid min-h-0 flex-1 gap-4 xl:grid-cols-2 pb-2">
             <motion.article
               key={currentQuestion.id}
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.22 }}
-              className={`${currentQuestion.attachedPassage ? '' : 'xl:col-span-2'} flex min-h-[520px] flex-col overflow-hidden rounded-[2rem] border border-white/80 bg-white/82 shadow-[0_18px_48px_rgba(15,23,42,0.1)] backdrop-blur-xl`}
+              className={`${currentQuestion.attachedPassage ? '' : 'xl:col-span-2'} flex flex-col overflow-hidden rounded-3xl border border-white/80 bg-white/82 shadow-[0_18px_48px_rgba(15,23,42,0.1)] backdrop-blur-xl h-full`}
             >
-              <div className="border-b border-slate-100 p-5">
+              <div className="border-b border-slate-100 p-4 shrink-0">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-indigo-600 ring-1 ring-indigo-100">
                       <Flag size={13} />
                       Câu {currentQuestionIndex + 1}
                     </div>
-                    <h2 className="text-2xl font-black text-slate-900">Chọn đáp án đúng</h2>
+                    <h2 className="text-xl font-black text-slate-900">Chọn đáp án đúng</h2>
                   </div>
 
                   {isSubmitted && (
@@ -366,9 +373,9 @@ export const MockExamSession = () => {
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-5">
-                <div className="mb-5 rounded-[1.5rem] bg-slate-50/80 p-5 ring-1 ring-slate-100">
-                  <p className="whitespace-pre-line text-lg font-bold leading-relaxed text-slate-800">
+              <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+                <div className="mb-4 rounded-2xl bg-slate-50/80 p-4 ring-1 ring-slate-100">
+                  <p className="whitespace-pre-line text-base font-bold leading-relaxed text-slate-800">
                     {currentQuestion.questionText}
                   </p>
                 </div>
@@ -391,7 +398,7 @@ export const MockExamSession = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between gap-3 border-t border-slate-100 p-5">
+              <div className="flex shrink-0 items-center justify-between gap-3 border-t border-slate-100 p-4">
                 <button
                   type="button"
                   onClick={() => setCurrentQuestionIndex((previous) => Math.max(0, previous - 1))}
@@ -419,18 +426,18 @@ export const MockExamSession = () => {
                 initial={{ opacity: 0, x: 18 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.24 }}
-                className="flex min-h-[520px] flex-col overflow-hidden rounded-[2rem] border border-white/80 bg-white/82 shadow-[0_18px_48px_rgba(15,23,42,0.1)] backdrop-blur-xl"
+                className="flex flex-col overflow-hidden rounded-3xl border border-white/80 bg-white/82 shadow-[0_18px_48px_rgba(15,23,42,0.1)] backdrop-blur-xl h-full"
               >
-                <div className="border-b border-slate-100 p-5">
+                <div className="border-b border-slate-100 p-4 shrink-0">
                   <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-blue-600 ring-1 ring-blue-100">
                     <FileText size={13} />
                     Bài đọc
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900">Đoạn văn tham khảo</h3>
+                  <h3 className="text-xl font-black text-slate-900">Đoạn văn tham khảo</h3>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-6">
-                  <p className="whitespace-pre-wrap text-lg font-bold leading-loose text-slate-700">
+                <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
+                  <p className="whitespace-pre-wrap text-base font-bold leading-loose text-slate-700">
                     {currentQuestion.attachedPassage}
                   </p>
                 </div>
