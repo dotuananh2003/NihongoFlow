@@ -210,7 +210,7 @@ export const PracticeTest = () => {
               <BookOpen size={15} />
               Về Hub
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
     );
