@@ -14,6 +14,7 @@ import {
   Sparkles,
   Timer,
   X,
+  Lock,
 } from 'lucide-react';
 
 type ExamMode = {
@@ -48,11 +49,11 @@ export const ExamHub = () => {
   const courseTitle = courseId?.toUpperCase() || 'JPD';
 
   const mockExams = [
-    { name: 'JPD123 - SP26 - C1FE', type: 'Final Exam', time: '30 phút' },
-    { name: 'JPD123 - SP26 - C2FE', type: 'Final Exam', time: '30 phút' },
-    { name: 'JPD123 - SP26 - RE', type: 'Retake', time: '30 phút' },
-    { name: 'JPD123 - SU26 - FE', type: 'Final Exam', time: '30 phút' },
-    { name: 'JPD123 - SU26 - RE', type: 'Retake', time: '30 phút' },
+    { name: 'JPD123 - SP26 - C1FE', type: 'Final Exam', time: '30 phút', locked: false },
+    { name: 'JPD123 - SP26 - C2FE', type: 'Final Exam', time: '30 phút', locked: false },
+    { name: 'JPD123 - SP26 - RE', type: 'Retake', time: '30 phút', locked: false },
+    { name: 'JPD123 - SU26 - FE', type: 'Final Exam', time: '30 phút', locked: true },
+    { name: 'JPD123 - SU26 - RE', type: 'Retake', time: '30 phút', locked: true },
   ];
 
   const modes: ExamMode[] = [
@@ -246,11 +247,20 @@ export const ExamHub = () => {
                   <button
                     key={exam.name}
                     type="button"
-                    onClick={() => navigate(`/exam/${courseId}/mock/${encodeURIComponent(exam.name)}`)}
-                    className="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-rose-200 hover:shadow-[0_18px_36px_rgba(244,63,94,0.13)] dark:border-slate-700 dark:bg-slate-800"
+                    disabled={exam.locked}
+                    onClick={() => {
+                      if (!exam.locked) {
+                        navigate(`/exam/${courseId}/mock/${encodeURIComponent(exam.name)}`);
+                      }
+                    }}
+                    className={`group relative overflow-hidden rounded-3xl border border-slate-100 bg-white p-4 text-left shadow-sm transition-all ${
+                      exam.locked 
+                        ? 'opacity-60 cursor-not-allowed grayscale-[0.2]' 
+                        : 'hover:-translate-y-1 hover:border-rose-200 hover:shadow-[0_18px_36px_rgba(244,63,94,0.13)]'
+                    } dark:border-slate-700 dark:bg-slate-800`}
                   >
                     <div className="mb-4 flex items-start justify-between gap-3">
-                      <div className="grid h-12 w-12 place-items-center rounded-2xl bg-rose-50 text-rose-500 ring-1 ring-rose-100">
+                      <div className={`grid h-12 w-12 place-items-center rounded-2xl ${exam.locked ? 'bg-slate-50 text-slate-400 ring-slate-100' : 'bg-rose-50 text-rose-500 ring-rose-100'} ring-1`}>
                         <FileText size={22} />
                       </div>
                       <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-slate-500 ring-1 ring-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:ring-slate-700">
@@ -263,10 +273,17 @@ export const ExamHub = () => {
                         <Layers3 size={14} />
                         {exam.type}
                       </span>
-                      <span className="inline-flex items-center gap-1.5 text-rose-500">
-                        <CheckCircle2 size={14} />
-                        Start
-                      </span>
+                      {exam.locked ? (
+                        <span className="inline-flex items-center gap-1.5 text-slate-400">
+                          <Lock size={14} />
+                          Đang cập nhật
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 text-rose-500">
+                          <CheckCircle2 size={14} />
+                          Start
+                        </span>
+                      )}
                     </div>
                   </button>
                 ))}
