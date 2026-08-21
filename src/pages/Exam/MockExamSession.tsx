@@ -201,18 +201,18 @@ export const MockExamSession = () => {
   return (
     <div className="relative h-screen overflow-hidden bg-slate-50 text-slate-900 flex flex-col">
       <div
-        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-45"
+        className="pointer-events-none fixed-bg-plane absolute inset-0 bg-cover bg-center opacity-45"
         style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/96 via-sky-50/90 to-indigo-50/92" />
-      <div className="pointer-events-none absolute -right-32 top-12 h-80 w-80 rounded-full bg-cyan-200/35 blur-3xl" />
-      <div className="pointer-events-none absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-rose-200/30 blur-3xl" />
-      <div className="pointer-events-none absolute right-10 top-24 font-jp text-[14rem] font-black leading-none text-blue-950/[0.035]">
+      <div className="pointer-events-none fixed-bg-plane absolute inset-0 bg-gradient-to-br from-white/96 via-sky-50/90 to-indigo-50/92" />
+      <div className="pointer-events-none fixed-bg-plane absolute -right-32 top-12 h-80 w-80 rounded-full bg-cyan-200/35 blur-3xl" />
+      <div className="pointer-events-none fixed-bg-plane absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-rose-200/30 blur-3xl" />
+      <div className="pointer-events-none fixed-bg-plane absolute right-10 top-24 font-jp text-[14rem] font-black leading-none text-blue-950/[0.035]">
         試験
       </div>
 
       <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col px-4 py-4 sm:px-6 lg:px-8">
-        <header className="mb-5 overflow-hidden rounded-[2rem] border border-white/80 bg-white/78 shadow-[0_18px_50px_rgba(15,23,42,0.1)] backdrop-blur-xl">
+        <header className="smooth-panel mb-5 overflow-hidden rounded-[2rem] border border-white/80 bg-white/85 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
           <div className="h-1.5 bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-500" />
           <div className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-3">
@@ -224,7 +224,7 @@ export const MockExamSession = () => {
                   }
                   navigate(`/exam/${courseId}`);
                 }}
-                className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-slate-600 shadow-sm ring-1 ring-slate-100 transition-all hover:-translate-x-0.5 hover:text-blue-600 hover:shadow-md"
+                className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-slate-600 shadow-sm ring-1 ring-slate-100 transition-colors hover:text-blue-600"
                 title="Quay lại"
               >
                 <ArrowLeft size={21} />
@@ -262,7 +262,7 @@ export const MockExamSession = () => {
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  className="col-span-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-black text-white shadow-[0_14px_30px_rgba(37,99,235,0.28)] transition-all hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(37,99,235,0.34)] sm:col-span-1"
+                  className="col-span-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-black text-white shadow-[0_14px_30px_rgba(37,99,235,0.28)] transition-transform hover:-translate-y-0.5 sm:col-span-1"
                 >
                   <Send size={18} />
                   Nộp bài
@@ -274,7 +274,7 @@ export const MockExamSession = () => {
           <div className="px-4 pb-4">
             <div className="h-2 overflow-hidden rounded-full bg-slate-100">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-500 transition-all duration-500"
+                className="h-full rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-500 transition-all duration-300"
                 style={{ width: `${timePercent}%` }}
               />
             </div>
@@ -282,7 +282,7 @@ export const MockExamSession = () => {
         </header>
 
         <main className="flex min-h-0 flex-1 flex-col gap-4">
-          <section className="rounded-[2rem] border border-white/80 bg-white/74 p-3 shadow-[0_18px_48px_rgba(15,23,42,0.1)] backdrop-blur-xl">
+          <section className="smooth-panel rounded-[2rem] border border-white/80 bg-white/85 p-3 shadow-[0_18px_48px_rgba(15,23,42,0.08)]">
             <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <div>
@@ -312,7 +312,7 @@ export const MockExamSession = () => {
                   </div>
                   <div className="mt-1.5 h-2 w-40 overflow-hidden rounded-full bg-white">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-400 transition-all duration-500"
+                      className="h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-400 transition-all duration-300"
                       style={{ width: `${progressPercent}%` }}
                     />
                   </div>
@@ -329,7 +329,7 @@ export const MockExamSession = () => {
                   key={question.id}
                   type="button"
                   onClick={() => setCurrentQuestionIndex(index)}
-                  className={`grid h-7 w-7 place-items-center rounded-lg border text-[11px] font-black shadow-sm transition-all ${getQuestionButtonStyle(question, index)}`}
+                  className={`grid h-7 w-7 place-items-center rounded-lg border text-[11px] font-black shadow-sm transition-colors duration-150 ${getQuestionButtonStyle(question, index)}`}
                 >
                   {index + 1}
                 </button>
@@ -340,10 +340,10 @@ export const MockExamSession = () => {
           <section className="grid min-h-0 flex-1 gap-4 xl:grid-cols-2 pb-2">
             <motion.article
               key={currentQuestion.id}
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.22 }}
-              className={`${currentQuestion.attachedPassage ? '' : 'xl:col-span-2'} flex flex-col overflow-hidden rounded-3xl border border-white/80 bg-white/82 shadow-[0_18px_48px_rgba(15,23,42,0.1)] backdrop-blur-xl h-full`}
+              transition={{ duration: 0.18 }}
+              className={`${currentQuestion.attachedPassage ? '' : 'xl:col-span-2'} smooth-panel flex flex-col overflow-hidden rounded-3xl border border-white/80 bg-white/90 shadow-[0_18px_48px_rgba(15,23,42,0.08)] h-full`}
             >
               <div className="border-b border-slate-100 p-4 shrink-0">
                 <div className="flex flex-wrap items-center justify-between gap-3">
@@ -377,7 +377,7 @@ export const MockExamSession = () => {
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+              <div className="flex-1 overflow-y-auto p-4 custom-scrollbar smooth-scroll-area">
                 <div className="mb-4 rounded-2xl bg-slate-50/80 p-4 ring-1 ring-slate-100">
                   <p className="whitespace-pre-line text-base font-bold leading-relaxed text-slate-800">
                     {currentQuestion.questionText}
@@ -391,7 +391,7 @@ export const MockExamSession = () => {
                       type="button"
                       disabled={isSubmitted}
                       onClick={() => handleSelectAnswer(currentQuestion.id, index)}
-                      className={`group flex min-h-[74px] items-center gap-3 rounded-3xl border-2 p-4 text-left transition-all ${getOptionStyle(index)}`}
+                      className={`group flex min-h-[74px] items-center gap-3 rounded-3xl border-2 p-4 text-left transition-colors duration-150 ${getOptionStyle(index)}`}
                     >
                       <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-2xl text-sm font-black transition-colors ${getOptionLetterStyle(index)}`}>
                         {String.fromCharCode(65 + index)}
@@ -417,7 +417,7 @@ export const MockExamSession = () => {
                   type="button"
                   onClick={() => setCurrentQuestionIndex((previous) => Math.min(examData.length - 1, previous + 1))}
                   disabled={currentQuestionIndex === examData.length - 1}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-black text-white shadow-[0_12px_26px_rgba(37,99,235,0.25)] transition-all hover:-translate-y-0.5 disabled:opacity-45"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-black text-white shadow-[0_12px_26px_rgba(37,99,235,0.25)] transition-transform hover:-translate-y-0.5 disabled:opacity-45"
                 >
                   Câu tiếp
                   <ArrowRight size={18} />
@@ -427,10 +427,10 @@ export const MockExamSession = () => {
 
             {currentQuestion.attachedPassage && (
               <motion.aside
-                initial={{ opacity: 0, x: 18 }}
+                initial={{ opacity: 0, x: 14 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.24 }}
-                className="flex flex-col overflow-hidden rounded-3xl border border-white/80 bg-white/82 shadow-[0_18px_48px_rgba(15,23,42,0.1)] backdrop-blur-xl h-full"
+                transition={{ duration: 0.2 }}
+                className="smooth-panel flex flex-col overflow-hidden rounded-3xl border border-white/80 bg-white/90 shadow-[0_18px_48px_rgba(15,23,42,0.08)] h-full"
               >
                 <div className="border-b border-slate-100 p-4 shrink-0">
                   <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-blue-600 ring-1 ring-blue-100">
@@ -440,7 +440,7 @@ export const MockExamSession = () => {
                   <h3 className="text-xl font-black text-slate-900">Đoạn văn tham khảo</h3>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
+                <div className="flex-1 overflow-y-auto p-5 custom-scrollbar smooth-scroll-area">
                   <p className="whitespace-pre-wrap text-base font-bold leading-loose text-slate-700">
                     {currentQuestion.attachedPassage}
                   </p>

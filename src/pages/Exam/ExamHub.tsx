@@ -292,8 +292,8 @@ export const ExamHub = () => {
             >
               {/* Top Accent Rail & Glow */}
               <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400" />
-              <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-rose-200/40 blur-3xl dark:bg-rose-900/20" />
-              <div className="pointer-events-none absolute -bottom-10 right-4 select-none font-jp text-[12rem] font-black leading-none text-rose-500/[0.03] dark:text-rose-400/[0.02]">
+              <div className="pointer-events-none fixed-bg-plane absolute -right-20 -top-20 h-60 w-60 rounded-full bg-rose-200/40 blur-3xl dark:bg-rose-900/20" />
+              <div className="pointer-events-none fixed-bg-plane absolute -bottom-10 right-4 select-none font-jp text-[12rem] font-black leading-none text-rose-500/[0.03] dark:text-rose-400/[0.02]">
                 試
               </div>
 
@@ -301,14 +301,14 @@ export const ExamHub = () => {
               <button
                 type="button"
                 onClick={() => setIsMockModalOpen(false)}
-                className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 shadow-sm ring-1 ring-slate-200/60 transition-all hover:bg-rose-50 hover:text-rose-600 hover:rotate-90 dark:bg-slate-800 dark:text-slate-400 dark:ring-slate-700 dark:hover:bg-rose-950/50 dark:hover:text-rose-300"
+                className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 shadow-sm ring-1 ring-slate-200/60 transition-colors hover:bg-rose-50 hover:text-rose-600 hover:rotate-90 dark:bg-slate-800 dark:text-slate-400 dark:ring-slate-700 dark:hover:bg-rose-950/50 dark:hover:text-rose-300"
               >
                 <X size={20} />
               </button>
 
               {/* Modal Header */}
               <div className="relative z-10 mb-7 pr-12">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-rose-100 bg-rose-50/90 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-rose-600 shadow-sm backdrop-blur-md dark:border-rose-900/40 dark:bg-rose-950/60 dark:text-rose-300">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-rose-100 bg-rose-50/90 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-rose-600 shadow-sm dark:border-rose-900/40 dark:bg-rose-950/60 dark:text-rose-300">
                   <ClipboardList size={14} />
                   Mock Exam Library • Thư viện đề thi
                 </div>
@@ -321,7 +321,7 @@ export const ExamHub = () => {
               </div>
 
               {/* Exam Cards Grid */}
-              <div className="relative z-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 max-h-[60vh] overflow-y-auto p-2.5 custom-scrollbar">
+              <div className="relative z-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 max-h-[60vh] overflow-y-auto p-2.5 custom-scrollbar smooth-scroll-area">
                 {mockExams.map((exam) => (
                   <button
                     key={exam.name}
