@@ -25,6 +25,7 @@ import { Exam } from '../pages/Exam/Exam';
 import { ExamHub } from '../pages/Exam/ExamHub';
 import { PracticeConfig } from '../pages/Exam/PracticeConfig';
 import { PracticeTest } from '../pages/Exam/PracticeTest';
+import { MockExamSession } from '../pages/Exam/MockExamSession';
 import { KanaPath } from '../pages/Introduction/KanaPath';
 import { MnemonicPage } from '../pages/Introduction/MnemonicPage';
 import { TypingPage } from '../pages/Introduction/TypingPage';
@@ -64,6 +65,11 @@ export const AppRoutes = () => {
           <Route path="exam/:courseId/practice/test" element={<PracticeTest />} />
           <Route path="checkout/:orderCode" element={<Checkout />} />
         </Route>
+      </Route>
+
+      {/* Full-screen routes without Layout */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/exam/:courseId/mock/:examId" element={<MockExamSession />} />
       </Route>
     </Routes>
   );

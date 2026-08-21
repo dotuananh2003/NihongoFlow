@@ -69,14 +69,14 @@ export const ExamHub = () => {
       buttonText: 'Vào luyện tập',
       action: () => navigate(`/exam/${courseId}/practice`),
       theme: {
-        text: 'text-emerald-500',
-        soft: 'from-emerald-50 via-white to-teal-50',
-        border: 'border-emerald-100 hover:border-emerald-300',
-        button: 'from-emerald-500 via-teal-500 to-cyan-500 shadow-emerald-500/25',
-        glow: 'bg-emerald-300/25',
-        rail: 'from-emerald-500 via-teal-400 to-cyan-300',
-        badge: 'bg-emerald-100 text-emerald-700 ring-emerald-200',
-        icon: 'bg-emerald-50 text-emerald-600 ring-emerald-100',
+        text: 'text-blue-600',
+        soft: 'from-blue-50 via-white to-cyan-50',
+        border: 'border-blue-100 hover:border-blue-300',
+        button: 'from-blue-600 via-indigo-500 to-cyan-500 shadow-blue-500/25',
+        glow: 'bg-blue-300/25',
+        rail: 'from-blue-500 via-indigo-400 to-cyan-400',
+        badge: 'bg-blue-100 text-blue-700 ring-blue-200',
+        icon: 'bg-blue-50 text-blue-600 ring-blue-100',
       },
     },
     {
@@ -156,11 +156,11 @@ export const ExamHub = () => {
 
             <div className="relative z-10 flex h-full flex-col">
               <div className="flex items-start justify-between gap-3">
-                <div>
+                <div className="flex flex-wrap items-center gap-2">
                   <span className={`inline-flex items-center rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] ring-1 ${mode.theme.badge}`}>
                     {mode.eyebrow}
                   </span>
-                  <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/70 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 shadow-sm ring-1 ring-white/90 backdrop-blur dark:bg-slate-950/40 dark:text-slate-300 dark:ring-slate-700">
+                  <div className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 shadow-sm ring-1 ring-white/90 backdrop-blur dark:bg-slate-950/40 dark:text-slate-300 dark:ring-slate-700">
                     <Gauge size={12} />
                     {mode.label}
                   </div>
