@@ -272,46 +272,56 @@ export const ExamHub = () => {
         })}
       </section>
 
-      {/* Mock Exam Library Modal */}
+      {/* Mock Exam Library Modal (Elevated Luxury Glassmorphic Design) */}
       <AnimatePresence>
         {isMockModalOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 p-4 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4 backdrop-blur-md"
             onClick={() => setIsMockModalOpen(false)}
           >
             <motion.div
-              initial={{ scale: 0.96, opacity: 0, y: 18 }}
+              initial={{ scale: 0.95, opacity: 0, y: 16 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.96, opacity: 0, y: 18 }}
+              exit={{ scale: 0.95, opacity: 0, y: 16 }}
+              transition={{ duration: 0.22 }}
               onClick={(event) => event.stopPropagation()}
-              className="relative w-full max-w-4xl overflow-hidden rounded-[2rem] border border-white/80 bg-white/92 p-6 shadow-2xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-900/95"
+              className="relative w-full max-w-4xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/95 p-6 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(15,23,42,0.22)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-900/95"
             >
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-400 to-amber-300" />
-              <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-rose-200/50 blur-3xl" />
+              {/* Top Accent Rail & Glow */}
+              <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400" />
+              <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-rose-200/40 blur-3xl dark:bg-rose-900/20" />
+              <div className="pointer-events-none absolute -bottom-10 right-4 select-none font-jp text-[12rem] font-black leading-none text-rose-500/[0.03] dark:text-rose-400/[0.02]">
+                試
+              </div>
 
+              {/* Close Button */}
               <button
                 type="button"
                 onClick={() => setIsMockModalOpen(false)}
-                className="absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full bg-white text-slate-500 shadow-sm ring-1 ring-slate-100 transition-colors hover:text-rose-500 dark:bg-slate-800 dark:ring-slate-700"
+                className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 shadow-sm ring-1 ring-slate-200/60 transition-all hover:bg-rose-50 hover:text-rose-600 hover:rotate-90 dark:bg-slate-800 dark:text-slate-400 dark:ring-slate-700 dark:hover:bg-rose-950/50 dark:hover:text-rose-300"
               >
-                <X size={22} />
+                <X size={20} />
               </button>
 
-              <div className="mb-6 pr-14">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-rose-600 ring-1 ring-rose-100 dark:bg-rose-950/50 dark:text-rose-300 dark:ring-rose-900/40">
+              {/* Modal Header */}
+              <div className="relative z-10 mb-7 pr-12">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-rose-100 bg-rose-50/90 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-rose-600 shadow-sm backdrop-blur-md dark:border-rose-900/40 dark:bg-rose-950/60 dark:text-rose-300">
                   <ClipboardList size={14} />
-                  Mock Exam Library
+                  Mock Exam Library • Thư viện đề thi
                 </div>
-                <h3 className="text-3xl font-black text-slate-900 dark:text-white">Chọn bộ đề thi</h3>
-                <p className="mt-2 max-w-2xl text-sm font-semibold text-slate-500 dark:text-slate-300">
-                  Mỗi bộ đề có đồng hồ, điểm số và trạng thái hoàn thành riêng để bạn luyện như một buổi thi thật.
+                <h3 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
+                  Chọn bộ đề thi thử
+                </h3>
+                <p className="mt-2 max-w-2xl text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Mỗi đề thi được thiết kế chuẩn cấu trúc JLPT với đồng hồ đếm ngược 30 phút, chấm điểm tự động và bảng đánh giá kết quả chi tiết.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {/* Exam Cards Grid */}
+              <div className="relative z-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 max-h-[58vh] overflow-y-auto pr-1 custom-scrollbar">
                 {mockExams.map((exam) => (
                   <button
                     key={exam.name}
@@ -322,43 +332,87 @@ export const ExamHub = () => {
                         navigate(`/exam/${courseId}/mock/${encodeURIComponent(exam.name)}`);
                       }
                     }}
-                    className={`group relative overflow-hidden rounded-3xl border border-slate-100 bg-white p-4 text-left shadow-sm transition-all ${
-                      exam.locked 
-                        ? 'opacity-60 cursor-not-allowed grayscale-[0.2]' 
-                        : 'hover:-translate-y-1 hover:border-rose-200 hover:shadow-[0_18px_36px_rgba(244,63,94,0.13)]'
-                    } dark:border-slate-700 dark:bg-slate-800`}
+                    className={`group relative flex flex-col justify-between rounded-2xl p-4 sm:p-5 text-left transition-all duration-200 ${
+                      exam.locked
+                        ? 'border border-slate-200/70 bg-slate-50/60 opacity-60 cursor-not-allowed grayscale-[0.3] dark:border-slate-800 dark:bg-slate-900/40'
+                        : 'border border-slate-100 bg-white/95 shadow-sm hover:-translate-y-1 hover:border-rose-300 hover:shadow-[0_16px_36px_rgba(244,63,94,0.13)] dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-700/60'
+                    }`}
                   >
-                    <div className="mb-4 flex items-start justify-between gap-3">
-                      <div className={`grid h-12 w-12 place-items-center rounded-2xl ${exam.locked ? 'bg-slate-50 text-slate-400 ring-slate-100' : 'bg-rose-50 text-rose-500 ring-rose-100'} ring-1`}>
-                        <FileText size={22} />
+                    {/* Top Row: Icon + Time Badge */}
+                    <div>
+                      <div className="flex items-center justify-between gap-2">
+                        <div
+                          className={`grid h-11 w-11 place-items-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${
+                            exam.locked
+                              ? 'bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-500'
+                              : 'bg-gradient-to-br from-rose-500 via-pink-500 to-orange-400 text-white shadow-md shadow-rose-500/25 ring-2 ring-rose-100 dark:ring-rose-950/50'
+                          }`}
+                        >
+                          <FileText size={20} />
+                        </div>
+
+                        <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 dark:bg-slate-700/60 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                          <Clock size={11} />
+                          {exam.time}
+                        </span>
                       </div>
-                      <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-slate-500 ring-1 ring-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:ring-slate-700">
-                        {exam.time}
-                      </span>
+
+                      {/* Exam Title */}
+                      <h4 className="mt-3 text-[15px] font-black text-slate-900 dark:text-white tracking-tight group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
+                        {exam.name}
+                      </h4>
+
+                      {/* Exam Type Tag */}
+                      <div className="mt-1.5 flex items-center gap-2">
+                        <span
+                          className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-black ${
+                            exam.type.includes('Final')
+                              ? 'bg-blue-50 text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/60 dark:text-blue-300 dark:ring-blue-900/40'
+                              : 'bg-amber-50 text-amber-600 ring-1 ring-amber-100 dark:bg-amber-950/60 dark:text-amber-300 dark:ring-amber-900/40'
+                          }`}
+                        >
+                          <Layers3 size={11} />
+                          {exam.type}
+                        </span>
+                        <span className="text-[10px] font-bold text-slate-400">• 30 câu hỏi</span>
+                      </div>
                     </div>
-                    <h4 className="text-[15px] font-black text-slate-800 dark:text-white">{exam.name}</h4>
-                    <div className="mt-3 flex items-center justify-between text-xs font-extrabold text-slate-500 dark:text-slate-300">
-                      <span className="inline-flex items-center gap-1.5">
-                        <Layers3 size={14} />
-                        {exam.type}
-                      </span>
+
+                    {/* Bottom Row: Status / CTA */}
+                    <div className="mt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/60 pt-3">
                       {exam.locked ? (
-                        <span className="inline-flex items-center gap-1.5 text-slate-400">
-                          <Lock size={14} />
+                        <span className="inline-flex items-center gap-1.5 text-xs font-black text-slate-400">
+                          <Lock size={13} />
                           Đang cập nhật
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 text-rose-500">
-                          <CheckCircle2 size={14} />
-                          Start
+                        <span className="inline-flex items-center gap-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/60 px-3 py-1 text-xs font-black text-rose-600 dark:text-rose-300 transition-all group-hover:bg-rose-500 group-hover:text-white shadow-sm">
+                          Vào làm bài
+                          <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
                         </span>
                       )}
                     </div>
                   </button>
                 ))}
-                <div className="hidden rounded-3xl border border-dashed border-rose-200 bg-rose-50/60 p-4 text-sm font-bold text-rose-500 lg:flex lg:flex-col lg:justify-center dark:border-rose-900/40 dark:bg-rose-950/20">
-                  <ShieldCheck className="mb-3" size={28} />
-                  Đề mới sẽ được thêm theo từng học kỳ để bạn luyện đều hơn.
+
+                {/* Upcoming Notification Card */}
+                <div className="flex flex-col justify-between rounded-2xl border border-dashed border-rose-200 bg-rose-50/50 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20">
+                  <div className="flex items-center gap-3">
+                    <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-amber-400 to-rose-500 text-white shadow-sm">
+                      <ShieldCheck size={20} />
+                    </div>
+                    <div>
+                      <h5 className="text-xs font-black uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                        Kho đề mở rộng
+                      </h5>
+                      <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
+                        Liên tục cập nhật
+                      </span>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-xs font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Các bộ đề thi mới sẽ được bổ sung định kỳ theo từng học kỳ để bạn luyện tập phong phú và sát đề thi thực tế nhất.
+                  </p>
                 </div>
               </div>
             </motion.div>
