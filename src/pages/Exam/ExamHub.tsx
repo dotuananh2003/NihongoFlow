@@ -272,23 +272,24 @@ export const ExamHub = () => {
         })}
       </section>
 
-      {/* Mock Exam Library Modal (Elevated Luxury Glassmorphic Design) */}
+      {/* Mock Exam Library Modal (Elevated Luxury Glassmorphic Design - Smooth Containment) */}
       <AnimatePresence>
         {isMockModalOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4 backdrop-blur-md"
+            transition={{ duration: 0.16 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4"
             onClick={() => setIsMockModalOpen(false)}
           >
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 16 }}
+              initial={{ scale: 0.94, opacity: 0, y: 16 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 16 }}
-              transition={{ duration: 0.22 }}
+              exit={{ scale: 0.94, opacity: 0, y: 16 }}
+              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
               onClick={(event) => event.stopPropagation()}
-              className="relative w-full max-w-4xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/95 p-6 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(15,23,42,0.22)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-900/95"
+              className="smooth-panel relative w-full max-w-4xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/95 p-6 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(15,23,42,0.22)] dark:border-slate-800 dark:bg-slate-900/95"
             >
               {/* Top Accent Rail & Glow */}
               <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400" />
@@ -301,7 +302,7 @@ export const ExamHub = () => {
               <button
                 type="button"
                 onClick={() => setIsMockModalOpen(false)}
-                className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 shadow-sm ring-1 ring-slate-200/60 transition-colors hover:bg-rose-50 hover:text-rose-600 hover:rotate-90 dark:bg-slate-800 dark:text-slate-400 dark:ring-slate-700 dark:hover:bg-rose-950/50 dark:hover:text-rose-300"
+                className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 shadow-sm ring-1 ring-slate-200/60 transition-colors duration-150 hover:bg-rose-50 hover:text-rose-600 hover:rotate-90 dark:bg-slate-800 dark:text-slate-400 dark:ring-slate-700 dark:hover:bg-rose-950/50 dark:hover:text-rose-300"
               >
                 <X size={20} />
               </button>
@@ -332,7 +333,7 @@ export const ExamHub = () => {
                         navigate(`/exam/${courseId}/mock/${encodeURIComponent(exam.name)}`);
                       }
                     }}
-                    className={`group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-all duration-200 ${
+                    className={`steady-scroll-row group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-colors duration-150 ${
                       exam.locked
                         ? 'border border-slate-200/70 bg-slate-50/60 opacity-60 cursor-not-allowed grayscale-[0.3] dark:border-slate-800 dark:bg-slate-900/40'
                         : 'border border-slate-200/80 bg-white shadow-sm hover:border-rose-400 hover:shadow-[0_12px_28px_rgba(244,63,94,0.15)] hover:ring-2 hover:ring-rose-200/80 dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-600 dark:hover:ring-rose-900/50'
@@ -361,7 +362,7 @@ export const ExamHub = () => {
                       {/* Middle Row: 3D Icon + Exam Title */}
                       <div className="flex items-start gap-3">
                         <div
-                          className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-transform duration-200 group-hover:scale-105 ${
+                          className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-transform duration-150 group-hover:scale-105 ${
                             exam.locked
                               ? 'bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-500'
                               : 'bg-gradient-to-br from-rose-500 via-pink-500 to-orange-400 text-white shadow-md shadow-rose-500/25 ring-2 ring-rose-100 dark:ring-rose-950/50'
@@ -371,7 +372,7 @@ export const ExamHub = () => {
                         </div>
 
                         <div>
-                          <h4 className="text-[15px] font-black text-slate-900 dark:text-white tracking-tight group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors leading-snug">
+                          <h4 className="text-[15px] font-black text-slate-900 dark:text-white tracking-tight group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors duration-150 leading-snug">
                             {exam.name}
                           </h4>
                           <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 mt-0.5 inline-block">
@@ -389,9 +390,9 @@ export const ExamHub = () => {
                           <span>Đang cập nhật đề thi</span>
                         </div>
                       ) : (
-                        <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-50 py-2.5 px-4 text-xs font-black text-rose-600 transition-all duration-200 group-hover:bg-gradient-to-r group-hover:from-rose-500 group-hover:via-pink-500 group-hover:to-orange-500 group-hover:text-white group-hover:shadow-md dark:bg-rose-950/50 dark:text-rose-300 dark:group-hover:text-white">
+                        <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-50 py-2.5 px-4 text-xs font-black text-rose-600 transition-colors duration-150 group-hover:bg-gradient-to-r group-hover:from-rose-500 group-hover:via-pink-500 group-hover:to-orange-500 group-hover:text-white group-hover:shadow-md dark:bg-rose-950/50 dark:text-rose-300 dark:group-hover:text-white">
                           <span>Bắt đầu làm bài</span>
-                          <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
+                          <ArrowRight size={14} className="transition-transform duration-150 group-hover:translate-x-1" />
                         </div>
                       )}
                     </div>
@@ -399,7 +400,7 @@ export const ExamHub = () => {
                 ))}
 
                 {/* Upcoming Notification Card (Matches exact structure and height of exam cards) */}
-                <div className="flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20">
+                <div className="steady-scroll-row flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20">
                   <div>
                     {/* Top Header Row */}
                     <div className="flex items-center justify-between gap-2 mb-3.5">
