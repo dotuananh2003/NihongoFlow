@@ -15,29 +15,46 @@ import {
   Timer,
   X,
   Lock,
+  Flame,
+  Lightbulb,
+  Clock,
+  Trophy,
+  BarChart3,
+  Sliders,
 } from 'lucide-react';
+
+type FeatureStat = {
+  icon: typeof Sparkles;
+  label: string;
+  desc: string;
+};
 
 type ExamMode = {
   id: 'practice' | 'mock';
   eyebrow: string;
+  eyebrowIcon: typeof Sparkles;
   label: string;
   title: string;
+  japanese: string;
   subtitle: string;
   description: string;
-  stats: string[];
+  stats: FeatureStat[];
   kana: string;
   Icon: typeof BookOpenCheck;
   buttonText: string;
   action: () => void;
   theme: {
     text: string;
+    textGradient: string;
     soft: string;
     border: string;
     button: string;
     glow: string;
     rail: string;
     badge: string;
-    icon: string;
+    iconBox: string;
+    statBg: string;
+    statBorder: string;
   };
 };
 
@@ -60,60 +77,81 @@ export const ExamHub = () => {
     {
       id: 'practice',
       eyebrow: 'Chế độ tự do',
+      eyebrowIcon: Sparkles,
       label: 'Practice Mode',
       title: 'Luyện tập',
+      japanese: '自由練習',
       subtitle: 'Không giới hạn thời gian',
-      description: 'Ôn từng dạng câu hỏi theo nhịp riêng, xem giải thích ngay sau mỗi câu và quay lại phần còn yếu.',
-      stats: ['Giải thích tức thì', 'Không áp lực giờ', 'Phù hợp ôn bài'],
+      description: 'Tự do ôn luyện từng dạng câu hỏi, xem giải thích chi tiết tức thì sau mỗi câu và rèn luyện theo nhịp độ của riêng bạn.',
+      stats: [
+        { icon: Clock, label: 'Tự do thời gian', desc: 'Không áp lực' },
+        { icon: Lightbulb, label: 'Giải thích tức thì', desc: 'Hiểu rõ bản chất' },
+        { icon: Sliders, label: 'Tùy chọn câu hỏi', desc: 'Linh hoạt số lượng' },
+      ],
       kana: '練',
       Icon: BookOpenCheck,
-      buttonText: 'Vào luyện tập',
+      buttonText: 'Vào phòng luyện tập',
       action: () => navigate(`/exam/${courseId}/practice`),
       theme: {
-        text: 'text-blue-600',
-        soft: 'from-blue-50 via-white to-cyan-50',
-        border: 'border-blue-100 hover:border-blue-300',
-        button: 'from-blue-600 via-indigo-500 to-cyan-500 shadow-blue-500/25',
-        glow: 'bg-blue-300/25',
-        rail: 'from-blue-500 via-indigo-400 to-cyan-400',
-        badge: 'bg-blue-100 text-blue-700 ring-blue-200',
-        icon: 'bg-blue-50 text-blue-600 ring-blue-100',
+        text: 'text-blue-600 dark:text-blue-400',
+        textGradient: 'from-blue-600 via-indigo-600 to-cyan-500',
+        soft: 'from-blue-50/90 via-white/95 to-indigo-50/70 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/30',
+        border: 'border-blue-100/90 hover:border-blue-300 dark:border-slate-800 dark:hover:border-blue-700/60',
+        button: 'from-blue-600 via-indigo-600 to-cyan-500 shadow-[0_14px_30px_rgba(37,99,235,0.28)] hover:shadow-[0_20px_42px_rgba(37,99,235,0.38)]',
+        glow: 'bg-blue-300/30 dark:bg-blue-600/15',
+        rail: 'from-blue-600 via-indigo-500 to-cyan-400',
+        badge: 'border-blue-100 bg-blue-50/90 text-blue-600 dark:border-blue-900/40 dark:bg-blue-950/60 dark:text-blue-300',
+        iconBox: 'bg-gradient-to-br from-blue-500 via-indigo-600 to-cyan-500 text-white shadow-[0_10px_25px_rgba(37,99,235,0.3)] ring-4 ring-blue-50 dark:ring-blue-950/50',
+        statBg: 'bg-white/80 dark:bg-slate-800/60',
+        statBorder: 'border-slate-100 dark:border-slate-800',
       },
     },
     {
       id: 'mock',
       eyebrow: 'Chế độ nghiêm ngặt',
+      eyebrowIcon: Flame,
       label: 'Mock Test',
       title: 'Thi thử',
-      subtitle: 'Áp lực thời gian thực',
-      description: 'Mô phỏng bài thi JLPT với đồng hồ, điểm số và nhịp làm bài sát thực tế để kiểm tra phong độ.',
-      stats: ['Tính giờ thật', 'Báo điểm cuối bài', 'Mô phỏng JLPT'],
+      japanese: '模擬試験',
+      subtitle: 'Áp lực thời gian thực tế',
+      description: 'Mô phỏng bài thi chuẩn format JLPT với đồng hồ đếm ngược, tổng kết điểm số và đánh giá toàn diện phong độ thi cử.',
+      stats: [
+        { icon: Timer, label: 'Đồng hồ 30 phút', desc: 'Đếm ngược chuẩn' },
+        { icon: BarChart3, label: 'Báo điểm chi tiết', desc: 'Tổng kết tức thì' },
+        { icon: Trophy, label: 'Mô phỏng thi thật', desc: 'Sát đề thi kỳ' },
+      ],
       kana: '試',
       Icon: Timer,
-      buttonText: 'Bắt đầu làm bài',
+      buttonText: 'Chọn đề & thi thử ngay',
       action: () => setIsMockModalOpen(true),
       theme: {
-        text: 'text-rose-500',
-        soft: 'from-rose-50 via-white to-orange-50',
-        border: 'border-rose-100 hover:border-rose-300',
-        button: 'from-rose-500 via-pink-500 to-orange-400 shadow-rose-500/25',
-        glow: 'bg-rose-300/25',
-        rail: 'from-rose-500 via-pink-400 to-amber-300',
-        badge: 'bg-rose-100 text-rose-700 ring-rose-200',
-        icon: 'bg-rose-50 text-rose-600 ring-rose-100',
+        text: 'text-rose-500 dark:text-rose-400',
+        textGradient: 'from-rose-500 via-pink-500 to-orange-500',
+        soft: 'from-rose-50/90 via-white/95 to-orange-50/70 dark:from-slate-900 dark:via-slate-900 dark:to-rose-950/30',
+        border: 'border-rose-100/90 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-700/60',
+        button: 'from-rose-500 via-pink-500 to-orange-500 shadow-[0_14px_30px_rgba(244,63,94,0.28)] hover:shadow-[0_20px_42px_rgba(244,63,94,0.38)]',
+        glow: 'bg-rose-300/30 dark:bg-rose-600/15',
+        rail: 'from-rose-500 via-pink-400 to-amber-400',
+        badge: 'border-rose-100 bg-rose-50/90 text-rose-600 dark:border-rose-900/40 dark:bg-rose-950/60 dark:text-rose-300',
+        iconBox: 'bg-gradient-to-br from-rose-500 via-pink-500 to-orange-400 text-white shadow-[0_10px_25px_rgba(244,63,94,0.3)] ring-4 ring-rose-50 dark:ring-rose-950/50',
+        statBg: 'bg-white/80 dark:bg-slate-800/60',
+        statBorder: 'border-slate-100 dark:border-slate-800',
       },
     },
   ];
 
   return (
     <div className="relative mx-auto min-h-[calc(100vh-64px)] max-w-6xl overflow-hidden px-4 py-5 md:px-8">
+      {/* Background aesthetics */}
       <div
         className="pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
         style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
       />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/90 to-rose-50/90 dark:from-slate-950/95 dark:via-slate-950/92 dark:to-indigo-950/90" />
-      <div className="pointer-events-none absolute left-1/2 top-8 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-8 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl dark:bg-cyan-900/20" />
+      <div className="pointer-events-none absolute right-10 top-20 -z-10 h-60 w-60 rounded-full bg-rose-200/25 blur-3xl dark:bg-rose-900/15" />
 
+      {/* Back button */}
       <button
         type="button"
         onClick={() => navigate('/exam')}
@@ -125,85 +163,121 @@ export const ExamHub = () => {
         Quay lại danh sách
       </button>
 
-      <section className="mx-auto mb-6 max-w-3xl text-center">
+      {/* Hero title */}
+      <section className="mx-auto mb-8 max-w-3xl text-center">
         <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/75 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-blue-600 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-blue-300">
           <Sparkles size={14} />
-          {courseTitle} JLPT Exam
+          {courseTitle} JLPT Exam System
         </div>
         <h1 className="text-4xl font-black uppercase tracking-[0.06em] text-slate-950 drop-shadow-sm md:text-5xl dark:text-white">
-          Luyện thi <span className="font-jp text-blue-600">試験</span>
+          Luyện thi <span className="font-jp text-blue-600 dark:text-blue-400">試験</span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-base font-bold text-slate-600 dark:text-slate-300">
           Chọn không gian luyện đề phù hợp với mục tiêu hôm nay của bạn.
         </p>
       </section>
 
-      <section className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-5 md:grid-cols-2">
-        {modes.map((mode, index) => (
-          <motion.button
-            key={mode.id}
-            type="button"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.08 }}
-            onClick={mode.action}
-            className={`group relative min-h-[300px] overflow-hidden rounded-[1.65rem] border bg-gradient-to-br ${mode.theme.soft} ${mode.theme.border} p-4 text-left shadow-[0_18px_42px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_58px_rgba(15,23,42,0.16)] dark:border-slate-700 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800`}
-          >
-            <div className={`absolute inset-x-0 top-0 h-2 bg-gradient-to-r ${mode.theme.rail}`} />
-            <div className={`absolute -right-16 -top-16 h-52 w-52 rounded-full ${mode.theme.glow} blur-3xl transition-transform duration-700 group-hover:scale-125`} />
-            <div className={`absolute -bottom-8 right-3 font-jp text-[7.5rem] font-black leading-none ${mode.theme.text} opacity-[0.06] transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110`}>
-              {mode.kana}
-            </div>
-
-            <div className="relative z-10 flex h-full flex-col">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className={`inline-flex items-center rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] ring-1 ${mode.theme.badge}`}>
-                    {mode.eyebrow}
-                  </span>
-                  <div className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 shadow-sm ring-1 ring-white/90 backdrop-blur dark:bg-slate-950/40 dark:text-slate-300 dark:ring-slate-700">
-                    <Gauge size={12} />
-                    {mode.label}
-                  </div>
-                </div>
-                <div className={`grid h-10 w-10 place-items-center rounded-2xl shadow-sm ring-1 ${mode.theme.icon}`}>
-                  <mode.Icon size={19} strokeWidth={2.5} />
-                </div>
+      {/* Redesigned 2 Mode Cards */}
+      <section className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
+        {modes.map((mode, index) => {
+          const EyebrowIcon = mode.eyebrowIcon;
+          return (
+            <motion.div
+              key={mode.id}
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.35 }}
+              onClick={mode.action}
+              className={`group relative flex min-h-[420px] cursor-pointer flex-col justify-between overflow-hidden rounded-[2.25rem] border bg-gradient-to-br ${mode.theme.soft} ${mode.theme.border} p-6 sm:p-8 shadow-[0_20px_50px_rgba(15,23,42,0.08)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_65px_rgba(15,23,42,0.15)]`}
+            >
+              {/* Top Accent Rail */}
+              <div className={`absolute inset-x-0 top-0 h-2 bg-gradient-to-r ${mode.theme.rail}`} />
+              
+              {/* Ambient Glow */}
+              <div className={`pointer-events-none absolute -right-16 -top-16 h-60 w-60 rounded-full ${mode.theme.glow} blur-3xl transition-transform duration-700 group-hover:scale-125`} />
+              
+              {/* Kanji Background Watermark */}
+              <div className={`pointer-events-none absolute -bottom-8 right-2 select-none font-jp text-[9rem] font-black leading-none ${mode.theme.text} opacity-[0.06] transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110`}>
+                {mode.kana}
               </div>
 
-              <div className="mt-6">
-                <h2 className={`text-4xl font-black uppercase tracking-tight ${mode.theme.text}`}>{mode.title}</h2>
-                <p className="mt-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-slate-600 dark:text-slate-300">
-                  {mode.subtitle}
+              {/* Card Header & Content */}
+              <div className="relative z-10">
+                {/* Badges + Icon Box */}
+                <div className="flex items-start justify-between gap-3 mb-6">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] shadow-sm backdrop-blur-sm ${mode.theme.badge}`}>
+                        <EyebrowIcon size={12} />
+                        {mode.eyebrow}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 shadow-sm ring-1 ring-slate-200/70 backdrop-blur dark:bg-slate-950/40 dark:text-slate-300 dark:ring-slate-700">
+                        <Gauge size={12} />
+                        {mode.label}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className={`grid h-14 w-14 place-items-center rounded-2xl transition-transform duration-300 group-hover:scale-105 ${mode.theme.iconBox}`}>
+                    <mode.Icon size={26} strokeWidth={2.2} />
+                  </div>
+                </div>
+
+                {/* Title & Subtitle */}
+                <div>
+                  <div className="flex items-baseline gap-2.5">
+                    <h2 className={`text-3xl sm:text-4xl font-black uppercase tracking-tight bg-gradient-to-r ${mode.theme.textGradient} bg-clip-text text-transparent`}>
+                      {mode.title}
+                    </h2>
+                    <span className="font-jp text-sm font-black text-slate-400 dark:text-slate-500 tracking-wider">
+                      {mode.japanese}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                    {mode.subtitle}
+                  </p>
+                </div>
+
+                {/* Description */}
+                <p className="mt-4 text-[13px] sm:text-sm font-semibold leading-relaxed text-slate-600 dark:text-slate-300">
+                  {mode.description}
                 </p>
-              </div>
 
-              <p className="mt-5 max-w-md text-[13px] font-semibold leading-relaxed text-slate-600 dark:text-slate-300">
-                {mode.description}
-              </p>
-
-              <div className="mt-5 grid grid-cols-3 gap-2">
-                {mode.stats.map((stat) => (
-                  <div
-                    key={stat}
-                    className="rounded-xl border border-white/80 bg-white/62 px-2 py-2.5 text-center text-[9px] font-black uppercase tracking-[0.06em] text-slate-500 shadow-sm backdrop-blur dark:border-slate-700 dark:bg-slate-950/30 dark:text-slate-300"
-                  >
-                    {stat}
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-auto pt-5">
-                <div className={`relative flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r py-3.5 text-base font-black text-white shadow-xl ${mode.theme.button}`}>
-                  <span>{mode.buttonText}</span>
-                  <ArrowRight size={19} className="absolute right-5 transition-transform group-hover:translate-x-1" />
+                {/* 3 Interactive Feature Highlight Boxes */}
+                <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-2.5">
+                  {mode.stats.map((stat) => {
+                    const StatIcon = stat.icon;
+                    return (
+                      <div
+                        key={stat.label}
+                        className={`flex flex-col items-center justify-center rounded-2xl border ${mode.theme.statBorder} ${mode.theme.statBg} p-2.5 text-center shadow-sm backdrop-blur-sm transition-all group-hover:border-blue-200 dark:group-hover:border-slate-700`}
+                      >
+                        <StatIcon size={16} className={`mb-1 ${mode.theme.text}`} />
+                        <span className="text-[10px] sm:text-[11px] font-black text-slate-800 dark:text-slate-100 leading-tight">
+                          {stat.label}
+                        </span>
+                        <span className="mt-0.5 text-[8.5px] font-bold text-slate-400 dark:text-slate-500">
+                          {stat.desc}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
-          </motion.button>
-        ))}
+
+              {/* Action Button */}
+              <div className="relative z-10 mt-6 pt-2">
+                <div className={`relative flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r py-3.5 px-5 text-sm sm:text-base font-black text-white transition-all duration-300 group-hover:shadow-2xl ${mode.theme.button}`}>
+                  <span>{mode.buttonText}</span>
+                  <ArrowRight size={18} className="absolute right-5 transition-transform duration-300 group-hover:translate-x-1.5" />
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
       </section>
 
+      {/* Mock Exam Library Modal */}
       <AnimatePresence>
         {isMockModalOpen && (
           <motion.div
@@ -232,7 +306,7 @@ export const ExamHub = () => {
               </button>
 
               <div className="mb-6 pr-14">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-rose-600 ring-1 ring-rose-100">
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-rose-50 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-rose-600 ring-1 ring-rose-100 dark:bg-rose-950/50 dark:text-rose-300 dark:ring-rose-900/40">
                   <ClipboardList size={14} />
                   Mock Exam Library
                 </div>
@@ -287,7 +361,7 @@ export const ExamHub = () => {
                     </div>
                   </button>
                 ))}
-                <div className="hidden rounded-3xl border border-dashed border-rose-200 bg-rose-50/60 p-4 text-sm font-bold text-rose-500 lg:flex lg:flex-col lg:justify-center">
+                <div className="hidden rounded-3xl border border-dashed border-rose-200 bg-rose-50/60 p-4 text-sm font-bold text-rose-500 lg:flex lg:flex-col lg:justify-center dark:border-rose-900/40 dark:bg-rose-950/20">
                   <ShieldCheck className="mb-3" size={28} />
                   Đề mới sẽ được thêm theo từng học kỳ để bạn luyện đều hơn.
                 </div>
