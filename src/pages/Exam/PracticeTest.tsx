@@ -213,6 +213,7 @@ export const PracticeTest = () => {
           </div>
         </motion.div>
       </div>
+      </div>
     );
   }
 
