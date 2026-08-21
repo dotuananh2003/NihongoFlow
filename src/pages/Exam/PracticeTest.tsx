@@ -1,9 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Book, CheckCircle2, XCircle, ArrowRight, RefreshCw, X, Trophy, Flame, Star, Lightbulb, Check } from 'lucide-react';
+import {
+  CheckCircle2,
+  XCircle,
+  ArrowRight,
+  RefreshCw,
+  Trophy,
+  Flame,
+  Star,
+  Lightbulb,
+  Check,
+  X,
+  Sparkles,
+  ArrowLeft,
+  Target,
+  RotateCcw,
+  BookOpen,
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Sử dụng dữ liệu giả lập
 import practiceData from '../../data/exam/jpd123_practice.json';
 
 interface Question {
@@ -31,7 +46,6 @@ export const PracticeTest = () => {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    // Shuffle and slice
     const shuffled = [...practiceData].sort(() => 0.5 - Math.random());
     const selected = count === 'all' ? shuffled : shuffled.slice(0, Number(count));
     setQuestions(selected);
@@ -47,85 +61,160 @@ export const PracticeTest = () => {
     if (isAnswered) return;
     setSelectedOption(index);
     if (index === currentQuestion.correctAnswer) {
-      setCorrectCount(prev => prev + 1);
+      setCorrectCount((prev) => prev + 1);
       const newCombo = combo + 1;
       setCombo(newCombo);
-      setMaxCombo(prev => Math.max(prev, newCombo));
-      setScore(prev => prev + 10 + (newCombo > 1 ? newCombo * 2 : 0));
+      setMaxCombo((prev) => Math.max(prev, newCombo));
+      setScore((prev) => prev + 10 + (newCombo > 1 ? newCombo * 2 : 0));
     } else {
-      setWrongCount(prev => prev + 1);
+      setWrongCount((prev) => prev + 1);
       setCombo(0);
     }
   };
 
   const handleNext = () => {
     if (currentIndex < questions.length - 1) {
-      setCurrentIndex(prev => prev + 1);
+      setCurrentIndex((prev) => prev + 1);
       setSelectedOption(null);
     } else {
       setIsFinished(true);
     }
   };
 
+  const handleRestart = () => {
+    const shuffled = [...practiceData].sort(() => 0.5 - Math.random());
+    const selected = count === 'all' ? shuffled : shuffled.slice(0, Number(count));
+    setQuestions(selected);
+    setCurrentIndex(0);
+    setSelectedOption(null);
+    setScore(0);
+    setCombo(0);
+    setMaxCombo(0);
+    setCorrectCount(0);
+    setWrongCount(0);
+    setIsFinished(false);
+  };
+
+  // Option Styling logic matching modern theme
+  const getOptionCardStyle = (index: number) => {
+    const isSelected = selectedOption === index;
+    const isCorrectOption = index === currentQuestion.correctAnswer;
+
+    if (isAnswered) {
+      if (isCorrectOption) {
+        return 'border-emerald-500 bg-emerald-50/90 text-emerald-950 shadow-[0_10px_25px_rgba(16,185,129,0.18)] ring-4 ring-emerald-100 dark:border-emerald-400 dark:bg-emerald-950/60 dark:text-emerald-100 dark:ring-emerald-950';
+      }
+      if (isSelected && !isCorrectOption) {
+        return 'border-rose-400 bg-rose-50/90 text-rose-950 shadow-[0_10px_25px_rgba(244,63,94,0.18)] ring-4 ring-rose-100 dark:border-rose-500 dark:bg-rose-950/60 dark:text-rose-100 dark:ring-rose-950';
+      }
+      return 'border-slate-200/70 bg-white/60 text-slate-400 opacity-50 dark:border-slate-800 dark:bg-slate-900/40 dark:text-slate-600';
+    }
+
+    if (isSelected) {
+      return 'border-blue-500 bg-blue-50/90 text-blue-950 shadow-[0_12px_28px_rgba(37,99,235,0.16)] ring-4 ring-blue-100 dark:border-blue-400 dark:bg-blue-950/60 dark:text-blue-100 dark:ring-blue-950';
+    }
+
+    return 'border-slate-200/90 bg-white/85 text-slate-800 hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50/40 hover:shadow-md dark:border-slate-800 dark:bg-slate-900/85 dark:text-slate-200 dark:hover:border-blue-700/60';
+  };
+
+  const getOptionLetterStyle = (index: number) => {
+    const isSelected = selectedOption === index;
+    const isCorrectOption = index === currentQuestion.correctAnswer;
+
+    if (isAnswered && isCorrectOption) {
+      return 'bg-emerald-500 text-white shadow-sm';
+    }
+    if (isAnswered && isSelected && !isCorrectOption) {
+      return 'bg-rose-500 text-white shadow-sm';
+    }
+    if (isSelected) {
+      return 'bg-blue-600 text-white shadow-sm';
+    }
+    return 'bg-slate-100 text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600 dark:bg-slate-800 dark:text-slate-300';
+  };
+
+  // Render Finished State
   if (isFinished) {
     const accuracy = Math.round((correctCount / questions.length) * 100) || 0;
     return (
-      <div className="flex items-center justify-center w-full min-h-[calc(100vh-80px)] p-4 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 w-full max-w-lg overflow-hidden flex flex-col p-8 md:p-10 text-center relative"
+      <div className="relative mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-4xl flex-col items-center justify-center px-4 py-8 md:px-8">
+        {/* Background decorations */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
+          style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
+        />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/90 to-blue-50/90 dark:from-slate-950/95 dark:via-slate-950/92 dark:to-indigo-950/90" />
+        <div className="pointer-events-none absolute left-1/2 top-10 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl dark:bg-cyan-900/20" />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          className="relative w-full max-w-xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/90 p-8 md:p-10 text-center shadow-[0_24px_60px_rgba(15,23,42,0.1)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-900/90"
         >
-          <div className="w-24 h-24 mx-auto bg-amber-50 dark:bg-amber-900/30 rounded-full flex items-center justify-center mb-6">
-            <Trophy size={48} className="text-amber-500" />
-          </div>
-          
-          <h2 className="text-sm font-black text-blue-500 uppercase tracking-widest mb-1">HOÀN THÀNH BÀI LUYỆN TẬP</h2>
-          <div className="text-5xl font-black text-slate-800 dark:text-slate-100 mb-2">{score}</div>
-          <p className="text-sm font-medium text-slate-500 mb-8">{accuracy >= 80 ? 'Rất tuyệt vời! 🎉' : accuracy >= 50 ? 'Khá lắm! Cố gắng thêm nhé 👍' : 'Cần ôn tập thêm về bài này 💪'}</p>
+          {/* Top Decorative Rail */}
+          <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-400" />
+          <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-blue-200/40 blur-3xl dark:bg-blue-900/20" />
 
-          <div className="grid grid-cols-2 gap-3 mb-8">
-            <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-2xl flex flex-col items-center">
-              <span className="text-xs font-bold text-emerald-600/70 mb-1">Số câu đúng</span>
-              <span className="text-2xl font-black text-emerald-600">{correctCount}</span>
-            </div>
-            <div className="bg-rose-50 dark:bg-rose-900/20 p-4 rounded-2xl flex flex-col items-center">
-              <span className="text-xs font-bold text-rose-600/70 mb-1">Số câu sai</span>
-              <span className="text-2xl font-black text-rose-600">{wrongCount}</span>
-            </div>
-            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-2xl flex flex-col items-center">
-              <span className="text-xs font-bold text-blue-600/70 mb-1">Độ chính xác</span>
-              <span className="text-2xl font-black text-blue-600">{accuracy}%</span>
-            </div>
-            <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-2xl flex flex-col items-center">
-              <span className="text-xs font-bold text-amber-600/70 mb-1">Combo Max</span>
-              <span className="text-2xl font-black text-amber-600">{maxCombo}</span>
-            </div>
+          <div className="mx-auto mb-6 grid h-24 w-24 place-items-center rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-[0_16px_36px_rgba(245,158,11,0.3)] ring-8 ring-amber-100/60 dark:ring-amber-950/40">
+            <Trophy size={48} />
           </div>
 
-          <div className="flex gap-3">
-            <button 
-              onClick={() => {
-                const shuffled = [...practiceData].sort(() => 0.5 - Math.random());
-                const selected = count === 'all' ? shuffled : shuffled.slice(0, Number(count));
-                setQuestions(selected);
-                setCurrentIndex(0);
-                setSelectedOption(null);
-                setScore(0);
-                setCombo(0);
-                setMaxCombo(0);
-                setCorrectCount(0);
-                setWrongCount(0);
-                setIsFinished(false);
-              }}
-              className="flex-1 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3.5 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/60 dark:text-blue-300 dark:ring-blue-900/40">
+            <Sparkles size={14} />
+            Kết quả luyện tập
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+            Hoàn thành xuất sắc!
+          </h2>
+          <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">
+            {accuracy >= 80
+              ? 'Phong độ tuyệt vời! Bạn đã nắm rất vững kiến thức phần này. 🎉'
+              : accuracy >= 50
+              ? 'Khá tốt! Hãy ôn lại các câu sai để bứt phá điểm số cao hơn nhé. 👍'
+              : 'Đừng nản lòng! Luyện tập đều đặn sẽ giúp bạn tiến bộ vượt bậc. 💪'}
+          </p>
+
+          {/* Stats Grid */}
+          <div className="my-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-3.5 text-center dark:border-blue-900/40 dark:bg-blue-950/40">
+              <div className="text-[10px] font-black uppercase tracking-wider text-blue-500">Điểm số</div>
+              <div className="mt-1 text-2xl md:text-3xl font-black text-blue-600 dark:text-blue-400">{score}</div>
+            </div>
+            <div className="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-3.5 text-center dark:border-emerald-900/40 dark:bg-emerald-950/40">
+              <div className="text-[10px] font-black uppercase tracking-wider text-emerald-500">Đúng</div>
+              <div className="mt-1 text-2xl md:text-3xl font-black text-emerald-600 dark:text-emerald-400">
+                {correctCount}/{questions.length}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-rose-100 bg-rose-50/70 p-3.5 text-center dark:border-rose-900/40 dark:bg-rose-950/40">
+              <div className="text-[10px] font-black uppercase tracking-wider text-rose-500">Sai</div>
+              <div className="mt-1 text-2xl md:text-3xl font-black text-rose-600 dark:text-rose-400">{wrongCount}</div>
+            </div>
+            <div className="rounded-2xl border border-amber-100 bg-amber-50/70 p-3.5 text-center dark:border-amber-900/40 dark:bg-amber-950/40">
+              <div className="text-[10px] font-black uppercase tracking-wider text-amber-500">Max Combo</div>
+              <div className="mt-1 text-2xl md:text-3xl font-black text-amber-600 dark:text-amber-400">{maxCombo} 🔥</div>
+            </div>
+          </div>
+
+          {/* Action buttons */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={handleRestart}
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white py-3.5 px-5 text-sm font-black text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-slate-50 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
             >
-              <RefreshCw size={18} /> Làm lại
+              <RotateCcw size={18} />
+              Luyện tập lại
             </button>
-            <button 
+
+            <button
+              type="button"
               onClick={() => navigate(`/exam/${courseId}`)}
-              className="flex-1 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center justify-center gap-2 shadow-lg transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 py-3.5 px-5 text-sm font-black text-white shadow-[0_12px_28px_rgba(37,99,235,0.25)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(37,99,235,0.35)]"
             >
-              Hoàn tất
+              <BookOpen size={18} />
+              Hoàn tất & Về Hub
             </button>
           </div>
         </motion.div>
@@ -133,150 +222,220 @@ export const PracticeTest = () => {
     );
   }
 
-  const progress = (currentIndex / questions.length) * 100;
+  const progressPercent = Math.round(((currentIndex + 1) / questions.length) * 100);
 
   return (
-    <div className="flex flex-col w-full min-h-[calc(100vh-80px)] max-w-4xl mx-auto px-4 py-6 md:py-8 relative z-10">
-      
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4 md:mb-6">
-        <div className="flex items-center gap-3 md:gap-4">
-          <div className="px-3.5 py-1.5 rounded-full font-bold text-xs flex items-center gap-1.5 shadow-sm border bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800 shadow-[0_0_8px_rgba(59,130,246,0.3)]">
-            <Book size={16} />
-            Trắc nghiệm
-          </div>
-          <div className="hidden sm:flex items-center gap-3">
-            <div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></div>
-            <div className="text-sm font-black text-slate-400 dark:text-slate-500 tracking-wide uppercase">Luyện tập tổng hợp JPD123</div>
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={() => navigate(`/exam/${courseId}/practice`)}
-            className="flex items-center gap-2 text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 transition-all px-4 py-1.5 border-x border-t border-b-[3px] border-slate-200 dark:border-slate-700 hover:border-rose-200 dark:hover:border-rose-900/50 hover:border-b-rose-300 dark:hover:border-b-rose-700 rounded-full text-sm font-bold bg-white dark:bg-slate-900 hover:bg-rose-50 dark:hover:bg-rose-900/20 active:translate-y-[2px] active:border-b active:border-slate-200 dark:active:border-slate-700 shadow-sm hover:shadow-md"
-          >
-            <X size={16} strokeWidth={2.5} /> Thoát
-          </button>
-        </div>
-      </div>
+    <div className="relative mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-4xl flex-col px-4 py-5 md:px-8">
+      {/* Background decorations */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
+        style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
+      />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/90 to-blue-50/90 dark:from-slate-950/95 dark:via-slate-950/92 dark:to-indigo-950/90" />
+      <div className="pointer-events-none absolute left-1/2 top-10 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl dark:bg-cyan-900/20" />
+      <div className="pointer-events-none absolute right-10 top-20 -z-10 h-64 w-64 rounded-full bg-blue-200/35 blur-3xl dark:bg-blue-900/20" />
 
-      {/* Progress & Stats */}
-      <div className="flex items-center justify-between mb-6 md:mb-8 bg-white dark:bg-slate-900 p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-        <div className="flex-1 flex items-center gap-3 md:gap-4 text-slate-700 dark:text-slate-300 mr-4 md:mr-8">
-          <span className="min-w-[3rem] text-center text-sm md:text-base font-black shrink-0">{currentIndex + 1}/{questions.length}</span>
-          <div className="flex-1 h-3 md:h-4 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner relative">
-            <div 
-              className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 transition-all duration-500 ease-out shadow-[0_0_12px_rgba(59,130,246,0.6)]" 
-              style={{ width: `${progress}%` }} 
-            >
-              <div className="absolute inset-0 bg-white/20 w-full h-1/3"></div>
+      {/* Top Header Bar */}
+      <header className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-white/80 bg-white/80 p-3 shadow-sm backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80">
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => navigate(`/exam/${courseId}/practice`)}
+            className="grid h-10 w-10 place-items-center rounded-xl bg-white text-slate-600 shadow-sm ring-1 ring-slate-200/70 transition-all hover:-translate-x-0.5 hover:text-blue-600 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700"
+            title="Quay lại cài đặt"
+          >
+            <ArrowLeft size={18} />
+          </button>
+
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/60 dark:text-blue-300 dark:ring-blue-900/40">
+                <Sparkles size={12} />
+                Luyện tập tự do
+              </span>
+              <span className="hidden sm:inline-block text-xs font-bold text-slate-400">
+                • JPD123 Practice
+              </span>
             </div>
           </div>
         </div>
-        
-        <div className="flex items-center gap-4 text-sm md:text-base font-black shrink-0">
-          <div className="flex items-center gap-1.5 text-amber-500 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded-lg"><Flame size={18} /> {combo}</div>
-          <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-lg"><Star size={18} /> {score}</div>
+
+        {/* Top Exit button */}
+        <button
+          type="button"
+          onClick={() => navigate(`/exam/${courseId}`)}
+          className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 bg-white px-3.5 py-2 text-xs font-black text-slate-600 shadow-sm transition-all hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-rose-950/40 dark:hover:text-rose-400"
+        >
+          <X size={15} />
+          Thoát
+        </button>
+      </header>
+
+      {/* Progress & Live Stats Bar */}
+      <div className="mb-5 flex flex-col gap-3 rounded-2xl border border-white/80 bg-white/85 p-3.5 sm:p-4 shadow-sm backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/85">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-black text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/60 dark:text-blue-300 dark:ring-blue-900/40">
+              Câu {currentIndex + 1} / {questions.length}
+            </span>
+            <span className="text-xs font-bold text-slate-400 dark:text-slate-500">
+              ({progressPercent}%)
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Combo tag */}
+            <div className={`flex items-center gap-1 rounded-xl px-2.5 py-1 text-xs font-black transition-all ${
+              combo > 1 
+                ? 'bg-amber-100 text-amber-700 ring-1 ring-amber-200 scale-105 shadow-sm dark:bg-amber-950/60 dark:text-amber-300 dark:ring-amber-900/40' 
+                : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+            }`}>
+              <Flame size={15} className={combo > 1 ? 'text-amber-600 fill-amber-500' : 'text-slate-400'} />
+              <span>{combo} Combo</span>
+            </div>
+
+            {/* Score tag */}
+            <div className="flex items-center gap-1 rounded-xl bg-blue-50 px-2.5 py-1 text-xs font-black text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/60 dark:text-blue-300 dark:ring-blue-900/40">
+              <Star size={15} className="fill-blue-500 text-blue-500" />
+              <span>{score} đ</span>
+            </div>
+
+            {/* Accuracy tracker */}
+            <div className="hidden sm:flex items-center gap-1 rounded-xl bg-emerald-50 px-2.5 py-1 text-xs font-black text-emerald-600 ring-1 ring-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-300 dark:ring-emerald-900/40">
+              <Target size={15} />
+              <span>{correctCount} đúng</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Progress bar line */}
+        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+          <motion.div
+            className="h-full rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-500 shadow-[0_0_12px_rgba(37,99,235,0.4)]"
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPercent}%` }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+          />
         </div>
       </div>
 
-      {/* Question Area */}
-      <div className="flex-1 flex flex-col items-center w-full max-w-3xl mx-auto">
-        <motion.div 
-          key={currentQuestion.id}
-          initial={{ x: 20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-lg border border-slate-100 dark:border-slate-800 w-full p-6 md:p-10 mb-8 text-center relative overflow-hidden flex-shrink-0"
-        >
-          <div className="text-xs font-black text-slate-400 mb-4 uppercase tracking-widest">
-            CHỌN ĐÁP ÁN ĐÚNG
-          </div>
-          <h2 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-slate-100 leading-tight">
-            {currentQuestion.question}
-          </h2>
-        </motion.div>
+      {/* Main Question & Options Section */}
+      <div className="flex flex-1 flex-col justify-between">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentQuestion.id}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ duration: 0.2 }}
+            className="flex flex-col gap-4"
+          >
+            {/* Question Card */}
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/80 bg-white/90 p-6 md:p-8 shadow-[0_18px_45px_rgba(15,23,42,0.07)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/90 text-center">
+              <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                Chọn đáp án đúng
+              </div>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-black leading-relaxed text-slate-900 dark:text-slate-100">
+                {currentQuestion.question}
+              </h2>
+            </div>
 
-        {/* Options */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 w-full flex-shrink-0 mb-4">
-          {currentQuestion.options.map((opt, idx) => {
-            const isSelected = selectedOption === idx;
-            const isCorrectOption = idx === currentQuestion.correctAnswer;
-            
-            let btnStyle = "";
-            let icon = null;
+            {/* Options 2x2 Grid */}
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {currentQuestion.options.map((opt, idx) => {
+                const isSelected = selectedOption === idx;
+                const isCorrectOption = idx === currentQuestion.correctAnswer;
 
-            if (isAnswered) {
-              if (isCorrectOption) {
-                btnStyle = "bg-emerald-50 dark:bg-emerald-900/20 border-2 border-l-[4px] border-emerald-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px] text-emerald-700 dark:text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]";
-                icon = <Check size={20} className="text-emerald-500 shrink-0" />;
-              } else if (isSelected) {
-                btnStyle = "bg-rose-50 dark:bg-rose-900/20 border-2 border-l-[4px] border-rose-500 border-b-[6px] active:border-b-[2px] active:translate-y-[4px] text-rose-700 dark:text-rose-400 opacity-90";
-                icon = <X size={20} className="text-rose-500 shrink-0" />;
-              } else {
-                btnStyle = "bg-white dark:bg-slate-800 border-2 border-l-[4px] border-slate-200 dark:border-slate-700 border-b-[6px] opacity-50";
-              }
-            } else {
-              btnStyle = "bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 border-l-[4px] border-l-slate-300 dark:border-l-slate-600 border-b-[6px] hover:border-blue-400 hover:border-l-blue-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 active:border-b-[2px] active:translate-y-[4px] shadow-sm";
-            }
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    disabled={isAnswered}
+                    onClick={() => handleSelectOption(idx)}
+                    className={`group relative flex min-h-[72px] items-center gap-3.5 rounded-2xl border-2 p-4 text-left transition-all duration-200 ${getOptionCardStyle(
+                      idx
+                    )}`}
+                  >
+                    <span
+                      className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-black transition-colors ${getOptionLetterStyle(
+                        idx
+                      )}`}
+                    >
+                      {['A', 'B', 'C', 'D'][idx]}
+                    </span>
+                    <span className="flex-1 text-base sm:text-lg font-black leading-snug">
+                      {opt}
+                    </span>
 
-            return (
-              <button
-                key={idx}
-                disabled={isAnswered}
-                onClick={() => handleSelectOption(idx)}
-                className={`group relative w-full p-4 md:p-5 rounded-xl flex items-center gap-3 transition-all duration-200 text-left overflow-hidden ${btnStyle}`}
-              >
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm shrink-0 transition-colors ${
-                  isAnswered && isCorrectOption 
-                    ? 'bg-emerald-500 text-white' 
-                    : isAnswered && isSelected 
-                      ? 'bg-rose-500 text-white' 
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:bg-blue-100 group-hover:text-blue-600 dark:group-hover:bg-blue-900 dark:group-hover:text-blue-400'
-                }`}>
-                  {['A', 'B', 'C', 'D'][idx]}
-                </div>
-                <span className={`text-base md:text-lg font-bold flex-1`}>
-                  {opt}
-                </span>
-                {icon}
-              </button>
-            );
-          })}
-        </div>
+                    {/* Result Icon on option card */}
+                    {isAnswered && isCorrectOption && (
+                      <Check size={22} className="shrink-0 text-emerald-500" />
+                    )}
+                    {isAnswered && isSelected && !isCorrectOption && (
+                      <X size={22} className="shrink-0 text-rose-500" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
-        {/* Answer Feedback */}
+        {/* Floating Answer Explanation & Next Button Drawer */}
         <AnimatePresence>
           {isAnswered && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20, height: 0 }} 
-              animate={{ opacity: 1, y: 0, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className={`w-full mt-4 p-5 md:p-6 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8 border-2 border-b-[6px] overflow-hidden ${isCorrect ? 'bg-emerald-100/50 dark:bg-emerald-900/20 border-emerald-500' : 'bg-rose-100/50 dark:bg-rose-900/20 border-rose-500'}`}
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
+              transition={{ duration: 0.25 }}
+              className={`mt-5 overflow-hidden rounded-[2rem] border p-5 md:p-6 shadow-[0_20px_50px_rgba(15,23,42,0.12)] backdrop-blur-2xl ${
+                isCorrect
+                  ? 'border-emerald-200 bg-emerald-50/95 dark:border-emerald-800 dark:bg-emerald-950/80'
+                  : 'border-rose-200 bg-rose-50/95 dark:border-rose-800 dark:bg-rose-950/80'
+              }`}
             >
-              <div className="flex-1 text-center md:text-left">
-                <div className={`flex items-center justify-center md:justify-start gap-2 text-xl md:text-2xl font-black mb-4 ${isCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
-                  {isCorrect ? <><CheckCircle2 size={28} /> Tuyệt vời!</> : <><XCircle size={28} /> Rất tiếc!</>}
-                </div>
-                
-                <div className={`text-sm md:text-base p-4 rounded-xl bg-white/60 dark:bg-black/20 ${isCorrect ? 'text-emerald-900 dark:text-emerald-100' : 'text-rose-900 dark:text-rose-100'}`}>
-                  <span className="font-bold flex items-center gap-1.5 mb-2"><Lightbulb size={16} /> Giải thích: </span>
-                  <div className="leading-relaxed font-bold text-[15px] md:text-base">
+              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div className="flex-1">
+                  {/* Status header */}
+                  <div className="flex items-center gap-2 mb-2">
+                    {isCorrect ? (
+                      <div className="flex items-center gap-2 text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400">
+                        <CheckCircle2 size={24} />
+                        <span>Chính xác! (+10 điểm {combo > 1 ? `+ Combo x${combo}` : ''})</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-lg sm:text-xl font-black text-rose-600 dark:text-rose-400">
+                        <XCircle size={24} />
+                        <span>Chưa chính xác!</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Detailed explanation box */}
+                  <div className="rounded-xl border border-white/80 bg-white/80 p-3.5 text-xs sm:text-sm font-bold leading-relaxed text-slate-700 shadow-sm dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-200">
+                    <div className="mb-1 flex items-center gap-1.5 font-black text-slate-900 dark:text-white">
+                      <Lightbulb size={15} className="text-amber-500" />
+                      <span>Giải thích chi tiết:</span>
+                    </div>
                     {currentQuestion.explanation}
                   </div>
                 </div>
+
+                {/* Continue button */}
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className={`inline-flex items-center justify-center gap-2 rounded-2xl py-4 px-8 text-base font-black text-white shadow-lg transition-all hover:-translate-y-0.5 ${
+                    isCorrect
+                      ? 'bg-gradient-to-r from-emerald-600 to-teal-600 shadow-emerald-500/30 hover:shadow-emerald-500/40'
+                      : 'bg-gradient-to-r from-rose-600 to-pink-600 shadow-rose-500/30 hover:shadow-rose-500/40'
+                  }`}
+                >
+                  <span>{currentIndex < questions.length - 1 ? 'Câu tiếp theo' : 'Xem tổng kết'}</span>
+                  <ArrowRight size={20} />
+                </button>
               </div>
-              
-              <button 
-                onClick={handleNext} 
-                className={`w-full md:w-auto px-8 py-4 rounded-xl text-white font-black text-lg flex items-center justify-center gap-2 transition-all active:translate-y-[4px] active:border-b-[2px] border-b-[6px] shadow-sm ${
-                  isCorrect 
-                    ? 'bg-emerald-500 hover:bg-emerald-400 border-emerald-600 dark:border-emerald-700' 
-                    : 'bg-rose-500 hover:bg-rose-400 border-rose-600 dark:border-rose-700'
-                }`}
-              >
-                {currentIndex < questions.length - 1 ? 'TIẾP TỤC' : 'KẾT QUẢ'} <ArrowRight size={20} />
-              </button>
             </motion.div>
           )}
         </AnimatePresence>
