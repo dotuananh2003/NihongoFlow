@@ -134,19 +134,20 @@ export const PracticeTest = () => {
   if (isFinished) {
     const accuracy = Math.round((correctCount / questions.length) * 100) || 0;
     return (
-      <div className="relative mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-4xl flex-col items-center justify-center px-4 py-6 md:px-8">
+      <div className="relative flex min-h-[calc(100vh-80px)] w-full flex-col items-center justify-center overflow-hidden">
         <div
-          className="pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
+          className="fixed-bg-plane pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
           style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
         />
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/90 to-blue-50/90 dark:from-slate-950/95 dark:via-slate-950/92 dark:to-indigo-950/90" />
-        <div className="pointer-events-none absolute left-1/2 top-10 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl dark:bg-cyan-900/20" />
+        <div className="fixed-bg-plane pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/95 to-blue-50/90 dark:from-slate-950/98 dark:via-slate-950/95 dark:to-indigo-950/90" />
+        <div className="fixed-bg-plane pointer-events-none absolute left-1/2 top-10 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl dark:bg-cyan-900/20" />
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.94, y: 16 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="relative w-full max-w-lg overflow-hidden rounded-[2.25rem] border border-white/80 bg-white/92 p-6 md:p-8 text-center shadow-[0_20px_50px_rgba(15,23,42,0.1)] backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-900/90"
-        >
+        <div className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center px-4 py-6 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="smooth-panel relative w-full max-w-lg overflow-hidden rounded-[2.25rem] border border-white/80 bg-white/95 p-6 text-center shadow-[0_20px_50px_rgba(15,23,42,0.1)] md:p-8 dark:border-slate-800 dark:bg-slate-900/95"
+          >
           <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-400" />
           <div className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-blue-200/40 blur-2xl dark:bg-blue-900/20" />
 
@@ -210,7 +211,7 @@ export const PracticeTest = () => {
               Về Hub
             </button>
           </div>
-        </motion.div>
+        </div>
       </div>
     );
   }
@@ -218,18 +219,20 @@ export const PracticeTest = () => {
   const progressPercent = Math.round(((currentIndex + 1) / questions.length) * 100);
 
   return (
-    <div className="relative mx-auto flex w-full max-w-3xl flex-col gap-3.5 px-4 py-3 sm:px-6">
+    <div className="relative flex min-h-[calc(100vh-64px)] w-full flex-col overflow-hidden">
       {/* Background decorations */}
       <div
-        className="pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
+        className="fixed-bg-plane pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
         style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
       />
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/90 to-blue-50/90 dark:from-slate-950/95 dark:via-slate-950/92 dark:to-indigo-950/90" />
-      <div className="pointer-events-none absolute left-1/2 top-8 -z-10 h-60 w-60 -translate-x-1/2 rounded-full bg-cyan-200/25 blur-3xl dark:bg-cyan-900/15" />
-      <div className="pointer-events-none absolute right-8 top-16 -z-10 h-56 w-56 rounded-full bg-blue-200/30 blur-3xl dark:bg-blue-900/15" />
+      <div className="fixed-bg-plane pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/95 to-blue-50/90 dark:from-slate-950/98 dark:via-slate-950/95 dark:to-indigo-950/90" />
+      <div className="fixed-bg-plane pointer-events-none absolute left-1/2 top-8 -z-10 h-60 w-60 -translate-x-1/2 rounded-full bg-cyan-200/25 blur-3xl dark:bg-cyan-900/15" />
+      <div className="fixed-bg-plane pointer-events-none absolute right-8 top-16 -z-10 h-56 w-56 rounded-full bg-blue-200/30 blur-3xl dark:bg-blue-900/15" />
 
-      {/* Top Header & Live Stats */}
-      <header className="flex items-center justify-between gap-3 rounded-2xl border border-white/80 bg-white/85 p-2.5 sm:px-4 sm:py-3 shadow-sm backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/85">
+      {/* Main Content Wrapper */}
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-3.5 px-4 py-3 sm:px-6">
+        {/* Top Header & Live Stats */}
+        <header className="smooth-panel flex items-center justify-between gap-3 rounded-2xl border border-white/90 bg-white/95 p-2.5 shadow-sm sm:px-4 sm:py-3 dark:border-slate-800 dark:bg-slate-900/95">
         <div className="flex items-center gap-2.5">
           <button
             type="button"
@@ -296,7 +299,7 @@ export const PracticeTest = () => {
             className="flex flex-col gap-3"
           >
             {/* Question Card */}
-            <div className="relative overflow-hidden rounded-[1.75rem] border border-white/80 bg-white/92 px-6 py-5 sm:px-8 sm:py-6 shadow-[0_12px_36px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/90 text-center">
+            <div className="smooth-panel relative overflow-hidden rounded-[1.75rem] border border-white/90 bg-white/95 px-6 py-5 text-center shadow-[0_12px_36px_rgba(15,23,42,0.06)] sm:px-8 sm:py-6 dark:border-slate-800 dark:bg-slate-900/95">
               <div className="mb-2.5 inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                 Chọn đáp án đúng
               </div>
@@ -317,7 +320,7 @@ export const PracticeTest = () => {
                     type="button"
                     disabled={isAnswered}
                     onClick={() => handleSelectOption(idx)}
-                    className={`group relative flex min-h-[58px] sm:min-h-[64px] items-center gap-3.5 rounded-2xl border-2 p-3.5 sm:p-4 text-left transition-all duration-150 ${getOptionCardStyle(
+                    className={`steady-scroll-row group relative flex min-h-[58px] items-center gap-3.5 rounded-2xl border-2 p-3.5 text-left transition-colors duration-150 sm:min-h-[64px] sm:p-4 ${getOptionCardStyle(
                       idx
                     )}`}
                   >
@@ -354,10 +357,10 @@ export const PracticeTest = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
             transition={{ duration: 0.2 }}
-            className={`overflow-hidden rounded-2xl border p-4 sm:p-5 shadow-lg backdrop-blur-2xl ${
+            className={`smooth-panel overflow-hidden rounded-2xl border p-4 shadow-lg sm:p-5 ${
               isCorrect
-                ? 'border-emerald-200 bg-emerald-50/95 dark:border-emerald-800 dark:bg-emerald-950/85'
-                : 'border-rose-200 bg-rose-50/95 dark:border-rose-800 dark:bg-rose-950/85'
+                ? 'border-emerald-200 bg-emerald-50/95 dark:border-emerald-800 dark:bg-emerald-950/95'
+                : 'border-rose-200 bg-rose-50/95 dark:border-rose-800 dark:bg-rose-950/95'
             }`}
           >
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -404,6 +407,7 @@ export const PracticeTest = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 };
