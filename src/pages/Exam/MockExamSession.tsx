@@ -151,10 +151,10 @@ export const MockExamSession = () => {
     }
 
     if (isSelected) {
-      return 'border-blue-500 bg-blue-50 text-blue-900 shadow-[0_14px_30px_rgba(37,99,235,0.14)] ring-4 ring-blue-100';
+      return 'border-blue-500 bg-blue-50 text-blue-900 shadow-md ring-4 ring-blue-100';
     }
 
-    return 'border-slate-100 bg-white/90 text-slate-700 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50/50 hover:shadow-md';
+    return 'border-slate-100 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50/50 hover:shadow-md';
   };
 
   const getOptionLetterStyle = (optionIndex: number) => {
@@ -347,7 +347,7 @@ export const MockExamSession = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.18 }}
-              className={`${currentQuestion.attachedPassage ? '' : 'xl:col-span-2'} smooth-panel flex flex-col overflow-hidden rounded-3xl border border-white/80 bg-white/90 shadow-[0_18px_48px_rgba(15,23,42,0.08)] h-full`}
+              className={`${currentQuestion.attachedPassage ? '' : 'xl:col-span-2'} smooth-panel flex flex-col overflow-hidden rounded-3xl border border-white/80 bg-white shadow-[0_18px_48px_rgba(15,23,42,0.08)] h-full`}
             >
               <div className="border-b border-slate-100 p-4 shrink-0">
                 <div className="flex flex-wrap items-center justify-between gap-3">
@@ -395,7 +395,7 @@ export const MockExamSession = () => {
                       type="button"
                       disabled={isSubmitted}
                       onClick={() => handleSelectAnswer(currentQuestion.id, index)}
-                      className={`group flex min-h-[74px] items-center gap-3 rounded-3xl border-2 p-4 text-left transition-colors duration-150 ${getOptionStyle(index)}`}
+                      className={`smooth-panel steady-scroll-row group flex min-h-[74px] items-center gap-3 rounded-3xl border-2 p-4 text-left transition-colors duration-150 ${getOptionStyle(index)}`}
                     >
                       <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-2xl text-sm font-black transition-colors ${getOptionLetterStyle(index)}`}>
                         {String.fromCharCode(65 + index)}
@@ -434,7 +434,7 @@ export const MockExamSession = () => {
                 initial={{ opacity: 0, x: 14 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2 }}
-                className="smooth-panel flex flex-col overflow-hidden rounded-3xl border border-white/80 bg-white/90 shadow-[0_18px_48px_rgba(15,23,42,0.08)] h-full"
+                className="smooth-panel flex flex-col overflow-hidden rounded-3xl border border-white/80 bg-white shadow-[0_18px_48px_rgba(15,23,42,0.08)] h-full"
               >
                 <div className="border-b border-slate-100 p-4 shrink-0">
                   <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-blue-600 ring-1 ring-blue-100">

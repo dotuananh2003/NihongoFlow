@@ -292,11 +292,10 @@ export const ExamHub = () => {
               exit={{ scale: 0.96, opacity: 0, y: 16 }}
               transition={{ ease: [0.23, 1, 0.32, 1], duration: 0.5 }}
               onClick={(event) => event.stopPropagation()}
-              className="smooth-panel relative w-full max-w-4xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/95 p-6 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(15,23,42,0.22)] dark:border-slate-800 dark:bg-slate-900/95"
+              className="smooth-panel relative w-full max-w-4xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white p-6 sm:p-8 md:p-10 shadow-2xl dark:border-slate-800 dark:bg-slate-900"
             >
               {/* Top Accent Rail & Glow */}
               <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400" />
-              <div className="pointer-events-none fixed-bg-plane absolute -right-20 -top-20 h-60 w-60 rounded-full bg-rose-200/40 blur-3xl dark:bg-rose-900/20" />
               <div className="pointer-events-none fixed-bg-plane absolute -bottom-10 right-4 select-none font-jp text-[12rem] font-black leading-none text-rose-500/[0.03] dark:text-rose-400/[0.02]">
                 試
               </div>
@@ -357,7 +356,7 @@ export const ExamHub = () => {
                     className={`smooth-panel steady-scroll-row group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-colors duration-150 ${
                       exam.locked
                         ? 'border border-slate-200/70 bg-slate-50/60 opacity-60 cursor-not-allowed grayscale-[0.3] dark:border-slate-800 dark:bg-slate-900/40'
-                        : 'border border-slate-200/80 bg-white shadow-sm hover:border-rose-400 hover:shadow-[0_12px_28px_rgba(244,63,94,0.15)] hover:ring-2 hover:ring-rose-200/80 dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-600 dark:hover:ring-rose-900/50'
+                        : 'border border-slate-200/80 bg-white shadow-sm hover:border-rose-400 hover:shadow-lg hover:shadow-rose-500/10 hover:ring-2 hover:ring-rose-200/80 dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-600 dark:hover:ring-rose-900/50'
                     }`}
                   >
                     <div>
