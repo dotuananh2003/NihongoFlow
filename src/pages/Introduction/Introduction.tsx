@@ -109,29 +109,85 @@ const groupMetadata = [
 // KANA GRID COMPONENT (Learning View)
 // ==========================================
 const KanaGrid = ({ title, items, columns, colorClass }: { title: string, items: any[], columns: number, colorClass: string }) => {
+  const [activeKana, setActiveKana] = useState<string | null>(null);
+  const isHiragana = colorClass.includes('rose') || colorClass.includes('pink');
+
+  const playAudio = (e: React.MouseEvent, charJp: string) => {
+    e.stopPropagation();
+    if (!charJp || charJp === '') return;
+
+    setActiveKana(charJp);
+
+    try {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(charJp);
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.85;
+        utterance.onend = () => setActiveKana(null);
+        utterance.onerror = () => setActiveKana(null);
+        window.speechSynthesis.speak(utterance);
+      } else {
+        setTimeout(() => setActiveKana(null), 600);
+      }
+    } catch (err) {
+      console.log(err);
+      setTimeout(() => setActiveKana(null), 600);
+    }
+  };
+
   return (
-    <div className="mb-6">
-      <div className="flex items-center gap-2 mb-3">
-        <h4 className={`text-xs font-bold uppercase tracking-wider ${colorClass}`}>{title}</h4>
-        <div className="h-px bg-slate-100 dark:bg-slate-800 flex-1"></div>
+    <div className="mb-8">
+      <div className="flex items-center justify-between gap-2 mb-3 border-b border-slate-200/80 pb-2 dark:border-slate-800">
+        <h4 className={`text-xs font-black uppercase tracking-wider ${colorClass}`}>{title}</h4>
+        <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
+          <Volume2 size={11} /> Nhấp để nghe đọc
+        </span>
       </div>
-      <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>
-        {items.map((char, idx) => (
-          char.jp ? (
+      <div className="grid gap-2.5" style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>
+        {items.map((char, idx) => {
+          const isValid = char && char.jp && char.jp !== '';
+          const isPlaying = activeKana === char.jp;
+
+          if (!isValid) {
+            return (
+              <div 
+                key={idx} 
+                className="flex min-h-[85px] items-center justify-center rounded-2xl border border-dashed border-slate-200/60 bg-slate-50/30 dark:border-slate-800/60 dark:bg-slate-900/20"
+              >
+                <div className="h-1.5 w-1.5 rounded-full bg-slate-200 dark:bg-slate-800" />
+              </div>
+            );
+          }
+
+          return (
             <div 
               key={idx}
-              className={`flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-md hover:-translate-y-1 hover:scale-105 transition-transform duration-300 cursor-pointer group relative overflow-hidden`}
+              onClick={(e) => playAudio(e, char.jp)}
+              className={`flex flex-col items-center justify-between py-2.5 px-1.5 rounded-2xl border shadow-sm transition-all duration-200 cursor-pointer group relative overflow-hidden min-h-[90px] ${
+                isPlaying
+                  ? isHiragana
+                    ? 'border-rose-400 bg-rose-50 shadow-md ring-2 ring-rose-300 dark:bg-rose-950/60 dark:border-rose-600'
+                    : 'border-blue-400 bg-blue-50 shadow-md ring-2 ring-blue-300 dark:bg-blue-950/60 dark:border-blue-600'
+                  : 'bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-blue-300 hover:shadow-md hover:-translate-y-1'
+              }`}
             >
-              <span className={`text-2xl font-jp font-medium text-slate-800 dark:text-slate-100 transition-colors ${colorClass.replace('text-', 'group-hover:text-')}`}>{char.jp}</span>
-              <span className="text-sm font-bold text-slate-500 mt-1">{char.r}</span>
-              <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Volume2 size={10} className="text-slate-300" />
+              <div className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Volume2 size={11} className={isPlaying ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400'} />
               </div>
+              <span className={`text-2xl sm:text-3xl font-jp font-black mt-1 transition-colors ${
+                isPlaying
+                  ? isHiragana ? 'text-rose-600 dark:text-rose-300' : 'text-blue-600 dark:text-blue-300'
+                  : 'text-slate-800 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400'
+              }`}>
+                {char.jp}
+              </span>
+              <span className="text-[10px] font-black uppercase text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full ring-1 ring-slate-200/60 dark:ring-slate-700">
+                {char.r}
+              </span>
             </div>
-          ) : (
-            <div key={idx} className="rounded-xl border border-transparent"></div>
-          )
-        ))}
+          );
+        })}
       </div>
     </div>
   );
