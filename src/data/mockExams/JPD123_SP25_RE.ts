@@ -3,6 +3,17 @@ import type { MockQuestion } from "../../types/exam";
 export const JPD123_SP25_RE: MockQuestion[] = [
   {
     id: 1,
+    questionText: "Chọn trong A, B, C, D đáp án thích hợp để điền vào chỗ trống\nキム:きのうの パーティーは(      )。\nラン:とても たのしかったです。",
+    options: [
+      "A. どうですか",
+      "B. どんなですか",
+      "C. どうでしたか",
+      "D. どこですか"
+    ],
+    correctAnswerIndex: 2
+  },
+  {
+    id: 2,
     questionText: "Các chữ Hán trong ngoặc [ ] có cách đọc tương ứng như thế nào? Hãy chọn đáp án đúng trong A, B, C, D\nへやに 【小さい】 ねこが います。",
     options: [
       "A. ちいさ",
@@ -13,7 +24,7 @@ export const JPD123_SP25_RE: MockQuestion[] = [
     correctAnswerIndex: 2
   },
   {
-    id: 2,
+    id: 3,
     questionText: "Các từ trong ngoặc [ ] dưới đây có chữ Hán tương ứng như thế nào? Hãy chọn đáp án đúng trong A, B, C, D:\n【らいしゅう】、どうぶつえんで ともだちに あいます。",
     options: [
       "A. 今週",
@@ -24,7 +35,7 @@ export const JPD123_SP25_RE: MockQuestion[] = [
     correctAnswerIndex: 3
   },
   {
-    id: 3,
+    id: 4,
     questionText: "Chọn trong A, B, C, D đáp án thích hợp để điền vào chỗ trống\n今 ギターを(      )います。",
     options: [
       "A. ひきて",
@@ -35,7 +46,7 @@ export const JPD123_SP25_RE: MockQuestion[] = [
     correctAnswerIndex: 1
   },
   {
-    id: 4,
+    id: 5,
     questionText: "Chọn trong A, B, C, D đáp án thích hợp để điền vào chỗ trống\nこのケーキは あまいです。(      )、おいしいです。",
     options: [
       "A. が",
@@ -46,7 +57,7 @@ export const JPD123_SP25_RE: MockQuestion[] = [
     correctAnswerIndex: 3
   },
   {
-    id: 5,
+    id: 6,
     questionText: "Chọn trong A, B, C, D đáp án thích hợp để điền vào chỗ trống\nきょう、てんきが あまり(      )ですね。",
     options: [
       "A. よくない",
@@ -57,7 +68,7 @@ export const JPD123_SP25_RE: MockQuestion[] = [
     correctAnswerIndex: 0
   },
   {
-    id: 6,
+    id: 7,
     questionText: "Chọn trong A, B, C, D đáp án thích hợp để điền vào chỗ trống\n(      )あさごはんを たべました。",
     options: [
       "A. もう",
@@ -68,7 +79,7 @@ export const JPD123_SP25_RE: MockQuestion[] = [
     correctAnswerIndex: 0
   },
   {
-    id: 7,
+    id: 8,
     questionText: "Chọn trong A, B, C, D đáp án thích hợp để điền vào chỗ trống\nサッカーの チケットが(      )あります。",
     options: [
       "A. ふたまい",
@@ -77,17 +88,6 @@ export const JPD123_SP25_RE: MockQuestion[] = [
       "D. にまい"
     ],
     correctAnswerIndex: 3
-  },
-  {
-    id: 8,
-    questionText: "Chọn trong A, B, C, D đáp án thích hợp để điền vào chỗ trống\nキム:きのうの パーティーは(      )。\nラン:とても たのしかったです。",
-    options: [
-      "A. どうですか",
-      "B. どんなですか",
-      "C. どうでしたか",
-      "D. どこですか"
-    ],
-    correctAnswerIndex: 2
   },
   {
     id: 9,
