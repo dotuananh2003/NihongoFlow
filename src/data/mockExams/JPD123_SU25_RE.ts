@@ -1,4 +1,4 @@
-import type { MockQuestion } from "../../types/exam";
+import type { MockQuestion } from './JPD123_SP26_C1FE';
 
 export const JPD123_SU25_RE: MockQuestion[] = [
   {

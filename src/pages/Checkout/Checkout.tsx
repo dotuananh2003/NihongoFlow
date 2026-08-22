@@ -13,7 +13,6 @@ import {
   LockOpen,
   QrCode,
   ShieldCheck,
-  Sparkles,
 } from 'lucide-react';
 import { paymentApi, type PaymentEntitlements, type PaymentOrder } from '../../lib/paymentApi';
 

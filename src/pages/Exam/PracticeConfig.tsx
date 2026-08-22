@@ -6,7 +6,6 @@ import {
   Play,
   Sliders,
   BookOpenCheck,
-  Check,
   ChevronDown,
   ChevronUp,
   Sparkles,

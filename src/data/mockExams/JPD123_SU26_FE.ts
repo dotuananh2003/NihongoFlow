@@ -1,4 +1,4 @@
-import type { MockQuestion } from "../../types/exam";
+import type { MockQuestion } from './JPD123_SP26_C1FE';
 
 const passageText = "日曜日、ともだちと　ちかくの　やまに___①___。てんきが　よかったですから、とても　きもちが　よかったです。やまで、おべんとうを___②___。やまからの　けしきが　とても　きれいでした。それから、ふるいお寺を　見に　行きました。とてもおもしろかったです。とても　たのしい1日でした。また(lại) 行きたいです。";
 

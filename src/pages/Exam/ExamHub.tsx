@@ -5,7 +5,6 @@ import {
   ArrowLeft,
   ArrowRight,
   BookOpenCheck,
-  CheckCircle2,
   ClipboardList,
   FileText,
   Gauge,

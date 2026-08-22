@@ -1,4 +1,4 @@
-import type { MockQuestion } from "../../types/exam";
+import type { MockQuestion } from './JPD123_SP26_C1FE';
 
 const passageText = "私は　日曜日、しんじゅくへ　くつを　買いに　行きました。しんじゅくは　人が　おおかったです。レストランで　___①___。あまり　___②___。来週、ともだちと　しぶやへ　えいがを　見に　行きます。おもしろい　えいがを　見たいです。";
 
