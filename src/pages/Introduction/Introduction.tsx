@@ -198,8 +198,6 @@ const KanaStarterLanding = ({ navigate }: { navigate: (path: string) => void }) 
   );
 };
 
-import { useNavigate } from 'react-router-dom';
-
 export const Introduction = () => {
   const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState<'hiragana' | 'katakana' | null>(null);
