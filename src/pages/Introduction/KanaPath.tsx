@@ -540,7 +540,7 @@ export const KanaPath = () => {
                   <div className="sticky top-0 z-20 flex items-center justify-between border-b border-slate-200/80 bg-white/95 px-6 py-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/95 backdrop-blur-md">
                     <div className="flex items-center gap-3">
                       <span className={`grid h-9 w-9 place-items-center rounded-xl text-white font-jp text-base font-black shadow-md ${theme.iconBox}`}>
-                        {groupDescriptions[selectedGroup]?.iconKana || 'あ'}
+                        {(kanaData[system] as any)[selectedGroup]?.[0]?.jp || (isHiragana ? 'あ' : 'ア')}
                       </span>
                       <div>
                         <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
@@ -555,7 +555,9 @@ export const KanaPath = () => {
                     <button 
                       type="button"
                       onClick={closeAll} 
-                      className="grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-rose-50 hover:text-rose-600 dark:bg-slate-800 dark:text-slate-400"
+                      className={`grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 transition-colors ${
+                        isHiragana ? 'hover:bg-rose-50 hover:text-rose-600' : 'hover:bg-blue-50 hover:text-blue-600'
+                      } dark:bg-slate-800 dark:text-slate-400`}
                     >
                       <X size={20} />
                     </button>
@@ -569,6 +571,7 @@ export const KanaPath = () => {
                         items={(kanaData[system] as any)[selectedGroup]}
                         columns={5}
                         colorClass={theme.accentText}
+                        system={system}
                       />
                     </div>
                   </div>

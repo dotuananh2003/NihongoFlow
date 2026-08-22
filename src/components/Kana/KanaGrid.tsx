@@ -24,8 +24,7 @@ export const KanaGrid = ({
 }: KanaGridProps) => {
   const [activeKana, setActiveKana] = useState<string | null>(null);
 
-  // Check if system is hiragana based on colorClass or system prop
-  const isHiragana = system === 'hiragana' || colorClass.includes('rose') || colorClass.includes('pink');
+  const isHiragana = system === 'hiragana';
 
   const playAudio = (e: React.MouseEvent, charJp: string) => {
     e.stopPropagation();
