@@ -72,6 +72,7 @@ export const ExamHub = () => {
     { name: 'JPD123 - SP26 - C2FE', type: 'Final Exam', time: '30 phút', locked: false },
     { name: 'JPD123 - SU25 - RE', type: 'Retake', time: '30 phút', locked: false },
     { name: 'JPD123 - SU25 - FE', type: 'Final Exam', time: '30 phút', locked: false },
+    { name: 'JPD123 - SP25 - RE', type: 'Retake', time: '30 phút', locked: false },
   ];
 
   const modes: ExamMode[] = [
