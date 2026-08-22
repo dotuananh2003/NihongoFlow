@@ -25,6 +25,7 @@ import { JPD123_SP26_RE } from '../../data/mockExams/JPD123_SP26_RE';
 import { JPD123_SU25_FE } from '../../data/mockExams/JPD123_SU25_FE';
 import { JPD123_SU25_RE } from '../../data/mockExams/JPD123_SU25_RE';
 import { JPD123_SP25_RE } from '../../data/mockExams/JPD123_SP25_RE';
+import { JPD123_SP25_FEC2 } from '../../data/mockExams/JPD123_SP25_FEC2';
 import { JPD123_SU26_FE } from '../../data/mockExams/JPD123_SU26_FE';
 import { JPD123_SU26_RE } from '../../data/mockExams/JPD123_SU26_RE';
 
@@ -41,6 +42,7 @@ export const MockExamSession = () => {
     'JPD123 - SU25 - FE': JPD123_SU25_FE,
     'JPD123 - SU25 - RE': JPD123_SU25_RE,
     'JPD123 - SP25 - RE': JPD123_SP25_RE,
+    'JPD123 - SP25 - FEC2': JPD123_SP25_FEC2,
     'JPD123 - SU26 - FE': JPD123_SU26_FE,
     'JPD123 - SU26 - RE': JPD123_SU26_RE,
   };

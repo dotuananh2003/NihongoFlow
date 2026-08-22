@@ -65,14 +65,15 @@ export const ExamHub = () => {
   const courseTitle = courseId?.toUpperCase() || 'JPD';
 
   const mockExams = [
-    { name: 'JPD123 - SU26 - RE', type: 'Retake', time: '30 phút', locked: false },
-    { name: 'JPD123 - SU26 - FE', type: 'Final Exam', time: '30 phút', locked: false },
-    { name: 'JPD123 - SP26 - RE', type: 'Retake', time: '30 phút', locked: false },
-    { name: 'JPD123 - SP26 - C1FE', type: 'Final Exam', time: '30 phút', locked: false },
-    { name: 'JPD123 - SP26 - C2FE', type: 'Final Exam', time: '30 phút', locked: false },
-    { name: 'JPD123 - SU25 - RE', type: 'Retake', time: '30 phút', locked: false },
-    { name: 'JPD123 - SU25 - FE', type: 'Final Exam', time: '30 phút', locked: false },
-    { name: 'JPD123 - SP25 - RE', type: 'Retake', time: '30 phút', locked: false },
+    { name: 'JPD123 - SU26 - RE', type: 'Retake', time: '30 phút', locked: true },
+    { name: 'JPD123 - SU26 - FE', type: 'Final Exam', time: '30 phút', locked: true },
+    { name: 'JPD123 - SP26 - RE', type: 'Retake', time: '30 phút', locked: true },
+    { name: 'JPD123 - SP26 - C1FE', type: 'Final Exam', time: '30 phút', locked: true },
+    { name: 'JPD123 - SP26 - C2FE', type: 'Final Exam', time: '30 phút', locked: true },
+    { name: 'JPD123 - SU25 - RE', type: 'Retake', time: '30 phút', locked: true },
+    { name: 'JPD123 - SU25 - FE', type: 'Final Exam', time: '30 phút', locked: true },
+    { name: 'JPD123 - SP25 - RE', type: 'Retake', time: '30 phút', locked: true },
+    { name: 'JPD123 - SP25 - FEC2', type: 'Final Exam', time: '30 phút', locked: true },
   ];
 
   const modes: ExamMode[] = [
@@ -349,15 +350,16 @@ export const ExamHub = () => {
                     }}
                     key={exam.name}
                     type="button"
-                    disabled={exam.locked}
                     onClick={() => {
                       if (!exam.locked) {
                         navigate(`/exam/${courseId}/mock/${encodeURIComponent(exam.name)}`);
+                      } else {
+                        window.dispatchEvent(new CustomEvent('jp-forus:open-upgrade'));
                       }
                     }}
                     className={`smooth-panel steady-scroll-row group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-colors duration-150 ${
                       exam.locked
-                        ? 'border border-slate-200/70 bg-slate-50/60 opacity-60 cursor-not-allowed grayscale-[0.3] dark:border-slate-800 dark:bg-slate-900/40'
+                        ? 'border border-amber-200/70 bg-amber-50/20 opacity-90 cursor-pointer hover:border-amber-400 hover:shadow-lg hover:shadow-amber-500/10 dark:border-amber-900/40 dark:bg-amber-950/10 dark:hover:border-amber-600'
                         : 'border border-slate-200/80 bg-white shadow-sm hover:border-rose-400 hover:shadow-lg hover:shadow-rose-500/10 hover:ring-2 hover:ring-rose-200/80 dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-600 dark:hover:ring-rose-900/50'
                     }`}
                   >
@@ -407,9 +409,9 @@ export const ExamHub = () => {
                     {/* Bottom Row: Full-width Interactive CTA */}
                     <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60">
                       {exam.locked ? (
-                        <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-100 py-2.5 px-3 text-xs font-black text-slate-400 dark:bg-slate-800/80 dark:text-slate-500">
-                          <Lock size={13} />
-                          <span>Đang cập nhật đề thi</span>
+                        <div className="relative overflow-hidden flex w-full items-center justify-center gap-2 rounded-xl bg-amber-50 py-2.5 px-4 text-xs font-black text-amber-600 transition-colors duration-150 group-hover:bg-amber-100 group-hover:text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 dark:group-hover:bg-amber-900/60">
+                          <Lock size={14} className="relative z-10" />
+                          <span className="relative z-10">Mở khóa đề thi</span>
                         </div>
                       ) : (
                         <div className="relative overflow-hidden flex w-full items-center justify-center gap-2 rounded-xl bg-rose-50 py-2.5 px-4 text-xs font-black text-rose-600 transition-colors duration-150 group-hover:text-white group-hover:shadow-md dark:bg-rose-950/50 dark:text-rose-300 dark:group-hover:text-white">
