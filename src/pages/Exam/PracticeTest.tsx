@@ -12,7 +12,6 @@ import {
   X,
   Sparkles,
   ArrowLeft,
-  Target,
   RotateCcw,
   BookOpen,
 } from 'lucide-react';

@@ -7,7 +7,6 @@ import {
   Sliders,
   BookOpenCheck,
   ChevronDown,
-  ChevronUp,
   Sparkles,
   Clock,
   Lightbulb,
