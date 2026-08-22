@@ -65,12 +65,12 @@ export const ExamHub = () => {
   const courseTitle = courseId?.toUpperCase() || 'JPD';
 
   const mockExams = [
+    { name: 'JPD123 - SU26 - RE', type: 'Retake', time: '30 phút', locked: false },
+    { name: 'JPD123 - SU26 - FE', type: 'Final Exam', time: '30 phút', locked: false },
+    { name: 'JPD123 - SP26 - RE', type: 'Retake', time: '30 phút', locked: false },
     { name: 'JPD123 - SP26 - C1FE', type: 'Final Exam', time: '30 phút', locked: false },
     { name: 'JPD123 - SP26 - C2FE', type: 'Final Exam', time: '30 phút', locked: false },
-    { name: 'JPD123 - SP26 - RE', type: 'Retake', time: '30 phút', locked: false },
     { name: 'JPD123 - SU25 - RE', type: 'Retake', time: '30 phút', locked: false },
-    { name: 'JPD123 - SU26 - FE', type: 'Final Exam', time: '30 phút', locked: false },
-    { name: 'JPD123 - SU26 - RE', type: 'Retake', time: '30 phút', locked: false },
   ];
 
   const modes: ExamMode[] = [
