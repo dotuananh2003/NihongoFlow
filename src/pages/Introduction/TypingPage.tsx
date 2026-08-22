@@ -1,11 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { RotateCcw, ArrowLeft, Trophy, Zap, Target, Timer, CheckCircle, RefreshCcw, Star, TrendingUp, ArrowRight, Check, X } from 'lucide-react';
+import { 
+  RotateCcw, 
+  ArrowLeft, 
+  Trophy, 
+  Zap, 
+  Target, 
+  Timer, 
+  CheckCircle, 
+  RefreshCcw, 
+  Star, 
+  TrendingUp, 
+  ArrowRight, 
+  Check, 
+  X, 
+  Sparkles, 
+  Keyboard, 
+  Layers,
+  ChevronRight,
+  ShieldCheck
+} from 'lucide-react';
 import { kanaData } from '../../data/kana';
 import { Confetti } from '../../components/Kana/Confetti';
 
-const getChunks = (sys: 'hiragana'|'katakana', grp: string) => {
+const getChunks = (sys: 'hiragana' | 'katakana', grp: string) => {
   const data = (kanaData[sys] as any)[grp];
   if (!data) return [];
   const sizes = grp === 'extended' 
@@ -39,9 +58,9 @@ export const TypingPage = () => {
   // Typing state
   const [chars, setChars] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<{[key: number]: string}>({});
+  const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [status, setStatus] = useState<'idle' | 'correct' | 'wrong'>('idle');
-  const [charStatus, setCharStatus] = useState<('correct'|'wrong'|null)[]>([]);
+  const [charStatus, setCharStatus] = useState<('correct' | 'wrong' | null)[]>([]);
   
   // Stats
   const [correctCount, setCorrectCount] = useState(0);
@@ -74,7 +93,7 @@ export const TypingPage = () => {
   };
 
   // Initialize typing
-  const startTyping = (sys: 'hiragana'|'katakana', selectedRows: string[]) => {
+  const startTyping = (sys: 'hiragana' | 'katakana', selectedRows: string[]) => {
     requestFullscreen();
     setSystem(sys);
     setActiveGroups(selectedRows);
@@ -125,9 +144,7 @@ export const TypingPage = () => {
   const handleInputChange = (idx: number, val: string) => {
     setAnswers(prev => ({ ...prev, [idx]: val.trim().toLowerCase() }));
     
-    if (status === 'correct') return; // ignore if transitioning
-    
-    // Reset wrong status if they backspace or type
+    if (status === 'correct') return;
     if (status === 'wrong') setStatus('idle');
   };
 
@@ -135,7 +152,7 @@ export const TypingPage = () => {
     if (e.key === 'Enter') {
       const currentChar = chars[idx];
       const val = (answers[idx] || '').trim().toLowerCase();
-      if (val === '') return; // do not submit empty
+      if (val === '') return;
       
       const isCorrect = val === currentChar.r.toLowerCase();
       const newStatus = isCorrect ? 'correct' : 'wrong';
@@ -157,7 +174,6 @@ export const TypingPage = () => {
         setCombo(0);
       }
       
-      // Auto next to the first unanswered item after a brief delay
       setTimeout(() => {
         let nextIdx = -1;
         for (let i = 0; i < chars.length; i++) {
@@ -185,260 +201,456 @@ export const TypingPage = () => {
     return `${m.toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
   };
 
+  // Preview arrays for the cards
+  const hiraganaPreview = [
+    { jp: 'あ', r: 'a' },
+    { jp: 'い', r: 'i' },
+    { jp: 'う', r: 'u' },
+    { jp: 'え', r: 'e' },
+    { jp: 'お', r: 'o' },
+  ];
+
+  const katakanaPreview = [
+    { jp: 'ア', r: 'a' },
+    { jp: 'イ', r: 'i' },
+    { jp: 'ウ', r: 'u' },
+    { jp: 'エ', r: 'e' },
+    { jp: 'オ', r: 'o' },
+  ];
+
+  // ==========================================
+  // VIEW: SELECTION
+  // ==========================================
   if (gameState === 'selection') {
     return (
-      <div className="space-y-6 pb-12 ">
-        {!system && (
-          <button 
-            onClick={() => navigate('/introduction')}
-            className="flex items-center gap-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 transition-colors font-medium mb-6"
-          >
-            <ArrowLeft size={18} /> Nhập môn
-          </button>
-        )}
+      <div className="relative mx-auto flex min-h-[calc(100vh-64px)] max-w-5xl flex-col px-4 pb-12 pt-4 md:px-8">
+        {/* Background ambient lighting */}
+        <div className="fixed-bg-plane pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-blue-50/70 via-white/80 to-rose-50/60 dark:from-slate-950 dark:via-slate-950 dark:to-indigo-950/40" />
 
-        <div className="mb-6">
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-800 dark:text-slate-100 font-jp mb-2">
-            {!system ? 'Luyện gõ Kana' : 'Luyện gõ Typing ⌨️'}
-          </h2>
-          <p className="text-slate-500 dark:text-slate-400 font-medium text-lg">
-            {!system ? 'Chọn hệ chữ bạn muốn luyện.' : 'Chọn nhóm chữ để luyện gõ theo âm đọc.'}
+        {/* Navigation / Back Button */}
+        <div className="mb-4">
+          <button 
+            type="button"
+            onClick={() => {
+              if (system) {
+                setSystem(null);
+                setActiveGroups([]);
+              } else {
+                navigate('/introduction');
+              }
+            }}
+            className="group inline-flex items-center gap-3 rounded-full border border-white/90 bg-white/95 py-2 pl-2 pr-4 text-sm font-extrabold text-slate-600 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:text-blue-600 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/95 dark:text-slate-300"
+          >
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-white text-slate-600 shadow-sm ring-1 ring-slate-100 transition-transform group-hover:-translate-x-0.5 dark:bg-slate-800 dark:text-slate-200 dark:ring-slate-700">
+              <ArrowLeft size={16} />
+            </span>
+            {system ? 'Chọn hệ chữ khác' : 'Quay lại Nhập môn'}
+          </button>
+        </div>
+
+        {/* Hero Title Section */}
+        <div className="mb-7 text-center">
+          <div className="mb-2.5 inline-flex items-center gap-2 rounded-full border border-white/90 bg-white/90 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-blue-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/90 dark:text-blue-300">
+            <Sparkles size={13} /> Kana Typing Practice
+          </div>
+          <h1 className="flex flex-row items-center justify-center gap-3 text-3xl font-black uppercase tracking-wider text-slate-900 dark:text-slate-100 md:text-4xl">
+            Luyện gõ <span className="font-jp text-blue-600 dark:text-blue-400">タイピング</span>
+          </h1>
+          <p className="mt-1.5 text-sm font-semibold text-slate-600 dark:text-slate-400">
+            {!system 
+              ? 'Chọn hệ chữ cái bạn muốn rèn luyện phản xạ gõ Romaji' 
+              : `Chọn các nhóm âm ${system === 'hiragana' ? 'Hiragana (ひらがな)' : 'Katakana (カタカナ)'} để bắt đầu bài gõ`}
           </p>
         </div>
 
-        {system && (
-          <div className="mb-8">
-            <button 
-              onClick={() => setSystem(null)}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 font-bold transition-colors ${
-                system === 'hiragana' 
-                  ? 'border-rose-200 dark:border-rose-800/50 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/40 hover:border-rose-300 dark:hover:border-rose-700'
-                  : 'border-blue-200 dark:border-blue-800/50 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:border-blue-300 dark:hover:border-blue-700'
-              }`}
-            >
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-jp ${
-                system === 'hiragana' ? 'bg-rose-200 dark:bg-rose-800' : 'bg-blue-200 dark:bg-blue-800'
-              }`}>
-                {system === 'hiragana' ? 'あ' : 'ア'}
-              </div>
-              {system === 'hiragana' ? 'Hiragana' : 'Katakana'}
-            </button>
-          </div>
-        )}
-
+        {/* MODE 1: CHOOSE SYSTEM (HIRAGANA / KATAKANA) */}
         {!system ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-            <button 
+          <div className="mx-auto grid w-full max-w-3xl grid-cols-1 gap-5 md:grid-cols-2">
+            {/* HIRAGANA CARD */}
+            <motion.button
+              type="button"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
               onClick={() => setSystem('hiragana')}
-              className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 text-center border-2 border-slate-100 dark:border-slate-800 hover:border-rose-300 transition-all hover:shadow-[0_20px_40px_rgb(225,29,72,0.1)] group flex flex-col items-center"
+              className="group relative flex min-h-[340px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border border-rose-100/90 bg-white p-5 text-left shadow-[0_16px_40px_rgba(244,63,94,0.09)] transition-all duration-300 hover:-translate-y-1 hover:border-rose-300 hover:shadow-[0_24px_50px_rgba(244,63,94,0.16)] dark:border-slate-800 dark:bg-slate-900"
             >
-              <div className="w-20 h-20 mx-auto rounded-full bg-rose-50 dark:bg-rose-900/20 text-rose-500 flex items-center justify-center text-4xl font-jp font-black mb-4 group-hover:scale-110 transition-transform shadow-inner border border-rose-100 dark:border-rose-800">あ</div>
-              <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100 mb-2 uppercase tracking-wider">Hiragana</h3>
-              <p className="text-slate-500 dark:text-slate-400 mb-8 font-medium">Luyện gõ bảng chữ Hiragana</p>
-              <div className="mt-auto px-10 py-3.5 rounded-2xl bg-rose-50 text-rose-600 font-black tracking-wide border border-rose-100 dark:bg-rose-900/20 dark:border-rose-800/50 group-hover:bg-rose-500 group-hover:text-white dark:group-hover:bg-rose-600 transition-all w-full md:w-auto shadow-sm">
-                Bắt đầu
+              {/* Top Accent Rail */}
+              <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-400 to-amber-300" />
+              
+              {/* Ambient Glow */}
+              <div className="pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-rose-100/80 blur-2xl transition-transform duration-700 group-hover:scale-125 dark:bg-rose-500/10" />
+
+              {/* Watermark Kana */}
+              <div className="pointer-events-none absolute -bottom-10 right-4 select-none font-jp text-[8rem] font-black leading-none text-rose-100/60 opacity-60 transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110 dark:text-rose-900/20">
+                あ
               </div>
-            </button>
-            <button 
+
+              <div className="relative z-10 flex h-full flex-col justify-between">
+                <div>
+                  {/* Badge & Icon Row */}
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 font-jp text-[11px] font-black uppercase tracking-[0.14em] text-rose-600 ring-1 ring-rose-100 dark:bg-rose-950/40 dark:text-rose-300 dark:ring-rose-900/40">
+                      HIRAGANA ひらがな
+                    </span>
+                    <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-rose-500 to-pink-500 font-jp text-2xl font-black text-white shadow-md shadow-rose-500/25 ring-2 ring-rose-100 transition-transform duration-300 group-hover:scale-105 dark:ring-rose-950/50">
+                      あ
+                    </div>
+                  </div>
+
+                  {/* Title & Description */}
+                  <div className="mt-4">
+                    <h3 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                      Bảng chữ mềm
+                    </h3>
+                    <p className="mt-1 text-xs font-semibold leading-relaxed text-slate-500 dark:text-slate-400">
+                      Luyện gõ các nhóm âm cơ bản, biến âm dakuten và âm ghép yoon thuần Nhật.
+                    </p>
+                  </div>
+
+                  {/* Kana Character Previews */}
+                  <div className="mt-5 grid grid-cols-5 gap-1.5">
+                    {hiraganaPreview.map((item) => (
+                      <div 
+                        key={item.jp}
+                        className="flex flex-col items-center rounded-xl bg-rose-50/80 py-2 ring-1 ring-rose-100 transition-colors group-hover:bg-rose-100/70 dark:bg-rose-950/20 dark:ring-rose-900/30 dark:group-hover:bg-rose-950/40"
+                      >
+                        <span className="font-jp text-lg font-black text-rose-500">{item.jp}</span>
+                        <span className="text-[9px] font-black uppercase text-rose-300 dark:text-rose-400">{item.r}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom CTA Button */}
+                <div className="mt-6 pt-2">
+                  <div className="relative flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 py-3 px-4 text-xs font-black text-white shadow-lg shadow-rose-500/25 transition-all duration-300 group-hover:from-rose-600 group-hover:to-pink-600 group-hover:shadow-rose-500/35">
+                    <span>Bắt đầu luyện gõ</span>
+                    <ArrowRight size={16} className="absolute right-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </div>
+            </motion.button>
+
+            {/* KATAKANA CARD */}
+            <motion.button
+              type="button"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.08 }}
               onClick={() => setSystem('katakana')}
-              className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 text-center border-2 border-slate-100 dark:border-slate-800 hover:border-blue-300 transition-all hover:shadow-[0_20px_40px_rgb(59,130,246,0.1)] group flex flex-col items-center"
+              className="group relative flex min-h-[340px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border border-blue-100/90 bg-white p-5 text-left shadow-[0_16px_40px_rgba(37,99,235,0.09)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-[0_24px_50px_rgba(37,99,235,0.16)] dark:border-slate-800 dark:bg-slate-900"
             >
-              <div className="w-20 h-20 mx-auto rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-500 flex items-center justify-center text-4xl font-jp font-black mb-4 group-hover:scale-110 transition-transform shadow-inner border border-blue-100 dark:border-blue-800">ア</div>
-              <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100 mb-2 uppercase tracking-wider">Katakana</h3>
-              <p className="text-slate-500 dark:text-slate-400 mb-8 font-medium">Luyện gõ bảng chữ Katakana</p>
-              <div className="mt-auto px-10 py-3.5 rounded-2xl bg-blue-50 text-blue-600 font-black tracking-wide border border-blue-100 dark:bg-blue-900/20 dark:border-blue-800/50 group-hover:bg-blue-500 group-hover:text-white dark:group-hover:bg-blue-600 transition-all w-full md:w-auto shadow-sm">
-                Bắt đầu
+              {/* Top Accent Rail */}
+              <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-blue-600 via-sky-400 to-cyan-300" />
+              
+              {/* Ambient Glow */}
+              <div className="pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-blue-100/80 blur-2xl transition-transform duration-700 group-hover:scale-125 dark:bg-blue-500/10" />
+
+              {/* Watermark Kana */}
+              <div className="pointer-events-none absolute -bottom-10 right-4 select-none font-jp text-[8rem] font-black leading-none text-blue-100/60 opacity-60 transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110 dark:text-blue-900/20">
+                ア
               </div>
-            </button>
+
+              <div className="relative z-10 flex h-full flex-col justify-between">
+                <div>
+                  {/* Badge & Icon Row */}
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 font-jp text-[11px] font-black uppercase tracking-[0.14em] text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/40 dark:text-blue-300 dark:ring-blue-900/40">
+                      KATAKANA カタカナ
+                    </span>
+                    <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 font-jp text-2xl font-black text-white shadow-md shadow-blue-500/25 ring-2 ring-blue-100 transition-transform duration-300 group-hover:scale-105 dark:ring-blue-950/50">
+                      ア
+                    </div>
+                  </div>
+
+                  {/* Title & Description */}
+                  <div className="mt-4">
+                    <h3 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                      Bảng chữ cứng
+                    </h3>
+                    <p className="mt-1 text-xs font-semibold leading-relaxed text-slate-500 dark:text-slate-400">
+                      Luyện gõ các ký tự góc cạnh dùng cho từ ngoại lai, tên riêng và từ mượn.
+                    </p>
+                  </div>
+
+                  {/* Kana Character Previews */}
+                  <div className="mt-5 grid grid-cols-5 gap-1.5">
+                    {katakanaPreview.map((item) => (
+                      <div 
+                        key={item.jp}
+                        className="flex flex-col items-center rounded-xl bg-blue-50/80 py-2 ring-1 ring-blue-100 transition-colors group-hover:bg-blue-100/70 dark:bg-blue-950/20 dark:ring-blue-900/30 dark:group-hover:bg-blue-950/40"
+                      >
+                        <span className="font-jp text-lg font-black text-blue-600">{item.jp}</span>
+                        <span className="text-[9px] font-black uppercase text-blue-300 dark:text-blue-400">{item.r}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom CTA Button */}
+                <div className="mt-6 pt-2">
+                  <div className="relative flex w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 py-3 px-4 text-xs font-black text-white shadow-lg shadow-blue-500/25 transition-all duration-300 group-hover:from-blue-700 group-hover:to-cyan-600 group-hover:shadow-blue-500/35">
+                    <span>Bắt đầu luyện gõ</span>
+                    <ArrowRight size={16} className="absolute right-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </div>
+            </motion.button>
           </div>
         ) : (
-          <div className="">
-            {/* Pill button is rendered above */}
-            
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2rem] p-4 md:p-6 shadow-sm">
-              
-              {/* ALL KANA Toggle */}
-              <button 
-                onClick={() => {
-                  const allRows: string[] = [];
-                  ['seion', 'dakuten', 'yoon', 'extended'].forEach(grp => {
-                    const chunks = getChunks(system, grp);
-                    chunks.forEach((_, idx) => allRows.push(`${grp}-${idx}`));
-                  });
-                  if (activeGroups.length === allRows.length) setActiveGroups([]);
-                  else setActiveGroups(allRows);
-                }}
-                className={`w-full py-3 rounded-2xl font-black mb-6 border-2 transition-colors ${
-                  activeGroups.length > 0 && activeGroups.length > 10 
-                    ? `border-${system === 'hiragana' ? 'rose' : 'blue'}-500 bg-${system === 'hiragana' ? 'rose' : 'blue'}-50 text-${system === 'hiragana' ? 'rose' : 'blue'}-600 dark:bg-${system === 'hiragana' ? 'rose' : 'blue'}-900/20`
-                    : 'border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800'
-                }`}
-              >
-                ALL KANA
-              </button>
+          /* MODE 2: GROUP SELECTION (SEION, DAKUTEN, YOON, EXTENDED) */
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full"
+          >
+            {/* Control Bar */}
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/95 p-3.5 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 backdrop-blur-md">
+              <div className="flex items-center gap-2.5">
+                <span className={`grid h-8 w-8 place-items-center rounded-xl font-jp text-sm font-black ${
+                  system === 'hiragana' ? 'bg-rose-100 text-rose-600 dark:bg-rose-950/60 dark:text-rose-300' : 'bg-blue-100 text-blue-600 dark:bg-blue-950/60 dark:text-blue-300'
+                }`}>
+                  {system === 'hiragana' ? 'あ' : 'ア'}
+                </span>
+                <div>
+                  <h3 className="text-sm font-black text-slate-800 dark:text-slate-100">
+                    {system === 'hiragana' ? 'Bảng Hiragana' : 'Bảng Katakana'}
+                  </h3>
+                  <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500">
+                    Đã chọn {activeGroups.length} hàng ký tự
+                  </span>
+                </div>
+              </div>
 
-              {/* 4 Columns */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                {[
-                  { id: 'seion', name: 'MAIN KANA', icon: <span className="font-jp text-lg">あ</span> },
-                  { id: 'dakuten', name: 'DAKUTEN KANA', icon: <span className="text-xl">"</span> },
-                  { id: 'yoon', name: 'COMBINATION KANA', icon: <span className="text-xl">∞</span> },
-                  { id: 'extended', name: 'EXTENDED KANA', icon: <span className="text-lg">✨</span> }
-                ].map(col => {
-                  const chunks = getChunks(system, col.id);
-                  if (chunks.length === 0) return null;
-                  const color = system === 'hiragana' ? 'rose' : 'blue';
-                  
-                  return (
-                    <div key={col.id} className="flex flex-col gap-3">
-                      <div className="flex items-center justify-between mb-2 px-2">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-8 h-8 rounded-lg bg-${color}-50 dark:bg-${color}-900/20 text-${color}-500 flex items-center justify-center font-bold border border-${color}-100 dark:border-${color}-800`}>
-                            {col.icon}
-                          </div>
-                          <h4 className={`font-bold text-sm text-${color}-600 dark:text-${color}-400`}>{col.name}</h4>
-                        </div>
-                        <button
-                          onClick={() => {
-                            const colRows = chunks.map((_, idx) => `${col.id}-${idx}`);
-                            const allSelected = colRows.every(r => activeGroups.includes(r));
-                            if (allSelected) {
-                              setActiveGroups(prev => prev.filter(r => !colRows.includes(r)));
-                            } else {
-                              setActiveGroups(prev => [...new Set([...prev, ...colRows])]);
-                            }
-                          }}
-                          className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-md transition-colors border ${
-                            chunks.every((_, idx) => activeGroups.includes(`${col.id}-${idx}`))
-                              ? `bg-${color}-100 text-${color}-600 border-${color}-200 dark:bg-${color}-900/40 dark:text-${color}-400 dark:border-${color}-800/50`
-                              : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 dark:hover:bg-slate-700'
-                          }`}
-                        >
-                          Tất cả
-                        </button>
-                      </div>
-                      
-                      <div className="flex flex-col gap-2">
-                        {chunks.map((chunk, idx) => {
-                          const rowId = `${col.id}-${idx}`;
-                          const isSelected = activeGroups.includes(rowId);
-                          const firstValid = chunk.find((c: any) => c.jp !== '');
-                          const rowName = firstValid ? `${firstValid.jp}-row` : `row-${idx}`;
-                          const charsDisplay = chunk.map((c: any) => c.jp !== '' ? c.jp : '　').join('');
-                          
-                          return (
-                            <div 
-                              key={rowId}
-                              onClick={() => setActiveGroups(prev => prev.includes(rowId) ? prev.filter(id => id !== rowId) : [...prev, rowId])}
-                              className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-                                isSelected 
-                                  ? `border-${color}-500 bg-${color}-50 dark:bg-${color}-900/20` 
-                                  : 'border-slate-100 hover:border-slate-300 dark:border-slate-800 dark:hover:border-slate-600'
-                              }`}
-                            >
-                              <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 ${
-                                isSelected ? `border-${color}-500 bg-${color}-500 text-white` : 'border-slate-300 dark:border-slate-600'
-                              }`}>
-                                {isSelected && <Check size={12} strokeWidth={3} />}
-                              </div>
-                              <div className="flex-1 flex items-center justify-between min-w-0">
-                                <span className={`font-bold font-jp text-base ${isSelected ? `text-${color}-700 dark:text-${color}-300` : 'text-slate-700 dark:text-slate-300'}`}>
-                                  {rowName}
-                                </span>
-                                <span className="text-sm font-jp text-slate-400 dark:text-slate-500 truncate ml-2 tracking-widest whitespace-pre">
-                                  {charsDisplay}
-                                </span>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const allRows: string[] = [];
+                    ['seion', 'dakuten', 'yoon', 'extended'].forEach(grp => {
+                      const chunks = getChunks(system, grp);
+                      chunks.forEach((_, idx) => allRows.push(`${grp}-${idx}`));
+                    });
+                    if (activeGroups.length === allRows.length) setActiveGroups([]);
+                    else setActiveGroups(allRows);
+                  }}
+                  className={`inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-1.5 text-xs font-black transition-all ${
+                    activeGroups.length > 0
+                      ? system === 'hiragana'
+                        ? 'border-rose-200 bg-rose-50 text-rose-600 dark:border-rose-900/40 dark:bg-rose-950/50 dark:text-rose-300'
+                        : 'border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-900/40 dark:bg-blue-950/50 dark:text-blue-300'
+                      : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                  }`}
+                >
+                  <Layers size={13} />
+                  {activeGroups.length > 0 ? 'Bỏ chọn tất cả' : 'Chọn tất cả Kana'}
+                </button>
               </div>
             </div>
 
-            <div className="mt-8 max-w-md mx-auto">
+            {/* 4 Group Columns */}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {[
+                { id: 'seion', name: 'CHỮ CƠ BẢN', sub: 'Seion', icon: system === 'hiragana' ? 'あ' : 'ア' },
+                { id: 'dakuten', name: 'BIẾN ÂM (ĐỤC)', sub: 'Dakuten', icon: 'が' },
+                { id: 'yoon', name: 'ÂM GHÉP', sub: 'Yōon', icon: 'きゃ' },
+                { id: 'extended', name: 'MỞ RỘNG', sub: 'Extended', icon: '✨' }
+              ].map(col => {
+                const chunks = getChunks(system, col.id);
+                if (chunks.length === 0) return null;
+                const isHira = system === 'hiragana';
+                const colRows = chunks.map((_, idx) => `${col.id}-${idx}`);
+                const isAllSelected = colRows.length > 0 && colRows.every(r => activeGroups.includes(r));
+
+                return (
+                  <div 
+                    key={col.id} 
+                    className="flex flex-col rounded-[1.5rem] border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90"
+                  >
+                    {/* Header */}
+                    <div className="mb-3.5 flex items-center justify-between border-b border-slate-100 pb-2.5 dark:border-slate-800">
+                      <div className="flex items-center gap-2">
+                        <div className={`grid h-7 w-7 place-items-center rounded-lg font-jp text-xs font-black ${
+                          isHira ? 'bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-300' : 'bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-300'
+                        }`}>
+                          {col.icon}
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-black text-slate-800 dark:text-slate-100 leading-none">{col.name}</h4>
+                          <span className="text-[9px] font-bold text-slate-400">{col.sub}</span>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (isAllSelected) {
+                            setActiveGroups(prev => prev.filter(r => !colRows.includes(r)));
+                          } else {
+                            setActiveGroups(prev => [...new Set([...prev, ...colRows])]);
+                          }
+                        }}
+                        className={`rounded-lg px-2 py-0.5 text-[9.5px] font-black uppercase tracking-wider transition-colors ${
+                          isAllSelected
+                            ? isHira
+                              ? 'bg-rose-500 text-white'
+                              : 'bg-blue-600 text-white'
+                            : 'bg-slate-100 text-slate-500 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400'
+                        }`}
+                      >
+                        {isAllSelected ? 'Bỏ chọn' : 'Tất cả'}
+                      </button>
+                    </div>
+
+                    {/* Rows */}
+                    <div className="flex flex-col gap-2">
+                      {chunks.map((chunk, idx) => {
+                        const rowId = `${col.id}-${idx}`;
+                        const isSelected = activeGroups.includes(rowId);
+                        const firstValid = chunk.find((c: any) => c.jp !== '');
+                        const rowName = firstValid ? `${firstValid.jp}-row` : `row-${idx + 1}`;
+                        const charsDisplay = chunk.map((c: any) => c.jp !== '' ? c.jp : ' ').join(' ');
+
+                        return (
+                          <div
+                            key={rowId}
+                            onClick={() => setActiveGroups(prev => prev.includes(rowId) ? prev.filter(id => id !== rowId) : [...prev, rowId])}
+                            className={`group/row flex cursor-pointer items-center justify-between rounded-xl border p-2.5 transition-all duration-150 ${
+                              isSelected
+                                ? isHira
+                                  ? 'border-rose-300 bg-rose-50/70 shadow-sm dark:border-rose-800 dark:bg-rose-950/40'
+                                  : 'border-blue-300 bg-blue-50/70 shadow-sm dark:border-blue-800 dark:bg-blue-950/40'
+                                : 'border-slate-100 bg-slate-50/50 hover:border-slate-300 dark:border-slate-800/80 dark:bg-slate-800/40 dark:hover:border-slate-700'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <div className={`grid h-4 w-4 shrink-0 place-items-center rounded-md border text-white transition-colors ${
+                                isSelected
+                                  ? isHira ? 'border-rose-500 bg-rose-500' : 'border-blue-600 bg-blue-600'
+                                  : 'border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800'
+                              }`}>
+                                {isSelected && <Check size={10} strokeWidth={3} />}
+                              </div>
+                              <span className={`font-jp text-xs font-black ${
+                                isSelected
+                                  ? isHira ? 'text-rose-700 dark:text-rose-300' : 'text-blue-700 dark:text-blue-300'
+                                  : 'text-slate-700 dark:text-slate-300'
+                              }`}>
+                                {rowName}
+                              </span>
+                            </div>
+
+                            <span className="ml-2 truncate font-jp text-xs font-bold tracking-widest text-slate-400 dark:text-slate-500">
+                              {charsDisplay}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Bottom Launch Bar */}
+            <div className="mt-8 flex justify-center">
               <button
+                type="button"
                 disabled={activeGroups.length === 0}
                 onClick={() => startTyping(system, activeGroups)}
-                className={`w-full py-4 rounded-xl font-bold text-white transition-all flex items-center justify-center gap-2 ${activeGroups.length > 0 ? `bg-${system === 'hiragana' ? 'rose' : 'blue'}-500 hover:bg-${system === 'hiragana' ? 'rose' : 'blue'}-600 shadow-lg shadow-${system === 'hiragana' ? 'rose' : 'blue'}-500/20` : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}
+                className={`inline-flex items-center justify-center gap-2.5 rounded-2xl px-10 py-3.5 text-sm font-black text-white shadow-xl transition-all duration-300 ${
+                  activeGroups.length > 0
+                    ? system === 'hiragana'
+                      ? 'bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 shadow-rose-500/25 hover:shadow-rose-500/40 hover:-translate-y-0.5'
+                      : 'bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5'
+                    : 'cursor-not-allowed bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-600 shadow-none'
+                }`}
               >
-                <div className="w-5 h-5 mr-1 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16v12H4z"></path><path d="M8 10h.01"></path><path d="M12 10h.01"></path><path d="M16 10h.01"></path><path d="M8 14h8"></path></svg></div>
-                Bắt đầu gõ
+                <Keyboard size={18} />
+                <span>Bắt đầu gõ ({activeGroups.length} nhóm đã chọn)</span>
+                <ChevronRight size={16} />
               </button>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     );
   }
 
+  // ==========================================
+  // VIEW: TYPING SESSION
+  // ==========================================
   if (gameState === 'typing' && chars.length > 0) {
     const total = chars.length;
 
     return (
-      <div className="fixed inset-0 z-[100] flex flex-col w-full h-full bg-white dark:bg-slate-900 overflow-hidden">
-        
-        {/* Stats Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
-          <button onClick={() => {
-            setGameState('selection');
-            exitFullscreen();
-          }} className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
-            <X size={20} />
+      <div className="fixed inset-0 z-[100] flex h-full w-full flex-col overflow-hidden bg-slate-50 dark:bg-slate-950">
+        {/* Top Header & Stats */}
+        <div className="flex items-center justify-between border-b border-slate-200/80 bg-white/95 px-6 py-3.5 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 backdrop-blur-md">
+          <button 
+            type="button"
+            onClick={() => {
+              setGameState('selection');
+              exitFullscreen();
+            }} 
+            className="grid h-9 w-9 place-items-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-rose-50 hover:text-rose-600 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-rose-950/50 dark:hover:text-rose-300"
+          >
+            <X size={18} />
           </button>
           
-          <div className="flex gap-6">
-             <div className="flex flex-col items-center">
-               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tiến độ</span>
-               <span className="text-sm font-black text-slate-700 dark:text-slate-300">{currentIndex + 1}/{total}</span>
-             </div>
-             <div className="flex flex-col items-center">
-               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Đúng</span>
-               <span className="text-sm font-black text-emerald-500">{correctCount}</span>
-             </div>
-             <div className="flex flex-col items-center">
-               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sai</span>
-               <span className="text-sm font-black text-rose-500">{wrongCount}</span>
-             </div>
-             <div className="flex flex-col items-center">
-               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Combo</span>
-               <span className={`text-sm font-black ${combo > 2 ? 'text-amber-500' : 'text-slate-700 dark:text-slate-300'} flex items-center gap-1`}>
-                 {combo} {combo > 2 && <Zap size={14} fill="currentColor" />}
-               </span>
-             </div>
+          <div className="flex items-center gap-5 sm:gap-8">
+            <div className="flex flex-col items-center">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Tiến độ</span>
+              <span className="text-sm font-black text-slate-800 dark:text-slate-100">{currentIndex + 1} / {total}</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Đúng</span>
+              <span className="text-sm font-black text-emerald-500">{correctCount}</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Sai</span>
+              <span className="text-sm font-black text-rose-500">{wrongCount}</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Combo</span>
+              <span className={`flex items-center gap-1 text-sm font-black ${combo > 2 ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}>
+                {combo} {combo > 2 && <Zap size={13} fill="currentColor" />}
+              </span>
+            </div>
           </div>
+
+          <div className="w-9" />
         </div>
 
-        {/* Main Typing Area - Grid Layout */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-[#FAF8F5] dark:bg-slate-950">
-          <div className="max-w-[1200px] mx-auto grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 md:gap-6 pb-20">
+        {/* Main Typing Area */}
+        <div className="flex-1 overflow-y-auto p-6 md:p-8">
+          <div className="mx-auto grid max-w-[1100px] grid-cols-3 gap-3.5 pb-20 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 md:gap-5">
             {chars.map((char: any, idx: number) => {
               const isCurrent = idx === currentIndex;
               const cStatus = charStatus[idx] || (isCurrent ? status : null);
               const val = answers[idx] || '';
               
-              let boxBg = "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:border-blue-300";
-              if (cStatus === 'correct') boxBg = "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-400 dark:border-emerald-500 shadow-md shadow-emerald-500/10 cursor-default";
-              else if (cStatus === 'wrong') boxBg = "bg-rose-50 dark:bg-rose-900/20 border-rose-400 dark:border-rose-500 shadow-md shadow-rose-500/10 cursor-default";
-              else if (isCurrent) boxBg = "bg-blue-50 dark:bg-blue-900/20 border-blue-400 dark:border-blue-500 shadow-md shadow-blue-500/10 ring-2 ring-blue-500/20 cursor-default";
+              let boxBg = "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 shadow-sm cursor-pointer hover:border-blue-300";
+              if (cStatus === 'correct') boxBg = "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-400 dark:border-emerald-500/80 shadow-md shadow-emerald-500/10 cursor-default";
+              else if (cStatus === 'wrong') boxBg = "bg-rose-50 dark:bg-rose-950/30 border-rose-400 dark:border-rose-500/80 shadow-md shadow-rose-500/10 cursor-default";
+              else if (isCurrent) boxBg = "bg-blue-50/80 dark:bg-blue-950/30 border-blue-500 shadow-lg shadow-blue-500/15 ring-2 ring-blue-400/30 cursor-default";
 
               return (
                 <motion.div 
                   key={idx}
                   onClick={() => { if (charStatus[idx] === null) { setCurrentIndex(idx); setStatus('idle'); } }}
                   animate={
-                    cStatus === 'correct' ? { scale: [1, 1.05, 1] } : 
+                    cStatus === 'correct' ? { scale: [1, 1.06, 1] } : 
                     cStatus === 'wrong' ? { x: [-5, 5, -5, 5, 0] } : 
-                    isCurrent ? { scale: 1.05 } : { scale: 1, x: 0 }
+                    isCurrent ? { scale: 1.04 } : { scale: 1, x: 0 }
                   }
-                  transition={{ duration: 0.3 }}
-                  className={`rounded-2xl border-2 flex flex-col p-3 relative overflow-hidden transition-colors ${boxBg} ${isCurrent ? 'opacity-100' : 'opacity-90'}`}
+                  transition={{ duration: 0.25 }}
+                  className={`relative flex flex-col overflow-hidden rounded-2xl border-2 p-3 transition-colors ${boxBg} ${isCurrent ? 'opacity-100' : 'opacity-90'}`}
                 >
-                  <div className="flex-1 flex items-center justify-center min-h-[60px] pointer-events-none">
-                    <span className={`text-3xl font-jp font-medium ${cStatus === 'wrong' ? 'text-rose-500' : 'text-slate-800 dark:text-slate-100'}`}>
+                  <div className="pointer-events-none flex min-h-[58px] flex-1 items-center justify-center">
+                    <span className={`font-jp text-3xl font-bold ${cStatus === 'wrong' ? 'text-rose-500' : 'text-slate-800 dark:text-slate-100'}`}>
                       {char.jp}
                     </span>
                   </div>
@@ -451,11 +663,11 @@ export const TypingPage = () => {
                       disabled={charStatus[idx] !== null}
                       onChange={(e) => handleInputChange(idx, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, idx)}
-                      className={`w-full text-center text-sm font-bold py-1.5 rounded-lg border-2 outline-none transition-all ${
-                        cStatus === 'correct' ? 'border-emerald-200 bg-white text-emerald-600' :
-                        cStatus === 'wrong' ? 'border-rose-200 bg-white text-rose-600' :
-                        isCurrent ? 'border-blue-300 bg-white text-blue-600 focus:border-blue-500' :
-                        'border-slate-100 bg-slate-50 text-slate-400 dark:bg-slate-800 dark:border-slate-700'
+                      className={`w-full rounded-xl border-2 py-1.5 text-center text-xs font-black outline-none transition-all ${
+                        cStatus === 'correct' ? 'border-emerald-200 bg-white text-emerald-600 dark:border-emerald-800 dark:bg-slate-900' :
+                        cStatus === 'wrong' ? 'border-rose-200 bg-white text-rose-600 dark:border-rose-800 dark:bg-slate-900' :
+                        isCurrent ? 'border-blue-400 bg-white text-blue-600 focus:border-blue-600 dark:border-blue-600 dark:bg-slate-900 dark:text-blue-300' :
+                        'border-slate-100 bg-slate-50 text-slate-400 dark:border-slate-800 dark:bg-slate-800'
                       }`}
                       placeholder="..."
                       autoComplete="off"
@@ -463,12 +675,12 @@ export const TypingPage = () => {
                     />
                     {cStatus === 'correct' && (
                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute right-2 top-1/2 -translate-y-1/2 text-emerald-500">
-                        <Check size={14} strokeWidth={4} />
+                        <Check size={13} strokeWidth={3.5} />
                       </motion.div>
                     )}
                     {cStatus === 'wrong' && (
                       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute right-2 top-1/2 -translate-y-1/2 text-rose-500">
-                        <X size={14} strokeWidth={4} />
+                        <X size={13} strokeWidth={3.5} />
                       </motion.div>
                     )}
                   </div>
@@ -476,14 +688,15 @@ export const TypingPage = () => {
                   <AnimatePresence>
                     {cStatus === 'wrong' && (
                       <motion.div 
-                        initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
-                        className="mt-2 text-center"
+                        initial={{ opacity: 0, height: 0 }} 
+                        animate={{ opacity: 1, height: 'auto' }} 
+                        exit={{ opacity: 0, height: 0 }}
+                        className="mt-1.5 text-center"
                       >
-                        <span className="text-[10px] font-bold text-rose-600 dark:text-rose-400">Đ.án: <span className="text-xs">{char.r}</span></span>
+                        <span className="text-[10px] font-black text-rose-500 dark:text-rose-400">Đ.án: <span className="text-xs uppercase">{char.r}</span></span>
                       </motion.div>
                     )}
                   </AnimatePresence>
-
                 </motion.div>
               );
             })}
@@ -493,159 +706,107 @@ export const TypingPage = () => {
     );
   }
 
+  // ==========================================
+  // VIEW: RESULT SUMMARY
+  // ==========================================
   if (gameState === 'result') {
     const accuracy = correctCount + wrongCount === 0 ? 0 : Math.round((correctCount / (correctCount + wrongCount)) * 100);
     const timeSpent = endTime - startTime;
-    
     const wrongChars = chars.map((c, idx) => ({ ...c, typed: answers[idx] })).filter((_, idx) => charStatus[idx] === 'wrong');
 
     return (
-      <div className="fixed inset-0 z-[9999] overflow-y-auto bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-500">
-        <div className="flex min-h-full items-center justify-center p-2 sm:p-4">
-          <Confetti />
-          
-          <div className="max-w-xl w-full bg-white dark:bg-slate-900 rounded-[2rem] p-5 md:p-6 text-center shadow-2xl relative overflow-hidden border border-white/20 dark:border-slate-800/50 animate-in zoom-in-95 duration-500 delay-150 fill-mode-both">
-          {/* Faint sakura/confetti background pattern */}
-          <div className="absolute inset-0 pointer-events-none opacity-20 dark:opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-          <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-blue-50/50 dark:from-blue-900/20 to-transparent pointer-events-none"></div>
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-slate-950/60 p-4 backdrop-blur-md">
+        <Confetti />
+        
+        <motion.div 
+          initial={{ scale: 0.92, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{ ease: [0.23, 1, 0.32, 1], duration: 0.4 }}
+          className="relative w-full max-w-lg overflow-hidden rounded-[2.5rem] border border-white/80 bg-white p-6 text-center shadow-2xl dark:border-slate-800 dark:bg-slate-900 md:p-8"
+        >
+          {/* Top Accent Rail */}
+          <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-blue-600 via-sky-400 to-emerald-400" />
 
-          <div className="relative z-10 flex flex-col items-center">
-            {/* Trophy Icon with Ribbon */}
-            <div className="relative inline-flex flex-col items-center justify-center mb-4 mt-0">
-              <div className="text-yellow-400 drop-shadow-md">
-                <Trophy size={56} strokeWidth={1} fill="#FACC15" />
-              </div>
-              {/* Blue Ribbon underneath */}
-              <div className="absolute -bottom-2 px-4 py-1 bg-blue-600 rounded shadow-md transform -skew-x-6 border-b-4 border-blue-800">
-                <span className="text-white text-[8px] font-black uppercase tracking-[0.2em] transform skew-x-6 inline-block">Thành tích</span>
-              </div>
-              {/* Ribbon tails */}
-              <div className="absolute -bottom-2 -left-2 w-2 h-4 bg-blue-700 -z-10 rounded-l skew-y-12"></div>
-              <div className="absolute -bottom-2 -right-2 w-2 h-4 bg-blue-700 -z-10 rounded-r -skew-y-12"></div>
+          {/* Trophy Icon */}
+          <div className="relative mx-auto mb-3.5 mt-2 grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 text-white shadow-lg shadow-amber-500/25">
+            <Trophy size={32} />
+          </div>
+
+          <h2 className="text-2xl font-black uppercase tracking-wider text-slate-900 dark:text-white md:text-3xl">
+            Hoàn thành!
+          </h2>
+          <p className="mt-1 text-xs font-semibold text-slate-500 dark:text-slate-400">
+            Bạn đã xuất sắc hoàn thành bài tập phản xạ gõ Kana
+          </p>
+
+          {/* 4 Stats Cards */}
+          <div className="mt-6 grid grid-cols-2 gap-2.5">
+            {/* Accuracy */}
+            <div className="flex flex-col items-center rounded-2xl border border-emerald-100 bg-emerald-50/50 p-3 dark:border-emerald-900/30 dark:bg-emerald-950/20">
+              <Target size={18} className="mb-1 text-emerald-500" />
+              <span className="text-[9px] font-black uppercase tracking-wider text-emerald-600/80 dark:text-emerald-400">Độ chính xác</span>
+              <span className="text-xl font-black text-emerald-600 dark:text-emerald-400">{accuracy}%</span>
             </div>
 
-            <h2 className="text-2xl md:text-3xl font-black mb-1 uppercase tracking-widest text-blue-600 dark:text-blue-500 drop-shadow-sm font-sans">
-              HOÀN THÀNH!
-            </h2>
-            <p className="text-slate-500 dark:text-slate-400 mb-4 font-medium text-xs md:text-sm">
-              Bạn đã xuất sắc hoàn thành bài tập phản xạ gõ chữ
-            </p>
-
-            {/* 4 Stats Cards */}
-            <div className="grid grid-cols-2 gap-2 md:gap-3 w-full mb-4">
-              {/* Accuracy Card */}
-              <div className="bg-white dark:bg-slate-800 p-3 rounded-2xl border-2 border-emerald-50 dark:border-emerald-900/30 flex flex-col items-center shadow-[0_4px_20px_rgb(16,185,129,0.05)] hover:border-emerald-100 transition-colors">
-                <div className="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-500 flex items-center justify-center mb-1.5">
-                  <Target size={16} strokeWidth={2.5} />
-                </div>
-                <div className="text-[9px] md:text-[10px] font-black text-emerald-600/70 dark:text-emerald-500/70 uppercase tracking-widest mb-0.5">Độ chính xác</div>
-                <div className="text-xl md:text-2xl font-black text-emerald-500 flex items-center gap-1 mb-0.5">
-                  {accuracy}% {accuracy === 100 && <Star size={14} fill="#FACC15" strokeWidth={0} />}
-                </div>
-                <div className="text-[9px] font-medium text-slate-400 leading-tight">
-                  {accuracy === 100 ? 'Tuyệt vời! Không sai' : 'Bạn làm rất tốt!'}
-                </div>
-              </div>
-
-              {/* Time Card */}
-              <div className="bg-white dark:bg-slate-800 p-3 rounded-2xl border-2 border-blue-50 dark:border-blue-900/30 flex flex-col items-center shadow-[0_4px_20px_rgb(59,130,246,0.05)] hover:border-blue-100 transition-colors">
-                <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-500 flex items-center justify-center mb-1.5">
-                  <Timer size={16} strokeWidth={2.5} />
-                </div>
-                <div className="text-[9px] md:text-[10px] font-black text-blue-600/70 dark:text-blue-500/70 uppercase tracking-widest mb-0.5">Thời gian</div>
-                <div className="text-xl md:text-2xl font-black text-blue-600 dark:text-blue-500 mb-0.5">{formatTime(timeSpent)}</div>
-                <div className="text-[9px] font-medium text-slate-400 flex items-center gap-1 leading-tight">
-                  Nhanh hơn 20% <TrendingUp size={10} className="text-emerald-500" />
-                </div>
-              </div>
-
-              {/* Correct Card */}
-              <div className="bg-white dark:bg-slate-800 p-3 rounded-2xl border-2 border-indigo-50 dark:border-indigo-900/30 flex flex-col items-center shadow-[0_4px_20px_rgb(99,102,241,0.05)] hover:border-indigo-100 transition-colors">
-                <div className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-500 flex items-center justify-center mb-1.5">
-                  <CheckCircle size={16} strokeWidth={2.5} />
-                </div>
-                <div className="text-[9px] md:text-[10px] font-black text-indigo-600/70 dark:text-indigo-500/70 uppercase tracking-widest mb-0.5">Số ký tự đúng</div>
-                <div className="text-xl md:text-2xl font-black text-slate-700 dark:text-slate-200 flex items-baseline gap-1 mb-0.5">
-                  {correctCount} <span className="text-xs font-bold text-slate-400">chữ</span>
-                </div>
-                <div className="text-[9px] font-medium text-slate-400 leading-tight">
-                  Combo Max: <span className="font-bold text-amber-500 flex items-center gap-1 inline-flex">{maxCombo} <Zap size={10} fill="currentColor" /></span>
-                </div>
-              </div>
-
-              {/* Wrong Card */}
-              <div className="bg-white dark:bg-slate-800 p-3 rounded-2xl border-2 border-rose-50 dark:border-rose-900/30 flex flex-col items-center shadow-[0_4px_20px_rgb(244,63,94,0.05)] hover:border-rose-100 transition-colors">
-                <div className="w-8 h-8 rounded-full bg-rose-50 dark:bg-rose-900/30 text-rose-500 flex items-center justify-center mb-1.5">
-                  <RefreshCcw size={16} strokeWidth={2.5} />
-                </div>
-                <div className="text-[9px] md:text-[10px] font-black text-rose-500/70 dark:text-rose-400/70 uppercase tracking-widest mb-0.5">Số lỗi (sai)</div>
-                <div className="text-xl md:text-2xl font-black text-rose-500 dark:text-rose-400 flex items-baseline gap-1 mb-0.5">
-                  {wrongCount} <span className="text-xs font-bold text-rose-400/70">lần</span>
-                </div>
-                <div className="text-[9px] font-medium text-slate-400 leading-tight">
-                  {wrongCount === 0 ? 'Không có lỗi sai! 🎉' : 'Cố gắng hơn nhé'}
-                </div>
-              </div>
+            {/* Time */}
+            <div className="flex flex-col items-center rounded-2xl border border-blue-100 bg-blue-50/50 p-3 dark:border-blue-900/30 dark:bg-blue-950/20">
+              <Timer size={18} className="mb-1 text-blue-500" />
+              <span className="text-[9px] font-black uppercase tracking-wider text-blue-600/80 dark:text-blue-400">Thời gian</span>
+              <span className="text-xl font-black text-blue-600 dark:text-blue-400">{formatTime(timeSpent)}</span>
             </div>
 
-            {/* Detailed Errors if any */}
-            {wrongChars.length > 0 && (
-              <div className="w-full bg-rose-50/50 dark:bg-rose-900/10 border border-rose-100 dark:border-rose-900/30 rounded-xl p-2.5 text-left mb-3">
-                <p className="text-[9px] font-bold text-rose-600 dark:text-rose-400 mb-1 uppercase tracking-wide">Chi tiết lỗi sai:</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {wrongChars.map((c: any, i: number) => (
-                    <div key={`wrong-${i}`} className="flex items-center gap-1.5 px-2 py-1 bg-white dark:bg-slate-800 border border-rose-100 dark:border-rose-800/50 rounded-lg shadow-sm">
-                      <span className="font-bold text-xs font-jp leading-none text-rose-600 dark:text-rose-400">{c.jp}</span>
-                      <div className="flex items-center gap-1 border-l border-rose-100 dark:border-rose-800/50 pl-1.5">
-                        <span className="text-[8px] font-bold uppercase text-rose-400 line-through">{c.typed || '-'}</span>
-                        <ArrowRight size={8} className="text-slate-400" />
-                        <span className="text-[8px] font-black text-emerald-600 dark:text-emerald-400 uppercase">{c.r}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            {/* Correct Count */}
+            <div className="flex flex-col items-center rounded-2xl border border-indigo-100 bg-indigo-50/50 p-3 dark:border-indigo-900/30 dark:bg-indigo-950/20">
+              <CheckCircle size={18} className="mb-1 text-indigo-500" />
+              <span className="text-[9px] font-black uppercase tracking-wider text-indigo-600/80 dark:text-indigo-400">Số chữ đúng</span>
+              <span className="text-xl font-black text-indigo-600 dark:text-indigo-400">{correctCount}</span>
+            </div>
 
-            {/* Golden Banner for Perfect Score */}
-            {accuracy === 100 && (
-              <div className="w-full bg-amber-50/80 dark:bg-amber-900/20 border border-amber-200/50 dark:border-amber-800/50 rounded-xl p-2.5 flex items-center justify-between shadow-sm mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">👑</span>
-                  <div className="flex flex-col md:flex-row md:items-center md:gap-2 text-left">
-                    <span className="font-bold text-amber-700 dark:text-amber-500 text-xs md:text-sm">Thành tích hoàn hảo!</span>
-                    <span className="text-[10px] font-medium text-amber-600/80 dark:text-amber-400/80 hidden sm:inline-block">Bạn thật tuyệt!</span>
-                  </div>
-                </div>
-                <div className="flex gap-0.5 text-amber-400">
-                  <Star size={14} fill="currentColor" strokeWidth={0} />
-                  <Star size={14} fill="currentColor" strokeWidth={0} />
-                  <Star size={14} fill="currentColor" strokeWidth={0} />
-                </div>
-              </div>
-            )}
-
-            {/* Actions */}
-            <div className="flex flex-row gap-3 w-full mt-1">
-              <button
-                onClick={() => {
-                  setGameState('selection');
-                  exitFullscreen();
-                }}
-                className="flex-1 py-2.5 px-4 bg-white border-2 border-slate-100 hover:border-slate-200 text-slate-700 dark:bg-slate-800 dark:border-slate-700 dark:hover:bg-slate-700 dark:text-slate-200 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm"
-              >
-                <ArrowLeft size={16} /> Về danh sách
-              </button>
-              <button
-                onClick={() => startTyping(system!, activeGroups)}
-                className="flex-1 py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-blue-500/30"
-              >
-                Gõ lại <RotateCcw size={16} />
-              </button>
+            {/* Wrong Count */}
+            <div className="flex flex-col items-center rounded-2xl border border-rose-100 bg-rose-50/50 p-3 dark:border-rose-900/30 dark:bg-rose-950/20">
+              <RefreshCcw size={18} className="mb-1 text-rose-500" />
+              <span className="text-[9px] font-black uppercase tracking-wider text-rose-600/80 dark:text-rose-400">Lỗi sai</span>
+              <span className="text-xl font-black text-rose-600 dark:text-rose-400">{wrongCount}</span>
             </div>
           </div>
-        </div>
-        </div>
+
+          {/* Mistakes Preview */}
+          {wrongChars.length > 0 && (
+            <div className="mt-4 rounded-2xl border border-rose-100 bg-rose-50/40 p-3 text-left dark:border-rose-900/30 dark:bg-rose-950/20">
+              <p className="mb-1.5 text-[9.5px] font-black uppercase tracking-wider text-rose-600 dark:text-rose-400">Chi tiết lỗi sai:</p>
+              <div className="flex flex-wrap gap-1.5">
+                {wrongChars.map((c: any, i: number) => (
+                  <div key={i} className="flex items-center gap-1.5 rounded-lg border border-rose-100 bg-white px-2 py-1 shadow-sm dark:border-rose-900/40 dark:bg-slate-800">
+                    <span className="font-jp text-xs font-bold text-rose-600 dark:text-rose-400">{c.jp}</span>
+                    <span className="text-[9px] font-bold text-slate-400">→</span>
+                    <span className="text-[9px] font-black uppercase text-emerald-600 dark:text-emerald-400">{c.r}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="mt-6 flex gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setGameState('selection');
+                exitFullscreen();
+              }}
+              className="flex-1 rounded-2xl border border-slate-200 bg-white py-3 text-xs font-black text-slate-700 shadow-sm transition-all hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+            >
+              Về danh sách
+            </button>
+            <button
+              type="button"
+              onClick={() => startTyping(system!, activeGroups)}
+              className="flex-1 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 py-3 text-xs font-black text-white shadow-lg shadow-blue-500/25 transition-all hover:from-blue-700 hover:to-cyan-600"
+            >
+              Gõ lại ngay
+            </button>
+          </div>
+        </motion.div>
       </div>
     );
   }
