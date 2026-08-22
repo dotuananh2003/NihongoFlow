@@ -146,7 +146,7 @@ const pricingPlans: PricingPlan[] = [
     period: '/ 2 tháng',
     tone: 'indigo',
     icon: <BookOpen size={24} />,
-    features: ['Kanji JPD123', 'Từ vựng JPD123', 'Ngữ pháp JPD123', 'Luyện thi N5 nâng cao', 'Lộ trình 2 tháng'],
+    features: ['Kanji JPD123', 'Từ vựng JPD123', 'Ngữ pháp JPD123', 'Luyện thi JPD123', 'Lộ trình 2 tháng'],
   },
 ];
 

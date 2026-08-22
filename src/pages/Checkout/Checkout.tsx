@@ -266,11 +266,11 @@ export const Checkout = () => {
                 <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                 {isPaid ? (
                   <button
-                      onClick={() => navigate('/vocabulary/jpd123')}
+                      onClick={() => hasUnlockedContent ? navigate('/vocabulary/jpd123') : navigate('/')}
                       className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-500/20"
                     >
                       <LockOpen size={18} />
-                      {hasUnlockedContent ? 'Vào học ngay' : 'Quay lại kiểm tra'}
+                      {hasUnlockedContent ? 'Vào học ngay' : 'Quay lại trang chủ'}
                     </button>
                   ) : (
                     <>
@@ -295,13 +295,7 @@ export const Checkout = () => {
                       </button>
                     </>
                   )}
-                  <button
-                    onClick={() => navigate('/vocabulary/jpd123')}
-                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl border border-white bg-white px-5 py-3 text-sm font-black text-slate-600 shadow-sm transition hover:bg-slate-50"
-                  >
-                    <Sparkles size={18} />
-                    Xem bài học
-                  </button>
+
                 </div>
               </div>
             </div>
