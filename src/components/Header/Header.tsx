@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { paymentApi, type PlanId } from '../../lib/paymentApi';
+import { PremiumModal } from '../Upgrade/PremiumModal';
 
 type ProfileData = {
   name: string;
@@ -113,62 +114,6 @@ const accentClasses: Record<string, string> = {
   slate: 'bg-slate-50 text-slate-500 group-hover:bg-slate-100',
   teal: 'bg-teal-50 text-teal-500 group-hover:bg-teal-100',
   violet: 'bg-violet-50 text-violet-500 group-hover:bg-violet-100',
-};
-
-const pricingPlans: PricingPlan[] = [
-  {
-    id: 'jpd113',
-    name: 'JPD113',
-    label: 'Sơ cấp I',
-    price: '40.000đ',
-    period: '/ 2 tháng',
-    tone: 'rose',
-    icon: <Zap size={24} />,
-    features: ['Kanji JPD113', 'Từ vựng JPD113', 'Ngữ pháp JPD113', 'Luyện thi sơ cấp', 'Luyện nói cơ bản'],
-  },
-  {
-    id: 'combo',
-    name: 'Combo Master',
-    label: 'Khuyên dùng',
-    price: '70.000đ',
-    period: '/ 2 tháng',
-    oldPrice: '80.000đ',
-    tone: 'blue',
-    icon: <Crown size={26} />,
-    features: ['Toàn bộ JPD113', 'Toàn bộ JPD123', 'Luyện thi cả 2 khóa', 'Luyện nói cả 2 khóa', 'Tiết kiệm 10.000đ'],
-    featured: true,
-  },
-  {
-    id: 'jpd123',
-    name: 'JPD123',
-    label: 'Sơ cấp II',
-    price: '40.000đ',
-    period: '/ 2 tháng',
-    tone: 'indigo',
-    icon: <BookOpen size={24} />,
-    features: ['Kanji JPD123', 'Từ vựng JPD123', 'Ngữ pháp JPD123', 'Luyện thi JPD123', 'Lộ trình 2 tháng'],
-  },
-];
-
-const planToneClasses: Record<string, { icon: string; ring: string; button: string; badge: string }> = {
-  blue: {
-    icon: 'bg-blue-600 text-white shadow-blue-500/30',
-    ring: 'border-blue-300 ring-4 ring-blue-100/80 shadow-blue-500/16',
-    button: 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-blue-500/25 hover:shadow-blue-500/35',
-    badge: 'bg-blue-600 text-white',
-  },
-  indigo: {
-    icon: 'bg-indigo-50 text-indigo-500 shadow-indigo-500/10',
-    ring: 'border-white/80 shadow-slate-900/8',
-    button: 'bg-white text-indigo-600 border border-indigo-100 hover:bg-indigo-50',
-    badge: 'bg-indigo-50 text-indigo-600',
-  },
-  rose: {
-    icon: 'bg-rose-50 text-rose-500 shadow-rose-500/10',
-    ring: 'border-white/80 shadow-slate-900/8',
-    button: 'bg-white text-rose-600 border border-rose-100 hover:bg-rose-50',
-    badge: 'bg-rose-50 text-rose-600',
-  },
 };
 
 const MenuItem = ({ icon, title, subtitle, accent, onClick }: MenuItemProps) => (
@@ -520,119 +465,13 @@ export const Header = () => {
         </div>
       )}
 
-      {isUpgradeOpen && createPortal((
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto px-4 py-5">
-          <button
-            aria-label="Đóng bảng nâng cấp"
-            className="absolute inset-0 cursor-default bg-slate-950/42 backdrop-blur-md"
-            onClick={() => setIsUpgradeOpen(false)}
-          />
-
-          <div className="relative w-full max-w-[980px]">
-            <div className="relative max-h-[calc(100vh-40px)] overflow-y-auto rounded-[28px] border border-white/80 bg-white/90 p-4 shadow-[0_24px_70px_rgba(15,23,42,0.24)] backdrop-blur-2xl md:p-5">
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(59,130,246,0.08)_1px,transparent_1px),linear-gradient(rgba(59,130,246,0.08)_1px,transparent_1px)] bg-[size:36px_36px]" />
-
-              <div className="relative flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                <div>
-                  <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/86 px-3.5 py-1.5 text-[10px] font-black uppercase tracking-[0.22em] text-blue-600 shadow-sm">
-                    <Gem size={15} />
-                    JP Forus Premium
-                  </div>
-                  <h2 className="text-3xl font-black leading-tight tracking-normal text-slate-950 md:text-4xl">
-                    Mở khóa lộ trình học trọn vẹn
-                  </h2>
-                  <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
-                    Chọn gói phù hợp để mở toàn bộ Kanji, từ vựng, ngữ pháp, luyện thi và các bài luyện nói theo khóa.
-                  </p>
-                  {checkoutError && (
-                    <p className="mt-3 rounded-2xl border border-rose-100 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-500">
-                      {checkoutError}
-                    </p>
-                  )}
-                </div>
-
-                <button
-                  onClick={() => setIsUpgradeOpen(false)}
-                  className="absolute right-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-slate-200 bg-white/90 text-slate-500 shadow-sm transition hover:bg-slate-950 hover:text-white md:relative"
-                  aria-label="Đóng"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-
-              <div className="relative mt-5 grid gap-3 lg:grid-cols-3">
-                {pricingPlans.map((plan) => {
-                  const tone = planToneClasses[plan.tone];
-
-                  return (
-                    <article
-                      key={plan.id}
-                      className={`relative flex min-h-[380px] flex-col overflow-hidden rounded-[24px] border bg-white/88 p-4 shadow-lg backdrop-blur-xl transition-all hover:-translate-y-1 hover:shadow-xl ${tone.ring} ${plan.featured ? 'lg:-mt-2 lg:min-h-[410px]' : ''}`}
-                    >
-                      {plan.featured && (
-                        <div className="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-white shadow-lg shadow-blue-500/25">
-                          Tiết kiệm 10.000đ
-                        </div>
-                      )}
-
-                      <div className={`${plan.featured ? 'pt-10' : ''}`}>
-                        <div className={`flex items-start justify-between gap-4 ${plan.featured ? 'pt-1' : ''}`}>
-                          <div className={`grid h-12 w-12 place-items-center rounded-2xl shadow-lg ${tone.icon}`}>
-                            {plan.icon}
-                          </div>
-                          <span className={`rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] ${tone.badge} ${plan.featured ? 'mt-3' : ''}`}>
-                            {plan.label}
-                          </span>
-                        </div>
-
-                        <h3 className="mt-4 text-xl font-black text-slate-950">{plan.name}</h3>
-                        <div className="mt-3 flex items-end gap-1.5">
-                          {plan.oldPrice && <span className="pb-1 text-xs font-black text-slate-300 line-through">{plan.oldPrice}</span>}
-                          <span className="text-3xl font-black tracking-tight text-blue-600">{plan.price}</span>
-                          <span className="pb-1 text-xs font-bold text-slate-400">{plan.period}</span>
-                        </div>
-                      </div>
-
-                      <div className="mt-5 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
-
-                      <ul className="mt-5 space-y-2.5">
-                        {plan.features.map((feature) => (
-                          <li key={feature} className="flex items-center gap-2.5 text-xs font-bold text-slate-600">
-                            <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-blue-50 text-blue-600">
-                              <CheckCircle2 size={14} />
-                            </span>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-
-                      <div className="mt-auto pt-5">
-                        <button
-                          type="button"
-                          onClick={() => handleStartCheckout(plan.id)}
-                          disabled={creatingPlanId === plan.id}
-                          className={`flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-black transition hover:-translate-y-0.5 ${tone.button}`}
-                        >
-                          <CreditCard size={18} />
-                          {creatingPlanId === plan.id ? 'Đang tạo đơn...' : 'Mua gói này'}
-                        </button>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-
-              <div className="relative mt-4 flex flex-col gap-3 rounded-[22px] border border-white/80 bg-white/72 p-3.5 text-xs font-semibold text-slate-500 shadow-sm md:flex-row md:items-center md:justify-between">
-                <span>Thanh toán chuyển khoản hoặc ví điện tử sẽ được nối ở bước tích hợp cổng thanh toán.</span>
-                <span className="inline-flex items-center gap-2 font-black text-blue-600">
-                  <ShieldCheck size={17} />
-                  Mở khóa tự động sau khi xác nhận
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      ), document.body)}
+      <PremiumModal
+        isOpen={isUpgradeOpen}
+        onClose={() => setIsUpgradeOpen(false)}
+        onStartCheckout={handleStartCheckout}
+        creatingPlanId={creatingPlanId}
+        checkoutError={checkoutError}
+      />
     </header>
   );
 };
