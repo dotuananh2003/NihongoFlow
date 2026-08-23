@@ -590,7 +590,7 @@ export const TypingPage = () => {
             <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">
               {!system 
                 ? 'Rèn luyện phản xạ gõ Romaji siêu tốc với âm thanh xúc giác và giao diện tập trung đỉnh cao' 
-                : `Chọn các nhóm âm ${system === 'hiragana' ? 'Hiragana (Chữ mềm 🌸)' : 'Katakana (Chữ cứng ⚡)'} để bắt đầu thử thách`}
+                : `Chọn các nhóm âm ${system === 'hiragana' ? 'Hiragana (Chữ mềm 🌸)' : 'Katakana (Chữ cứng 💎)'} để bắt đầu thử thách`}
             </p>
           </div>
 
@@ -664,7 +664,7 @@ export const TypingPage = () => {
                 <div>
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-cyan-50 px-3.5 py-1 text-[11px] font-black uppercase tracking-wider text-cyan-700 ring-1 ring-cyan-200/60 dark:bg-cyan-950/60 dark:text-cyan-300 dark:ring-cyan-900/50">
-                      ⚡ KATAKANA カタカナ
+                      💎 KATAKANA カタカナ
                     </span>
                     <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 font-jp text-2xl font-black text-white shadow-md shadow-cyan-500/30 transition-transform group-hover:scale-105">
                       ア
@@ -770,7 +770,7 @@ export const TypingPage = () => {
                   onClick={() => applyPreset('dakuten')}
                   className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-black text-slate-700 shadow-sm transition-colors hover:border-blue-400 hover:text-blue-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-cyan-500"
                 >
-                  ⚡ Biến âm Dakuten (25 âm)
+                  ✨ Biến âm Dakuten (25 âm)
                 </button>
                 <button
                   type="button"
