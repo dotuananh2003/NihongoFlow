@@ -26,7 +26,9 @@ import {
   RotateCcw,
   Star,
   CheckCircle,
-  HelpCircle
+  HelpCircle,
+  Maximize,
+  Minimize
 } from 'lucide-react';
 import { kanaData } from '../../data/kana';
 import { Confetti } from '../../components/Kana/Confetti';
@@ -204,6 +206,32 @@ export const TypingPage = () => {
   const [playMode, setPlayMode] = useState<'focus' | 'grid'>('focus');
   const [autoAdvance, setAutoAdvance] = useState<boolean>(true);
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(Boolean(typeof document !== 'undefined' && document.fullscreenElement));
+
+  // Listen to fullscreen changes
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+    document.addEventListener('fullscreenchange', handleFsChange);
+    return () => document.removeEventListener('fullscreenchange', handleFsChange);
+  }, []);
+
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        }
+      }
+    } catch (err) {
+      console.warn("Fullscreen toggle failed:", err);
+    }
+  };
 
   // Typing Session States
   const [chars, setChars] = useState<any[]>([]);
@@ -272,6 +300,15 @@ export const TypingPage = () => {
   // 4. GAME START & RESET LOGIC
   // ==========================================
   const startTyping = (sys: 'hiragana' | 'katakana', selectedRows: string[], customChars?: any[]) => {
+    // Automatically enter F11 full screen mode
+    try {
+      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    } catch {
+      // Ignore
+    }
+
     setSystem(sys);
     setActiveGroups(selectedRows);
     
@@ -515,19 +552,31 @@ export const TypingPage = () => {
               <span>{system ? 'Chọn hệ chữ khác' : 'Quay lại Nhập môn'}</span>
             </button>
 
-            {/* Quick sound toggle */}
-            <button
-              type="button"
-              onClick={() => setSoundEnabled(!soundEnabled)}
-              className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-bold transition-all ${
-                soundEnabled 
-                  ? 'border-emerald-200 bg-emerald-50 text-emerald-600 dark:border-emerald-900/40 dark:bg-emerald-950/40 dark:text-emerald-400' 
-                  : 'border-slate-200 bg-white text-slate-400 dark:border-slate-800 dark:bg-slate-900'
-              }`}
-            >
-              {soundEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />}
-              <span>{soundEnabled ? 'Âm thanh: Bật' : 'Âm thanh: Tắt'}</span>
-            </button>
+            {/* Right: Sound & Fullscreen toggle */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setSoundEnabled(!soundEnabled)}
+                className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-bold transition-all ${
+                  soundEnabled 
+                    ? 'border-emerald-200 bg-emerald-50 text-emerald-600 dark:border-emerald-900/40 dark:bg-emerald-950/40 dark:text-emerald-400' 
+                    : 'border-slate-200 bg-white text-slate-400 dark:border-slate-800 dark:bg-slate-900'
+                }`}
+              >
+                {soundEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />}
+                <span>{soundEnabled ? 'Âm thanh: Bật' : 'Âm thanh: Tắt'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={toggleFullscreen}
+                className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 shadow-sm transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200"
+                title="Toàn màn hình (F11)"
+              >
+                {isFullscreen ? <Minimize size={14} /> : <Maximize size={14} />}
+                <span className="hidden sm:inline">{isFullscreen ? 'Thu nhỏ' : 'Toàn màn hình'}</span>
+              </button>
+            </div>
           </div>
 
           {/* Hero Header */}
@@ -979,7 +1028,7 @@ export const TypingPage = () => {
             </div>
           </div>
 
-          {/* Right: Sound & Switch Mode */}
+          {/* Right: Sound, Switch Mode & Fullscreen */}
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -996,6 +1045,14 @@ export const TypingPage = () => {
               title="Đổi chế độ (Focus / Grid)"
             >
               {playMode === 'focus' ? <Layers size={16} /> : <Zap size={16} />}
+            </button>
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              className="grid h-9 w-9 place-items-center rounded-xl bg-slate-800 text-slate-400 transition-colors hover:text-white"
+              title={isFullscreen ? 'Thu nhỏ cửa sổ' : 'Toàn màn hình (F11)'}
+            >
+              {isFullscreen ? <Minimize size={16} className="text-cyan-400" /> : <Maximize size={16} />}
             </button>
           </div>
         </header>
