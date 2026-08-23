@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   Bell,
   BookOpen,
@@ -234,13 +235,16 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center gap-3 md:gap-5 ml-auto rounded-[28px] border border-white/65 dark:border-slate-700/60 bg-white/35 dark:bg-slate-950/35 px-3 py-2 shadow-[0_12px_34px_rgba(15,23,42,0.08)] backdrop-blur-xl">
-        <button
+        <motion.button
+          whileHover={{ scale: 1.04, y: -1 }}
+          whileTap={{ scale: 0.96 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           onClick={() => setIsUpgradeOpen(true)}
-          className="hidden sm:flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 px-4 py-3 text-sm font-black text-white shadow-lg shadow-amber-400/25 border border-white/60 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-amber-400/30 transition-all"
+          className="hidden sm:flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 px-4 py-3 text-sm font-black text-white shadow-lg shadow-amber-400/25 border border-white/60 hover:shadow-xl hover:shadow-amber-400/30"
         >
           <Crown size={18} strokeWidth={2.5} />
           Nâng Cấp
-        </button>
+        </motion.button>
 
         <button className="relative p-3 rounded-full bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] transition-all shadow-sm border border-white/80 dark:border-slate-800">
           <Bell size={20} strokeWidth={2.5} />
