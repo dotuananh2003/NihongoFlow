@@ -83,31 +83,6 @@ const pricingPlans: PricingPlan[] = [
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.12,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24, scale: 0.97 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1,
-    transition: {
-      type: 'spring' as const,
-      damping: 24,
-      stiffness: 320,
-    }
-  },
-};
-
 interface PremiumModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -124,38 +99,37 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
   checkoutError,
 }) => {
   return createPortal(
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
-          {/* Backdrop with Smooth Fade */}
+          {/* Backdrop (High Performance GPU Quad) */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.28, ease: 'easeInOut' }}
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="fixed inset-0 bg-slate-950/65"
             onClick={onClose}
           />
 
-          {/* Modal Window Container with Natural Spring Physics */}
+          {/* Modal Window Container with Apple/iOS Cinematic Expo-Out Deceleration */}
           <motion.div
-            initial={{ scale: 0.92, opacity: 0, y: 35 }}
+            initial={{ scale: 0.95, opacity: 0, y: 16 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.94, opacity: 0, y: 22 }}
+            exit={{ scale: 0.96, opacity: 0, y: 12 }}
             transition={{ 
-              type: 'spring',
-              damping: 28,
-              stiffness: 350,
-              mass: 0.85
+              duration: 0.38, 
+              ease: [0.16, 1, 0.3, 1] 
             }}
+            style={{ willChange: 'transform, opacity' }}
             className="relative flex flex-col w-full max-w-[1040px] max-h-[calc(100vh-24px)] overflow-hidden rounded-[2.25rem] border border-white/90 bg-white/95 shadow-[0_25px_80px_rgba(15,23,42,0.22)] text-slate-900"
           >
-            {/* ARTISTIC DAYTIME JAPANESE BACKGROUND (FIXED BG PLANE) */}
+            {/* ARTISTIC DAYTIME JAPANESE BACKGROUND (STATIC GPU PLANE) */}
             <div className="fixed-bg-plane pointer-events-none absolute inset-0 -z-10 overflow-hidden">
               <img
                 src="/images/premium_modal_bg_light.jpg"
                 alt="Japanese Sakura Spring Landscape"
-                className="h-full w-full object-cover object-center opacity-30 scale-105 filter saturate-125"
+                className="h-full w-full object-cover object-center opacity-30 scale-105"
               />
               {/* Soft Ivory Gradient Overlays for High Legibility */}
               <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/80 to-white/95" />
@@ -165,12 +139,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
             {/* SMOOTH SCROLLABLE MODAL BODY */}
             <div className="smooth-scroll-area flex-1 overflow-y-auto p-5 sm:p-7 md:p-8">
               {/* TOP HEADER SECTION */}
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.05 }}
-                className="relative flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left"
-              >
+              <div className="relative flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
                 <div>
                   <div className="mb-2.5 inline-flex items-center gap-2 rounded-full border border-blue-200/80 bg-blue-50/90 px-3.5 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-blue-600 shadow-sm">
                     <Gem size={13} className="text-blue-600 animate-pulse" />
@@ -196,7 +165,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                 >
                   <X size={18} />
                 </motion.button>
-              </motion.div>
+              </div>
 
               {/* ERROR NOTIFICATION IF ANY */}
               {checkoutError && (
@@ -205,23 +174,18 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                 </div>
               )}
 
-              {/* THREE PRICING CARDS WITH STAGGERED REVEAL */}
-              <motion.div 
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="mt-6 grid grid-cols-1 gap-4.5 lg:grid-cols-3 lg:gap-5 items-stretch"
-              >
+              {/* THREE PRICING CARDS */}
+              <div className="mt-6 grid grid-cols-1 gap-4.5 lg:grid-cols-3 lg:gap-5 items-stretch">
                 {pricingPlans.map((plan) => {
                   const isCombo = plan.featured;
 
                   return (
                     <motion.div
                       key={plan.id}
-                      variants={cardVariants}
+                      initial={false}
                       whileHover={{ 
-                        y: isCombo ? -10 : -6,
-                        transition: { duration: 0.28, ease: [0.25, 1, 0.5, 1] }
+                        y: isCombo ? -8 : -5,
+                        transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] }
                       }}
                       className={`smooth-panel group relative flex flex-col justify-between rounded-[2rem] overflow-hidden p-5 ${
                         isCombo
@@ -325,15 +289,10 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                     </motion.div>
                   );
                 })}
-              </motion.div>
+              </div>
 
               {/* BOTTOM TRUST & INSTANT ACTIVATION BAR */}
-              <motion.div 
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.35 }}
-                className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/90 px-5 py-3.5 text-xs font-bold text-slate-600 shadow-sm"
-              >
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/90 px-5 py-3.5 text-xs font-bold text-slate-600 shadow-sm">
                 <div className="flex items-center gap-2 text-slate-700">
                   <Clock size={16} className="text-blue-600" />
                   <span>Thanh toán tự động bằng mã VietQR / MoMo / Chuyển khoản 24/7</span>
@@ -342,7 +301,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                   <ShieldCheck size={18} />
                   <span>Mở khóa tài khoản ngay lập tức</span>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>
