@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Volume2, Sparkles } from 'lucide-react';
 
 interface KanaItem {
   jp: string;
@@ -19,7 +18,6 @@ export const KanaGrid = ({
   title, 
   items, 
   columns = 5, 
-  colorClass = 'text-rose-500',
   system = 'hiragana'
 }: KanaGridProps) => {
   const [activeKana, setActiveKana] = useState<string | null>(null);
@@ -61,7 +59,7 @@ export const KanaGrid = ({
     : [{ v: 'ャ', r: 'Cột -ya' }, { v: 'ュ', r: 'Cột -yu' }, { v: 'ョ', r: 'Cột -yo' }];
 
   return (
-    <div className="mb-10">
+    <div className="mb-10 smooth-panel">
       {/* Section Header */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/80 pb-3 dark:border-slate-800">
         <div className="flex items-center gap-2.5">
@@ -124,7 +122,7 @@ export const KanaGrid = ({
             return (
               <div 
                 key={`empty-${idx}`} 
-                className="flex min-h-[90px] sm:min-h-[105px] items-center justify-center rounded-2xl border border-dashed border-slate-200/60 bg-slate-50/30 dark:border-slate-800/60 dark:bg-slate-900/20"
+                className="steady-scroll-row flex min-h-[90px] sm:min-h-[105px] items-center justify-center rounded-2xl border border-dashed border-slate-200/60 bg-slate-50/30 dark:border-slate-800/60 dark:bg-slate-900/20"
               >
                 <div className="h-1.5 w-1.5 rounded-full bg-slate-200 dark:bg-slate-800" />
               </div>
@@ -132,21 +130,18 @@ export const KanaGrid = ({
           }
 
           return (
-            <motion.button
+            <button
               key={`${char.jp}-${idx}`}
               type="button"
-              whileHover={{ y: -4, scale: 1.02 }}
-              whileTap={{ scale: 0.96 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
               onClick={(e) => playAudio(e, char.jp)}
-              className={`group relative flex min-h-[95px] sm:min-h-[110px] cursor-pointer flex-col items-center justify-between overflow-hidden rounded-2xl border p-2.5 sm:p-3 text-center shadow-sm transition-all duration-200 ${
+              className={`steady-scroll-row group relative flex min-h-[95px] sm:min-h-[110px] cursor-pointer flex-col items-center justify-between overflow-hidden rounded-2xl border p-2.5 sm:p-3 text-center transition-colors duration-150 ${
                 isPlaying
                   ? isHiragana
-                    ? 'border-rose-400 bg-rose-50/90 shadow-lg shadow-rose-500/20 ring-2 ring-rose-400/50 dark:border-rose-600 dark:bg-rose-950/60'
-                    : 'border-blue-400 bg-blue-50/90 shadow-lg shadow-blue-500/20 ring-2 ring-blue-400/50 dark:border-blue-600 dark:bg-blue-950/60'
+                    ? 'border-rose-400 bg-rose-50/90 ring-2 ring-rose-400/40 dark:border-rose-600 dark:bg-rose-950/60'
+                    : 'border-blue-400 bg-blue-50/90 ring-2 ring-blue-400/40 dark:border-blue-600 dark:bg-blue-950/60'
                   : isHiragana
-                    ? 'border-slate-200/90 bg-white hover:border-rose-300 hover:bg-rose-50/30 hover:shadow-md hover:shadow-rose-500/10 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-rose-700/60 dark:hover:bg-rose-950/20'
-                    : 'border-slate-200/90 bg-white hover:border-blue-300 hover:bg-blue-50/30 hover:shadow-md hover:shadow-blue-500/10 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-700/60 dark:hover:bg-blue-950/20'
+                    ? 'border-slate-200/90 bg-white hover:border-rose-300 hover:bg-rose-50/30 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-rose-700/60 dark:hover:bg-rose-950/20'
+                    : 'border-slate-200/90 bg-white hover:border-blue-300 hover:bg-blue-50/30 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-700/60 dark:hover:bg-blue-950/20'
               }`}
             >
               {/* Top Accent line when playing */}
@@ -158,7 +153,7 @@ export const KanaGrid = ({
 
               {/* Speaker icon in top right */}
               <div className="absolute right-2 top-2">
-                <div className={`grid h-5 w-5 place-items-center rounded-full transition-all ${
+                <div className={`grid h-5 w-5 place-items-center rounded-full transition-colors duration-150 ${
                   isPlaying
                     ? isHiragana ? 'bg-rose-500 text-white animate-pulse' : 'bg-blue-600 text-white animate-pulse'
                     : 'text-slate-300 opacity-0 group-hover:opacity-100 group-hover:text-slate-500 dark:text-slate-600 dark:group-hover:text-slate-400'
@@ -169,9 +164,9 @@ export const KanaGrid = ({
 
               {/* Kana Japanese Character */}
               <div className="flex flex-1 items-center justify-center">
-                <span className={`font-jp text-3xl sm:text-4xl font-black transition-colors ${
+                <span className={`font-jp text-3xl sm:text-4xl font-black transition-colors duration-150 ${
                   isPlaying
-                    ? isHiragana ? 'text-rose-600 dark:text-rose-300 scale-110' : 'text-blue-600 dark:text-blue-300 scale-110'
+                    ? isHiragana ? 'text-rose-600 dark:text-rose-300' : 'text-blue-600 dark:text-blue-300'
                     : isHiragana
                       ? 'text-slate-800 group-hover:text-rose-600 dark:text-slate-100 dark:group-hover:text-rose-300'
                       : 'text-slate-800 group-hover:text-blue-600 dark:text-slate-100 dark:group-hover:text-blue-300'
@@ -182,7 +177,7 @@ export const KanaGrid = ({
 
               {/* Romaji Pronunciation Badge */}
               <div className="mt-1 w-full">
-                <span className={`inline-block rounded-full px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider transition-colors ${
+                <span className={`inline-block rounded-full px-2.5 py-0.5 text-[11px] font-black uppercase tracking-wider transition-colors duration-150 ${
                   isPlaying
                     ? isHiragana ? 'bg-rose-200/80 text-rose-800 dark:bg-rose-900/60 dark:text-rose-200' : 'bg-blue-200/80 text-blue-800 dark:bg-blue-900/60 dark:text-blue-200'
                     : 'bg-slate-100 text-slate-600 ring-1 ring-slate-200/60 group-hover:bg-white group-hover:text-slate-900 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700 dark:group-hover:bg-slate-800 dark:group-hover:text-white'
@@ -190,7 +185,7 @@ export const KanaGrid = ({
                   {char.r}
                 </span>
               </div>
-            </motion.button>
+            </button>
           );
         })}
       </div>

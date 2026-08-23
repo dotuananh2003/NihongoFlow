@@ -292,9 +292,9 @@ export const ExamHub = () => {
               initial={{ scale: 0.92, opacity: 0, y: 24 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.96, opacity: 0, y: 16 }}
-              transition={{ ease: [0.23, 1, 0.32, 1], duration: 0.5 }}
+              transition={{ ease: [0.23, 1, 0.32, 1], duration: 0.28 }}
               onClick={(event) => event.stopPropagation()}
-              className="smooth-panel relative w-full max-w-4xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white p-6 sm:p-8 md:p-10 shadow-2xl dark:border-slate-800 dark:bg-slate-900"
+              className="smooth-panel relative w-full max-w-4xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white p-6 shadow-[0_20px_54px_rgba(15,23,42,0.18)] dark:border-slate-800 dark:bg-slate-900 sm:p-8 md:p-10"
             >
               {/* Top Accent Rail & Glow */}
               <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400" />
@@ -326,27 +326,9 @@ export const ExamHub = () => {
               </div>
 
               {/* Exam Cards Grid */}
-              <motion.div 
-                className="relative z-10 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 max-h-[60vh] overflow-y-auto p-2.5 custom-scrollbar smooth-scroll-area"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: {
-                    opacity: 1,
-                    transition: {
-                      staggerChildren: 0.08,
-                      delayChildren: 0.15
-                    }
-                  }
-                }}
-              >
+              <div className="smooth-scroll-area custom-scrollbar relative z-10 grid max-h-[60vh] grid-cols-1 gap-3.5 overflow-y-auto p-2.5 sm:grid-cols-2 lg:grid-cols-3">
                 {mockExams.map((exam) => (
-                  <motion.button
-                    variants={{
-                      hidden: { opacity: 0, y: 16, scale: 0.96 },
-                      visible: { opacity: 1, y: 0, scale: 1, transition: { ease: [0.23, 1, 0.32, 1], duration: 0.5 } }
-                    }}
+                  <button
                     key={exam.name}
                     type="button"
                     onClick={() => {
@@ -358,8 +340,8 @@ export const ExamHub = () => {
                     }}
                     className={`smooth-panel steady-scroll-row group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-colors duration-150 ${
                       exam.locked
-                        ? 'border border-amber-200/70 bg-amber-50/20 opacity-90 cursor-pointer hover:border-amber-400 hover:shadow-lg hover:shadow-amber-500/10 dark:border-amber-900/40 dark:bg-amber-950/10 dark:hover:border-amber-600'
-                        : 'border border-slate-200/80 bg-white shadow-sm hover:border-rose-400 hover:shadow-lg hover:shadow-rose-500/10 hover:ring-2 hover:ring-rose-200/80 dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-600 dark:hover:ring-rose-900/50'
+                        ? 'cursor-pointer border border-amber-200/70 bg-amber-50/20 opacity-90 hover:border-amber-400 dark:border-amber-900/40 dark:bg-amber-950/10 dark:hover:border-amber-600'
+                        : 'border border-slate-200/80 bg-white hover:border-rose-400 hover:ring-1 hover:ring-rose-200/80 dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-600 dark:hover:ring-rose-900/50'
                     }`}
                   >
                     <div>
@@ -420,17 +402,11 @@ export const ExamHub = () => {
                         </div>
                       )}
                     </div>
-                  </motion.button>
+                  </button>
                 ))}
 
                 {/* Upcoming Notification Card (Matches exact structure and height of exam cards) */}
-                <motion.div 
-                  variants={{
-                    hidden: { opacity: 0, y: 16, scale: 0.96 },
-                    visible: { opacity: 1, y: 0, scale: 1, transition: { ease: [0.23, 1, 0.32, 1], duration: 0.5 } }
-                  }}
-                  className="smooth-panel steady-scroll-row flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 sm:p-5 text-left dark:border-rose-900/40 dark:bg-rose-950/20"
-                >
+                <div className="smooth-panel steady-scroll-row flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 text-left dark:border-rose-900/40 dark:bg-rose-950/20 sm:p-5">
                   <div>
                     {/* Top Header Row */}
                     <div className="flex items-center justify-between gap-2 mb-3.5">
@@ -466,8 +442,8 @@ export const ExamHub = () => {
                       <span>Sắp ra mắt thêm</span>
                     </div>
                   </div>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         )}

@@ -3,16 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, 
   Check, 
-  ChevronRight, 
-  AlertCircle, 
-  Timer, 
-  Sparkles, 
-  Zap, 
-  CheckCircle2, 
-  XCircle,
-  HelpCircle,
-  Keyboard,
-  ArrowRight
+  ChevronRight
 } from 'lucide-react';
 import { kanaData } from '../../data/kana';
 

@@ -6,20 +6,14 @@ import {
   ArrowLeft, 
   BookOpen, 
   PenTool, 
-  CheckCircle2, 
   RotateCcw, 
   Trophy, 
   Star, 
   X, 
   AlertCircle, 
   Sparkles, 
-  Zap, 
-  Layers, 
   Keyboard, 
-  ChevronRight, 
-  CheckCircle,
   GraduationCap,
-  Flame,
   ArrowRight
 } from 'lucide-react';
 import { groupMetadata, kanaData } from '../../data/kana';
@@ -534,10 +528,10 @@ export const KanaPath = () => {
                   initial={{ opacity: 0, scale: 0.95, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                  className="fixed inset-0 flex h-full w-full flex-col overflow-hidden bg-slate-50 dark:bg-slate-950"
+                  className="smooth-panel fixed inset-0 flex h-full w-full flex-col overflow-hidden bg-slate-50 dark:bg-slate-950"
                 >
                   {/* Top Bar */}
-                  <div className="sticky top-0 z-20 flex items-center justify-between border-b border-slate-200/80 bg-white/95 px-6 py-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/95 backdrop-blur-md">
+                  <div className="smooth-panel sticky top-0 z-20 flex items-center justify-between border-b border-slate-200/80 bg-white px-6 py-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center gap-3">
                       <span className={`grid h-9 w-9 place-items-center rounded-xl text-white font-jp text-base font-black shadow-md ${theme.iconBox}`}>
                         {(kanaData[system] as any)[selectedGroup]?.[0]?.jp || (isHiragana ? 'あ' : 'ア')}
@@ -555,7 +549,7 @@ export const KanaPath = () => {
                     <button 
                       type="button"
                       onClick={closeAll} 
-                      className={`grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 transition-colors ${
+                      className={`grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 transition-colors duration-150 ${
                         isHiragana ? 'hover:bg-rose-50 hover:text-rose-600' : 'hover:bg-blue-50 hover:text-blue-600'
                       } dark:bg-slate-800 dark:text-slate-400`}
                     >
@@ -564,7 +558,7 @@ export const KanaPath = () => {
                   </div>
 
                   {/* Study Content Body */}
-                  <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
+                  <div className="smooth-scroll-area flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
                     <div className="mx-auto max-w-4xl">
                       <KanaGrid 
                         title={groupMetadata.find(g => g.id === selectedGroup)?.name || 'Characters'}
@@ -577,7 +571,7 @@ export const KanaPath = () => {
                   </div>
 
                   {/* Bottom Action Footer */}
-                  <div className="sticky bottom-0 z-20 flex items-center justify-between border-t border-slate-200 bg-white px-6 py-3.5 dark:border-slate-800 dark:bg-slate-900">
+                  <div className="smooth-panel sticky bottom-0 z-20 flex items-center justify-between border-t border-slate-200 bg-white px-6 py-3.5 dark:border-slate-800 dark:bg-slate-900">
                     <button
                       type="button"
                       onClick={closeAll}

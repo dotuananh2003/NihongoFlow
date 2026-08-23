@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, ChevronRight, Volume2, Check, AlertCircle, BookOpen, RotateCcw, Clock, Keyboard, Lock } from 'lucide-react';
+import { Sparkles, X, ChevronRight, Check, AlertCircle, BookOpen, RotateCcw, Clock, Keyboard, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { KanaGrid } from '../../components/Kana/KanaGrid';
 import { KanaQuiz } from '../../components/Kana/KanaQuiz';
 import { Confetti } from '../../components/Kana/Confetti';
 import { kanaData, groupMetadata } from '../../data/kana';
 
+const formatTime = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60);
+  const restSeconds = seconds % 60;
+  return `${minutes.toString().padStart(2, '0')}:${restSeconds.toString().padStart(2, '0')}`;
+};
 
 const KanaStarterLanding = ({ navigate }: { navigate: (path: string) => void }) => {
   const hiraganaPreview = [
