@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -963,8 +964,8 @@ export const TypingPage = () => {
     const currentChar = chars[currentIndex] || {};
     const upcomingChars = chars.slice(currentIndex + 1, currentIndex + 6);
 
-    return (
-      <div className={`fixed inset-0 z-[100] flex h-full w-full flex-col overflow-hidden bg-slate-950 text-white ${
+    return createPortal(
+      <div className={`fixed inset-0 z-[99999] flex h-screen w-screen flex-col overflow-hidden bg-slate-950 text-white ${
         isHira ? 'selection:bg-rose-500 selection:text-white' : 'selection:bg-cyan-500 selection:text-black'
       }`}>
         {/* Dynamic Theme Glow Background */}
@@ -1254,7 +1255,8 @@ export const TypingPage = () => {
             </div>
           </div>
         )}
-      </div>
+      </div>,
+      document.body
     );
   }
 
@@ -1282,8 +1284,8 @@ export const TypingPage = () => {
       rankColor = 'from-blue-500 to-cyan-500 text-white shadow-blue-500/30';
     }
 
-    return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-slate-950/80 p-4 backdrop-blur-md">
+    return createPortal(
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto bg-slate-950/80 p-4 backdrop-blur-md">
         <Confetti />
 
         <motion.div
@@ -1397,7 +1399,8 @@ export const TypingPage = () => {
             </button>
           </div>
         </motion.div>
-      </div>
+      </div>,
+      document.body
     );
   }
 
