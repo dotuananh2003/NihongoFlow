@@ -103,13 +103,13 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
 
   return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-[99999] flex items-center justify-center overflow-y-auto px-3 py-4 sm:px-4 sm:py-6">
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
         {/* Dark Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-slate-950/80 backdrop-blur-md"
+          className="fixed inset-0 bg-slate-950/80"
           onClick={onClose}
         />
 
@@ -119,10 +119,10 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.94, opacity: 0, y: 25 }}
           transition={{ ease: [0.22, 1, 0.36, 1], duration: 0.35 }}
-          className="relative w-full max-w-[1040px] overflow-hidden rounded-[2.25rem] border border-white/20 bg-slate-950 shadow-[0_30px_90px_rgba(0,0,0,0.85)] text-white"
+          className="relative flex flex-col w-full max-w-[1040px] max-h-[calc(100vh-24px)] overflow-hidden rounded-[2.25rem] border border-white/20 bg-slate-950 shadow-[0_30px_90px_rgba(0,0,0,0.85)] text-white"
         >
-          {/* ARTISTIC JAPANESE BACKGROUND */}
-          <div className="absolute inset-0 -z-10 overflow-hidden">
+          {/* ARTISTIC JAPANESE BACKGROUND (FIXED BG PLANE) */}
+          <div className="fixed-bg-plane pointer-events-none absolute inset-0 -z-10 overflow-hidden">
             <img
               src="/images/premium_modal_bg.jpg"
               alt="Japanese Night Scene"
@@ -133,11 +133,12 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(56,189,248,0.15),rgba(15,23,42,0))]" />
           </div>
 
-          <div className="relative max-h-[calc(100vh-40px)] overflow-y-auto p-5 sm:p-7 md:p-8">
+          {/* SMOOTH SCROLLABLE MODAL BODY */}
+          <div className="smooth-scroll-area flex-1 overflow-y-auto p-5 sm:p-7 md:p-8">
             {/* TOP HEADER SECTION */}
             <div className="relative flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
               <div>
-                <div className="mb-2.5 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-950/50 px-3.5 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.25)] backdrop-blur-sm">
+                <div className="mb-2.5 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-950/50 px-3.5 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
                   <Gem size={13} className="text-cyan-400 animate-pulse" />
                   <span>JP FORUS PREMIUM • 完全アクセス</span>
                 </div>
@@ -153,7 +154,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="absolute -top-1 -right-1 md:relative md:top-0 md:right-0 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/10 text-slate-300 shadow-md backdrop-blur-md transition-all hover:scale-105 hover:bg-rose-500 hover:text-white"
+                className="absolute -top-1 -right-1 md:relative md:top-0 md:right-0 grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-slate-900/80 text-slate-300 shadow-md transition-all hover:scale-105 hover:bg-rose-500 hover:text-white"
                 aria-label="Đóng"
               >
                 <X size={18} />
@@ -162,7 +163,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
 
             {/* ERROR NOTIFICATION IF ANY */}
             {checkoutError && (
-              <div className="mt-4 rounded-2xl border border-rose-500/40 bg-rose-950/60 p-3 text-center text-xs font-bold text-rose-300 backdrop-blur-sm">
+              <div className="mt-4 rounded-2xl border border-rose-500/40 bg-rose-950/60 p-3 text-center text-xs font-bold text-rose-300">
                 {checkoutError}
               </div>
             )}
@@ -175,10 +176,10 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                 return (
                   <div
                     key={plan.id}
-                    className={`group relative flex flex-col justify-between rounded-[1.75rem] p-5 transition-all duration-300 ${
+                    className={`smooth-panel group relative flex flex-col justify-between rounded-[1.75rem] p-5 transition-[transform,box-shadow,border-color] duration-200 ${
                       isCombo
                         ? 'border-2 border-cyan-400/80 bg-slate-900/90 shadow-[0_0_35px_rgba(6,182,212,0.25)] ring-1 ring-cyan-400/50 hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] lg:-translate-y-2'
-                        : 'border border-white/10 bg-slate-900/60 shadow-xl backdrop-blur-md hover:-translate-y-1 hover:border-white/20 hover:bg-slate-900/80'
+                        : 'border border-white/10 bg-slate-900/70 shadow-xl hover:-translate-y-1 hover:border-white/20 hover:bg-slate-900/90'
                     }`}
                   >
                     {/* COMBO MASTER CROWN TAG */}
@@ -244,7 +245,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                       {/* Features List */}
                       <ul className="space-y-2.5">
                         {plan.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2.5 text-xs font-bold text-slate-300 leading-snug">
+                          <li key={idx} className="steady-scroll-row flex items-start gap-2.5 text-xs font-bold text-slate-300 leading-snug">
                             <CheckCircle2 size={15} className={`shrink-0 mt-0.5 ${
                               isCombo ? 'text-cyan-400' : 'text-emerald-400'
                             }`} />
@@ -260,7 +261,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                         type="button"
                         onClick={() => onStartCheckout(plan.id)}
                         disabled={creatingPlanId === plan.id}
-                        className={`group relative flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-xs font-black text-white transition-all duration-200 ${
+                        className={`group relative flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-xs font-black text-white transition-transform duration-200 ${
                           isCombo
                             ? 'bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02]'
                             : plan.tone === 'rose'
@@ -279,7 +280,7 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
             </div>
 
             {/* BOTTOM TRUST & INSTANT ACTIVATION BAR */}
-            <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 rounded-2xl border border-white/10 bg-slate-900/60 px-5 py-3.5 text-xs font-bold text-slate-400 backdrop-blur-sm">
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 rounded-2xl border border-white/10 bg-slate-900/80 px-5 py-3.5 text-xs font-bold text-slate-400">
               <div className="flex items-center gap-2 text-slate-300">
                 <Clock size={16} className="text-cyan-400" />
                 <span>Thanh toán tự động bằng mã VietQR / MoMo / Chuyển khoản 24/7</span>
