@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -188,9 +189,11 @@ export const ExamHub = () => {
               key={mode.id}
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -6, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } }}
+              whileTap={{ scale: 0.98 }}
               transition={{ delay: index * 0.08, duration: 0.3 }}
               onClick={mode.action}
-              className={`smooth-panel steady-scroll-row group relative flex min-h-[350px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border bg-gradient-to-br ${mode.theme.soft} ${mode.theme.border} p-5 sm:p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(15,23,42,0.12)]`}
+              className={`smooth-panel steady-scroll-row group relative flex min-h-[350px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border bg-gradient-to-br ${mode.theme.soft} ${mode.theme.border} p-5 sm:p-6 shadow-[0_16px_40px_rgba(15,23,42,0.06)] hover:shadow-[0_22px_50px_rgba(15,23,42,0.14)]`}
             >
               {/* Top Accent Rail */}
               <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${mode.theme.rail}`} />
@@ -277,178 +280,193 @@ export const ExamHub = () => {
         })}
       </section>
 
-      {/* Mock Exam Library Modal (Elevated Luxury Glassmorphic Design - Smooth Containment) */}
-      <AnimatePresence>
-        {isMockModalOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4"
-            onClick={() => setIsMockModalOpen(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.92, opacity: 0, y: 24 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.96, opacity: 0, y: 16 }}
-              transition={{ ease: [0.23, 1, 0.32, 1], duration: 0.28 }}
-              onClick={(event) => event.stopPropagation()}
-              className="smooth-panel relative w-full max-w-4xl overflow-hidden rounded-[2.5rem] border border-white/80 bg-white p-6 shadow-[0_20px_54px_rgba(15,23,42,0.18)] dark:border-slate-800 dark:bg-slate-900 sm:p-8 md:p-10"
-            >
-              {/* Top Accent Rail & Glow */}
-              <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400" />
-              <div className="pointer-events-none fixed-bg-plane absolute -bottom-10 right-4 select-none font-jp text-[12rem] font-black leading-none text-rose-500/[0.03] dark:text-rose-400/[0.02]">
-                試
-              </div>
+      </div>
 
-              {/* Close Button */}
-              <button
-                type="button"
+      {/* Mock Exam Library Modal (Standard 120fps Cinematic Expo-Out Sheet with Portal) */}
+      {createPortal(
+        <AnimatePresence>
+          {isMockModalOpen && (
+            <div className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                className="fixed inset-0 bg-slate-950/65"
                 onClick={() => setIsMockModalOpen(false)}
-                className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 shadow-sm ring-1 ring-slate-200/60 transition-colors duration-150 hover:bg-rose-50 hover:text-rose-600 hover:rotate-90 dark:bg-slate-800 dark:text-slate-400 dark:ring-slate-700 dark:hover:bg-rose-950/50 dark:hover:text-rose-300"
+              />
+
+              {/* Dialog Container */}
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0, y: 16 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.96, opacity: 0, y: 12 }}
+                transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+                style={{ willChange: 'transform, opacity' }}
+                onClick={(event) => event.stopPropagation()}
+                className="smooth-panel relative flex flex-col w-full max-w-4xl max-h-[calc(100vh-24px)] overflow-hidden rounded-[2.5rem] border border-white/90 bg-white p-6 shadow-[0_25px_80px_rgba(15,23,42,0.22)] dark:border-slate-800 dark:bg-slate-900 sm:p-8 md:p-10"
               >
-                <X size={20} />
-              </button>
-
-              {/* Modal Header */}
-              <div className="relative z-10 mb-7 pr-12">
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-rose-100 bg-rose-50/90 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-rose-600 shadow-sm dark:border-rose-900/40 dark:bg-rose-950/60 dark:text-rose-300">
-                  <ClipboardList size={14} />
-                  Mock Exam Library • Thư viện đề thi
+                {/* Top Accent Rail & Glow */}
+                <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400" />
+                <div className="pointer-events-none fixed-bg-plane absolute -bottom-10 right-4 select-none font-jp text-[12rem] font-black leading-none text-rose-500/[0.03] dark:text-rose-400/[0.02]">
+                  試
                 </div>
-                <h3 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
-                  Chọn bộ đề thi thử
-                </h3>
-                <p className="mt-2 max-w-2xl text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Mỗi đề thi được thiết kế chuẩn cấu trúc JLPT với đồng hồ đếm ngược 30 phút, chấm điểm tự động và bảng đánh giá kết quả chi tiết.
-                </p>
-              </div>
 
-              {/* Exam Cards Grid */}
-              <div className="smooth-scroll-area custom-scrollbar relative z-10 grid max-h-[60vh] grid-cols-1 gap-3.5 overflow-y-auto p-2.5 sm:grid-cols-2 lg:grid-cols-3">
-                {mockExams.map((exam) => (
-                  <button
-                    key={exam.name}
-                    type="button"
-                    onClick={() => {
-                      if (!exam.locked) {
-                        navigate(`/exam/${courseId}/mock/${encodeURIComponent(exam.name)}`);
-                      } else {
-                        window.dispatchEvent(new CustomEvent('jp-forus:open-upgrade'));
-                      }
-                    }}
-                    className={`smooth-panel steady-scroll-row group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-colors duration-150 ${
-                      exam.locked
-                        ? 'cursor-pointer border border-amber-200/70 bg-amber-50/20 opacity-90 hover:border-amber-400 dark:border-amber-900/40 dark:bg-amber-950/10 dark:hover:border-amber-600'
-                        : 'border border-slate-200/80 bg-white hover:border-rose-400 hover:ring-1 hover:ring-rose-200/80 dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-600 dark:hover:ring-rose-900/50'
-                    }`}
-                  >
+                {/* Close Button */}
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.92 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                  onClick={() => setIsMockModalOpen(false)}
+                  className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full bg-slate-100 text-slate-500 shadow-sm ring-1 ring-slate-200/60 transition-colors hover:bg-rose-50 hover:text-rose-600 dark:bg-slate-800 dark:text-slate-400 dark:ring-slate-700 dark:hover:bg-rose-950/50 dark:hover:text-rose-300"
+                  aria-label="Đóng"
+                >
+                  <X size={20} />
+                </motion.button>
+
+                {/* Modal Header */}
+                <div className="relative z-10 mb-6 pr-12">
+                  <div className="mb-2.5 inline-flex items-center gap-2 rounded-full border border-rose-100 bg-rose-50/90 px-3.5 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-rose-600 shadow-sm dark:border-rose-900/40 dark:bg-rose-950/60 dark:text-rose-300">
+                    <ClipboardList size={14} />
+                    Mock Exam Library • Thư viện đề thi
+                  </div>
+                  <h3 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
+                    Chọn bộ đề thi thử
+                  </h3>
+                  <p className="mt-2 max-w-2xl text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Mỗi đề thi được thiết kế chuẩn cấu trúc JLPT với đồng hồ đếm ngược 30 phút, chấm điểm tự động và bảng đánh giá kết quả chi tiết.
+                  </p>
+                </div>
+
+                {/* Exam Cards Grid */}
+                <div className="smooth-scroll-area custom-scrollbar relative z-10 grid max-h-[60vh] grid-cols-1 gap-3.5 overflow-y-auto p-2.5 sm:grid-cols-2 lg:grid-cols-3">
+                  {mockExams.map((exam) => (
+                    <motion.button
+                      key={exam.name}
+                      type="button"
+                      whileHover={{ y: -4, transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] } }}
+                      whileTap={{ scale: 0.985 }}
+                      onClick={() => {
+                        if (!exam.locked) {
+                          navigate(`/exam/${courseId}/mock/${encodeURIComponent(exam.name)}`);
+                        } else {
+                          window.dispatchEvent(new CustomEvent('jp-forus:open-upgrade'));
+                        }
+                      }}
+                      className={`smooth-panel steady-scroll-row group relative flex flex-col justify-between rounded-[1.5rem] p-4 sm:p-5 text-left transition-colors duration-150 ${
+                        exam.locked
+                          ? 'cursor-pointer border border-amber-200/70 bg-amber-50/20 opacity-90 hover:border-amber-400 dark:border-amber-900/40 dark:bg-amber-950/10 dark:hover:border-amber-600'
+                          : 'border border-slate-200/80 bg-white hover:border-rose-400 hover:ring-1 hover:ring-rose-200/80 dark:border-slate-800 dark:bg-slate-800/90 dark:hover:border-rose-600 dark:hover:ring-rose-900/50'
+                      }`}
+                    >
+                      <div>
+                        {/* Top Header Row: Type Badge + Time Badge */}
+                        <div className="flex items-center justify-between gap-2 mb-3.5">
+                          <span
+                            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-black ${
+                              exam.type.includes('Final')
+                                ? 'bg-blue-50 text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/60 dark:text-blue-300 dark:ring-blue-900/40'
+                                : 'bg-amber-50 text-amber-600 ring-1 ring-amber-100 dark:bg-amber-950/60 dark:text-amber-300 dark:ring-amber-900/40'
+                            }`}
+                          >
+                            <Layers3 size={11} />
+                            {exam.type}
+                          </span>
+
+                          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-600 dark:bg-slate-700/60 dark:text-slate-300">
+                            <Clock size={11} />
+                            {exam.time}
+                          </span>
+                        </div>
+
+                        {/* Middle Row: 3D Icon + Exam Title */}
+                        <div className="flex items-start gap-3">
+                          <div
+                            className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-transform duration-150 group-hover:scale-105 ${
+                              exam.locked
+                                ? 'bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-500'
+                                : 'bg-gradient-to-br from-rose-500 via-pink-500 to-orange-400 text-white shadow-md shadow-rose-500/25 ring-2 ring-rose-100 dark:ring-rose-950/50'
+                            }`}
+                          >
+                            <FileText size={20} />
+                          </div>
+
+                          <div>
+                            <h4 className="text-[15px] font-black text-slate-900 dark:text-white tracking-tight group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors duration-150 leading-snug">
+                              {exam.name}
+                            </h4>
+                            <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 mt-0.5 inline-block">
+                              30 câu hỏi trắc nghiệm
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Bottom Row: Full-width Interactive CTA */}
+                      <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60">
+                        {exam.locked ? (
+                          <div className="relative overflow-hidden flex w-full items-center justify-center gap-2 rounded-xl bg-amber-50 py-2.5 px-4 text-xs font-black text-amber-600 transition-colors duration-150 group-hover:bg-amber-100 group-hover:text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 dark:group-hover:bg-amber-900/60">
+                            <Lock size={14} className="relative z-10" />
+                            <span className="relative z-10">Mở khóa đề thi</span>
+                          </div>
+                        ) : (
+                          <div className="relative overflow-hidden flex w-full items-center justify-center gap-2 rounded-xl bg-rose-50 py-2.5 px-4 text-xs font-black text-rose-600 transition-colors duration-150 group-hover:text-white group-hover:shadow-md dark:bg-rose-950/50 dark:text-rose-300 dark:group-hover:text-white">
+                            <div className="absolute inset-0 bg-gradient-to-r from-rose-500 via-pink-500 to-orange-500 opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
+                            <span className="relative z-10">Bắt đầu làm bài</span>
+                            <ArrowRight size={14} className="relative z-10 transition-transform duration-150 group-hover:translate-x-1" />
+                          </div>
+                        )}
+                      </div>
+                    </motion.button>
+                  ))}
+
+                  {/* Upcoming Notification Card */}
+                  <div className="smooth-panel steady-scroll-row flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 text-left dark:border-rose-900/40 dark:bg-rose-950/20 sm:p-5">
                     <div>
-                      {/* Top Header Row: Type Badge + Time Badge */}
+                      {/* Top Header Row */}
                       <div className="flex items-center justify-between gap-2 mb-3.5">
-                        <span
-                          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-black ${
-                            exam.type.includes('Final')
-                              ? 'bg-blue-50 text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/60 dark:text-blue-300 dark:ring-blue-900/40'
-                              : 'bg-amber-50 text-amber-600 ring-1 ring-amber-100 dark:bg-amber-950/60 dark:text-amber-300 dark:ring-amber-900/40'
-                          }`}
-                        >
-                          <Layers3 size={11} />
-                          {exam.type}
+                        <span className="inline-flex items-center gap-1 rounded-full bg-rose-100/80 px-2.5 py-1 text-[10px] font-black text-rose-600 dark:bg-rose-950/60 dark:text-rose-300">
+                          <Sparkles size={11} />
+                          Mở rộng
                         </span>
-
                         <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-600 dark:bg-slate-700/60 dark:text-slate-300">
-                          <Clock size={11} />
-                          {exam.time}
+                          Định kỳ
                         </span>
                       </div>
 
-                      {/* Middle Row: 3D Icon + Exam Title */}
+                      {/* Middle Row: 3D Icon + Info */}
                       <div className="flex items-start gap-3">
-                        <div
-                          className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-transform duration-150 group-hover:scale-105 ${
-                            exam.locked
-                              ? 'bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-500'
-                              : 'bg-gradient-to-br from-rose-500 via-pink-500 to-orange-400 text-white shadow-md shadow-rose-500/25 ring-2 ring-rose-100 dark:ring-rose-950/50'
-                          }`}
-                        >
-                          <FileText size={20} />
+                        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-amber-400 to-rose-500 text-white shadow-sm">
+                          <ShieldCheck size={20} />
                         </div>
-
                         <div>
-                          <h4 className="text-[15px] font-black text-slate-900 dark:text-white tracking-tight group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors duration-150 leading-snug">
-                            {exam.name}
+                          <h4 className="text-[15px] font-black text-rose-600 dark:text-rose-400 tracking-tight leading-snug">
+                            Kho đề mở rộng
                           </h4>
                           <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 mt-0.5 inline-block">
-                            30 câu hỏi trắc nghiệm
+                            Đang cập nhật thêm đề mới
                           </span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Bottom Row: Full-width Interactive CTA */}
-                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60">
-                      {exam.locked ? (
-                        <div className="relative overflow-hidden flex w-full items-center justify-center gap-2 rounded-xl bg-amber-50 py-2.5 px-4 text-xs font-black text-amber-600 transition-colors duration-150 group-hover:bg-amber-100 group-hover:text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 dark:group-hover:bg-amber-900/60">
-                          <Lock size={14} className="relative z-10" />
-                          <span className="relative z-10">Mở khóa đề thi</span>
-                        </div>
-                      ) : (
-                        <div className="relative overflow-hidden flex w-full items-center justify-center gap-2 rounded-xl bg-rose-50 py-2.5 px-4 text-xs font-black text-rose-600 transition-colors duration-150 group-hover:text-white group-hover:shadow-md dark:bg-rose-950/50 dark:text-rose-300 dark:group-hover:text-white">
-                          <div className="absolute inset-0 bg-gradient-to-r from-rose-500 via-pink-500 to-orange-500 opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
-                          <span className="relative z-10">Bắt đầu làm bài</span>
-                          <ArrowRight size={14} className="relative z-10 transition-transform duration-150 group-hover:translate-x-1" />
-                        </div>
-                      )}
-                    </div>
-                  </button>
-                ))}
-
-                {/* Upcoming Notification Card (Matches exact structure and height of exam cards) */}
-                <div className="smooth-panel steady-scroll-row flex flex-col justify-between rounded-[1.5rem] border border-dashed border-rose-200 bg-rose-50/40 p-4 text-left dark:border-rose-900/40 dark:bg-rose-950/20 sm:p-5">
-                  <div>
-                    {/* Top Header Row */}
-                    <div className="flex items-center justify-between gap-2 mb-3.5">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-rose-100/80 px-2.5 py-1 text-[10px] font-black text-rose-600 dark:bg-rose-950/60 dark:text-rose-300">
-                        <Sparkles size={11} />
-                        Mở rộng
-                      </span>
-                      <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-slate-600 dark:bg-slate-700/60 dark:text-slate-300">
-                        Định kỳ
-                      </span>
-                    </div>
-
-                    {/* Middle Row: 3D Icon + Info */}
-                    <div className="flex items-start gap-3">
-                      <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-amber-400 to-rose-500 text-white shadow-sm">
-                        <ShieldCheck size={20} />
+                    {/* Bottom Row: Matching Button Height */}
+                    <div className="mt-4 pt-3 border-t border-dashed border-rose-200/80 dark:border-rose-900/40">
+                      <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-100/50 py-2.5 px-3 text-xs font-black text-rose-600/80 dark:bg-rose-950/40 dark:text-rose-400">
+                        <Sparkles size={13} />
+                        <span>Sắp ra mắt thêm</span>
                       </div>
-                      <div>
-                        <h4 className="text-[15px] font-black text-rose-600 dark:text-rose-400 tracking-tight leading-snug">
-                          Kho đề mở rộng
-                        </h4>
-                        <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 mt-0.5 inline-block">
-                          Đang cập nhật thêm đề mới
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom Row: Matching Button Height */}
-                  <div className="mt-4 pt-3 border-t border-dashed border-rose-200/80 dark:border-rose-900/40">
-                    <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-rose-100/50 py-2.5 px-3 text-xs font-black text-rose-600/80 dark:bg-rose-950/40 dark:text-rose-400">
-                      <Sparkles size={13} />
-                      <span>Sắp ra mắt thêm</span>
                     </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 };
