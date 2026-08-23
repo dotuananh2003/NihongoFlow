@@ -273,13 +273,10 @@ export const TypingPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
               onClick={() => setSystem('hiragana')}
-              className="group relative flex min-h-[340px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border border-rose-100/90 bg-white p-5 text-left shadow-[0_16px_40px_rgba(244,63,94,0.09)] transition-all duration-300 hover:-translate-y-1 hover:border-rose-300 hover:shadow-[0_24px_50px_rgba(244,63,94,0.16)] dark:border-slate-800 dark:bg-slate-900"
+              className="smooth-panel group relative flex min-h-[340px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border border-rose-100/90 bg-white p-5 text-left shadow-lg transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-rose-300 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900"
             >
               {/* Top Accent Rail */}
               <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-rose-500 via-pink-400 to-amber-300" />
-              
-              {/* Ambient Glow */}
-              <div className="pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-rose-100/80 blur-2xl transition-transform duration-700 group-hover:scale-125 dark:bg-rose-500/10" />
 
               {/* Watermark Kana */}
               <div className="pointer-events-none absolute -bottom-10 right-4 select-none font-jp text-[8rem] font-black leading-none text-rose-100/60 opacity-60 transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110 dark:text-rose-900/20">
@@ -339,13 +336,10 @@ export const TypingPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.08 }}
               onClick={() => setSystem('katakana')}
-              className="group relative flex min-h-[340px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border border-blue-100/90 bg-white p-5 text-left shadow-[0_16px_40px_rgba(37,99,235,0.09)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-[0_24px_50px_rgba(37,99,235,0.16)] dark:border-slate-800 dark:bg-slate-900"
+              className="smooth-panel group relative flex min-h-[340px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.75rem] border border-blue-100/90 bg-white p-5 text-left shadow-lg transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900"
             >
               {/* Top Accent Rail */}
               <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-blue-600 via-sky-400 to-cyan-300" />
-              
-              {/* Ambient Glow */}
-              <div className="pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-blue-100/80 blur-2xl transition-transform duration-700 group-hover:scale-125 dark:bg-blue-500/10" />
 
               {/* Watermark Kana */}
               <div className="pointer-events-none absolute -bottom-10 right-4 select-none font-jp text-[8rem] font-black leading-none text-blue-100/60 opacity-60 transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110 dark:text-blue-900/20">
