@@ -44,6 +44,7 @@ export const AppRoutes = () => {
           <Route index element={<Home />} />
           <Route path="introduction" element={<Introduction />} />
           <Route path="introduction/mnemonic" element={<MnemonicPage />} />
+          <Route path="introduction/typing" element={<TypingPage />} />
           <Route path="introduction/:system" element={<KanaPath />} />
           <Route path="kanji" element={<Kanji />} />
           <Route path="kanji/:courseId/lesson/:lessonId" element={<KanjiLesson />} />
@@ -68,7 +69,6 @@ export const AppRoutes = () => {
 
       {/* Full-screen routes without Layout */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/introduction/typing" element={<TypingPage />} />
         <Route path="/exam/:courseId/mock/:examId" element={<MockExamSession />} />
       </Route>
     </Routes>

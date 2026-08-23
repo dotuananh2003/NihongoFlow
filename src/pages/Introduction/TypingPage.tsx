@@ -233,6 +233,15 @@ export const TypingPage = () => {
     }
   };
 
+  const exitTypingToSelection = () => {
+    try {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    } catch {}
+    setGameState('selection');
+  };
+
   // Typing Session States
   const [chars, setChars] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -451,7 +460,7 @@ export const TypingPage = () => {
       e.preventDefault();
       handleCheckAnswer(currentInput, currentIndex);
     } else if (e.key === 'Escape') {
-      setGameState('selection');
+      exitTypingToSelection();
     }
   };
 
@@ -474,7 +483,7 @@ export const TypingPage = () => {
       e.preventDefault();
       handleCheckAnswer(answers[idx] || '', idx);
     } else if (e.key === 'Escape') {
-      setGameState('selection');
+      exitTypingToSelection();
     }
   };
 
@@ -552,7 +561,7 @@ export const TypingPage = () => {
               <span>{system ? 'Chọn hệ chữ khác' : 'Quay lại Nhập môn'}</span>
             </button>
 
-            {/* Right: Sound & Fullscreen toggle */}
+            {/* Right: Sound toggle */}
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -565,16 +574,6 @@ export const TypingPage = () => {
               >
                 {soundEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />}
                 <span>{soundEnabled ? 'Âm thanh: Bật' : 'Âm thanh: Tắt'}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={toggleFullscreen}
-                className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 shadow-sm transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200"
-                title="Toàn màn hình (F11)"
-              >
-                {isFullscreen ? <Minimize size={14} /> : <Maximize size={14} />}
-                <span className="hidden sm:inline">{isFullscreen ? 'Thu nhỏ' : 'Toàn màn hình'}</span>
               </button>
             </div>
           </div>
@@ -977,9 +976,9 @@ export const TypingPage = () => {
           <div className="flex items-center gap-3">
             <button
               type="button"
-              onClick={() => setGameState('selection')}
+              onClick={exitTypingToSelection}
               className="grid h-9 w-9 place-items-center rounded-xl bg-slate-800 text-slate-400 transition-colors hover:bg-rose-500/20 hover:text-rose-400"
-              title="Thoát (ESC)"
+              title="Thoát về trang chọn (ESC)"
             >
               <X size={18} />
             </button>
@@ -1369,7 +1368,7 @@ export const TypingPage = () => {
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
             <button
               type="button"
-              onClick={() => setGameState('selection')}
+              onClick={exitTypingToSelection}
               className="flex-1 rounded-2xl border border-slate-700 bg-slate-800 py-3.5 text-xs font-black text-slate-200 shadow-sm transition-all hover:bg-slate-700 hover:text-white"
             >
               Chọn bài tập khác
