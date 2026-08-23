@@ -407,7 +407,7 @@ export const TypingPage = () => {
             className="w-full"
           >
             {/* Control Bar */}
-            <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/95 p-3.5 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 backdrop-blur-md">
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
               <div className="flex items-center gap-2.5">
                 <span className={`grid h-8 w-8 place-items-center rounded-xl font-jp text-sm font-black ${
                   system === 'hiragana' ? 'bg-rose-100 text-rose-600 dark:bg-rose-950/60 dark:text-rose-300' : 'bg-blue-100 text-blue-600 dark:bg-blue-950/60 dark:text-blue-300'
@@ -467,7 +467,7 @@ export const TypingPage = () => {
                 return (
                   <div 
                     key={col.id} 
-                    className="flex flex-col rounded-[1.5rem] border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90"
+                    className="smooth-panel flex flex-col rounded-[1.5rem] border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
                   >
                     {/* Header */}
                     <div className="mb-3.5 flex items-center justify-between border-b border-slate-100 pb-2.5 dark:border-slate-800">
@@ -517,7 +517,7 @@ export const TypingPage = () => {
                           <div
                             key={rowId}
                             onClick={() => setActiveGroups(prev => prev.includes(rowId) ? prev.filter(id => id !== rowId) : [...prev, rowId])}
-                            className={`group/row flex cursor-pointer items-center justify-between rounded-xl border p-2.5 transition-all duration-150 ${
+                            className={`steady-scroll-row group/row flex cursor-pointer items-center justify-between rounded-xl border p-2.5 transition-colors duration-150 ${
                               isSelected
                                 ? isHira
                                   ? 'border-rose-300 bg-rose-50/70 shadow-sm dark:border-rose-800 dark:bg-rose-950/40'
@@ -588,7 +588,7 @@ export const TypingPage = () => {
     return (
       <div className="fixed inset-0 z-[100] flex h-full w-full flex-col overflow-hidden bg-slate-50 dark:bg-slate-950">
         {/* Top Header & Stats */}
-        <div className="flex items-center justify-between border-b border-slate-200/80 bg-white/95 px-6 py-3.5 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 backdrop-blur-md">
+        <div className="flex items-center justify-between border-b border-slate-200/80 bg-white px-6 py-3.5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <button 
             type="button"
             onClick={() => {
@@ -625,7 +625,7 @@ export const TypingPage = () => {
         </div>
 
         {/* Main Typing Area */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-8">
+        <div className="smooth-scroll-area flex-1 overflow-y-auto p-6 md:p-8">
           <div className="mx-auto grid max-w-[1100px] grid-cols-3 gap-3.5 pb-20 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 md:gap-5">
             {chars.map((char: any, idx: number) => {
               const isCurrent = idx === currentIndex;
@@ -647,7 +647,7 @@ export const TypingPage = () => {
                     isCurrent ? { scale: 1.04 } : { scale: 1, x: 0 }
                   }
                   transition={{ duration: 0.25 }}
-                  className={`relative flex flex-col overflow-hidden rounded-2xl border-2 p-3 transition-colors ${boxBg} ${isCurrent ? 'opacity-100' : 'opacity-90'}`}
+                  className={`steady-scroll-row relative flex flex-col overflow-hidden rounded-2xl border-2 p-3 transition-colors ${boxBg} ${isCurrent ? 'opacity-100' : 'opacity-90'}`}
                 >
                   <div className="pointer-events-none flex min-h-[58px] flex-1 items-center justify-center">
                     <span className={`font-jp text-3xl font-bold ${cStatus === 'wrong' ? 'text-rose-500' : 'text-slate-800 dark:text-slate-100'}`}>
