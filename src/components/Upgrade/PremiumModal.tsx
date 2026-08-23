@@ -151,14 +151,17 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
               </div>
 
               {/* Close Button */}
-              <button
+              <motion.button
                 type="button"
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.92 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 onClick={onClose}
-                className="absolute -top-1 -right-1 md:relative md:top-0 md:right-0 grid h-10 w-10 place-items-center rounded-full border border-slate-200/80 bg-white/90 text-slate-500 shadow-sm transition-all hover:scale-105 hover:bg-slate-900 hover:text-white"
+                className="absolute -top-1 -right-1 md:relative md:top-0 md:right-0 grid h-10 w-10 place-items-center rounded-full border border-slate-200/80 bg-white/90 text-slate-500 shadow-sm transition-colors hover:bg-slate-900 hover:text-white"
                 aria-label="Đóng"
               >
                 <X size={18} />
-              </button>
+              </motion.button>
             </div>
 
             {/* ERROR NOTIFICATION IF ANY */}
@@ -174,14 +177,19 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
                 const isCombo = plan.featured;
 
                 return (
-                  <div
+                  <motion.div
                     key={plan.id}
-                    className={`smooth-panel group relative flex flex-col justify-between rounded-[2rem] overflow-hidden p-5 transition-[transform,box-shadow,border-color] duration-200 ${
+                    initial={false}
+                    whileHover={{ 
+                      y: isCombo ? -10 : -6,
+                      transition: { duration: 0.28, ease: [0.25, 1, 0.5, 1] }
+                    }}
+                    className={`smooth-panel group relative flex flex-col justify-between rounded-[2rem] overflow-hidden p-5 ${
                       isCombo
                         ? 'border-2 border-blue-400/90 bg-white/95 shadow-[0_16px_45px_rgba(37,99,235,0.16)] ring-4 ring-blue-100/80 hover:shadow-[0_22px_55px_rgba(37,99,235,0.25)] lg:-translate-y-2'
                         : plan.tone === 'rose'
-                        ? 'border border-rose-100/90 bg-white/90 shadow-[0_8px_30px_rgba(244,63,94,0.06)] hover:-translate-y-1 hover:border-rose-300 hover:shadow-[0_16px_40px_rgba(244,63,94,0.12)]'
-                        : 'border border-indigo-100/90 bg-white/90 shadow-[0_8px_30px_rgba(79,70,229,0.06)] hover:-translate-y-1 hover:border-indigo-300 hover:shadow-[0_16px_40px_rgba(79,70,229,0.12)]'
+                        ? 'border border-rose-100/90 bg-white/90 shadow-[0_8px_30px_rgba(244,63,94,0.06)] hover:border-rose-300 hover:shadow-[0_16px_40px_rgba(244,63,94,0.12)]'
+                        : 'border border-indigo-100/90 bg-white/90 shadow-[0_8px_30px_rgba(79,70,229,0.06)] hover:border-indigo-300 hover:shadow-[0_16px_40px_rgba(79,70,229,0.12)]'
                     }`}
                   >
                     {/* COMBO MASTER TOP EMBEDDED RIBBON (CLEAN & NO CLIPPING) */}
@@ -255,24 +263,27 @@ export const PremiumModal: React.FC<PremiumModalProps> = ({
 
                     {/* CTA Button */}
                     <div className="mt-6 pt-2">
-                      <button
+                      <motion.button
                         type="button"
+                        whileHover={{ scale: 1.025 }}
+                        whileTap={{ scale: 0.975 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
                         onClick={() => onStartCheckout(plan.id)}
                         disabled={creatingPlanId === plan.id}
-                        className={`group relative flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-xs font-black text-white transition-transform duration-200 ${
+                        className={`group relative flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-xs font-black text-white shadow-md ${
                           isCombo
-                            ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/45 hover:scale-[1.02]'
+                            ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 shadow-blue-500/30 hover:shadow-blue-500/45'
                             : plan.tone === 'rose'
-                            ? 'bg-gradient-to-r from-rose-500 to-pink-600 shadow-md shadow-rose-500/20 hover:from-rose-600 hover:to-pink-700 hover:scale-[1.02]'
-                            : 'bg-gradient-to-r from-indigo-600 to-blue-600 shadow-md shadow-indigo-500/20 hover:from-indigo-700 hover:to-blue-700 hover:scale-[1.02]'
+                            ? 'bg-gradient-to-r from-rose-500 to-pink-600 shadow-rose-500/20 hover:from-rose-600 hover:to-pink-700'
+                            : 'bg-gradient-to-r from-indigo-600 to-blue-600 shadow-indigo-500/20 hover:from-indigo-700 hover:to-blue-700'
                         }`}
                       >
                         <CreditCard size={15} />
                         <span>{creatingPlanId === plan.id ? 'Đang tạo đơn...' : 'MUA GÓI NÀY'}</span>
                         <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                      </button>
+                      </motion.button>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
