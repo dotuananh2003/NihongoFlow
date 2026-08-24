@@ -17,6 +17,7 @@ import {
   touchLastLogin,
   upsertExternalLogin,
   usePasswordResetToken,
+  updateUserAvatar,
 } from '../repositories/authRepository.js';
 import { createOpaqueToken, hashPassword, sha256, verifyPassword } from '../utils/crypto.js';
 import { refreshCookieOptions, signAccessToken, toPublicUser } from '../utils/tokens.js';
@@ -164,6 +165,10 @@ router.post('/google', authLimiter, async (req, res, next) => {
         provider: 'google',
         emailVerified: Boolean(payload.email_verified),
       });
+    } else if (payload.picture && user.AvatarUrl !== payload.picture) {
+      // Sync Google Avatar if it differs or was null
+      await updateUserAvatar(user.Id, payload.picture);
+      user.AvatarUrl = payload.picture;
     }
 
     if (user.IsActive === false) {

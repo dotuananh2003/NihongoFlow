@@ -104,6 +104,14 @@ export const touchLastLogin = async (userId: string) => {
   );
 };
 
+export const updateUserAvatar = async (userId: string, avatarUrl: string) => {
+  const pool = await getPool();
+  await pool.query(
+    `UPDATE "Users" SET "AvatarUrl" = $1 WHERE "Id" = $2`,
+    [avatarUrl, userId]
+  );
+};
+
 export const upsertExternalLogin = async (input: {
   userId: string;
   provider: string;

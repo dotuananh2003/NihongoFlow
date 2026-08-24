@@ -257,7 +257,7 @@ export const Header = () => {
             className="flex items-center gap-3 rounded-full py-1 pl-1 pr-2 hover:bg-white/45 transition-all"
           >
             <span className="w-12 h-12 rounded-full border-2 border-white dark:border-slate-800 shadow-sm overflow-hidden bg-slate-200 shrink-0">
-              <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
+              <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" referrerPolicy="no-referrer" onError={(e) => { (e.target as HTMLImageElement).src = 'https://api.dicebear.com/7.x/notionists/svg?seed=jp-forus&backgroundColor=f8d7da'; }} />
             </span>
             <span className="hidden sm:flex flex-col text-left">
               <span className="text-sm font-black font-jp text-slate-800 dark:text-slate-100">こんにちは!</span>
@@ -279,7 +279,7 @@ export const Header = () => {
                       title="Đổi avatar"
                     >
                       <span className="block h-[74px] w-[74px] overflow-hidden rounded-[26px] border-4 border-white bg-slate-100 shadow-lg">
-                        <img src={avatarImage} alt="Avatar" className="h-full w-full object-cover" />
+                        <img src={avatarImage} alt="Avatar" className="h-full w-full object-cover" referrerPolicy="no-referrer" onError={(e) => { (e.target as HTMLImageElement).src = 'https://api.dicebear.com/7.x/notionists/svg?seed=jp-forus&backgroundColor=f8d7da'; }} />
                       </span>
                       <span className="absolute inset-0 grid place-items-center rounded-[26px] bg-slate-950/45 text-white opacity-0 transition-opacity group-hover:opacity-100">
                         <Camera size={20} />
@@ -377,7 +377,7 @@ export const Header = () => {
                   title="Đổi avatar"
                 >
                   <span className="block w-24 h-24 rounded-full border-4 border-white dark:border-slate-800 shadow-lg overflow-hidden bg-slate-200">
-                    <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
+                    <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" referrerPolicy="no-referrer" onError={(e) => { (e.target as HTMLImageElement).src = 'https://api.dicebear.com/7.x/notionists/svg?seed=jp-forus&backgroundColor=f8d7da'; }} />
                   </span>
                   <span className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <Camera size={24} className="text-white" />
