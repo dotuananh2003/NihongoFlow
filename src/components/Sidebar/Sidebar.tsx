@@ -52,7 +52,7 @@ const navSections: SidebarNavSection[] = [
     items: [
       { path: '/memory', label: 'Ghi nhớ', sub: 'Memory', icon: Puzzle, locked: true },
       { path: '/active-vocabulary', label: 'Từ chủ động', sub: 'Active', icon: Crown, locked: true },
-      { path: '/speaking', label: 'Luyện nói', sub: 'Speaking', icon: Mic, locked: true },
+      { path: '/speaking', label: 'Luyện nói', sub: 'Speaking', icon: Mic },
     ],
   },
 ];
