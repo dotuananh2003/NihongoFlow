@@ -110,7 +110,7 @@ export const GoogleSignInButton = ({ label, onCredential, text }: GoogleSignInBu
       {/* Invisible Google GSI overlay covering 100% of the button area to trigger native popup */}
       <div
         ref={buttonRef}
-        className="pointer-events-auto absolute inset-0 z-20 flex items-center justify-center opacity-0 cursor-pointer overflow-hidden [&>div]:w-full [&>div]:h-full [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:min-w-full [&_iframe]:scale-[2] [&_iframe]:cursor-pointer"
+        className="pointer-events-auto absolute inset-0 z-20 flex items-center justify-center opacity-[0.01] cursor-pointer overflow-hidden [&>div]:w-full [&>div]:h-full [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:cursor-pointer"
         title={buttonText}
       />
     </div>
