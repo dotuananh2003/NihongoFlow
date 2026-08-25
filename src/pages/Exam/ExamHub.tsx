@@ -22,6 +22,7 @@ import {
   BarChart3,
   Sliders,
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 type FeatureStat = {
   icon: typeof Sparkles;
@@ -58,6 +59,7 @@ type ExamMode = {
 };
 
 export const ExamHub = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { courseId } = useParams();
   const [isMockModalOpen, setIsMockModalOpen] = useState(false);
@@ -68,12 +70,12 @@ export const ExamHub = () => {
     { name: 'JPD123 - SU26 - RE', type: 'Retake', time: '30 phút', locked: false },
     { name: 'JPD123 - SU26 - FE', type: 'Final Exam', time: '30 phút', locked: false },
     { name: 'JPD123 - SP26 - RE', type: 'Retake', time: '30 phút', locked: false },
-    { name: 'JPD123 - SP26 - C1FE', type: 'Final Exam', time: '30 phút', locked: true },
-    { name: 'JPD123 - SP26 - C2FE', type: 'Final Exam', time: '30 phút', locked: true },
-    { name: 'JPD123 - SU25 - RE', type: 'Retake', time: '30 phút', locked: true },
-    { name: 'JPD123 - SU25 - FE', type: 'Final Exam', time: '30 phút', locked: true },
-    { name: 'JPD123 - SP25 - RE', type: 'Retake', time: '30 phút', locked: true },
-    { name: 'JPD123 - SP25 - FEC2', type: 'Final Exam', time: '30 phút', locked: true },
+    { name: 'JPD123 - SP26 - C1FE', type: 'Final Exam', time: '30 phút', locked: !user?.hasPremium },
+    { name: 'JPD123 - SP26 - C2FE', type: 'Final Exam', time: '30 phút', locked: !user?.hasPremium },
+    { name: 'JPD123 - SU25 - RE', type: 'Retake', time: '30 phút', locked: !user?.hasPremium },
+    { name: 'JPD123 - SU25 - FE', type: 'Final Exam', time: '30 phút', locked: !user?.hasPremium },
+    { name: 'JPD123 - SP25 - RE', type: 'Retake', time: '30 phút', locked: !user?.hasPremium },
+    { name: 'JPD123 - SP25 - FEC2', type: 'Final Exam', time: '30 phút', locked: !user?.hasPremium },
   ];
 
   const modes: ExamMode[] = [
