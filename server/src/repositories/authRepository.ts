@@ -23,6 +23,11 @@ const buildUserSelect = (columns: Set<string>) => [
   columns.has('Provider') ? '"Provider" as "Provider"' : "'local' as \"Provider\"",
   columns.has('EmailVerified') ? '"EmailVerified" as "EmailVerified"' : 'false as "EmailVerified"',
   columns.has('IsActive') ? '"IsActive" as "IsActive"' : 'true as "IsActive"',
+  `(SELECT EXISTS (
+    SELECT 1 FROM "UserSubscriptions" 
+    WHERE "UserSubscriptions"."UserId" = "Users"."Id" 
+    AND "UserSubscriptions"."ExpiresAt" > CURRENT_TIMESTAMP
+  )) as "HasPremium"`
 ].join(', ');
 
 export const findUserByEmail = async (email: string) => {

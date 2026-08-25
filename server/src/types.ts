@@ -9,6 +9,7 @@ export type DbUser = {
   Provider: AuthProvider;
   EmailVerified: boolean;
   IsActive?: boolean;
+  HasPremium?: boolean;
 };
 
 export type PublicUser = {
@@ -18,6 +19,7 @@ export type PublicUser = {
   avatarUrl: string | null;
   provider: AuthProvider;
   emailVerified: boolean;
+  hasPremium?: boolean;
 };
 
 export type AuthenticatedRequestUser = {

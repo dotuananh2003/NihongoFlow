@@ -21,6 +21,7 @@ import {
   Check
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
 // ==========================================
 // 1. LESSON DATA & TOKEN DEFINITIONS (5 LESSONS)
@@ -552,6 +553,7 @@ interface SentenceRecord {
 }
 
 export const ShadowingPractice = () => {
+  const { user } = useAuth();
   const { courseId, lessonId } = useParams<{ courseId: string; lessonId: string }>();
   const navigate = useNavigate();
 
@@ -575,7 +577,7 @@ export const ShadowingPractice = () => {
   const [activeWordSpeech, setActiveWordSpeech] = useState<string | null>(null);
 
   // Helper: Sentences 6 to 10 (index >= 5) are locked for Premium
-  const isPremiumSentence = (idx: number) => idx >= 5;
+  const isPremiumSentence = (idx: number) => !user?.hasPremium && idx >= 5;
 
   const openUpgradeModal = () => {
     window.dispatchEvent(new CustomEvent('jp-forus:open-upgrade'));

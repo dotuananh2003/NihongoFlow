@@ -9,6 +9,7 @@ export const toPublicUser = (user: DbUser): PublicUser => ({
   avatarUrl: user.AvatarUrl,
   provider: user.Provider,
   emailVerified: user.EmailVerified,
+  hasPremium: user.HasPremium,
 });
 
 export const signAccessToken = (user: Pick<DbUser, 'Id' | 'Email'>) =>

@@ -5,6 +5,7 @@ export type AuthUser = {
   avatarUrl: string | null;
   provider: 'local' | 'google';
   emailVerified: boolean;
+  hasPremium?: boolean;
 };
 
 type AuthResponse = {
