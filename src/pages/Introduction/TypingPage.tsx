@@ -4,12 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, 
-  Trophy, 
   Zap, 
   Target, 
   Timer, 
-  CheckCircle2, 
-  RefreshCcw, 
   ArrowRight, 
   Check, 
   X, 
@@ -21,12 +18,7 @@ import {
   VolumeX,
   Flame,
   Gauge,
-  Sliders,
-  Award,
   Play,
-  RotateCcw,
-  Star,
-  CheckCircle,
   HelpCircle,
   Maximize,
   Minimize

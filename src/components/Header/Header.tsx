@@ -12,10 +12,8 @@ import {
   CheckCircle2,
   ClipboardList,
   Crown,
-  CreditCard,
   Flame,
   FolderCheck,
-  Gem,
   Globe,
   HelpCircle,
   History,
@@ -30,7 +28,6 @@ import {
   UserCircle,
   Volume2,
   X,
-  Zap,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { paymentApi, type PlanId } from '../../lib/paymentApi';
@@ -52,18 +49,7 @@ type MenuItemProps = {
   onClick?: () => void;
 };
 
-type PricingPlan = {
-  id: PlanId;
-  name: string;
-  label: string;
-  price: string;
-  period: string;
-  tone: 'blue' | 'indigo' | 'rose';
-  icon: ReactNode;
-  features: string[];
-  featured?: boolean;
-  oldPrice?: string;
-};
+
 
 const menuGroups = [
   {

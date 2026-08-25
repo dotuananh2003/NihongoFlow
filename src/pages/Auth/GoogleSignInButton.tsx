@@ -9,7 +9,6 @@ type GoogleSignInButtonProps = {
 
 export const GoogleSignInButton = ({ label, onCredential, text }: GoogleSignInButtonProps) => {
   const buttonRef = useRef<HTMLDivElement>(null);
-  const [isReady, setIsReady] = useState(false);
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined;
 
   const defaultText = label === 'signup_with' ? 'Đăng ký nhanh bằng Google' : 'Đăng nhập bằng Google';
@@ -42,8 +41,6 @@ export const GoogleSignInButton = ({ label, onCredential, text }: GoogleSignInBu
         text: label,
         width: 400,
       });
-
-      setIsReady(true);
     };
 
     if (window.google) {

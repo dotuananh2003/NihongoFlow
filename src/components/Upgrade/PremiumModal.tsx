@@ -1,5 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { paymentApi, type PlanId } from '../../lib/paymentApi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, 
@@ -16,7 +17,7 @@ import {
 } from 'lucide-react';
 
 interface PricingPlan {
-  id: string;
+  id: PlanId;
   name: string;
   label: string;
   price: string;
@@ -86,8 +87,8 @@ const pricingPlans: PricingPlan[] = [
 interface PremiumModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onStartCheckout: (planId: string) => void;
-  creatingPlanId: string | null;
+  onStartCheckout: (planId: PlanId) => void;
+  creatingPlanId: PlanId | null;
   checkoutError: string | null;
 }
 
