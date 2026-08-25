@@ -7,7 +7,6 @@ import {
   Pause,
   Square,
   Volume2,
-  CheckCircle2,
   Sparkles,
   Award,
   ArrowRight,
@@ -18,9 +17,7 @@ import {
   ChevronRight,
   Crown,
   Lock,
-  Flame,
   Radio,
-  RefreshCw,
   Check
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';

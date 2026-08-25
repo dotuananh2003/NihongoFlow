@@ -1,6 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { paymentApi, type PlanId } from '../../lib/paymentApi';
+import { type PlanId } from '../../lib/paymentApi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, 

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -9,7 +8,6 @@ import {
   Bookmark,
   Camera,
   ChevronDown,
-  CheckCircle2,
   ClipboardList,
   Crown,
   Flame,
