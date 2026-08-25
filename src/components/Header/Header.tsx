@@ -274,10 +274,17 @@ export const Header = () => {
                     <div className="min-w-0">
                       <div className="mb-2 flex flex-wrap items-center gap-2">
                         <h3 className="truncate text-xl font-black text-slate-900">{profileData.name}</h3>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-blue-600 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white">
-                          <ShieldCheck size={12} />
-                          {profileData.level}
-                        </span>
+                        {user?.hasPremium ? (
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-white shadow-sm shadow-amber-500/25 ring-1 ring-white/40">
+                            <Crown size={12} strokeWidth={2.5} className="text-amber-100 shrink-0" />
+                            PREMIUM
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-slate-600 dark:text-slate-300">
+                            <ShieldCheck size={12} strokeWidth={2.2} className="text-slate-400 shrink-0" />
+                            FREE
+                          </span>
+                        )}
                       </div>
                       <p className="truncate text-sm font-bold text-slate-500">{profileData.email}</p>
                       <div className="mt-3 flex flex-wrap gap-2">
