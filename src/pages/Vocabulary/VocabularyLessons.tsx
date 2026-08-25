@@ -1,10 +1,11 @@
-﻿import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Play, Lock, Layers, Check, Keyboard, X, ChevronDown, Crown, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KanjiVocabTyping } from '../../components/Kanji/KanjiVocabTyping';
 import { vocabularyData, type VocabItem } from '../../data/vocabularyData';
 import { paymentApi } from '../../lib/paymentApi';
+import { useAuth } from '../../context/AuthContext';
 
 interface VocabLesson {
   id: string;
@@ -15,6 +16,7 @@ interface VocabLesson {
 }
 
 export const VocabularyLessons = () => {
+  const { user } = useAuth();
   const { courseId } = useParams();
   const navigate = useNavigate();
 
@@ -27,7 +29,7 @@ export const VocabularyLessons = () => {
   const normalizedCourseId = courseId?.toLowerCase() ?? '';
   const unlockedPremiumLessonSet = useMemo(() => new Set(unlockedPremiumLessons), [unlockedPremiumLessons]);
   const hasPremiumLesson = (lessonId: string) =>
-    unlockedPremiumLessonSet.has(`vocabulary:${normalizedCourseId}:lesson:${lessonId}`);
+    user?.hasPremium || unlockedPremiumLessonSet.has(`vocabulary:${normalizedCourseId}:lesson:${lessonId}`);
   const theme = isJpd123 ? {
     color: 'text-blue-600 dark:text-blue-400',
     softText: 'text-blue-500 dark:text-blue-300',
