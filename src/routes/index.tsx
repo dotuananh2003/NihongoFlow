@@ -21,6 +21,9 @@ import { GrammarPointDetail } from '../pages/Grammar/GrammarPointDetail';
 import { Memory } from '../pages/Memory/Memory';
 import { ActiveVocabulary } from '../pages/ActiveVocabulary/ActiveVocabulary';
 import { Speaking } from '../pages/Speaking/Speaking';
+import { SpeakingModes } from '../pages/Speaking/SpeakingModes';
+import { ShadowingLessons } from '../pages/Speaking/ShadowingLessons';
+import { ShadowingPractice } from '../pages/Speaking/ShadowingPractice';
 import { Exam } from '../pages/Exam/Exam';
 import { ExamHub } from '../pages/Exam/ExamHub';
 import { PracticeConfig } from '../pages/Exam/PracticeConfig';
@@ -59,6 +62,9 @@ export const AppRoutes = () => {
           <Route path="memory" element={<Memory />} />
           <Route path="active-vocabulary" element={<ActiveVocabulary />} />
           <Route path="speaking" element={<Speaking />} />
+          <Route path="speaking/:courseId" element={<SpeakingModes />} />
+          <Route path="speaking/:courseId/shadowing" element={<ShadowingLessons />} />
+          <Route path="speaking/:courseId/shadowing/:lessonId" element={<ShadowingPractice />} />
           <Route path="exam" element={<Exam />} />
           <Route path="exam/:courseId" element={<ExamHub />} />
           <Route path="exam/:courseId/practice" element={<PracticeConfig />} />
