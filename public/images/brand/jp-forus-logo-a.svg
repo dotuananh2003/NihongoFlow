@@ -1,0 +1,56 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">JP Forus logo</title>
+  <desc id="desc">Blue and white Japanese learning logo with torii gate, book, Fuji and hiragana A.</desc>
+  <defs>
+    <linearGradient id="appBg" x1="28" y1="24" x2="226" y2="232" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#38D7FF"/>
+      <stop offset="0.48" stop-color="#1484FF"/>
+      <stop offset="1" stop-color="#0F4DD9"/>
+    </linearGradient>
+    <linearGradient id="bookBlue" x1="52" y1="163" x2="203" y2="215" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EAF8FF"/>
+      <stop offset="0.56" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#B9E7FF"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="67" y1="73" x2="189" y2="170" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0B57D0"/>
+      <stop offset="1" stop-color="#092E86"/>
+    </linearGradient>
+    <filter id="softShadow" x="-18" y="-16" width="292" height="302" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#0B57D0" flood-opacity="0.22"/>
+    </filter>
+    <filter id="innerGlow" x="36" y="40" width="184" height="184" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="11" result="blur"/>
+      <feBlend in="SourceGraphic" in2="blur" mode="screen"/>
+    </filter>
+  </defs>
+
+  <rect x="14" y="14" width="228" height="228" rx="54" fill="white"/>
+  <rect x="22" y="22" width="212" height="212" rx="46" fill="url(#appBg)" filter="url(#softShadow)"/>
+  <path d="M48 165C69 128 94 111 128 111C162 111 187 128 208 165V218H48V165Z" fill="#EAF8FF" opacity="0.26"/>
+  <path d="M151 105L179 145H79L108 105L126 132L136 120L151 105Z" fill="#DFF6FF" opacity="0.95"/>
+  <path d="M151 105L179 145H126L136 120L151 105Z" fill="#FFFFFF" opacity="0.92"/>
+
+  <g filter="url(#innerGlow)">
+    <path d="M57 74C76 65 101 60 128 60C155 60 180 65 199 74L193 91C173 84 151 81 128 81C105 81 83 84 63 91L57 74Z" fill="url(#ink)"/>
+    <path d="M74 91H182V108H74V91Z" fill="url(#ink)"/>
+    <path d="M87 108H105V151H87V108Z" fill="url(#ink)"/>
+    <path d="M151 108H169V151H151V108Z" fill="url(#ink)"/>
+    <path d="M72 146H184V163H72V146Z" fill="url(#ink)"/>
+  </g>
+
+  <path d="M63 168C86 157 109 157 128 176V216C107 198 86 194 63 200V168Z" fill="url(#bookBlue)" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M193 168C170 157 147 157 128 176V216C149 198 170 194 193 200V168Z" fill="url(#bookBlue)" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M128 176V217" stroke="#0B63E5" stroke-width="5" stroke-linecap="round"/>
+  <path d="M76 181C92 177 105 179 118 188" stroke="#39CFFF" stroke-width="5" stroke-linecap="round"/>
+  <path d="M180 181C164 177 151 179 138 188" stroke="#39CFFF" stroke-width="5" stroke-linecap="round"/>
+
+  <circle cx="128" cy="130" r="35" fill="white"/>
+  <circle cx="128" cy="130" r="27" fill="#EAF6FF"/>
+  <text x="128" y="146" text-anchor="middle" font-family="'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif" font-size="48" font-weight="900" fill="#0A318A">あ</text>
+
+  <path d="M205 112C214 103 223 103 228 111C219 112 213 115 208 122C207 119 206 116 205 112Z" fill="#BEEBFF" opacity="0.92"/>
+  <path d="M49 116C39 111 34 103 38 95C44 102 51 105 60 104C55 108 52 112 49 116Z" fill="#BEEBFF" opacity="0.78"/>
+  <path d="M199 49C205 47 211 50 214 56C207 57 202 60 199 66C197 59 197 54 199 49Z" fill="#E7FAFF" opacity="0.85"/>
+  <path d="M39 51C46 47 54 49 59 56C50 57 45 61 41 69C38 62 37 56 39 51Z" fill="#E7FAFF" opacity="0.7"/>
+</svg>

@@ -941,7 +941,7 @@ export const Home = () => {
       <footer className="pt-12 pb-4 flex flex-col items-center justify-center border-t border-slate-200/60 dark:border-slate-800/80">
         <div className="flex flex-col items-center gap-2.5 text-center">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="Logo" className="w-6 h-6 object-contain" onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }} />
+            <img src="/images/brand/jp-forus-logo-a.svg" alt="Logo" className="w-6 h-6 object-contain" onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }} />
             <span className="text-sm font-black tracking-wider text-slate-800 dark:text-slate-200">JP FORUS</span>
           </div>
           <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">

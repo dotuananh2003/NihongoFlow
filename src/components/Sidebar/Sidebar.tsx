@@ -110,7 +110,7 @@ export const Sidebar = () => {
         >
           <div className={`grid shrink-0 place-items-center bg-white ring-1 ring-white/90 dark:bg-slate-950 dark:ring-slate-700 ${isCollapsed ? 'h-12 w-12 rounded-full shadow-[0_10px_24px_rgba(15,23,42,0.10)]' : 'h-11 w-11 rounded-[18px] shadow-[0_12px_28px_rgba(15,23,42,0.1)]'}`}>
             <img
-              src="/logo.png"
+              src="/images/brand/jp-forus-logo-a.svg"
               alt="Logo"
               className="h-8 w-8 object-contain drop-shadow-sm"
               onError={(e) => {
