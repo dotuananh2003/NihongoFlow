@@ -10,6 +10,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { JapaneseMascot } from '../../components/mascot/JapaneseMascot';
 import { WordFallModal } from '../../components/Games/WordFallModal';
+import { PKModeSelectModal } from '../../components/Games/PKModeSelectModal';
 
 // Định nghĩa dữ liệu các chế độ trò chơi tiếng Nhật
 interface GameMode {
@@ -213,6 +214,7 @@ export const GamesHub = () => {
   const [quizFinished, setQuizFinished] = useState(false);
 
   // State cho Modal Đấu Trường PK 1v1
+  const [showPKModeModal, setShowPKModeModal] = useState(false);
   const [isMatchingPK, setIsMatchingPK] = useState(false);
   const [pkMatchFound, setPkMatchFound] = useState(false);
 
@@ -504,17 +506,14 @@ export const GamesHub = () => {
               </div>
 
               <motion.button 
-                onClick={() => {
-                  setIsMatchingPK(true);
-                  setTimeout(() => setPkMatchFound(true), 2200);
-                }}
+                onClick={() => setShowPKModeModal(true)}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 className="shrink-0 flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 px-7 py-4 text-sm sm:text-base font-black text-white shadow-[0_12px_28px_rgba(99,102,241,0.4)] hover:shadow-[0_16px_36px_rgba(99,102,241,0.6)] transition-all cursor-pointer border border-indigo-400/30"
               >
-                <Swords size={18} strokeWidth={2.2} />
-                <span>Ghép nhanh ngay</span>
+                <Zap size={18} strokeWidth={2.2} />
+                <span>Vào chế độ PK</span>
               </motion.button>
             </div>
           </motion.div>
@@ -1224,6 +1223,12 @@ export const GamesHub = () => {
             return next;
           });
         }}
+      />
+
+      {/* Modal Đấu Trường PK 1v1 với 3 Chế Độ */}
+      <PKModeSelectModal
+        isOpen={showPKModeModal}
+        onClose={() => setShowPKModeModal(false)}
       />
 
     </div>
