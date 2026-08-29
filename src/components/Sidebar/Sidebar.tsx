@@ -129,10 +129,10 @@ export const Sidebar = () => {
                 className="min-w-0"
               >
                 <p className="truncate font-jp text-xl font-black leading-none text-slate-950 dark:text-white">
-                  にほんご
+                  こんにちは
                 </p>
                 <p className="mt-1 truncate text-[10px] font-black uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">
-                  Japanese Learning
+                  JP Forus
                 </p>
               </motion.div>
             )}
