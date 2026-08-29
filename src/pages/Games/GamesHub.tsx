@@ -5,7 +5,7 @@ import {
   Gamepad2, Trophy, Sparkles, Zap, Flame, 
   Crown, Play, CheckCircle2,
   Clock, Volume2, Shield, Gem, Star,
-  Swords, X, RotateCcw, Award, Check
+  Swords, X, RotateCcw, Award, Check, Lock
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { JapaneseMascot } from '../../components/mascot/JapaneseMascot';
@@ -503,19 +503,13 @@ export const GamesHub = () => {
                 </p>
               </div>
 
-              <motion.button 
-                onClick={() => {
-                  setIsMatchingPK(true);
-                  setTimeout(() => setPkMatchFound(true), 2200);
-                }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                className="shrink-0 flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 px-7 py-4 text-sm sm:text-base font-black text-white shadow-[0_12px_28px_rgba(99,102,241,0.4)] hover:shadow-[0_16px_36px_rgba(99,102,241,0.6)] transition-all cursor-pointer border border-indigo-400/30"
+              <button 
+                disabled
+                className="shrink-0 flex items-center gap-2.5 rounded-2xl bg-slate-800/80 px-7 py-4 text-sm sm:text-base font-black text-slate-400 cursor-not-allowed border border-slate-700/50 backdrop-blur-md"
               >
-                <Swords size={18} strokeWidth={2.2} />
-                <span>Ghép nhanh ngay</span>
-              </motion.button>
+                <Lock size={18} strokeWidth={2.2} />
+                <span>Sắp ra mắt</span>
+              </button>
             </div>
           </motion.div>
 
