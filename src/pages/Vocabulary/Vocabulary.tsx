@@ -572,57 +572,57 @@ export const Vocabulary = () => {
               {/* Công cụ 1: Flashcard */}
               <div
                 onClick={() => navigate('/vocabulary/jpd113')}
-                className="smooth-panel steady-scroll-row p-5 rounded-[28px] bg-gradient-to-br from-purple-50 to-pink-50/50 dark:from-purple-950/40 dark:to-pink-950/20 border border-purple-100 dark:border-purple-900/60 shadow-xs cursor-pointer space-y-3 transition-colors duration-150"
+                className="group smooth-panel steady-scroll-row p-5 rounded-[28px] bg-gradient-to-br from-purple-50 to-pink-50/50 dark:from-purple-950/40 dark:to-pink-950/20 border border-purple-100 dark:border-purple-900/60 shadow-xs hover:border-purple-300 dark:hover:border-purple-600 hover:shadow-[0_14px_30px_rgba(168,85,247,0.18)] dark:hover:shadow-[0_14px_30px_rgba(168,85,247,0.25)] hover:-translate-y-1.5 active:scale-[0.98] cursor-pointer space-y-3 transition-all duration-300 ease-out"
               >
-                <div className="w-11 h-11 rounded-2xl bg-purple-500 text-white flex items-center justify-center shadow-md">
+                <div className="w-11 h-11 rounded-2xl bg-purple-500 text-white flex items-center justify-center shadow-md group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-purple-500/30 transition-transform duration-300 ease-out">
                   <Layers size={22} strokeWidth={2.2} />
                 </div>
                 <div>
-                  <h4 className="font-black text-base text-slate-900 dark:text-white">Flashcard Thông Minh</h4>
+                  <h4 className="font-black text-base text-slate-900 dark:text-white group-hover:text-purple-700 dark:group-hover:text-purple-300 transition-colors duration-200">Flashcard Thông Minh</h4>
                   <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
                     Lật thẻ 2 mặt kèm phiên âm Furigana & ví dụ trực quan.
                   </p>
                 </div>
-                <span className="inline-flex items-center gap-1 text-xs font-black text-purple-600 dark:text-purple-400">
-                  Luyện ngay <ArrowRight size={13} strokeWidth={2.5} />
+                <span className="inline-flex items-center gap-1 text-xs font-black text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-purple-300 transition-colors">
+                  Luyện ngay <ArrowRight size={13} strokeWidth={2.5} className="group-hover:translate-x-1.5 transition-transform duration-200 ease-out" />
                 </span>
               </div>
 
               {/* Công cụ 2: Luyện Phản Xạ Kaiwa */}
               <div
                 onClick={() => navigate('/speaking/jpd113/shadowing')}
-                className="smooth-panel steady-scroll-row p-5 rounded-[28px] bg-gradient-to-br from-blue-50 to-indigo-50/50 dark:from-blue-950/40 dark:to-indigo-950/20 border border-blue-100 dark:border-blue-900/60 shadow-xs cursor-pointer space-y-3 transition-colors duration-150"
+                className="group smooth-panel steady-scroll-row p-5 rounded-[28px] bg-gradient-to-br from-blue-50 to-indigo-50/50 dark:from-blue-950/40 dark:to-indigo-950/20 border border-blue-100 dark:border-blue-900/60 shadow-xs hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-[0_14px_30px_rgba(59,130,246,0.18)] dark:hover:shadow-[0_14px_30px_rgba(59,130,246,0.25)] hover:-translate-y-1.5 active:scale-[0.98] cursor-pointer space-y-3 transition-all duration-300 ease-out"
               >
-                <div className="w-11 h-11 rounded-2xl bg-blue-500 text-white flex items-center justify-center shadow-md">
+                <div className="w-11 h-11 rounded-2xl bg-blue-500 text-white flex items-center justify-center shadow-md group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-blue-500/30 transition-transform duration-300 ease-out">
                   <Headphones size={22} strokeWidth={2.2} />
                 </div>
                 <div>
-                  <h4 className="font-black text-base text-slate-900 dark:text-white">Phòng Luyện Phản Xạ</h4>
+                  <h4 className="font-black text-base text-slate-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-200">Phòng Luyện Phản Xạ</h4>
                   <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
                     Shadowing 1-1 với trợ lý AI và chấm điểm phát âm.
                   </p>
                 </div>
-                <span className="inline-flex items-center gap-1 text-xs font-black text-blue-600 dark:text-blue-400">
-                  Thực hành <ArrowRight size={13} strokeWidth={2.5} />
+                <span className="inline-flex items-center gap-1 text-xs font-black text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
+                  Thực hành <ArrowRight size={13} strokeWidth={2.5} className="group-hover:translate-x-1.5 transition-transform duration-200 ease-out" />
                 </span>
               </div>
 
               {/* Công cụ 3: Đấu Trường Game */}
               <div
                 onClick={() => navigate('/games')}
-                className="smooth-panel steady-scroll-row p-5 rounded-[28px] bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-950/40 dark:to-orange-950/20 border border-amber-100 dark:border-amber-900/60 shadow-xs cursor-pointer space-y-3 transition-colors duration-150"
+                className="group smooth-panel steady-scroll-row p-5 rounded-[28px] bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-950/40 dark:to-orange-950/20 border border-amber-100 dark:border-amber-900/60 shadow-xs hover:border-amber-300 dark:hover:border-amber-600 hover:shadow-[0_14px_30px_rgba(245,158,11,0.18)] dark:hover:shadow-[0_14px_30px_rgba(245,158,11,0.25)] hover:-translate-y-1.5 active:scale-[0.98] cursor-pointer space-y-3 transition-all duration-300 ease-out"
               >
-                <div className="w-11 h-11 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md">
+                <div className="w-11 h-11 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-amber-500/30 transition-transform duration-300 ease-out">
                   <Gamepad2 size={22} strokeWidth={2.2} />
                 </div>
                 <div>
-                  <h4 className="font-black text-base text-slate-900 dark:text-white">Đấu Trường Game</h4>
+                  <h4 className="font-black text-base text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-200">Đấu Trường Game</h4>
                   <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
                     Vừa chơi 6 mini-game vừa tích lũy Xu thưởng đổi quà.
                   </p>
                 </div>
-                <span className="inline-flex items-center gap-1 text-xs font-black text-amber-600 dark:text-amber-400">
-                  Vào chơi <ArrowRight size={13} strokeWidth={2.5} />
+                <span className="inline-flex items-center gap-1 text-xs font-black text-amber-600 dark:text-amber-400 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
+                  Vào chơi <ArrowRight size={13} strokeWidth={2.5} className="group-hover:translate-x-1.5 transition-transform duration-200 ease-out" />
                 </span>
               </div>
 
