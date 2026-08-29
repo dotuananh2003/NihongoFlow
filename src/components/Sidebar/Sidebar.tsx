@@ -51,7 +51,7 @@ const navSections: SidebarNavSection[] = [
   {
     title: 'Luyện thêm',
     items: [
-      { path: '/games', label: 'Trò chơi', sub: 'Games', icon: Gamepad2 },
+      { path: '/games', label: 'Trò chơi', sub: 'Games', icon: Gamepad2, locked: true },
       { path: '/memory', label: 'Ghi nhớ', sub: 'Memory', icon: Puzzle, locked: true },
       { path: '/active-vocabulary', label: 'Từ chủ động', sub: 'Active', icon: Crown, locked: true },
       { path: '/speaking', label: 'Luyện nói', sub: 'Speaking', icon: Mic },

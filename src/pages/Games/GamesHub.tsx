@@ -5,7 +5,7 @@ import {
   Gamepad2, Trophy, Sparkles, Zap, Flame, 
   Crown, Play, CheckCircle2,
   Clock, Volume2, Shield, Gem, Star,
-  Swords, X, RotateCcw, Award, Check, Lock
+  Swords, X, RotateCcw, Award, Check
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { JapaneseMascot } from '../../components/mascot/JapaneseMascot';
