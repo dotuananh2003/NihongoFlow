@@ -467,6 +467,27 @@ const tokenReadingMap: Record<string, string> = {
   '一時': 'いちじ',
   '安くて': 'やすくて',
   '授業': 'じゅぎょう',
+
+  // --- CÁC BIẾN THỂ TỪ ĐỒNG ÂM HOẶC CHỮ SỐ (Dành riêng cho STT) ---
+  // STT đôi khi trả về Kanji khác hoặc chữ số thay vì Kanji chuẩn trong câu mẫu
+  '街': 'まち',         // Đồng âm với 町
+  '買物': 'かいもの',      // Thay cho 買い物
+  '友だち': 'ともだち',    // Thay cho 友達
+  '観ます': 'みます',      // Thay cho 見ます
+  '視ます': 'みます',      // Thay cho 見ます
+  '7時': 'しちじ',        // Thay cho 七時
+  '8時半': 'はちじはん',   // Thay cho 八時半
+  '5時半': 'ごじはん',     // Thay cho 五時半
+  '12時': 'じゅうにじ',    // Thay cho 十二時
+  '9時': 'くじ',          // Thay cho 九時
+  '5時': 'ごじ',          // Thay cho 五時
+  '1時': 'いちじ',        // Thay cho 一時
+  '3つ': 'みっつ',        // Thay cho 三つ
+  '1番': 'いちばん',      // Thay cho 一番
+  '昼ご飯': 'ひるごはん',   // Thay cho 昼ごはん
+  '晩ご飯': 'ばんごはん',   // Thay cho 晩ごはん
+  '朝ご飯': 'あさごはん',   // Thay cho 朝ごはん
+  '良く': 'よく',         // Thay cho よく
 };
 
 // ==========================================
@@ -555,8 +576,18 @@ function calculateSimilarity(str1: string, str2: string): number {
 }
 
 function analyzeSentence(expectedTokens: string[], spokenText: string, fullExpectedText: string): AnalysisResult {
-  const cleanedSpoken = cleanText(spokenText);
-  const cleanedFullExpected = cleanText(fullExpectedText);
+  // Chuẩn hoá cả text thu âm và text gốc sang Hiragana (với các từ đã biết) để so sánh chính xác hơn (tránh lỗi nhận diện Kanji/Hiragana)
+  let normalizedSpoken = spokenText;
+  let normalizedExpected = fullExpectedText;
+
+  const sortedTokens = Object.keys(tokenReadingMap).sort((a, b) => b.length - a.length);
+  sortedTokens.forEach(t => {
+    normalizedSpoken = normalizedSpoken.split(t).join(tokenReadingMap[t]);
+    normalizedExpected = normalizedExpected.split(t).join(tokenReadingMap[t]);
+  });
+
+  const cleanedSpoken = cleanText(normalizedSpoken);
+  const cleanedFullExpected = cleanText(normalizedExpected);
 
   if (cleanedSpoken === cleanedFullExpected) {
     return {
@@ -574,15 +605,15 @@ function analyzeSentence(expectedTokens: string[], spokenText: string, fullExpec
   let correctCount = 0;
 
   expectedTokens.forEach((token) => {
-    const cleanedToken = cleanText(token);
-    const pos = cleanedSpoken.indexOf(cleanedToken, searchIndex);
+    const hiraganaToken = tokenReadingMap[token] ? cleanText(tokenReadingMap[token]) : cleanText(token);
+    const pos = cleanedSpoken.indexOf(hiraganaToken, searchIndex);
 
     if (pos !== -1) {
       tokenFeedbacks.push({ text: token, status: 'correct' });
-      searchIndex = pos + cleanedToken.length;
+      searchIndex = pos + hiraganaToken.length;
       correctCount++;
     } else {
-      const isSubInSpoken = cleanedSpoken.includes(cleanedToken);
+      const isSubInSpoken = cleanedSpoken.includes(hiraganaToken);
       if (isSubInSpoken) {
         tokenFeedbacks.push({
           text: token,
@@ -626,7 +657,7 @@ function analyzeSentence(expectedTokens: string[], spokenText: string, fullExpec
     }
   });
 
-  const baseSim = calculateSimilarity(spokenText, fullExpectedText);
+  const baseSim = calculateSimilarity(normalizedSpoken, normalizedExpected);
   const tokenSim = Math.round((correctCount / expectedTokens.length) * 100);
   const score = Math.max(30, Math.round((baseSim * 0.6) + (tokenSim * 0.4)));
 
@@ -735,7 +766,15 @@ export const ShadowingPractice = () => {
     setActiveSentence(index);
 
     const sentence = lesson.sentences[index];
-    const utterance = new SpeechSynthesisUtterance(sentence.jp);
+    
+    // Thay thế các Hán tự bằng Hiragana để ép bộ đọc TTS phát âm chuẩn xác ngữ cảnh (vd: 町 -> まち)
+    let textToSpeak = sentence.jp;
+    const sortedTokens = Object.keys(tokenReadingMap).sort((a, b) => b.length - a.length);
+    sortedTokens.forEach(token => {
+      textToSpeak = textToSpeak.split(token).join(tokenReadingMap[token]);
+    });
+
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
     utterance.lang = 'ja-JP';
     utterance.rate = speed;
 

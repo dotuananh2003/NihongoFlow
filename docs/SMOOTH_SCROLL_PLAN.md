@@ -107,3 +107,96 @@ Sử dụng thuộc tính `layoutId` để liên kết các component tĩnh. Khi
 - `src/index.css`: thêm các utility như `kanji-lesson-panel`, `kanji-lesson-scroll`, `kanji-steady-row`, `kanji-bg-plane`, `kanji-bg-raster`.
 - `src/pages/Kanji/KanjiLesson.tsx`: gắn utility vào panel/list, giảm shadow hover và bỏ blur runtime.
 - `src/components/Layout/Layout.tsx`: gắn utility cho lớp ảnh nền Kanji cố định.
+
+---
+
+# Cap Nhat: Lam Muot Trang Chi Tiet Tu Vung
+
+Ap dung cho cac trang co danh sach row tuong tac, nhieu nut con va noi dung text thay doi theo search/filter.
+
+## Ky thuat moi da them
+- Them `vocab-list-surface` cho vung chua danh sach de co `overscroll-behavior: contain`, `scrollbar-gutter: stable` va GPU hint, nhung khong dung `contain` tren ca vung scroll dai.
+- Chuyen `vocab-detail-row` sang `content-visibility: visible`. Voi row nho, `content-visibility: auto` co the gay khung luc item vua vao viewport.
+- Bo Framer Motion tren tung row va cac nut con lap lai. Row trong list chi nen dung CSS `transition-colors`, khong dung `whileHover`, `whileTap` hoac hover translate.
+- Giam shadow row ve `shadow-none` hoac shadow cuc nhe co dinh. Trang thai selected dung border/ring thay vi nang card len.
+- Voi grid lesson card lap lai, uu tien `article/button` thuong thay vi `motion.article` tren moi card; giu animation cho panel lon hoac modal.
+
+## Khi nao dung mau nay
+- List co tu 20 item tro len.
+- Moi item co nhieu text, icon button hoac trang thai selected/bookmarked.
+- Nguoi dung bao cuon bi khung khi filter/search hoac khi hover qua danh sach.
+
+## Mau class khuyen nghi
+```tsx
+<div className="vocab-list-surface space-y-3">
+  {items.map(item => (
+    <div className="vocab-detail-row transition-colors duration-150">
+      ...
+    </div>
+  ))}
+</div>
+```
+
+## Luu y
+- Khong boc tung row bang `motion.div` neu row xuat hien hang loat trong list.
+- Khong dung `transition-all` cho tab/filter/action trong vung scroll.
+- Khong dung hover translate hoac hover shadow tren moi row; uu tien border, color, ring nhe.
+- Neu van thay khung, giam hoac bo cac lop `blur-3xl`, glow lon va `will-change` tren nhieu phan tu lap lai. `will-change` chi nen dat tren panel dang animate, khong dat hang loat tren card.
+
+---
+
+# Cập Nhật: Chuẩn Hóa Trang Hub / Dashboard Nhiều Card (Vocabulary Hub)
+
+Áp dụng cho các trang tổng quan (Hub/Dashboard) có Hero Banner, lưới bài học, bộ công cụ luyện tập và các widget thống kê.
+
+## 1. Nguyên Tắc Tránh Lỗi Composite Layer Khổng Lồ
+- **Tuyệt đối KHÔNG gắn `.smooth-scroll-area` lên thẻ cha cấp trang**:
+  - Class `.smooth-scroll-area` có chứa `transform: translateZ(0)` và `overscroll-behavior: contain`.
+  - Nếu gắn lên thẻ container bao bọc cả trang (vốn cuộn theo `window`), GPU sẽ bị ép phải render một Texture Layer nguyên khối khổng lồ (chiều cao > 2000px). Khi người dùng cuộn, việc repaint và composite layer khổng lồ này sẽ gây tụt khung hình nghiêm trọng (từ 120fps rớt xuống 30-40fps).
+  - **Giải pháp**: Ở cấp trang cha, chỉ sử dụng thẻ `div` bọc thông thường hoặc class nhẹ như `.vocab-main-surface` (`content-visibility: visible;`). Chỉ dùng `.smooth-scroll-area` trên các hộp có `overflow-y-auto` thực sự (như modal hoặc popup cuộn nội bộ).
+
+## 2. Chuyển Đổi Hover/Tap Từ JS Sang Pure CSS GPU Transitions
+- **Không dùng `motion.div` với `whileHover={{ y: -6 }}` và `whileTap` trên các thẻ bài học/công cụ**:
+  - Khi người dùng lăn chuột lướt qua các card, Framer Motion sẽ liên tục bắt sự kiện mouseenter/mouseleave và chạy vòng lặp Animation Frame trên Main Thread, gây khựng tay cuộn.
+  - **Giải pháp**: Sử dụng CSS Native:
+    ```tsx
+    // ✅ Chuẩn 90fps - 120fps:
+    className="smooth-panel steady-scroll-row transition-colors duration-150"
+    ```
+
+## 3. Triệt Tiêu Heavy Repaints Khi Hover
+- **Bỏ `hover:shadow-[0_20px_45px_...]` và `hover:shadow-xl`**: Thay bằng `shadow-sm hover:shadow-md` nhẹ nhàng hoặc đổi màu viền (`border-rose-400`).
+- **Tránh scale ảnh nền raster (`group-hover:scale-105`) và watermark text lớn (`group-hover:scale-110`)**: Việc biến đổi tỷ lệ các phần tử có diện tích lớn buộc trình duyệt phải rasterize lại liên tục trên GPU.
+
+## 4. Cô Lập Vẽ Lại (Containment) Cho Từng Widget Riêng Biệt
+- Gắn `.smooth-panel` (`contain: paint style; transform: translateZ(0); backface-visibility: hidden;`) trực tiếp lên từng Widget độc lập (Hero Banner, Thẻ từ vựng hôm nay, Widget chu kỳ quên) để trình duyệt cô lập chi phí vẽ lại của từng hộp, không làm ảnh hưởng đến các phần tử xung quanh khi cuộn.
+
+---
+
+# Cập Nhật: Native Momentum Smooth Scroll Engine (Không Dùng Thư Viện Ngoài / No Lenis)
+
+Nhằm giải quyết triệt để cảm giác lăn chuột bị giật bước (100px/step) trên hệ điều hành Windows mà **không cài bất kỳ thư viện npm bên ngoài nào (0 byte overhead, không dùng Lenis)**:
+
+## 1. Cơ Chế Hoạt Động (`src/utils/nativeSmoothScroll.ts`)
+- **Nội suy quán tính vi sai (Differential Lerp)**:
+  - Bắt sự kiện `wheel` của con lăn chuột và tính toán vị trí mục tiêu `targetY`.
+  - Sử dụng vòng lặp `requestAnimationFrame` trực tiếp với `ease = 0.18` được chuẩn hóa theo `elapsed` từng frame, giúp chuyển động đều hơn trên màn hình **60Hz / 90Hz / 120Hz / 144Hz**.
+- **Tự động nhận diện ngữ cảnh thông minh**:
+  - **Trackpad Pass-through**: Nhận diện cử chỉ touchpad (delta nhỏ liên tục) để giữ nguyên chuyển động gốc của hệ điều hành.
+  - **Inner Container Pass-through**: Tự động nhận diện khi con trỏ chuột nằm trong Modal, Sidebar hoặc Dropdown có `overflow-y: auto` để nhường quyền cuộn cho khung con, không chặn cuộn nội bộ.
+  - **Scrollbar Dragging Sync**: Tự động đồng bộ vị trí khi người dùng kéo thanh scrollbar bằng chuột hoặc bấm phím điều hướng.
+- **Tối ưu triệt để Main Thread (`body.is-smooth-scrolling`)**:
+  - Không dùng `pointer-events: none` trên toàn `body` vì có thể làm mất tương tác và gây style recalculation rộng.
+  - Chỉ tạm dừng `transition`/`animation` trong khu vực đang cần performance bằng class route như `body.vocab-performance-scroll`.
+
+## 2. Nâng Cấp Giao Diện Scrollbar Kính Mờ Cao Cấp (Glassmorphic Scrollbar)
+- Thiết kế thanh cuộn dạng viên thuốc bo tròn (Pill Capsule), viền trong suốt `background-clip: padding-box`.
+- Hiệu ứng đổi màu chuyển tiếp mượt mà `0.2s cubic-bezier` khi Hover và Active kéo chuột.
+- Hỗ trợ đầy đủ chuẩn W3C `scrollbar-width: thin` và `scrollbar-color` cho cả Chrome/Edge và Firefox.
+
+## 3. Cap Nhat Silky Scroll Cho Trang Vocabulary Hub
+- `NativeSmoothScroll` dung lerp theo thoi gian frame (`elapsed`) thay vi ease co dinh theo moi RAF. Cach nay giu cam giac deu hon tren man 60/90/120/144Hz.
+- Khi nguoi dung `pointerdown`, `touchstart`, `keydown` hoac keo scrollbar, engine dung ngay va dong bo ve native `window.scrollY` de khong giat nguoc.
+- Trang Vocabulary Hub them `body.vocab-performance-scroll`; trong luc `body.is-smooth-scrolling`, chi pause transition/animation ben trong hub/header/sidebar thay vi khoa pointer toan trang.
+- Hero mascot trong trang hub nen de static (`disableMotion`) neu mascot la SVG co nhieu `motion.g` lap vo han. Animation mascot chi nen dung trong modal/auth/onboarding, khong dat trong vung cuon dai.
+- Sticky chrome nhu Header/Sidebar khong nen co `backdrop-filter`, `blur-2xl/3xl`, `will-change` layer lon hoac shadow lon. Dung nen trang/opacity cao, `shadow-sm`, `transition-colors`.

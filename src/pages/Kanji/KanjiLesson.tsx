@@ -1,6 +1,23 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, LayoutGrid, List, Check, X, BookOpen, Keyboard, Sparkles, BookMarked, GraduationCap, Hash } from 'lucide-react';
+import {
+  ArrowLeft,
+  LayoutGrid,
+  List,
+  Check,
+  X,
+  BookOpen,
+  Keyboard,
+  Sparkles,
+  Volume2,
+  Heart,
+  Pencil,
+  Search,
+  Layers,
+  Award,
+  HelpCircle
+} from 'lucide-react';
+import { motion } from 'framer-motion';
 import { toRomaji } from 'wanakana';
 
 import { kanjiLesson1, lesson1Vocab, type VocabExample } from '../../data/kanjiData';
@@ -14,16 +31,73 @@ import { KanjiVocabTyping } from '../../components/Kanji/KanjiVocabTyping';
 import { KanjiFlashcard } from '../../components/Kanji/KanjiFlashcard';
 import { VocabFlashcard } from '../../components/Kanji/VocabFlashcard';
 import { VocabQuiz } from '../../components/Kanji/VocabQuiz';
+import { JapaneseMascot } from '../../components/mascot/JapaneseMascot';
 
 export const KanjiLesson = () => {
   const { courseId, lessonId } = useParams();
   const navigate = useNavigate();
+  
   const [isSelectMode, setIsSelectMode] = useState(false);
   const [isFlashcardMode, setIsFlashcardMode] = useState(false);
   const [isVocabFlashcardMode, setIsVocabFlashcardMode] = useState(false);
   const [isVocabQuizMode, setIsVocabQuizMode] = useState(false);
   const [typingVocab, setTypingVocab] = useState<VocabExample[] | null>(null);
   const [selectedKanjiIds, setSelectedKanjiIds] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<'all' | 'memorized' | 'favorites'>('all');
+  const [playingAudioKanji, setPlayingAudioKanji] = useState<string | null>(null);
+
+  // Lưu trạng thái yêu thích & ghi nhớ vào localStorage
+  const [favoriteKanjiIds, setFavoriteKanjiIds] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem(`kanji_fav_${courseId}_${lessonId}`);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [memorizedKanjiIds, setMemorizedKanjiIds] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem(`kanji_memo_${courseId}_${lessonId}`);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const toggleFavorite = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setFavoriteKanjiIds(prev => {
+      const next = prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id];
+      localStorage.setItem(`kanji_fav_${courseId}_${lessonId}`, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const toggleMemorized = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setMemorizedKanjiIds(prev => {
+      const next = prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id];
+      localStorage.setItem(`kanji_memo_${courseId}_${lessonId}`, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  // Phát âm chữ Hán / từ vựng chuẩn giọng Tokyo
+  const playAudio = (text: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ja-JP';
+      utterance.rate = 0.85;
+      setPlayingAudioKanji(text);
+      utterance.onend = () => setPlayingAudioKanji(null);
+      utterance.onerror = () => setPlayingAudioKanji(null);
+      window.speechSynthesis.speak(utterance);
+    }
+  };
 
   let kanjiList = kanjiLesson1;
   let vocabList = lesson1Vocab;
@@ -53,23 +127,51 @@ export const KanjiLesson = () => {
   }
 
   const isJPD123 = courseId?.toLowerCase() === 'jpd123';
-  const theme = {
-    text: isJPD123 ? 'text-blue-500' : 'text-rose-500',
-    textDark: isJPD123 ? 'text-blue-600' : 'text-rose-600',
-    textHover: isJPD123 ? 'group-hover:text-blue-500' : 'group-hover:text-rose-500',
-    accentBg: isJPD123 ? 'bg-blue-500' : 'bg-rose-500',
-    accentGradient: isJPD123 ? 'from-blue-600 via-sky-400 to-cyan-300' : 'from-rose-600 via-pink-400 to-amber-300',
-    accentSoft: isJPD123 ? 'bg-blue-50/90 dark:bg-blue-500/10' : 'bg-rose-50/90 dark:bg-rose-500/10',
-    border: isJPD123 ? 'border-blue-200/80 dark:border-blue-500/25' : 'border-rose-200/80 dark:border-rose-500/25',
-    ring: isJPD123 ? 'ring-blue-100 dark:ring-blue-500/20' : 'ring-rose-100 dark:ring-rose-500/20',
-    shadow: isJPD123 ? 'shadow-blue-500/20' : 'shadow-rose-500/20',
-    button: isJPD123 ? 'bg-blue-500 hover:bg-blue-600 shadow-blue-500/25' : 'bg-rose-500 hover:bg-rose-600 shadow-rose-500/25',
-    selected: isJPD123 ? 'bg-blue-50 border-blue-400 dark:bg-blue-900/20 dark:border-blue-500' : 'bg-rose-50 border-rose-400 dark:bg-rose-900/20 dark:border-rose-500',
+  const theme = isJPD123 ? {
+    color: 'text-blue-600 dark:text-blue-400',
+    bgLight: 'bg-blue-100/90 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 border border-blue-200 dark:border-blue-800',
+    border: 'border-blue-200/80 dark:border-slate-800',
+    btn: 'from-blue-600 via-sky-500 to-indigo-600 hover:from-blue-700 hover:to-sky-600 shadow-[0_8px_20px_rgba(59,130,246,0.3)]',
+    gradient: 'from-blue-600 via-sky-500 to-cyan-400',
+    selected: 'border-blue-500 bg-blue-50/60 dark:bg-blue-950/40 shadow-md',
+    selectedPill: 'bg-blue-500 text-white',
+    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-600/50 hover:shadow-lg',
+    progressBar: 'from-blue-500 to-cyan-500'
+  } : {
+    color: 'text-rose-600 dark:text-rose-400',
+    bgLight: 'bg-rose-100/90 text-rose-700 dark:bg-rose-950/70 dark:text-rose-300 border border-rose-200 dark:border-rose-800',
+    border: 'border-rose-200/80 dark:border-slate-800',
+    btn: 'from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 shadow-[0_8px_20px_rgba(244,63,94,0.3)]',
+    gradient: 'from-rose-500 via-pink-500 to-amber-400',
+    selected: 'border-rose-500 bg-rose-50/60 dark:bg-rose-950/40 shadow-md',
+    selectedPill: 'bg-rose-500 text-white',
+    hoverBorder: 'hover:border-rose-300 dark:hover:border-rose-600/50 hover:shadow-lg',
+    progressBar: 'from-rose-500 to-pink-500'
   };
 
+  // Từ vựng mở rộng
   const otherVocab = vocabList.filter(vocab => {
     return !kanjiList.some(kanji => vocab.kanji.includes(kanji.char));
   });
+
+  // Lọc Hán tự theo tìm kiếm & tabs
+  const filteredKanjiList = useMemo(() => {
+    return kanjiList.filter(k => {
+      const q = searchQuery.toLowerCase().trim();
+      const matchSearch = !q || 
+        k.char.includes(q) || 
+        k.hanViet.toLowerCase().includes(q) || 
+        k.meaning.toLowerCase().includes(q) || 
+        k.onyomi.some(on => on.toLowerCase().includes(q)) || 
+        k.kunyomi.some(kun => kun.toLowerCase().includes(q));
+
+      if (!matchSearch) return false;
+
+      if (activeTab === 'memorized') return memorizedKanjiIds.includes(k.id);
+      if (activeTab === 'favorites') return favoriteKanjiIds.includes(k.id);
+      return true;
+    });
+  }, [kanjiList, searchQuery, activeTab, memorizedKanjiIds, favoriteKanjiIds]);
 
   let selectedVocabList = vocabList;
   if (selectedKanjiIds.length > 0) {
@@ -92,321 +194,435 @@ export const KanjiLesson = () => {
   }
 
   const totalSelectableItems = kanjiList.length + (otherVocab.length > 0 ? 1 : 0);
-  const actionButton = 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl border border-white/80 bg-white/85 px-4 py-2.5 text-xs font-black text-slate-600 shadow-sm transition-colors hover:bg-white dark:border-slate-700 dark:bg-slate-900/85 dark:text-slate-300 dark:hover:bg-slate-800';
-  const activeActionButton = isJPD123
-    ? '!border-transparent !bg-blue-500 !text-white shadow-lg shadow-blue-500/25 hover:!bg-blue-600'
-    : '!border-transparent !bg-rose-500 !text-white shadow-lg shadow-rose-500/25 hover:!bg-rose-600';
-  const disabledActionButton = 'cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 shadow-none hover:translate-y-0 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-600';
 
   return (
     <div className="relative min-h-full scroll-smooth bg-transparent pb-20 font-sans">
-      <div className="mx-auto max-w-[1500px] px-4 pt-6 md:px-8">
-        <div className="kanji-lesson-panel relative mb-6 overflow-hidden rounded-[2rem] border border-white/75 bg-white/86 p-4 shadow-[0_14px_38px_rgba(15,23,42,0.08)] dark:border-slate-800 dark:bg-slate-950/70 md:p-5">
-          <div className={`absolute inset-x-8 top-0 h-1.5 rounded-b-full bg-gradient-to-r ${theme.accentGradient}`} />
-          <div className="absolute -right-20 -top-28 h-52 w-52 rounded-full bg-white/60 blur-3xl" />
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => navigate('/kanji')}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/80 bg-white/90 text-slate-500 shadow-sm transition-all hover:-translate-x-0.5 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-white"
-              >
-                <ArrowLeft size={20} />
-              </button>
-              <div className="min-w-0">
-                <div className={`mb-1 inline-flex items-center gap-2 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] ${theme.accentSoft} ${theme.textDark} ring-1 ${theme.ring}`}>
-                  <Sparkles size={12} />
-                  {courseId?.toUpperCase()} · Lesson {lessonId}
-                </div>
-                <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50 md:text-3xl">
-                  Hán tự & Từ vựng trọng tâm
-                </h1>
-              </div>
-            </div>
+      <div className="mx-auto max-w-[1440px] px-4 py-4 sm:px-6 lg:px-8 space-y-6">
 
-            <div className="grid grid-cols-3 gap-2 sm:min-w-[360px]">
-              <div className="rounded-2xl border border-white/75 bg-white/78 p-3 text-center shadow-sm ring-1 ring-slate-100/70 dark:border-slate-800 dark:bg-slate-900/70 dark:ring-slate-800">
-                <div className="mx-auto mb-1 grid h-7 w-7 place-items-center rounded-xl bg-rose-50 text-rose-500">
-                  <Hash size={14} />
-                </div>
-                <p className="text-xl font-black text-slate-900 dark:text-slate-50">{kanjiList.length}</p>
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Kanji</p>
-              </div>
-              <div className="rounded-2xl border border-white/75 bg-white/78 p-3 text-center shadow-sm ring-1 ring-slate-100/70 dark:border-slate-800 dark:bg-slate-900/70 dark:ring-slate-800">
-                <div className="mx-auto mb-1 grid h-7 w-7 place-items-center rounded-xl bg-blue-50 text-blue-500">
-                  <BookMarked size={14} />
-                </div>
-                <p className="text-xl font-black text-slate-900 dark:text-slate-50">{vocabList.length}</p>
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Từ vựng</p>
-              </div>
-              <div className="rounded-2xl border border-white/75 bg-white/78 p-3 text-center shadow-sm ring-1 ring-slate-100/70 dark:border-slate-800 dark:bg-slate-900/70 dark:ring-slate-800">
-                <div className="mx-auto mb-1 grid h-7 w-7 place-items-center rounded-xl bg-emerald-50 text-emerald-500">
-                  <Check size={14} />
-                </div>
-                <p className="text-xl font-black text-slate-900 dark:text-slate-50">{selectedKanjiIds.length}</p>
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Đã chọn</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* ========================================================================= */}
+        {/* 1. TOP HERO BANNER: THU NHỎ GỌN GÀNG & LINH VẬT FULL NGƯỜI NHỎ GỌN */}
+        {/* ========================================================================= */}
+        <motion.div 
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className={`relative overflow-hidden rounded-[26px] bg-gradient-to-br from-white via-white to-slate-50/80 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-950 border ${theme.border} p-4 sm:p-5 shadow-xs`}
+        >
+          {/* Ambient Subtle Glow */}
+          <div className="pointer-events-none absolute -right-12 -top-12 w-48 h-48 rounded-full bg-rose-300/15 dark:bg-rose-600/10 blur-3xl" />
+          <div className="pointer-events-none absolute -left-12 -bottom-12 w-48 h-48 rounded-full bg-blue-300/15 dark:bg-blue-600/10 blur-3xl" />
 
-        <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_440px]">
-          <section className="kanji-lesson-panel min-w-0 overflow-hidden rounded-[2rem] border border-white/70 bg-white/72 p-4 shadow-[0_12px_34px_rgba(15,23,42,0.05)] dark:border-slate-800 dark:bg-slate-950/58">
-            <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            
+            {/* Cột trái: Breadcrumb + Tiêu đề + Thống kê inline */}
+            <div className="space-y-2.5 flex-1 min-w-0">
+              
+              {/* Top row: Nút quay lại + Badge bài học */}
+              <div className="flex flex-wrap items-center gap-2">
+                <motion.button 
+                  onClick={() => navigate('/kanji')}
+                  whileHover={{ scale: 1.03, x: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-white dark:bg-slate-800 px-3 py-1 text-xs font-black text-slate-700 dark:text-slate-200 shadow-xs border border-slate-200 dark:border-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors cursor-pointer"
+                >
+                  <ArrowLeft size={13} strokeWidth={2.4} /> 
+                  <span>Tất cả bài học</span>
+                </motion.button>
+
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${theme.bgLight}`}>
+                  <Sparkles size={12} strokeWidth={2.2} />
+                  {courseId?.toUpperCase()} • Bài {lessonId}
+                </span>
+              </div>
+
+              {/* Tiêu đề & Mô tả */}
               <div>
-                <p className={`mb-1 inline-flex items-center gap-2 rounded-full bg-white/72 px-3 py-1 text-[11px] font-black uppercase tracking-[0.22em] ${theme.textDark} ring-1 ${theme.ring}`}>
-                  <GraduationCap size={13} />
-                  Kanji Core
+                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                  Danh Sách Hán Tự Bài {lessonId}
+                </h1>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+                  Luyện nhận diện mặt chữ, tra cứu âm Hán Việt, luyện thứ tự nét viết cọ và từ vựng ứng dụng.
                 </p>
-                <h2 className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xl font-black tracking-tight text-slate-900 dark:text-slate-50">
-                  {kanjiList.length} chữ cần nắm trong bài
-                  {isSelectMode && selectedKanjiIds.length > 0 && (
-                    <span className="whitespace-nowrap rounded-full bg-slate-900 px-2.5 py-1 text-[10px] font-black text-white dark:bg-white dark:text-slate-900">
-                      Đã chọn {selectedKanjiIds.length}
-                    </span>
-                  )}
-                </h2>
               </div>
 
-              <div className="flex flex-wrap gap-2 lg:justify-end">
-                <button
-                  onClick={() => {
-                    if (isSelectMode) {
-                      setIsSelectMode(false);
-                      setSelectedKanjiIds([]);
-                    } else {
-                      setIsSelectMode(true);
-                    }
-                  }}
-                  className={`${actionButton} ${isSelectMode ? activeActionButton : theme.textDark}`}
-                >
-                  {isSelectMode ? <><X size={15} /> Hủy chọn</> : <><List size={15} /> Chọn thủ công</>}
-                </button>
+              {/* Khối Thống kê dạng Pills ngang cực gọn */}
+              <div className="pt-0.5 flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs font-bold text-slate-500 dark:text-slate-400">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700">
+                  <Award size={14} strokeWidth={2.2} className={theme.color} />
+                  <span><strong className="text-slate-900 dark:text-white">{kanjiList.length}</strong> Hán tự</span>
+                </div>
 
-                {isSelectMode && (
-                  <button
-                    onClick={() => {
-                      if (selectedKanjiIds.length === totalSelectableItems) {
-                        setSelectedKanjiIds([]);
-                      } else {
-                        setSelectedKanjiIds([...kanjiList.map(k => k.id), ...(otherVocab.length > 0 ? ['other'] : [])]);
-                      }
-                    }}
-                    className={`${actionButton} ${theme.textDark}`}
-                  >
-                    {selectedKanjiIds.length === totalSelectableItems ? 'Bỏ chọn tất cả' : 'Chọn tất cả'}
-                  </button>
-                )}
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700">
+                  <Layers size={14} strokeWidth={2.2} className={theme.color} />
+                  <span><strong className="text-slate-900 dark:text-white">{vocabList.length}</strong> Từ vựng</span>
+                </div>
 
-                <button
-                  onClick={() => setIsFlashcardMode(true)}
-                  disabled={isSelectMode && selectedKanjiIds.length === 0}
-                  className={`${actionButton} ${isSelectMode && selectedKanjiIds.length === 0 ? disabledActionButton : ''}`}
-                >
-                  <LayoutGrid size={15} /> Flashcard
-                </button>
-                <button
-                  onClick={() => setTypingVocab(isSelectMode ? selectedVocabList : vocabList)}
-                  disabled={isSelectMode && selectedKanjiIds.length === 0}
-                  className={`${actionButton} ${isSelectMode && selectedKanjiIds.length === 0 ? disabledActionButton : ''}`}
-                >
-                  <Keyboard size={15} /> Gõ
-                </button>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 flex-1 min-w-[180px] max-w-xs">
+                  <span>Đã nhớ: <strong className={theme.color}>{memorizedKanjiIds.length}/{kanjiList.length} chữ</strong></span>
+                  <div className="flex-1 h-2 rounded-full bg-slate-200/80 dark:bg-slate-700 overflow-hidden">
+                    <div 
+                      className={`h-full rounded-full bg-gradient-to-r ${theme.progressBar} transition-all`}
+                      style={{ width: `${kanjiList.length > 0 ? (memorizedKanjiIds.length / kanjiList.length) * 100 : 0}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Cột phải: Linh vật Kitsune FULL NGƯỜI thu nhỏ gọn gàng */}
+            <div className="flex items-center justify-center shrink-0 self-center">
+              <div className="w-[140px] h-[120px] flex items-center justify-center overflow-visible">
+                <div className="scale-[0.55] sm:scale-[0.6] origin-center -mt-2">
+                  <JapaneseMascot state="idle" showSpeechBubble={false} />
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              {kanjiList.map((kanji) => {
-                const isSelected = selectedKanjiIds.includes(kanji.id);
+          </div>
+        </motion.div>
 
-                return (
-                  <button
-                    key={kanji.id}
-                    type="button"
-                    onClick={() => {
-                      if (isSelectMode) {
-                        setSelectedKanjiIds(prev => prev.includes(kanji.id) ? prev.filter(id => id !== kanji.id) : [...prev, kanji.id]);
-                      } else {
-                        navigate(`/kanji/${courseId}/lesson/${lessonId}/${kanji.id}`);
-                      }
-                    }}
-                    className={`kanji-list-card kanji-steady-row group relative flex min-h-[104px] items-center gap-4 overflow-hidden rounded-2xl border p-4 text-left shadow-sm transition-colors hover:bg-white/90 ${
-                      isSelectMode && isSelected
-                        ? theme.selected
-                        : 'border-white/80 bg-white/78 dark:border-slate-800 dark:bg-slate-950/70'
-                    }`}
-                  >
-                    <div className={`absolute inset-y-4 left-0 w-1 rounded-r-full bg-gradient-to-b ${theme.accentGradient} opacity-0 transition-opacity group-hover:opacity-100 ${isSelected ? 'opacity-100' : ''}`} />
-                    {isSelectMode && (
-                      <div className={`absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
-                        isSelected
-                          ? `${theme.accentBg} border-transparent text-white`
-                          : 'border-slate-300 bg-white/80 dark:border-slate-600 dark:bg-slate-900/80'
-                      }`}>
-                        {isSelected && <Check size={12} strokeWidth={3} />}
-                      </div>
-                    )}
+        {/* ========================================================================= */}
+        {/* 2. THANH CÔNG CỤ LUYỆN TẬP NHANH & BỘ LỌC */}
+        {/* ========================================================================= */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
+          
+          {/* Bộ nút luyện tập 4 công cụ */}
+          <div className="flex flex-wrap items-center gap-2">
+            <motion.button
+              onClick={() => setIsFlashcardMode(true)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 text-xs font-black hover:bg-rose-100 transition-colors cursor-pointer"
+            >
+              <LayoutGrid size={15} strokeWidth={2.2} />
+              <span>Flashcard Kanji</span>
+            </motion.button>
 
-                    <div className={`grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-slate-50/90 text-center font-jp text-5xl font-medium leading-none text-slate-900 ring-1 ring-slate-100 transition-colors dark:bg-slate-900 dark:text-slate-50 dark:ring-slate-800 ${theme.textHover}`}>
-                      {kanji.char}
-                    </div>
+            <motion.button
+              onClick={() => setIsVocabFlashcardMode(true)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-xs font-black hover:bg-blue-100 transition-colors cursor-pointer"
+            >
+              <BookOpen size={15} strokeWidth={2.2} />
+              <span>Flashcard Từ vựng</span>
+            </motion.button>
 
-                    <div className={`min-w-0 flex-1 ${isSelectMode ? 'pr-6' : ''}`}>
-                      <div className="mb-1.5 flex items-start justify-between gap-2.5">
-                        <div className="min-w-0">
-                          <h3 className="truncate text-base font-black uppercase tracking-[0.08em] text-slate-900 dark:text-slate-50">
-                            {kanji.hanViet}
-                          </h3>
-                          <p className="truncate text-xs font-semibold text-slate-500 dark:text-slate-400">
-                            {kanji.meaning}
-                          </p>
-                        </div>
-                        <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[9px] font-black ${theme.accentSoft} ${theme.textDark} ${theme.border}`}>
-                          {kanji.vocab?.length || 0} từ
-                        </span>
-                      </div>
+            <motion.button
+              onClick={() => setTypingVocab(isSelectMode ? selectedVocabList : vocabList)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 text-xs font-black hover:bg-emerald-100 transition-colors cursor-pointer"
+            >
+              <Keyboard size={15} strokeWidth={2.2} />
+              <span>Luyện Gõ ({isSelectMode && selectedKanjiIds.length > 0 ? selectedVocabList.length : vocabList.length})</span>
+            </motion.button>
 
-                      <div className="flex flex-wrap gap-1.5 text-xs">
-                        {kanji.kunyomi.length > 0 && (
-                          <span className="rounded-full bg-slate-100/80 px-2 py-0.5 font-medium text-slate-600 dark:bg-slate-800/80 dark:text-slate-300">
-                            {kanji.kunyomi.join('、')}
-                          </span>
-                        )}
-                        {kanji.onyomi.length > 0 && (
-                          <span className={`rounded-full px-2 py-0.5 font-black ${theme.accentSoft} ${theme.textDark}`}>
-                            {kanji.onyomi.join('、')}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
+            <motion.button
+              onClick={() => setIsVocabQuizMode(true)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800 text-xs font-black hover:bg-amber-100 transition-colors cursor-pointer"
+            >
+              <HelpCircle size={15} strokeWidth={2.2} />
+              <span>Trắc Nghiệm</span>
+            </motion.button>
+          </div>
 
-              {otherVocab.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (isSelectMode) {
-                      setSelectedKanjiIds(prev => prev.includes('other') ? prev.filter(id => id !== 'other') : [...prev, 'other']);
-                    } else {
-                      navigate(`/kanji/${courseId}/lesson/${lessonId}/other`);
-                    }
-                  }}
-                  className={`kanji-list-card kanji-steady-row group relative flex min-h-[104px] items-center gap-4 overflow-hidden rounded-2xl border p-4 text-left shadow-sm transition-colors hover:bg-white/90 ${
-                    isSelectMode && selectedKanjiIds.includes('other')
-                      ? theme.selected
-                      : 'border-white/80 bg-white/72 dark:border-slate-800 dark:bg-slate-950/60'
-                  }`}
-                >
-                  <div className={`absolute inset-y-4 left-0 w-1 rounded-r-full bg-gradient-to-b ${theme.accentGradient} opacity-0 transition-opacity group-hover:opacity-100 ${selectedKanjiIds.includes('other') ? 'opacity-100' : ''}`} />
-                  {isSelectMode && (
-                    <div className={`absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
-                      selectedKanjiIds.includes('other')
-                        ? `${theme.accentBg} border-transparent text-white`
-                        : 'border-slate-300 bg-white/80 dark:border-slate-600 dark:bg-slate-900/80'
-                    }`}>
-                      {selectedKanjiIds.includes('other') && <Check size={12} strokeWidth={3} />}
-                    </div>
-                  )}
-                  <div className={`grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-slate-50/90 text-center text-4xl font-black text-slate-400 ring-1 ring-slate-100 transition-colors dark:bg-slate-900 dark:ring-slate-800 ${theme.textHover}`}>
-                    …
-                  </div>
-                  <div className={`min-w-0 flex-1 ${isSelectMode ? 'pr-6' : ''}`}>
-                    <div className="mb-1.5 flex items-start justify-between gap-2.5">
-                      <div>
-                        <h3 className="text-base font-black uppercase tracking-[0.08em] text-slate-900 dark:text-slate-50">
-                          Từ vựng khác
-                        </h3>
-                        <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                          Không chứa Kanji trọng tâm
-                        </p>
-                      </div>
-                      <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[9px] font-black ${theme.accentSoft} ${theme.textDark} ${theme.border}`}>
-                        {otherVocab.length} từ
-                      </span>
-                    </div>
-                  </div>
+          {/* Ô Tìm kiếm & Chế độ chọn */}
+          <div className="flex items-center gap-2.5">
+            <div className="relative flex-1 sm:w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={15} />
+              <input
+                type="text"
+                placeholder="Tìm Hán tự, âm Hán Việt, On/Kun..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-8 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              />
+              {searchQuery && (
+                <button onClick={() => setSearchQuery('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                  <X size={13} />
                 </button>
               )}
             </div>
-          </section>
 
-          <aside className="w-full xl:sticky xl:top-24 xl:self-start">
-            <div className="kanji-lesson-panel mb-4 flex flex-col gap-3 rounded-[2rem] border border-white/70 bg-white/74 p-4 shadow-[0_10px_30px_rgba(15,23,42,0.05)] sm:flex-row sm:items-end sm:justify-between xl:flex-col xl:items-start dark:border-slate-800 dark:bg-slate-950/58">
-              <div>
-                <p className={`mb-1 inline-flex items-center gap-2 rounded-full bg-white/72 px-3 py-1 text-[11px] font-black uppercase tracking-[0.22em] ${theme.textDark} ring-1 ${theme.ring}`}>
-                  <BookMarked size={13} />
-                  Vocabulary
-                </p>
-                <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-slate-50">
-                  {vocabList.length} từ trong bài
-                </h2>
-              </div>
+            <motion.button
+              onClick={() => {
+                setIsSelectMode(!isSelectMode);
+                if (isSelectMode) setSelectedKanjiIds([]);
+              }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-black transition-colors cursor-pointer ${
+                isSelectMode 
+                  ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-transparent' 
+                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
+              }`}
+            >
+              {isSelectMode ? <X size={14} /> : <List size={14} />}
+              <span>{isSelectMode ? 'Hủy chọn' : 'Chọn nhiều'}</span>
+            </motion.button>
+          </div>
 
-              <div className="flex flex-wrap gap-2">
-                <button onClick={() => setIsVocabQuizMode(true)} className={actionButton}>
-                  <LayoutGrid size={15} /> Multiple Choice
-                </button>
-                <button onClick={() => setIsVocabFlashcardMode(true)} className={actionButton}>
-                  <BookOpen size={15} /> Flashcard
-                </button>
-                <button onClick={() => setTypingVocab(vocabList)} className={actionButton}>
-                  <Keyboard size={15} /> Gõ
-                </button>
-              </div>
+        </div>
+
+        {/* Toolbar phụ khi ở chế độ Select Mode */}
+        {isSelectMode && (
+          <div className="flex items-center justify-between p-3 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800 text-xs font-bold text-blue-700 dark:text-blue-300">
+            <span>Đã chọn: <strong>{selectedKanjiIds.length} / {totalSelectableItems}</strong> chữ ({selectedVocabList.length} từ vựng)</span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  if (selectedKanjiIds.length === totalSelectableItems) {
+                    setSelectedKanjiIds([]);
+                  } else {
+                    setSelectedKanjiIds([...kanjiList.map(k => k.id), ...(otherVocab.length > 0 ? ['other'] : [])]);
+                  }
+                }}
+                className="px-3 py-1 rounded-lg bg-blue-600 text-white font-black hover:bg-blue-700 cursor-pointer"
+              >
+                {selectedKanjiIds.length === totalSelectableItems ? 'Bỏ chọn tất cả' : 'Chọn tất cả'}
+              </button>
             </div>
+          </div>
+        )}
 
-            <div className="kanji-lesson-panel overflow-hidden rounded-[2rem] border border-white/80 bg-white/84 shadow-[0_14px_40px_rgba(15,23,42,0.08)] dark:border-slate-800 dark:bg-slate-950/75">
-              <div className={`relative flex items-center justify-between overflow-hidden border-b border-slate-100 px-5 py-4 dark:border-slate-800 ${theme.accentSoft}`}>
-                <div className={`absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b ${theme.accentGradient}`} />
-                <div className="flex items-center gap-3">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-full ${theme.accentBg} text-white shadow-lg ${theme.shadow}`}>
-                    <List size={18} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-black text-slate-900 dark:text-slate-50">Danh sách từ vựng</p>
-                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Kanji · Hiragana · Romaji · Nghĩa</p>
-                  </div>
-                </div>
-              </div>
+        {/* Tabs Lọc: Tất cả • Đã nhớ • Yêu thích */}
+        <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2 text-xs font-bold">
+          <button
+            onClick={() => setActiveTab('all')}
+            className={`px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
+              activeTab === 'all' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-black' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Tất cả ({kanjiList.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('memorized')}
+            className={`px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
+              activeTab === 'memorized' ? 'bg-emerald-600 text-white font-black' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Đã nhớ ({memorizedKanjiIds.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('favorites')}
+            className={`px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
+              activeTab === 'favorites' ? 'bg-rose-600 text-white font-black' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Yêu thích ({favoriteKanjiIds.length})
+          </button>
+        </div>
 
-              <div className="kanji-lesson-scroll max-h-[68vh] space-y-2 overflow-y-auto p-3">
-                {vocabList.length === 0 ? (
-                  <div className="p-8 text-center font-medium text-slate-500">Chưa có từ vựng nào.</div>
-                ) : vocabList.map((vocab, idx) => (
-                  <div
-                    key={`${vocab.kanji}-${vocab.hiragana}-${idx}`}
-                    className="kanji-vocab-row kanji-steady-row rounded-2xl border border-slate-100 bg-white/80 p-4 shadow-sm ring-1 ring-white/65 transition-colors hover:bg-white/90 dark:border-slate-800 dark:bg-slate-900/65 dark:ring-slate-800 dark:hover:bg-slate-900"
-                  >
+        {/* ========================================================================= */}
+        {/* 3. LƯỚI THẺ HÁN TỰ HIỆN ĐẠI (KANJI CARDS GRID - 3 CỘT) */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {filteredKanjiList.map((kanji) => {
+            const isSelected = selectedKanjiIds.includes(kanji.id);
+            const isFav = favoriteKanjiIds.includes(kanji.id);
+            const isMemo = memorizedKanjiIds.includes(kanji.id);
+
+            return (
+              <motion.div
+                key={kanji.id}
+                whileHover={{ y: -6, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } }}
+                whileTap={{ scale: 0.99 }}
+                style={{ willChange: 'transform', transform: 'translateZ(0)' }}
+                onClick={() => {
+                  if (isSelectMode) {
+                    setSelectedKanjiIds(prev => prev.includes(kanji.id) ? prev.filter(id => id !== kanji.id) : [...prev, kanji.id]);
+                  } else {
+                    navigate(`/kanji/${courseId}/lesson/${lessonId}/${kanji.id}`);
+                  }
+                }}
+                className={`group relative overflow-hidden rounded-[26px] border bg-white dark:bg-slate-900 p-5 shadow-sm hover:shadow-xl cursor-pointer flex flex-col justify-between transition-all duration-300 ${
+                  isSelectMode && isSelected 
+                    ? theme.selected 
+                    : `${theme.hoverBorder} border-slate-200/80 dark:border-slate-800`
+                }`}
+              >
+                {/* Dải màu đỉnh thẻ */}
+                <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${theme.gradient}`} />
+
+                <div className="space-y-4">
+                  
+                  {/* Header Thẻ: Stage Chữ Hán & Âm Hán Việt */}
+                  <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center text-slate-900 dark:text-slate-50">
-                        <span className={`font-jp font-black leading-tight ${vocab.kanji.length > 2 ? 'text-base' : 'text-xl'}`}>
-                          {vocab.kanji}
+                      
+                      {/* Khung Chữ Hán To Chuẩn Nét Cọ */}
+                      <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+                        <span className="font-jp text-4xl font-black text-slate-900 dark:text-white leading-none">
+                          {kanji.char}
                         </span>
                       </div>
-                      <div className="min-w-0 flex-1">
+
+                      {/* Âm Hán Việt & Nghĩa */}
+                      <div>
                         <div className="flex items-center gap-2">
-                          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-black text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                            {String(idx + 1).padStart(2, '0')}
-                          </span>
-                          <p className="truncate text-sm font-semibold text-slate-500 dark:text-slate-400">{vocab.hiragana}</p>
+                          <h3 className="text-xl font-black uppercase text-slate-900 dark:text-white tracking-tight">
+                            {kanji.hanViet}
+                          </h3>
                         </div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
-                          {toRomaji(vocab.hiragana)}
+                        <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">
+                          {kanji.meaning}
                         </p>
+                        <span className="inline-block text-[10px] font-bold text-slate-400 mt-1">
+                          {kanji.strokes || 4} nét • {kanji.vocab?.length || 0} từ ghép
+                        </span>
                       </div>
-                      <p className="max-w-[48%] rounded-2xl bg-slate-50/80 px-3 py-2 text-right text-sm font-bold text-slate-600 dark:bg-slate-800/70 dark:text-slate-300">
-                        {vocab.meaning}
+
+                    </div>
+
+                    {/* Nút hành động nhanh: Yêu thích & Loa & Checkbox */}
+                    <div className="flex items-center gap-1.5">
+                      {isSelectMode ? (
+                        <div className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-colors ${
+                          isSelected ? theme.selectedPill : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800'
+                        }`}>
+                          {isSelected && <Check size={14} strokeWidth={3} />}
+                        </div>
+                      ) : (
+                        <>
+                          <button
+                            onClick={(e) => playAudio(kanji.char, e)}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform hover:scale-110 shadow-xs cursor-pointer ${
+                              playingAudioKanji === kanji.char ? 'bg-rose-500 text-white animate-pulse' : 'bg-slate-50 dark:bg-slate-800 text-slate-500 hover:text-blue-600'
+                            }`}
+                            title="Nghe phát âm"
+                          >
+                            <Volume2 size={14} />
+                          </button>
+                          <button
+                            onClick={(e) => toggleFavorite(kanji.id, e)}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform hover:scale-110 shadow-xs cursor-pointer ${
+                              isFav ? 'bg-rose-50 text-rose-500 dark:bg-rose-950/60' : 'bg-slate-50 dark:bg-slate-800 text-slate-400 hover:text-rose-500'
+                            }`}
+                            title="Yêu thích"
+                          >
+                            <Heart size={14} fill={isFav ? 'currentColor' : 'none'} />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Âm On'yomi & Kun'yomi */}
+                  <div className="grid grid-cols-2 gap-2 text-xs pt-1">
+                    <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                      <p className="text-[9px] font-bold text-slate-400 uppercase">On'yomi</p>
+                      <p className="font-bold text-slate-800 dark:text-slate-200 mt-0.5 truncate">
+                        {kanji.onyomi.length > 0 ? kanji.onyomi.join(', ') : '—'}
+                      </p>
+                    </div>
+                    <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                      <p className="text-[9px] font-bold text-slate-400 uppercase">Kun'yomi</p>
+                      <p className="font-bold text-slate-800 dark:text-slate-200 mt-0.5 truncate">
+                        {kanji.kunyomi.length > 0 ? kanji.kunyomi.join(', ') : '—'}
                       </p>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          </aside>
+
+                  {/* Từ vựng tiêu biểu */}
+                  {kanji.vocab && kanji.vocab.length > 0 && (
+                    <div className="space-y-1 pt-1">
+                      <p className="text-[10px] font-black uppercase text-slate-400">Từ ghép mẫu:</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {kanji.vocab.slice(0, 2).map((v, vIdx) => (
+                          <span
+                            key={vIdx}
+                            onClick={(e) => playAudio(v.kanji, e)}
+                            className="px-2.5 py-1 rounded-lg bg-slate-100/80 dark:bg-slate-800 text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center gap-1 transition-colors"
+                          >
+                            <span className="font-jp">{v.kanji}</span>
+                            <span className="text-[10px] font-normal text-slate-400">({v.hiragana})</span>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Bottom Actions */}
+                  <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                    <button
+                      onClick={(e) => toggleMemorized(kanji.id, e)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
+                        isMemo 
+                          ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800' 
+                          : 'bg-slate-50 text-slate-500 hover:text-slate-800 dark:bg-slate-800 dark:text-slate-400'
+                      }`}
+                    >
+                      <Check size={13} strokeWidth={2.5} />
+                      <span>{isMemo ? 'Đã nhớ' : 'Chưa nhớ'}</span>
+                    </button>
+
+                    <button
+                      onClick={() => navigate(`/kanji/${courseId}/lesson/${lessonId}/${kanji.id}`)}
+                      className="inline-flex items-center gap-1 text-xs font-black text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                    >
+                      <Pencil size={13} />
+                      <span>Tập viết & Chi tiết</span>
+                    </button>
+                  </div>
+
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
+
+        {/* ========================================================================= */}
+        {/* 4. TỪ VỰNG ỨNG DỤNG TRONG BÀI (COLLAPSIBLE / ACCORDION) */}
+        {/* ========================================================================= */}
+        <div className="p-6 rounded-[28px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <BookOpen className={theme.color} size={20} />
+              Từ Vựng Ứng Dụng Trong Bài ({vocabList.length} từ)
+            </h3>
+            <button
+              onClick={() => setTypingVocab(vocabList)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-200 cursor-pointer"
+            >
+              <Keyboard size={14} /> Luyện gõ danh sách này
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {vocabList.map((vocab, idx) => (
+              <div
+                key={idx}
+                onClick={() => playAudio(vocab.kanji)}
+                className="p-3.5 rounded-2xl bg-slate-50/80 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-800 flex items-center justify-between gap-3 cursor-pointer transition-colors group"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="w-6 h-6 rounded-lg bg-white dark:bg-slate-700 text-[10px] font-black text-slate-400 flex items-center justify-center shrink-0">
+                    {idx + 1}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="font-jp font-black text-sm text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                      {vocab.kanji}
+                    </p>
+                    <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                      {vocab.hiragana} • {toRomaji(vocab.hiragana)}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right shrink-0">
+                  <p className="text-xs font-bold text-slate-700 dark:text-slate-200">{vocab.meaning}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
 
+      {/* Modal Luyện Gõ */}
       {typingVocab && (
         <KanjiVocabTyping
           vocabList={typingVocab}
@@ -415,6 +631,7 @@ export const KanjiLesson = () => {
         />
       )}
 
+      {/* Modal Flashcard Kanji */}
       {isFlashcardMode && (
         <KanjiFlashcard
           kanjiList={selectedKanjiIds.length > 0 ? kanjiList.filter(k => selectedKanjiIds.includes(k.id)) : kanjiList}
@@ -423,6 +640,7 @@ export const KanjiLesson = () => {
         />
       )}
 
+      {/* Modal Flashcard Từ Vựng */}
       {isVocabFlashcardMode && (
         <VocabFlashcard
           vocabList={vocabList}
@@ -431,6 +649,7 @@ export const KanjiLesson = () => {
         />
       )}
 
+      {/* Modal Trắc Nghiệm */}
       {isVocabQuizMode && (
         <VocabQuiz
           vocabList={vocabList}
@@ -439,6 +658,7 @@ export const KanjiLesson = () => {
           isJPD123={isJPD123}
         />
       )}
+
     </div>
   );
 };

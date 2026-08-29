@@ -74,10 +74,6 @@ export const PracticeConfig = () => {
   return (
     <div className="relative mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-5xl flex-col items-center justify-center px-4 py-8 md:px-8">
       {/* Background decorations */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
-        style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
-      />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/90 to-blue-50/90 dark:from-slate-950/95 dark:via-slate-950/92 dark:to-indigo-950/90" />
       <div className="pointer-events-none absolute left-1/2 top-10 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl dark:bg-cyan-900/20" />
       <div className="pointer-events-none absolute right-12 top-20 -z-10 h-64 w-64 rounded-full bg-blue-200/35 blur-3xl dark:bg-blue-900/20" />

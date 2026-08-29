@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import {
   Bell,
   BookOpen,
@@ -104,7 +103,7 @@ const accentClasses: Record<string, string> = {
 const MenuItem = ({ icon, title, subtitle, accent, onClick }: MenuItemProps) => (
   <button
     onClick={onClick}
-    className="group flex w-full items-center gap-3 rounded-2xl border border-transparent px-3 py-2 text-left transition-all duration-200 hover:border-slate-100 hover:bg-white hover:shadow-sm"
+    className="group flex w-full items-center gap-3 rounded-2xl border border-transparent px-3 py-2 text-left transition-colors duration-150 hover:border-slate-100 hover:bg-white"
   >
     <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-2xl transition-colors ${accentClasses[accent] ?? accentClasses.blue}`}>
       {icon}
@@ -214,23 +213,20 @@ export const Header = () => {
         <input
           type="text"
           placeholder="Tìm kiếm..."
-          className="block w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 focus:bg-white dark:focus:bg-slate-800 rounded-full text-sm placeholder-slate-400 focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10 transition-all duration-300 outline-none shadow-sm font-jp"
+          className="block w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 focus:bg-white dark:focus:bg-slate-800 rounded-full text-sm placeholder-slate-400 focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10 transition-colors duration-150 outline-none shadow-sm font-jp"
         />
       </div>
 
-      <div className="flex items-center gap-3 md:gap-5 ml-auto rounded-[28px] border border-white/65 dark:border-slate-700/60 bg-white/35 dark:bg-slate-950/35 px-3 py-2 shadow-[0_12px_34px_rgba(15,23,42,0.08)] backdrop-blur-xl">
-        <motion.button
-          whileHover={{ scale: 1.04, y: -1 }}
-          whileTap={{ scale: 0.96 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      <div className="header-fast-panel flex items-center gap-3 md:gap-5 ml-auto rounded-[28px] border border-white/65 dark:border-slate-700/60 bg-white/90 dark:bg-slate-950/90 px-3 py-2 shadow-sm">
+        <button
           onClick={() => setIsUpgradeOpen(true)}
-          className="hidden sm:flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 px-4 py-3 text-sm font-black text-white shadow-lg shadow-amber-400/25 border border-white/60 hover:shadow-xl hover:shadow-amber-400/30"
+          className="hidden sm:flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 px-4 py-3 text-sm font-black text-white shadow-sm border border-white/60 transition-colors duration-150"
         >
           <Crown size={18} strokeWidth={2.5} />
           Nâng Cấp
-        </motion.button>
+        </button>
 
-        <button className="relative p-3 rounded-full bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] transition-all shadow-sm border border-white/80 dark:border-slate-800">
+        <button className="relative p-3 rounded-full bg-white/90 dark:bg-slate-900/90 text-slate-600 dark:text-slate-300 hover:text-[var(--primary)] transition-colors duration-150 shadow-sm border border-white/80 dark:border-slate-800">
           <Bell size={20} strokeWidth={2.5} />
           <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900" />
         </button>
@@ -238,7 +234,7 @@ export const Header = () => {
         <div className="relative" ref={profileRef}>
           <button
             onClick={() => setIsProfileOpen((value) => !value)}
-            className="flex items-center gap-3 rounded-full py-1 pl-1 pr-2 hover:bg-white/45 transition-all"
+            className="flex items-center gap-3 rounded-full py-1 pl-1 pr-2 hover:bg-white/45 transition-colors duration-150"
           >
             <span className="w-12 h-12 rounded-full border-2 border-white dark:border-slate-800 shadow-sm overflow-hidden bg-slate-200 shrink-0">
               <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" referrerPolicy="no-referrer" onError={(e) => { (e.target as HTMLImageElement).src = 'https://api.dicebear.com/7.x/notionists/svg?seed=jp-forus&backgroundColor=f8d7da'; }} />
@@ -251,10 +247,10 @@ export const Header = () => {
           </button>
 
           {isProfileOpen && (
-            <div className="absolute right-0 mt-4 w-[680px] max-h-[calc(100vh-112px)] overflow-y-auto overscroll-contain rounded-[30px] border border-white/75 bg-white/92 p-4 shadow-[0_28px_80px_rgba(15,23,42,0.18)] backdrop-blur-2xl z-50 animate-in fade-in slide-in-from-top-2 origin-top-right [scrollbar-width:thin] [scrollbar-color:rgba(148,163,184,0.55)_transparent]">
+            <div className="absolute right-0 mt-4 w-[680px] max-h-[calc(100vh-112px)] overflow-y-auto overscroll-contain rounded-[30px] border border-white/75 bg-white/98 p-4 shadow-lg z-50 animate-in fade-in slide-in-from-top-2 origin-top-right [scrollbar-width:thin] [scrollbar-color:rgba(148,163,184,0.55)_transparent]">
               <div className="relative overflow-hidden rounded-[26px] border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-rose-50 p-4">
-                <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-blue-300/20 blur-2xl" />
-                <div className="absolute -bottom-10 left-32 h-24 w-24 rounded-full bg-rose-300/25 blur-2xl" />
+                <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-blue-300/10 blur-lg" />
+                <div className="absolute -bottom-10 left-32 h-24 w-24 rounded-full bg-rose-300/10 blur-lg" />
                 <div className="relative flex items-center justify-between gap-5">
                   <div className="flex min-w-0 items-center gap-4">
                     <button
@@ -306,14 +302,14 @@ export const Header = () => {
                         setIsProfileOpen(false);
                         setIsProfileModalOpen(true);
                       }}
-                      className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white bg-white/90 px-4 py-3 text-sm font-black text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                      className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white bg-white/90 px-4 py-3 text-sm font-black text-slate-700 shadow-sm transition-colors duration-150 hover:bg-white"
                     >
                       <User size={17} />
                       Xem hồ sơ
                     </button>
                     <button
                       onClick={handleLogout}
-                      className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white shadow-lg shadow-slate-900/20 transition hover:-translate-y-0.5 hover:bg-rose-500 hover:shadow-rose-500/25"
+                      className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white shadow-sm transition-colors duration-150 hover:bg-rose-500"
                     >
                       <LogOut size={17} />
                       Đăng xuất

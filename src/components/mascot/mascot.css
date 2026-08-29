@@ -1,0 +1,224 @@
+/* JP Forus mascot motion helpers. Keep animation on transform/opacity only. */
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0) rotate(1deg);
+  }
+}
+
+@keyframes sakura-fall-1 {
+  0% {
+    transform: translate3d(0, -10px, 0) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(60px, 120px, 0) rotate(180deg) scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes sakura-fall-2 {
+  0% {
+    transform: translate3d(0, -10px, 0) rotate(0deg) scale(0.7);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(-50px, 130px, 0) rotate(-160deg) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes sakura-fall-3 {
+  0% {
+    transform: translate3d(0, -10px, 0) rotate(0deg) scale(0.9);
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(45px, 140px, 0) rotate(220deg) scale(1.15);
+    opacity: 0;
+  }
+}
+
+@keyframes shine-sweep {
+  0% {
+    transform: translate3d(-100%, 0, 0) skewX(-15deg);
+  }
+  100% {
+    transform: translate3d(200%, 0, 0) skewX(-15deg);
+  }
+}
+
+.jp-mascot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  contain: paint style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  user-select: none;
+}
+
+.jp-mascot__bubble-slot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  min-width: 220px;
+  height: 78px;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.jp-mascot__bubble {
+  position: relative;
+  width: min(320px, 100%);
+  border: 1px solid rgba(251, 146, 60, 0.28);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 14px 34px rgba(194, 65, 12, 0.12);
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.jp-mascot__bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 14px;
+  height: 14px;
+  border-right: 1px solid rgba(251, 146, 60, 0.28);
+  border-bottom: 1px solid rgba(251, 146, 60, 0.28);
+  background: rgba(255, 255, 255, 0.94);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.jp-mascot__bubble-jp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #172033;
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.jp-mascot__bubble-vi {
+  margin-top: 3px;
+  color: #ea580c;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.jp-mascot__stage {
+  position: relative;
+  display: grid;
+  width: clamp(180px, 24vw, 270px);
+  height: clamp(180px, 24vw, 270px);
+  place-items: center;
+}
+
+.jp-mascot__stage::before {
+  content: "";
+  position: absolute;
+  inset: 13%;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(251, 146, 60, 0.24), transparent 36%),
+    radial-gradient(circle at 70% 70%, rgba(244, 114, 182, 0.2), transparent 38%);
+  filter: blur(26px);
+  opacity: 0.9;
+}
+
+.jp-mascot__svg {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.jp-mascot__eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.animate-float-slow {
+  animation: float-slow 4s ease-in-out infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.animate-sakura-1 {
+  animation: sakura-fall-1 6.5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.animate-sakura-2 {
+  animation: sakura-fall-2 8.5s cubic-bezier(0.25, 1, 0.5, 1) infinite 2s;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.animate-sakura-3 {
+  animation: sakura-fall-3 7.5s cubic-bezier(0.25, 1, 0.5, 1) infinite 4s;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.animate-shine-sweep {
+  animation: shine-sweep 2.8s ease-in-out infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.auth-gpu-card {
+  contain: paint style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.auth-fixed-bg {
+  contain: paint;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow,
+  .animate-sakura-1,
+  .animate-sakura-2,
+  .animate-sakura-3,
+  .animate-shine-sweep {
+    animation: none !important;
+  }
+}

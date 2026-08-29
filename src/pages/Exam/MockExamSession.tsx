@@ -210,10 +210,6 @@ export const MockExamSession = () => {
 
   return (
     <div className="relative h-screen overflow-hidden bg-slate-50 text-slate-900 flex flex-col">
-      <div
-        className="pointer-events-none fixed-bg-plane absolute inset-0 bg-cover bg-center opacity-45"
-        style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
-      />
       <div className="pointer-events-none fixed-bg-plane absolute inset-0 bg-gradient-to-br from-white/96 via-sky-50/90 to-indigo-50/92" />
       <div className="pointer-events-none fixed-bg-plane absolute -right-32 top-12 h-80 w-80 rounded-full bg-cyan-200/35 blur-3xl" />
       <div className="pointer-events-none fixed-bg-plane absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-rose-200/30 blur-3xl" />

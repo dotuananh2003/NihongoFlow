@@ -146,10 +146,6 @@ export const ExamHub = () => {
   return (
     <div className="relative flex min-h-[calc(100vh-64px)] w-full flex-col overflow-hidden">
       {/* Background aesthetics (Full width) */}
-      <div
-        className="fixed-bg-plane pointer-events-none absolute inset-0 -z-20 bg-cover bg-center opacity-45"
-        style={{ backgroundImage: "url('/images/backgrounds/grammar-page-bg.png')" }}
-      />
       <div className="fixed-bg-plane pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-sky-50/95 via-white/95 to-rose-50/90 dark:from-slate-950/98 dark:via-slate-950/95 dark:to-indigo-950/90" />
       <div className="fixed-bg-plane pointer-events-none absolute left-1/2 top-8 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-cyan-200/30 blur-3xl dark:bg-cyan-900/20" />
       <div className="fixed-bg-plane pointer-events-none absolute right-10 top-20 -z-10 h-60 w-60 rounded-full bg-rose-200/25 blur-3xl dark:bg-rose-900/15" />

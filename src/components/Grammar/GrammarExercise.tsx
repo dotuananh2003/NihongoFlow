@@ -205,6 +205,8 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
     });
   };
 
+
+
   // --- QUESTION GENERATION ---
   const generateQuestions = () => {
     const generated: Question[] = [];
@@ -358,6 +360,24 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
     processResult(isCorrect);
   };
 
+  // Hàm chuyển đổi IME phân tách token để bảo toàn hoàn hảo dấu ~ / 〜 / ～ và các ký tự phân cách
+  const convertImeWithPunctuation = (text: string, mode: 'hira' | 'kata') => {
+    return text.split(/([~〜〜／/・\s]+)/).map(part => {
+      if (/^[~〜〜／/・\s]+$/.test(part)) return part.replace(/・/g, '/');
+      if (mode === 'hira') {
+        return toHiragana(part, { IMEMode: true }).replace(/・/g, '/');
+      } else {
+        const preVal = part.replace(/ディ/g, 'di').replace(/ティ/g, 'ti');
+        let romaji = toRomaji(preVal);
+        romaji = romaji.replace(/([aiueo])\1/g, '$1-');
+        return toKatakana(romaji, {
+          IMEMode: true,
+          customKanaMapping: { di: 'ディ', ti: 'ティ' },
+        }).replace(/・/g, '/');
+      }
+    }).join('');
+  };
+
   const handleTypingSubmit = () => {
     if (isAnswered || !textInput.trim()) return;
     const q = questions[currentIdx];
@@ -367,19 +387,37 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
     let isCorrect = false;
     if (q.subType === 'vn_to_jp') {
       // User typed Japanese. Compare with target Japanese, hiragana, or romaji
-      const normalizeJp = (str: string) => normalizeForTyping(str).replace(/\s/g, '');
-      const normalizeHira = (str: string) => str.replace(/は/g, 'わ').replace(/を/g, 'お').replace(/へ/g, 'え');
+      const normalizeJp = (str: string) => normalizeForTyping(str).replace(/[～〜]/g, '~').replace(/\s/g, '');
+      const normalizeHira = (str: string) => str.replace(/[～〜]/g, '~').replace(/は/g, 'わ').replace(/を/g, 'お').replace(/へ/g, 'え');
+      const stripTilde = (str: string) => str.replace(/^[~～〜\s]+|[~～〜\s]+$/g, '');
       
       const cleanInput = normalizeJp(textInput);
+      const cleanInputNoTilde = stripTilde(cleanInput);
+
       const targetJp = normalizeJp(q.correctAnswer);
+      const targetJpNoTilde = stripTilde(targetJp);
       
       const targetHira = normalizeHira(normalizeJp(toHiragana(q.example.reading || q.example.japanese)));
+      const targetHiraNoTilde = stripTilde(targetHira);
+
       const inputHira = normalizeHira(toHiragana(cleanInput));
+      const inputHiraNoTilde = stripTilde(inputHira);
       
       const targetRoma = normalizeJp(q.example.romaji || toRomaji(targetHira));
-      const inputRoma = normalizeJp(toRomaji(cleanInput));
+      const targetRomaNoTilde = stripTilde(targetRoma);
 
-      isCorrect = cleanInput === targetJp || inputHira === targetHira || inputRoma === targetRoma;
+      const inputRoma = normalizeJp(toRomaji(cleanInput));
+      const inputRomaNoTilde = stripTilde(inputRoma);
+
+      isCorrect = 
+        cleanInput === targetJp || 
+        inputHira === targetHira || 
+        inputRoma === targetRoma ||
+        (cleanInputNoTilde !== '' && (
+          cleanInputNoTilde === targetJpNoTilde ||
+          inputHiraNoTilde === targetHiraNoTilde ||
+          inputRomaNoTilde === targetRomaNoTilde
+        ));
     } else {
       // User typed Vietnamese. Compare with fuzzy matching
       const cleanInput = normalizeForTyping(textInput);
@@ -437,19 +475,11 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
 
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const q = questions[currentIdx];
-    let val = e.target.value;
+    const val = e.target.value;
 
     if (q.subType === 'vn_to_jp') {
-      // Japanese typing mode
-      val = val.replace(/\s/g, '').replace(/〜/g, '~');
-      if (imeMode === 'hira') {
-        setTextInput(toHiragana(val, { IMEMode: true }));
-      } else {
-        const preVal = val.replace(/ディ/g, 'di').replace(/ティ/g, 'ti');
-        let romaji = toRomaji(preVal);
-        romaji = romaji.replace(/([aiueo])\1/g, '$1-');
-        setTextInput(toKatakana(romaji, { IMEMode: true, customKanaMapping: { di: 'ディ', ti: 'ティ' } }));
-      }
+      // Japanese typing mode with robust token preservation
+      setTextInput(convertImeWithPunctuation(val, imeMode));
     } else {
       // Vietnamese typing mode
       setTextInput(val);
@@ -468,6 +498,19 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ grammarPoint, 
       e.preventDefault();
       setImeMode(prev => prev === 'hira' ? 'kata' : 'hira');
       setTimeout(() => inputRef.current?.focus(), 0);
+    } else if (e.key === '~' || (e.key === '`' && e.shiftKey) || e.key === '～' || e.key === '〜') {
+      e.preventDefault();
+      const target = e.currentTarget;
+      const start = target.selectionStart ?? textInput.length;
+      const end = target.selectionEnd ?? textInput.length;
+      const nextVal = textInput.slice(0, start) + '~' + textInput.slice(end);
+      setTextInput(nextVal);
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.selectionStart = start + 1;
+          inputRef.current.selectionEnd = start + 1;
+        }
+      }, 0);
     }
   };
 

@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260">
+  <title>JP Forus Fox Mascot - Rive Ready Layered SVG</title>
+  <defs>
+    <linearGradient id="foxFurMain" x1="74" x2="186" y1="30" y2="218" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FDBA74"/>
+      <stop offset="0.52" stop-color="#F97316"/>
+      <stop offset="1" stop-color="#EA580C"/>
+    </linearGradient>
+    <linearGradient id="foxTailTip" x1="36" x2="102" y1="86" y2="168" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#FFF7ED"/>
+    </linearGradient>
+    <linearGradient id="foxCardGrad" x1="178" x2="224" y1="54" y2="102" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EFF6FF"/>
+      <stop offset="1" stop-color="#DBEAFE"/>
+    </linearGradient>
+    <filter id="foxSoftShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="9" flood-color="#9A3412" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <g id="Mascot">
+    <ellipse id="Ground_Shadow" cx="130" cy="226" rx="68" ry="11" fill="#0F172A" opacity="0.1"/>
+
+    <g id="Tail">
+      <path id="Tail_Fur" d="M96 181c-39 25-82 7-90-32-7-36 14-73 52-84 35-10 68 11 74 45-26 9-43 27-36 71Z" fill="url(#foxFurMain)" filter="url(#foxSoftShadow)"/>
+      <path id="Tail_White_Tip" d="M58 65c-29 10-49 39-47 70 18-15 39-22 62-19-8-19-13-35-15-51Z" fill="url(#foxTailTip)"/>
+      <path id="Tail_Glow" d="M103 105c16 28 13 58-7 76" fill="none" stroke="#FED7AA" stroke-width="7" stroke-linecap="round" opacity="0.5"/>
+    </g>
+
+    <g id="Body" filter="url(#foxSoftShadow)">
+      <path id="Kimono_Body" d="M78 153c0-28 23-50 52-50s52 22 52 50l13 60c2 11-7 20-18 20H83c-11 0-20-9-18-20l13-60Z" fill="#2563EB"/>
+      <path id="Kimono_Left_Fold" d="M99 112l31 54-52 45 10-56c2-18 4-32 11-43Z" fill="#38BDF8" opacity="0.62"/>
+      <path id="Kimono_Right_Fold" d="M161 112l-31 54 52 45-10-56c-2-18-4-32-11-43Z" fill="#1D4ED8" opacity="0.74"/>
+      <path id="Collar_Left" d="M105 111l25 42" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+      <path id="Collar_Right" d="M155 111l-25 42" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+      <rect id="Obi_Belt" x="79" y="171" width="102" height="20" rx="8" fill="#FACC15"/>
+      <path id="Obi_Line" d="M85 181h90" stroke="#F97316" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <g id="Left_Paw">
+      <ellipse id="Left_Paw_Base" cx="82" cy="157" rx="20" ry="17" fill="#FFF7ED" stroke="#FED7AA" stroke-width="4"/>
+      <circle id="Left_Paw_Pad" cx="82" cy="158" r="5" fill="#FDA4AF"/>
+      <circle id="Left_Paw_Toe_1" cx="73" cy="151" r="2.5" fill="#FDA4AF"/>
+      <circle id="Left_Paw_Toe_2" cx="82" cy="149" r="2.5" fill="#FDA4AF"/>
+      <circle id="Left_Paw_Toe_3" cx="91" cy="151" r="2.5" fill="#FDA4AF"/>
+    </g>
+
+    <g id="Right_Paw">
+      <ellipse id="Right_Paw_Base" cx="178" cy="157" rx="20" ry="17" fill="#FFF7ED" stroke="#FED7AA" stroke-width="4"/>
+      <circle id="Right_Paw_Pad" cx="178" cy="158" r="5" fill="#93C5FD"/>
+      <circle id="Right_Paw_Toe_1" cx="169" cy="151" r="2.5" fill="#93C5FD"/>
+      <circle id="Right_Paw_Toe_2" cx="178" cy="149" r="2.5" fill="#93C5FD"/>
+      <circle id="Right_Paw_Toe_3" cx="187" cy="151" r="2.5" fill="#93C5FD"/>
+    </g>
+
+    <g id="Head">
+      <g id="Ears">
+        <path id="Left_Ear" d="M73 84C56 43 72 18 107 46c0 23-11 42-26 51Z" fill="url(#foxFurMain)"/>
+        <path id="Left_Inner_Ear" d="M80 76c-8-23 2-38 20-26-1 16-8 27-20 26Z" fill="#FDB4C4"/>
+        <path id="Right_Ear" d="M187 84c17-41 1-66-34-38 0 23 11 42 26 51Z" fill="url(#foxFurMain)"/>
+        <path id="Right_Inner_Ear" d="M180 76c8-23-2-38-20-26 1 16 8 27 20 26Z" fill="#FDB4C4"/>
+        <path id="Left_Ear_Tip" d="M73 33c5 5 9 12 11 20-8-5-12-12-11-20Z" fill="#7C2D12" opacity="0.82"/>
+        <path id="Right_Ear_Tip" d="M187 33c-5 5-9 12-11 20 8-5 12-12 11-20Z" fill="#7C2D12" opacity="0.82"/>
+      </g>
+
+      <path id="Face_Orange" d="M61 110c0-43 34-75 69-75s69 32 69 75c0 41-31 67-69 67s-69-26-69-67Z" fill="url(#foxFurMain)" filter="url(#foxSoftShadow)"/>
+      <path id="Face_White" d="M65 121c16-22 42-24 65-3 23-21 49-19 65 3-4 35-32 56-65 56s-61-21-65-56Z" fill="#FFF7ED"/>
+      <path id="Forehead_Mark" d="M130 64c-5 12-5 22 0 30 5-8 5-18 0-30Z" fill="#DC2626"/>
+      <circle id="Left_Cheek" cx="92" cy="131" r="9" fill="#FDA4AF" opacity="0.6"/>
+      <circle id="Right_Cheek" cx="168" cy="131" r="9" fill="#FDA4AF" opacity="0.6"/>
+
+      <g id="Eyes_Open">
+        <ellipse id="Left_Eye_Open" cx="101" cy="111" rx="9" ry="12" fill="#172033"/>
+        <ellipse id="Right_Eye_Open" cx="159" cy="111" rx="9" ry="12" fill="#172033"/>
+        <circle id="Left_Eye_Spark" cx="104" cy="106" r="3" fill="#FFFFFF"/>
+        <circle id="Right_Eye_Spark" cx="162" cy="106" r="3" fill="#FFFFFF"/>
+      </g>
+
+      <g id="Eyes_Happy">
+        <path id="Left_Eye_Happy" d="M88 111q12-13 24 0" fill="none" stroke="#172033" stroke-width="5.5" stroke-linecap="round"/>
+        <path id="Right_Eye_Happy" d="M148 111q12-13 24 0" fill="none" stroke="#172033" stroke-width="5.5" stroke-linecap="round"/>
+      </g>
+
+      <g id="Eyes_Closed">
+        <path id="Left_Eye_Closed" d="M89 113h23" stroke="#172033" stroke-width="5.5" stroke-linecap="round"/>
+        <path id="Right_Eye_Closed" d="M148 113h23" stroke="#172033" stroke-width="5.5" stroke-linecap="round"/>
+      </g>
+
+      <path id="Snout" d="M118 130q12 10 24 0" fill="#7C2D12"/>
+      <path id="Nose" d="M123 127q7 6 14 0q-7-7-14 0Z" fill="#172033"/>
+      <path id="Mouth_Smile" d="M117 140q13 14 26 0" fill="none" stroke="#172033" stroke-width="4.5" stroke-linecap="round"/>
+      <path id="Mouth_Error" d="M118 146q12-8 24 0" fill="none" stroke="#172033" stroke-width="4.5" stroke-linecap="round"/>
+    </g>
+
+    <g id="Learning_Card">
+      <rect id="Kana_Card_Background" x="181" y="52" width="49" height="52" rx="17" fill="url(#foxCardGrad)" stroke="#BFDBFE" stroke-width="3"/>
+      <text id="Kana_Card_Text" x="205.5" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="900" fill="#2563EB">あ</text>
+    </g>
+
+    <g id="Success_Sparkles">
+      <path id="Sparkle_Left" d="M49 75l5 10 10 5-10 5-5 10-5-10-10-5 10-5 5-10Z" fill="#FACC15"/>
+      <path id="Sparkle_Right" d="M209 117l4 8 8 4-8 4-4 8-4-8-8-4 8-4 4-8Z" fill="#22C55E"/>
+      <circle id="Dot_Left" cx="55" cy="178" r="4" fill="#38BDF8"/>
+      <circle id="Dot_Right" cx="204" cy="174" r="4" fill="#A855F7"/>
+    </g>
+  </g>
+</svg>

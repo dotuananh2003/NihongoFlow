@@ -1,4 +1,4 @@
-import { useState, useEffect, type ComponentType } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -11,7 +11,10 @@ import {
   List,
   Volume2,
   X,
+  Sparkles,
+  Award
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { toRomaji } from 'wanakana';
 import { kanjiLesson1, lesson1Vocab, type KanjiDetail as IKanjiDetail, type RadicalNode } from '../../data/kanjiData';
 import { kanjiLesson2, vocabLesson2 } from '../../data/kanjiDataLesson2';
@@ -23,27 +26,28 @@ import { kanjiLesson7JPD123, vocabLesson7JPD123 } from '../../data/kanjiDataJPD1
 import { KanjiStrokeCanvas } from '../../components/Kanji/KanjiStrokeCanvas';
 import { KanjiVocabTyping } from '../../components/Kanji/KanjiVocabTyping';
 
+// Cây phân tích bộ thủ hiện đại
 const RadicalTree = ({ node, theme }: { node?: RadicalNode; theme: Record<string, string> }) => {
   if (!node) return null;
 
   return (
     <div className="flex flex-col items-center">
-      <div className={`relative grid h-10 w-10 place-items-center overflow-hidden rounded-2xl border bg-white shadow-sm ${theme.text} ${theme.borderLight} dark:bg-slate-950/45`}>
+      <div className={`relative grid h-11 w-11 place-items-center overflow-hidden rounded-2xl border bg-white dark:bg-slate-800 shadow-sm ${theme.border} ${theme.color}`}>
         <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${theme.gradient}`} />
-        <span className="font-jp text-base font-black">{node.char}</span>
+        <span className="font-jp text-lg font-black">{node.char}</span>
       </div>
       <div className="mt-1 text-center">
-        <div className="text-[9px] font-black uppercase tracking-[0.12em] text-slate-700 dark:text-slate-200">{node.name}</div>
+        <div className="text-[10px] font-black uppercase text-slate-800 dark:text-slate-200">{node.name}</div>
         <div className="text-[9px] font-semibold text-slate-400">{node.meaning}</div>
       </div>
 
       {node.children && node.children.length > 0 && (
-        <div className="relative mt-2 flex justify-center gap-4 pt-4 md:gap-6">
-          <div className="absolute left-1/2 top-0 h-4 w-px -translate-x-1/2 bg-slate-200 dark:bg-slate-700" />
-          <div className="absolute left-5 right-5 top-4 h-px bg-slate-200 dark:bg-slate-700" />
+        <div className="relative mt-2 flex justify-center gap-4 pt-3 md:gap-6">
+          <div className="absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-slate-300 dark:bg-slate-700" />
+          <div className="absolute left-4 right-4 top-3 h-px bg-slate-300 dark:bg-slate-700" />
           {node.children.map((child, idx) => (
             <div key={idx} className="relative pt-3">
-              <div className="absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-slate-200 dark:bg-slate-700" />
+              <div className="absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-slate-300 dark:bg-slate-700" />
               <RadicalTree node={child} theme={theme} />
             </div>
           ))}
@@ -52,20 +56,6 @@ const RadicalTree = ({ node, theme }: { node?: RadicalNode; theme: Record<string
     </div>
   );
 };
-
-const KanjiSeal = ({ theme, label = 'Kanji' }: { theme: Record<string, string>; label?: string }) => (
-  <div className={`relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-2xl border bg-white shadow-sm ${theme.borderLight} dark:bg-slate-950/40`}>
-    <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${theme.gradient}`} />
-    <span className={`text-[9px] font-black uppercase leading-none tracking-tight ${theme.text}`}>{label}</span>
-  </div>
-);
-
-const PanelBadge = ({ icon: Icon, theme }: { icon: ComponentType<{ size?: number; className?: string }>; theme: Record<string, string> }) => (
-  <span className={`relative grid h-8 w-8 shrink-0 place-items-center overflow-hidden rounded-xl border bg-white shadow-sm ${theme.borderLight} dark:bg-slate-950/40`}>
-    <span className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${theme.gradient}`} />
-    <Icon size={15} className={theme.text} />
-  </span>
-);
 
 export const KanjiDetail = () => {
   const { courseId, lessonId, kanjiId } = useParams();
@@ -76,6 +66,7 @@ export const KanjiDetail = () => {
   const [isTypingMode, setIsTypingMode] = useState(false);
   const [isSelectMode, setIsSelectMode] = useState(false);
   const [selectedVocab, setSelectedVocab] = useState<number[]>([]);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
   let kanjiList = kanjiLesson1;
   let vocabList = lesson1Vocab;
@@ -103,19 +94,36 @@ export const KanjiDetail = () => {
   }
 
   const isJPD123 = courseId?.toLowerCase() === 'jpd123';
-  const theme = {
-    bgLight: isJPD123 ? 'bg-blue-50 dark:bg-blue-500/10' : 'bg-rose-50 dark:bg-rose-500/10',
-    bgStrong: isJPD123 ? 'bg-blue-600' : 'bg-rose-600',
-    text: isJPD123 ? 'text-blue-600' : 'text-rose-600',
-    borderLight: isJPD123 ? 'border-blue-100 dark:border-blue-500/20' : 'border-rose-100 dark:border-rose-500/20',
-    ringLight: isJPD123 ? 'ring-blue-100 dark:ring-blue-500/20' : 'ring-rose-100 dark:ring-rose-500/20',
-    hoverBgLight: isJPD123 ? 'hover:bg-blue-100' : 'hover:bg-rose-100',
-    textHover: isJPD123 ? 'hover:text-blue-600' : 'hover:text-rose-600',
-    textHoverBright: isJPD123 ? 'hover:text-blue-700' : 'hover:text-rose-700',
-    borderText: isJPD123 ? 'border-blue-200 text-blue-600' : 'border-rose-200 text-rose-600',
-    hoverBgLightSoft: isJPD123 ? 'hover:bg-blue-50 dark:hover:bg-blue-500/10' : 'hover:bg-rose-50 dark:hover:bg-rose-500/10',
-    highlightHex: isJPD123 ? '#2563eb' : '#e11d48',
-    gradient: isJPD123 ? 'from-blue-600 via-sky-400 to-cyan-300' : 'from-rose-600 via-pink-400 to-amber-300',
+  const theme = isJPD123 ? {
+    color: 'text-blue-600 dark:text-blue-400',
+    bgLight: 'bg-blue-50/90 text-blue-700 dark:bg-blue-950/70 dark:text-blue-300 border border-blue-200 dark:border-blue-800',
+    border: 'border-blue-200/80 dark:border-slate-800',
+    btn: 'from-blue-600 via-sky-500 to-indigo-600 hover:from-blue-700 hover:to-sky-600 shadow-[0_8px_20px_rgba(59,130,246,0.3)]',
+    gradient: 'from-blue-600 via-sky-500 to-cyan-400',
+    hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-600/50',
+    selected: 'bg-blue-50 border-blue-400 dark:bg-blue-900/30 dark:border-blue-600'
+  } : {
+    color: 'text-rose-600 dark:text-rose-400',
+    bgLight: 'bg-rose-100/90 text-rose-700 dark:bg-rose-950/70 dark:text-rose-300 border border-rose-200 dark:border-rose-800',
+    border: 'border-rose-200/80 dark:border-slate-800',
+    btn: 'from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 shadow-[0_8px_20px_rgba(244,63,94,0.3)]',
+    gradient: 'from-rose-500 via-pink-500 to-amber-400',
+    hoverBorder: 'hover:border-rose-300 dark:hover:border-rose-600/50',
+    selected: 'bg-rose-50 border-rose-400 dark:bg-rose-900/30 dark:border-rose-600'
+  };
+
+  // Phát âm chuẩn Tokyo
+  const playAudio = (text: string) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ja-JP';
+      utterance.rate = 0.85;
+      setIsPlayingAudio(true);
+      utterance.onend = () => setIsPlayingAudio(false);
+      utterance.onerror = () => setIsPlayingAudio(false);
+      window.speechSynthesis.speak(utterance);
+    }
   };
 
   useEffect(() => {
@@ -126,14 +134,14 @@ export const KanjiDetail = () => {
 
       setKanjiData({
         id: 'other',
-        char: '...',
-        hanViet: 'KHÁC',
-        meaning: 'Các từ vựng khác trong bài',
+        char: '…',
+        hanViet: 'TỪ VỰNG KHÁC',
+        meaning: 'Các từ vựng xuất hiện trong bài không chứa Kanji trọng tâm',
         onyomi: [],
         kunyomi: [],
         strokes: 0,
         jlpt: courseId || '',
-        mnemonic: 'Danh sách các từ vựng xuất hiện trong bài học này nhưng không chứa bất kỳ Kanji cốt lõi nào ở trên.',
+        mnemonic: 'Danh sách các từ vựng bổ sung trong bài học.',
         vocab: otherVocab,
       });
       setCurrentIndex(-1);
@@ -150,7 +158,7 @@ export const KanjiDetail = () => {
     }
   }, [kanjiId, kanjiList, vocabList, courseId]);
 
-  if (!kanjiData) return <div className="p-10 text-center">Loading...</div>;
+  if (!kanjiData) return <div className="p-10 text-center text-slate-500 font-bold">Đang tải Hán tự...</div>;
 
   const handlePrev = () => {
     if (kanjiId === 'other') {
@@ -180,180 +188,237 @@ export const KanjiDetail = () => {
   const totalNumber = hasOtherVocab ? kanjiList.length + 1 : kanjiList.length;
 
   return (
-    <div className="relative min-h-full bg-transparent pb-8 font-sans">
-      <div className="mx-auto max-w-[1200px] px-4 pt-3 md:px-6">
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <button
-            onClick={() => navigate(`/kanji/${courseId}/lesson/${lessonId}`)}
-            className="inline-flex h-9 items-center gap-2 rounded-2xl border border-white/75 bg-white/72 px-3 text-xs font-black text-slate-600 shadow-sm backdrop-blur-md transition-colors hover:bg-white dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300"
-          >
-            <ArrowLeft size={15} />
-            Quay lại
-          </button>
+    <div className="relative min-h-full bg-transparent pb-16 font-sans">
+      <div className="mx-auto max-w-[1440px] px-4 py-4 sm:px-6 lg:px-8 space-y-5">
 
+        {/* ========================================================================= */}
+        {/* 1. TOP NAVIGATION BAR: BREADCRUMB & PREV/NEXT PUSH BUTTONS */}
+        {/* ========================================================================= */}
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs">
+          
+          {/* Breadcrumb quay lại */}
           <div className="flex items-center gap-2">
-            <button
+            <motion.button
+              onClick={() => navigate(`/kanji/${courseId}/lesson/${lessonId}`)}
+              whileHover={{ scale: 1.03, x: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-50 dark:bg-slate-800 px-3.5 py-1.5 text-xs font-black text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors cursor-pointer"
+            >
+              <ArrowLeft size={14} strokeWidth={2.4} />
+              <span>Danh sách Hán tự Bài {lessonId}</span>
+            </motion.button>
+
+            <span className={`hidden sm:inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${theme.bgLight}`}>
+              <Sparkles size={12} />
+              {courseId?.toUpperCase()} • Kanji {currentNumber}/{totalNumber}
+            </span>
+          </div>
+
+          {/* Cụm Nút Chuyển Hán Tự Trước / Sau */}
+          <div className="flex items-center gap-2">
+            <motion.button
               onClick={handlePrev}
               disabled={currentIndex === 0}
-              className={`inline-flex h-9 items-center gap-1.5 rounded-2xl border px-3 text-xs font-black shadow-sm transition-colors ${
+              whileHover={{ scale: currentIndex === 0 ? 1 : 1.03 }}
+              whileTap={{ scale: currentIndex === 0 ? 1 : 0.97 }}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-colors cursor-pointer ${
                 currentIndex === 0
-                  ? 'cursor-not-allowed border-slate-100 bg-slate-100/70 text-slate-400 dark:border-slate-800 dark:bg-slate-900/60'
-                  : `border-white/75 bg-white/80 text-slate-700 hover:bg-white dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-200 ${theme.textHover}`
+                  ? 'bg-slate-100 dark:bg-slate-800/50 text-slate-400 cursor-not-allowed border border-transparent'
+                  : 'bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100'
               }`}
             >
-              <ArrowLeft size={14} />
-              {kanjiId === 'other' ? kanjiList[kanjiList.length - 1].char : currentIndex > 0 ? kanjiList[currentIndex - 1].char : 'Trước'}
-            </button>
+              <ArrowLeft size={13} strokeWidth={2.4} />
+              <span>{kanjiId === 'other' ? kanjiList[kanjiList.length - 1]?.char : currentIndex > 0 ? kanjiList[currentIndex - 1]?.char : 'Trước'}</span>
+            </motion.button>
 
-            <div className={`hidden rounded-2xl border bg-white/70 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] shadow-sm sm:block ${theme.text} ${theme.borderLight} dark:bg-slate-950/40`}>
-              {currentNumber}/{totalNumber}
-            </div>
+            <span className="px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-black text-slate-600 dark:text-slate-300">
+              {currentNumber} / {totalNumber}
+            </span>
 
-            <button
+            <motion.button
               onClick={handleNext}
               disabled={kanjiId === 'other' || (currentIndex === kanjiList.length - 1 && !hasOtherVocab)}
-              className={`inline-flex h-9 items-center gap-1.5 rounded-2xl border px-3 text-xs font-black shadow-sm transition-colors ${
+              whileHover={{ scale: kanjiId === 'other' ? 1 : 1.03 }}
+              whileTap={{ scale: kanjiId === 'other' ? 1 : 0.97 }}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-colors cursor-pointer ${
                 kanjiId === 'other' || (currentIndex === kanjiList.length - 1 && !hasOtherVocab)
-                  ? 'cursor-not-allowed border-slate-100 bg-slate-100/70 text-slate-400 dark:border-slate-800 dark:bg-slate-900/60'
-                  : `border-white/75 bg-white/80 text-slate-700 hover:bg-white dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-200 ${theme.textHover}`
+                  ? 'bg-slate-100 dark:bg-slate-800/50 text-slate-400 cursor-not-allowed border border-transparent'
+                  : 'bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100'
               }`}
             >
-              {currentIndex >= 0 && currentIndex < kanjiList.length - 1 ? kanjiList[currentIndex + 1].char : currentIndex === kanjiList.length - 1 && hasOtherVocab ? 'Khác' : 'Tiếp'}
-              <ArrowRight size={14} />
-            </button>
+              <span>{currentIndex >= 0 && currentIndex < kanjiList.length - 1 ? kanjiList[currentIndex + 1]?.char : currentIndex === kanjiList.length - 1 && hasOtherVocab ? 'Khác' : 'Tiếp'}</span>
+              <ArrowRight size={13} strokeWidth={2.4} />
+            </motion.button>
           </div>
+
         </div>
 
-        <section className="kanji-detail-panel mb-3 overflow-hidden rounded-[1.5rem] border border-white/75 bg-white/74 shadow-[0_12px_34px_rgba(15,23,42,0.07)] backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/64">
-          <div className={`h-1.5 bg-gradient-to-r ${theme.gradient}`} />
-          <div className="grid gap-3 p-3 lg:grid-cols-[220px_280px_1fr]">
-            <div className={`relative overflow-hidden rounded-[1.25rem] border p-3 ${theme.bgLight} ${theme.borderLight}`}>
-              <div className="absolute -right-7 -top-9 font-jp text-[6.5rem] font-black leading-none text-white/60 dark:text-white/5">
+        {/* ========================================================================= */}
+        {/* 2. SÂN KHẤU CHÍNH: 3 CỘT (CARD HÁN TỰ • CANVAS NÉT VẼ • THÔNG TIN & BỘ THỦ) */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          
+          {/* CỘT 1: THẺ CHỮ HÁN LỚN (4 CỘT) */}
+          <div className="lg:col-span-4 rounded-[28px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-6 shadow-sm space-y-4 text-center relative overflow-hidden">
+            <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${theme.gradient}`} />
+            
+            {/* Header Thẻ */}
+            <div className="flex items-center justify-between">
+              <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${theme.bgLight}`}>
+                Kanji #{currentNumber}
+              </span>
+              {kanjiId !== 'other' && (
+                <button
+                  onClick={() => playAudio(kanjiData.char)}
+                  className={`w-9 h-9 rounded-full flex items-center justify-center transition-transform hover:scale-110 shadow-xs cursor-pointer ${
+                    isPlayingAudio ? 'bg-rose-500 text-white animate-pulse' : 'bg-rose-50 text-rose-600 dark:bg-rose-950 dark:text-rose-300'
+                  }`}
+                  title="Nghe phát âm Tokyo"
+                >
+                  <Volume2 size={16} strokeWidth={2.2} />
+                </button>
+              )}
+            </div>
+
+            {/* Chữ Hán To Chuẩn Nét Cọ Thư Pháp */}
+            <div className="py-6 bg-slate-50/80 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700/60">
+              <h2 className="font-jp text-8xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
                 {kanjiData.char}
+              </h2>
+              <div className="mt-3">
+                <p className="text-2xl font-black uppercase text-rose-600 dark:text-rose-400 tracking-tight">
+                  {kanjiData.hanViet}
+                </p>
+                <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
+                  {kanjiData.meaning}
+                </p>
               </div>
-              <div className="relative z-10">
-                <div className="mb-2 flex items-center justify-between">
-                  <KanjiSeal theme={theme} label="Core" />
-                  {kanjiId !== 'other' && (
-                    <button className={`grid h-8 w-8 place-items-center rounded-xl border bg-white/80 shadow-sm transition-colors ${theme.text} ${theme.borderLight} ${theme.hoverBgLight} dark:bg-slate-950/30`}>
-                      <Volume2 size={15} />
-                    </button>
-                  )}
-                </div>
+            </div>
 
-                <div className="relative grid min-h-[148px] place-items-center rounded-[1.1rem] bg-white/78 px-3 pb-4 pt-5 shadow-inner ring-1 ring-white/80 dark:bg-slate-950/30 dark:ring-slate-800">
-                  <div className="font-jp text-[4.5rem] font-black leading-[1.08] text-slate-900 dark:text-slate-50">
-                    {kanjiData.char}
-                  </div>
-                  <div className="mt-2 text-base font-black uppercase tracking-[0.16em] text-slate-900 dark:text-slate-100">
-                    {kanjiData.hanViet}
-                  </div>
-                  <div className="mt-0.5 text-xs font-semibold text-slate-500 dark:text-slate-400">
-                    {kanjiData.meaning}
-                  </div>
-                </div>
+            {/* 3 Thông số nhanh */}
+            <div className="grid grid-cols-3 gap-2">
+              <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700">
+                <p className="text-base font-black text-slate-900 dark:text-white">{kanjiData.strokes || 0}</p>
+                <p className="text-[10px] font-bold uppercase text-slate-400">Nét vẽ</p>
+              </div>
+              <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700">
+                <p className="text-base font-black text-slate-900 dark:text-white">{kanjiData.vocab?.length || 0}</p>
+                <p className="text-[10px] font-bold uppercase text-slate-400">Từ ghép</p>
+              </div>
+              <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700">
+                <p className="text-base font-black text-rose-600 dark:text-rose-400">{courseId?.toUpperCase()}</p>
+                <p className="text-[10px] font-bold uppercase text-slate-400">Cấp độ</p>
+              </div>
+            </div>
 
-                <div className="mt-2 grid grid-cols-3 gap-1.5">
-                  <div className="rounded-xl bg-white/74 p-2 text-center shadow-sm dark:bg-slate-950/30">
-                    <div className="text-base font-black text-slate-900 dark:text-white">{kanjiData.strokes}</div>
-                    <div className="text-[8px] font-black uppercase tracking-wider text-slate-400">nét</div>
-                  </div>
-                  <div className="rounded-xl bg-white/74 p-2 text-center shadow-sm dark:bg-slate-950/30">
-                    <div className="text-base font-black text-slate-900 dark:text-white">{kanjiData.vocab.length}</div>
-                    <div className="text-[8px] font-black uppercase tracking-wider text-slate-400">từ</div>
-                  </div>
-                  <div className="min-w-0 overflow-hidden rounded-xl bg-white/74 p-2 text-center shadow-sm dark:bg-slate-950/30">
-                    <div className={`whitespace-nowrap text-[13px] font-black uppercase leading-5 ${theme.text}`}>{courseId}</div>
-                    <div className="text-[8px] font-black uppercase tracking-wider text-slate-400">jlpt</div>
-                  </div>
+          </div>
+
+          {/* CỘT 2: CANVAS VẼ NÉT THỨ TỰ (4 CỘT) */}
+          <div className="lg:col-span-4 rounded-[28px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 shadow-sm space-y-3">
+            <div className="flex items-center justify-between px-1">
+              <h3 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
+                <BookOpen size={16} className={theme.color} />
+                Thứ Tự Nét Vẽ (Stroke Order)
+              </h3>
+              <span className="text-xs font-bold text-slate-400">{kanjiData.strokes} nét chuẩn</span>
+            </div>
+
+            {kanjiId !== 'other' ? (
+              <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 p-2">
+                <KanjiStrokeCanvas character={kanjiData.char} totalStrokes={kanjiData.strokes} theme={theme} />
+              </div>
+            ) : (
+              <div className="p-12 text-center text-slate-400 text-xs font-bold">
+                Mục từ vựng mở rộng không có canvas vẽ nét.
+              </div>
+            )}
+          </div>
+
+          {/* CỘT 3: ÂM ON/KUN, BỘ THỦ & MẸO NHỚ (4 CỘT) */}
+          <div className="lg:col-span-4 space-y-4">
+            
+            {/* Âm On'yomi & Kun'yomi */}
+            <div className="rounded-[28px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 shadow-sm space-y-3">
+              <div className="flex items-center gap-2">
+                <Info size={16} className={theme.color} />
+                <h4 className="text-xs font-black uppercase text-slate-900 dark:text-white">Cách Đọc On & Kun</h4>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase">On'yomi (Katakana)</p>
+                  <p className="font-bold text-slate-800 dark:text-slate-100 mt-1">
+                    {kanjiData.onyomi?.length ? kanjiData.onyomi.join(', ') : '—'}
+                  </p>
+                </div>
+                <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase">Kun'yomi (Hiragana)</p>
+                  <p className="font-bold text-slate-800 dark:text-slate-100 mt-1">
+                    {kanjiData.kunyomi?.length ? kanjiData.kunyomi.join(', ') : '—'}
+                  </p>
                 </div>
               </div>
             </div>
 
-            {kanjiId !== 'other' && (
-              <div className="rounded-[1.25rem] border border-slate-200 bg-white/84 p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
-                <KanjiStrokeCanvas character={kanjiData.char} totalStrokes={kanjiData.strokes} theme={theme} />
+            {/* Sơ đồ Phân Rã Bộ Thủ (Radical Tree) */}
+            {kanjiData.radicalTree && kanjiId !== 'other' && (
+              <div className="rounded-[28px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 shadow-sm space-y-3">
+                <div className="flex items-center gap-2">
+                  <Award size={16} className="text-blue-500" />
+                  <h4 className="text-xs font-black uppercase text-slate-900 dark:text-white">Phân Tích Cấu Trúc Bộ Thủ</h4>
+                </div>
+                <div className="overflow-x-auto py-2 flex justify-center">
+                  <RadicalTree node={kanjiData.radicalTree} theme={theme} />
+                </div>
               </div>
             )}
 
-            <aside className="grid min-w-0 gap-2 lg:grid-rows-[auto_auto_1fr]">
-              <div className="rounded-[1.25rem] border border-slate-200 bg-white/84 p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
-                <div className="mb-2 flex items-center gap-2">
-                  <PanelBadge icon={Info} theme={theme} />
-                  <h3 className="text-[11px] font-black uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">Thông tin</h3>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    ['Hán Việt', kanjiData.hanViet],
-                    ['Ý nghĩa', kanjiData.meaning],
-                    ['Âm Kun', kanjiData.kunyomi.length ? kanjiData.kunyomi.join('、') : '-'],
-                    ['Âm On', kanjiData.onyomi.length ? kanjiData.onyomi.join('、') : '-'],
-                  ].map(([label, value]) => (
-                    <div key={label} className="relative overflow-hidden rounded-xl bg-slate-50/80 px-2.5 py-2 ring-1 ring-slate-100 dark:bg-slate-950/35 dark:ring-slate-800">
-                      <div className={`absolute inset-y-2 left-0 w-1 rounded-r-full bg-gradient-to-b ${theme.gradient}`} />
-                      <div className="text-[9px] font-black uppercase tracking-[0.13em] text-slate-400">{label}</div>
-                      <div className={`mt-0.5 truncate text-xs font-black text-slate-800 dark:text-slate-100 ${label === 'Âm On' ? theme.text : ''}`}>
-                        {value}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+            {/* Mẹo Nhớ Nhanh (Mnemonic Story) */}
+            <div className="rounded-[28px] bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 p-5 shadow-xs space-y-2">
+              <div className="flex items-center gap-2 text-amber-800 dark:text-amber-300">
+                <Lightbulb size={16} className="text-amber-500" />
+                <h4 className="text-xs font-black uppercase">Mẹo Gợi Ý Cách Nhớ</h4>
               </div>
+              <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 leading-relaxed">
+                {kanjiData.mnemonic || 'Học chữ Hán qua hình tượng và câu chuyện thực tế.'}
+              </p>
+            </div>
 
-              {kanjiData.radicalTree && kanjiId !== 'other' && (
-                <div className="rounded-[1.25rem] border border-slate-200 bg-white/84 p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
-                  <div className="mb-2 flex items-center gap-2">
-                    <PanelBadge icon={BookOpen} theme={theme} />
-                    <h3 className="text-[11px] font-black uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">Bộ thủ</h3>
-                  </div>
-                  <div className="overflow-x-auto pb-1">
-                    <RadicalTree node={kanjiData.radicalTree} theme={theme} />
-                  </div>
-                </div>
-              )}
-
-              <div className={`rounded-[1.25rem] border p-3 shadow-sm ${theme.bgLight} ${theme.borderLight}`}>
-                <div className={`mb-1.5 flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.14em] ${theme.text}`}>
-                  <PanelBadge icon={Lightbulb} theme={theme} />
-                  Gợi ý cách nhớ
-                </div>
-                <p className="line-clamp-3 text-xs font-semibold leading-5 text-slate-700 dark:text-slate-200">
-                  {kanjiData.mnemonic}
-                </p>
-              </div>
-            </aside>
           </div>
-        </section>
 
-        <section className="kanji-detail-panel rounded-[1.5rem] border border-white/75 bg-white/72 p-3 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/62">
-          <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        </div>
+
+        {/* ========================================================================= */}
+        {/* 3. DANH SÁCH TỪ VỰNG CHỨA KANJI NÀY (APPLICATION VOCABULARY) */}
+        {/* ========================================================================= */}
+        <div className="p-6 rounded-[28px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h3 className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                Từ vựng chứa Kanji {kanjiData.char}
+              <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+                <BookOpen size={18} className={theme.color} />
+                Từ Vựng Ghép Chứa Chữ 「{kanjiData.char}」 ({kanjiData.vocab?.length || 0} từ)
               </h3>
               {isSelectMode && selectedVocab.length > 0 && (
-                <p className={`mt-0.5 text-[11px] font-black ${theme.text}`}>Đã chọn {selectedVocab.length} từ</p>
+                <p className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-0.5">
+                  Đã chọn {selectedVocab.length} từ để luyện gõ
+                </p>
               )}
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => {
-                  if (isSelectMode) {
-                    setIsSelectMode(false);
-                    setSelectedVocab([]);
-                  } else {
-                    setIsSelectMode(true);
-                  }
+                  setIsSelectMode(!isSelectMode);
+                  if (isSelectMode) setSelectedVocab([]);
                 }}
-                className={`inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-[11px] font-black transition-colors ${
-                  isSelectMode
-                    ? 'border-transparent bg-slate-900 text-white dark:bg-white dark:text-slate-900'
-                    : `bg-white/84 ${theme.text} ${theme.borderLight} hover:bg-white dark:bg-slate-900/80`
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-black transition-colors cursor-pointer ${
+                  isSelectMode 
+                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-transparent' 
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200'
                 }`}
               >
-                {isSelectMode ? <><X size={13} /> Hủy chọn</> : <><List size={13} /> Chọn thủ công</>}
+                {isSelectMode ? <><X size={13} /> Hủy chọn</> : <><List size={13} /> Chọn từ</>}
               </button>
 
               {isSelectMode && (
@@ -365,78 +430,89 @@ export const KanjiDetail = () => {
                       setSelectedVocab(kanjiData.vocab.map((_, i) => i));
                     }
                   }}
-                  className={`inline-flex items-center rounded-xl border bg-white/84 px-2.5 py-1.5 text-[11px] font-black transition-colors ${theme.text} ${theme.borderLight} hover:bg-white dark:bg-slate-900/80`}
+                  className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-200 cursor-pointer"
                 >
-                  {selectedVocab.length === kanjiData.vocab.length ? 'Bỏ chọn tất cả' : 'Chọn tất cả'}
+                  {selectedVocab.length === kanjiData.vocab.length ? 'Bỏ chọn' : 'Chọn tất cả'}
                 </button>
               )}
 
               <button
                 onClick={() => setIsTypingMode(true)}
                 disabled={isSelectMode && selectedVocab.length === 0}
-                className={`inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-[11px] font-black shadow-sm transition-colors ${
-                  isSelectMode && selectedVocab.length === 0
-                    ? 'cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 dark:border-slate-800 dark:bg-slate-900/70'
-                    : `border-transparent text-white ${theme.bgStrong}`
+                className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-black text-white shadow-xs transition-colors cursor-pointer ${
+                  isSelectMode && selectedVocab.length === 0 
+                    ? 'bg-slate-300 dark:bg-slate-700 cursor-not-allowed opacity-60' 
+                    : `bg-gradient-to-r ${theme.btn}`
                 }`}
               >
-                <Keyboard size={13} />
-                {isSelectMode && selectedVocab.length > 0 ? `Gõ (${selectedVocab.length})` : 'Gõ tất cả'}
+                <Keyboard size={14} />
+                <span>{isSelectMode && selectedVocab.length > 0 ? `Luyện gõ (${selectedVocab.length})` : 'Luyện gõ tất cả'}</span>
               </button>
             </div>
           </div>
 
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
             {kanjiData.vocab.map((v, i) => {
-              const selected = selectedVocab.includes(i);
+              const isSelected = selectedVocab.includes(i);
 
               return (
-                <button
+                <div
                   key={`${v.kanji}-${i}`}
                   onClick={() => {
-                    if (!isSelectMode) return;
-                    if (selected) {
-                      setSelectedVocab(prev => prev.filter(idx => idx !== i));
+                    if (isSelectMode) {
+                      setSelectedVocab(prev => prev.includes(i) ? prev.filter(idx => idx !== i) : [...prev, i]);
                     } else {
-                      setSelectedVocab(prev => [...prev, i]);
+                      playAudio(v.kanji);
                     }
                   }}
-                  className={`kanji-vocab-row relative min-h-[82px] overflow-hidden rounded-[1.1rem] border bg-white/86 p-2.5 text-left shadow-sm transition-colors ${
-                    isSelectMode ? 'cursor-pointer' : 'cursor-default'
-                  } ${
-                    selected
-                      ? `${theme.bgLight} ${theme.borderLight}`
-                      : 'border-slate-200 hover:bg-white dark:border-slate-800 dark:bg-slate-900/64'
+                  className={`p-4 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between ${
+                    isSelected 
+                      ? theme.selected 
+                      : 'bg-slate-50/70 dark:bg-slate-800/50 border-slate-200/70 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-800 hover:shadow-md'
                   }`}
                 >
-                  <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${theme.gradient}`} />
-                  {isSelectMode && (
-                    <span className={`absolute right-2 top-2 grid h-5 w-5 place-items-center rounded-lg border ${
-                      selected ? `${theme.bgStrong} border-transparent text-white` : 'border-slate-300 bg-white/70 text-transparent dark:border-slate-700 dark:bg-slate-950/40'
-                    }`}>
-                      <Check size={12} strokeWidth={3} />
-                    </span>
-                  )}
-
-                  <div className="mb-2 inline-flex rounded-lg bg-slate-50 px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.14em] text-slate-400 ring-1 ring-slate-100 dark:bg-slate-950/40 dark:ring-slate-800">
-                    Kanji
-                  </div>
-
-                  <div className="flex items-end gap-2 pr-5">
-                    <span className={`font-jp text-xl font-black leading-none ${theme.text}`}>{v.kanji}</span>
+                  <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <div className="truncate text-[10px] font-bold text-slate-500">{v.hiragana}</div>
-                      <div className="truncate text-[8px] font-black uppercase tracking-[0.12em] text-slate-400">{toRomaji(v.hiragana)}</div>
+                      <p className="font-jp text-xl font-black text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                        {v.kanji}
+                      </p>
+                      <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
+                        {v.hiragana} • {toRomaji(v.hiragana)}
+                      </p>
                     </div>
+
+                    {isSelectMode ? (
+                      <div className={`w-5 h-5 rounded-lg border flex items-center justify-center shrink-0 ${
+                        isSelected ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-300 bg-white dark:bg-slate-800'
+                      }`}>
+                        {isSelected && <Check size={12} strokeWidth={3} />}
+                      </div>
+                    ) : (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          playAudio(v.kanji);
+                        }}
+                        className="w-7 h-7 rounded-full bg-white dark:bg-slate-700 text-slate-400 hover:text-blue-600 flex items-center justify-center shadow-xs cursor-pointer shrink-0"
+                      >
+                        <Volume2 size={13} />
+                      </button>
+                    )}
                   </div>
-                  <div className="mt-1.5 truncate text-xs font-bold text-slate-700 dark:text-slate-300">{v.meaning}</div>
-                </button>
+
+                  <p className="text-xs font-bold text-slate-700 dark:text-slate-300 mt-2.5 pt-2 border-t border-slate-200/50 dark:border-slate-700/50">
+                    {v.meaning}
+                  </p>
+                </div>
               );
             })}
           </div>
-        </section>
+
+        </div>
+
       </div>
 
+      {/* Modal Luyện Gõ Từ Vựng Của Kanji Này */}
       {isTypingMode && (
         <KanjiVocabTyping
           vocabList={isSelectMode && selectedVocab.length > 0 ? selectedVocab.map(i => kanjiData.vocab[i]) : kanjiData.vocab}
@@ -445,6 +521,7 @@ export const KanjiDetail = () => {
           isJPD123={isJPD123}
         />
       )}
+
     </div>
   );
 };

@@ -1,6 +1,38 @@
 import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { Leaf, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+
+const FujiSunIcon = ({ size = 24, strokeWidth = 2, className = "" }: { size?: number | string, strokeWidth?: number, className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={strokeWidth}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    {/* Mặt trời mọc ló rạng trên đỉnh núi */}
+    <path d="M 8.5 8.2 A 4 4 0 0 1 15.5 8.2" />
+    
+    {/* 3 tia sáng mặt trời bình minh tinh tế */}
+    <path d="M 12 1.5 V 3.5" />
+    <path d="M 6.5 4 L 7.8 5.3" />
+    <path d="M 17.5 4 L 16.2 5.3" />
+
+    {/* Núi Phú Sĩ với dáng dấp cong thoai thoải đặc trưng và miệng núi phẳng */}
+    <path d="M 2.5 20.5 C 6.5 20, 8.8 15.5, 9.8 9.5 H 14.2 C 15.2 15.5, 17.5 20, 21.5 20.5" />
+
+    {/* Vạt tuyết bồng bềnh phủ trên đỉnh núi */}
+    <path d="M 7 14.5 Q 9.5 12.8, 12 14.5 Q 14.5 12.8, 17 14.5" />
+
+    {/* Đường chân núi mượt mà */}
+    <path d="M 1.5 20.5 H 22.5" />
+  </svg>
+);
 
 type AuthMode = 'login' | 'register';
 
@@ -56,8 +88,8 @@ export const AuthLayout = ({ eyebrow, title, subtitle, mode = 'login', children 
         >
           <div className="max-w-[480px]">
             <div className="inline-flex items-center gap-2 rounded-full border border-orange-100 bg-white/68 px-5 py-3 text-xs font-black uppercase tracking-[0.22em] text-orange-500 shadow-sm backdrop-blur-xl">
-              <Leaf size={17} />
-              Nihongo Garden
+              <FujiSunIcon size={17} strokeWidth={2.5} />
+              JP Forus
             </div>
 
             <h1 className="mt-8 text-[58px] font-black leading-[0.95] tracking-normal text-slate-950">
@@ -98,7 +130,7 @@ export const AuthLayout = ({ eyebrow, title, subtitle, mode = 'login', children 
                   {eyebrow}
                 </div>
                 <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-orange-400 to-rose-400 text-white shadow-lg shadow-orange-400/25">
-                  <Leaf size={23} />
+                  <FujiSunIcon size={23} strokeWidth={2.5} />
                 </div>
               </div>
 

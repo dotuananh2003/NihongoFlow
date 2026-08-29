@@ -102,21 +102,55 @@
   opacity: 0.1;
 }
 
-/* Custom Scrollbar */
+/* Premium Glassmorphic Scrollbar (90fps Smooth UI) */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
+  margin: 4px;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 10px;
+  background: rgba(148, 163, 184, 0.45);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: rgba(244, 63, 94, 0.75);
+  background-clip: padding-box;
 }
+::-webkit-scrollbar-thumb:active {
+  background: rgba(244, 63, 94, 0.95);
+  background-clip: padding-box;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.45);
+  background-clip: padding-box;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 63, 94, 0.85);
+  background-clip: padding-box;
+}
+.dark ::-webkit-scrollbar-thumb:active {
+  background: rgba(244, 63, 94, 1);
+  background-clip: padding-box;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+}
+.dark * {
+  scrollbar-color: rgba(100, 116, 139, 0.45) transparent;
+}
+
+/* GPU Optimization during active smooth scroll */
+body.is-smooth-scrolling {
+  user-select: none !important;
+}
+
 
 @layer utilities {
   .glass-card {
@@ -135,9 +169,18 @@
     contain: layout paint style;
   }
   .vocab-detail-row {
-    content-visibility: auto;
-    contain-intrinsic-size: 96px;
-    contain: layout paint style;
+    content-visibility: visible;
+    contain: paint style;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  .vocab-list-surface {
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    -webkit-overflow-scrolling: touch;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
   .kanji-course-section {
     content-visibility: auto;
@@ -210,6 +253,20 @@
     contain-intrinsic-size: 640px;
     contain: layout paint style;
   }
+  .sidebar-scroll-area {
+    scroll-behavior: smooth;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sidebar-item-row {
+    border-radius: 22px;
+  }
+  .game-hub-card {
+    content-visibility: visible;
+    contain: paint style;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
   .smooth-panel {
     contain: paint style;
     transform: translateZ(0);
@@ -222,7 +279,6 @@
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
     -webkit-overflow-scrolling: touch;
-    contain: paint style;
     transform: translateZ(0);
     backface-visibility: hidden;
   }
@@ -236,6 +292,36 @@
     contain: paint;
     transform: translateZ(0);
     backface-visibility: hidden;
+  }
+  .vocab-main-surface {
+    content-visibility: visible;
+  }
+  .vocab-performance-scroll .vocab-main-surface {
+    scroll-behavior: auto;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  .vocab-performance-scroll .vocab-main-surface .smooth-panel,
+  .vocab-performance-scroll .vocab-main-surface .steady-scroll-row {
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.055) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .vocab-performance-scroll.is-smooth-scrolling .vocab-main-surface *,
+  .vocab-performance-scroll.is-smooth-scrolling .header-fast-panel *,
+  .vocab-performance-scroll.is-smooth-scrolling .sidebar-scroll-area * {
+    transition-property: none !important;
+    animation-play-state: paused !important;
+  }
+  .vocab-performance-scroll.is-smooth-scrolling .vocab-main-surface .steady-scroll-row,
+  .vocab-performance-scroll.is-smooth-scrolling .vocab-main-surface .group {
+    transform: translateZ(0) !important;
+    box-shadow: none !important;
+  }
+  .vocab-performance-scroll .vocab-main-surface .animate-sakura-1,
+  .vocab-performance-scroll .vocab-main-surface .animate-sakura-2,
+  .vocab-performance-scroll .vocab-main-surface .animate-sakura-3 {
+    animation: none !important;
   }
 }
 

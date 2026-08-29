@@ -32,6 +32,7 @@ import { MockExamSession } from '../pages/Exam/MockExamSession';
 import { KanaPath } from '../pages/Introduction/KanaPath';
 import { MnemonicPage } from '../pages/Introduction/MnemonicPage';
 import { TypingPage } from '../pages/Introduction/TypingPage';
+import { GamesHub } from '../pages/Games/GamesHub';
 import { Checkout } from '../pages/Checkout/Checkout';
 
 export const AppRoutes = () => {
@@ -45,6 +46,7 @@ export const AppRoutes = () => {
       <Route path="/" element={<Layout />}>
         <Route element={<ProtectedRoute />}>
           <Route index element={<Home />} />
+          <Route path="games" element={<GamesHub />} />
           <Route path="introduction" element={<Introduction />} />
           <Route path="introduction/mnemonic" element={<MnemonicPage />} />
           <Route path="introduction/typing" element={<TypingPage />} />

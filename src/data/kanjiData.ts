@@ -2,6 +2,7 @@ export interface VocabExample {
   kanji: string;
   hiragana: string;
   meaning: string;
+  note?: string;
 }
 
 export interface RadicalNode {
